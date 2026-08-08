@@ -26,7 +26,7 @@ export const PLATFORM = {
     "Open ArtCore es la plataforma paraguas open source. En la home se elige una app; cada una vive en su propia ruta. Primera app: Acuerdos de exhibición.",
   /** Why the platform exists — separate from voluntary coffee support. */
   origin:
-    "La idea sale de la experiencia propia de Gerard Valls Montaño en la práctica artística y de la necesidad real de estos recursos: claros, libres y respetuosos con la privacidad. Gerard Valls Montaño las construye y las comparte abiertas para quien las necesite.",
+    "La idea sale de la experiencia propia en la práctica artística y de la necesidad real de estos recursos: claros, libres y respetuosos con la privacidad. Se construyen y se comparten abiertas para quien las necesite.",
   author: "Gerard Valls Montaño",
   license: "AGPL-3.0-or-later",
   repoUrl: "https://github.com/OpenArtTools/OpenArtTools.github.io",
@@ -114,7 +114,7 @@ export const TRANSPARENCY = {
   points: [
     {
       title: "De dónde sale la idea",
-      body: "Nace de la experiencia propia de Gerard Valls Montaño en la práctica artística y de la necesidad real de estos recursos. Son herramientas que faltaban en la práctica y se comparten abiertas. Esto no es lo mismo que el apoyo voluntario («invitar a un café»).",
+      body: "Nace de la experiencia propia en la práctica artística y de la necesidad real de estos recursos. Son herramientas que faltaban en la práctica y se comparten abiertas. Esto no es lo mismo que el apoyo voluntario («invitar a un café»).",
     },
     {
       title: "Plataforma paraguas",

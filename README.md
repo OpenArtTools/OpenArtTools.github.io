@@ -19,7 +19,7 @@ Es **segura, privada, accesible, transparente cristalina y auditable**.
 
 ## De dónde sale
 
-La idea sale de la **experiencia propia** de Gerard Valls Montaño en la práctica artística y de la **necesidad real** de estos recursos: claros, libres y respetuosos con la privacidad. Eso explica **por qué existen** las herramientas.
+La idea sale de la **experiencia propia** en la práctica artística y de la **necesidad real** de estos recursos: claros, libres y respetuosos con la privacidad. Se construyen y se comparten abiertas para quien las necesite.
 
 El apartado **Invitar a un café** es **otra cosa**: apoyo voluntario al trabajo de desarrollo (ver más abajo y [SUPPORT.md](SUPPORT.md)).
 
