@@ -1,24 +1,35 @@
 /**
  * Copyright 2026 Gerard Valls Montaño
  * Licensed under the Apache License, Version 2.0
+ *
+ * Open Art Tools — app entry.
+ * Flow: platform home → tool wizard → review → accept → export.
+ * Nothing is stored by the app; sessions are downloadable JSON files.
  */
 
 import "./styles/main.css";
 import {
+  ensurePlaceAtEnd,
   fieldVisible,
   fieldsForStep,
   missingRequired,
   refreshFromValues,
-  ensurePlaceAtEnd,
 } from "./engine/assemble";
 import type { AppValues, Clause, SessionState } from "./engine/types";
 import {
+  clausesToHtml,
+  copyText,
   downloadHtml,
   downloadText,
   exportPdfViaPrint,
-  copyText,
-  clausesToHtml,
 } from "./export/pdf";
+import { btn, el, escapeHtml } from "./dom";
+import {
+  legalDisclaimer,
+  renderFooter,
+  renderHeader,
+  renderTransparencyStrip,
+} from "./shell";
 import {
   buildSessionFile,
   downloadSessionFile,
@@ -29,8 +40,9 @@ import {
   exhibitionCustodyEs,
   getTemplate,
 } from "./templates/exhibition-custody-es";
-import { PLATFORM, TOOLS, findToolByTemplateId } from "./platform";
+import { PLATFORM, TOOLS, TRANSPARENCY } from "./platform";
 
+/** Sensible defaults for the exhibition tool — all can be changed in the wizard. */
 const DEFAULT_TOGGLES: AppValues = {
   "features.interactive": true,
   "features.publicInteraction": true,
@@ -75,15 +87,24 @@ function template() {
   return getTemplate(state.templateId) ?? exhibitionCustodyEs;
 }
 
+function go(phase: SessionState["phase"]): void {
+  state.phase = phase;
+  render();
+}
+
 function rebuildClauses(): void {
   const t = template();
-  const enriched = enrichDerivedValues(state.values);
   state.clauses = refreshFromValues(
     t,
-    enriched,
+    enrichDerivedValues(state.values),
     state.clauses,
     state.manualOverride,
   );
+}
+
+function setValue(path: string, value: string | boolean | number): void {
+  state.values = { ...state.values, [path]: value };
+  if (!state.manualOverride) rebuildClauses();
 }
 
 function downloadCurrentSession(): void {
@@ -109,88 +130,53 @@ async function importSessionFromFile(file: File): Promise<void> {
   render();
 }
 
-function setValue(path: string, value: string | boolean | number): void {
-  state.values = { ...state.values, [path]: value };
-  if (!state.manualOverride) rebuildClauses();
+function pickSessionFile(): void {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json,.json";
+  input.addEventListener("change", async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      await importSessionFromFile(file);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo cargar el archivo.");
+    }
+  });
+  input.click();
 }
 
 function render(): void {
   const app = document.getElementById("app");
   if (!app) return;
-  app.innerHTML = "";
-  app.append(renderHeader(), renderMain(), renderFooter());
-  bindGlobal();
-}
-
-function renderHeader(): HTMLElement {
-  const header = el("header", "oat-header");
-  const brandWrap = el("div", "oat-brand-wrap");
-  const brand = el("button", "oat-brand") as HTMLButtonElement;
-  brand.type = "button";
-  brand.textContent = PLATFORM.name;
-  brand.title = "Volver a la plataforma";
-  brand.addEventListener("click", () => {
-    state.phase = "home";
-    render();
-  });
-  const role = el("span", "oat-brand-role");
-  role.textContent = PLATFORM.role;
-  brandWrap.append(brand, role);
-
-  const activeTool = findToolByTemplateId(state.templateId);
-  if (state.phase !== "home" && state.phase !== "privacy" && activeTool) {
-    const toolLabel = el("span", "oat-header-tool");
-    toolLabel.textContent = activeTool.name;
-    brandWrap.append(toolLabel);
-  }
-
-  const nav = el("nav", "oat-nav");
-  nav.append(
-    navBtn("Plataforma", "home", state.phase === "home"),
-    navBtn("Privacidad", "privacy", state.phase === "privacy"),
+  app.replaceChildren(
+    renderHeader(state.phase, state.templateId, go),
+    renderTransparencyStrip(() => go("privacy")),
+    renderMain(),
+    renderFooter(),
   );
-
-  header.append(brandWrap, nav);
-  return header;
-}
-
-function navBtn(label: string, phase: SessionState["phase"], current: boolean) {
-  const b = el("button") as HTMLButtonElement;
-  b.type = "button";
-  b.textContent = label;
-  if (current) b.setAttribute("aria-current", "page");
-  b.addEventListener("click", () => {
-    state.phase = phase;
-    render();
-  });
-  return b;
-}
-
-function renderFooter(): HTMLElement {
-  const footer = el("footer", "oat-footer");
-  footer.innerHTML = `${PLATFORM.name} · plataforma open source · ${PLATFORM.author} · Apache-2.0`;
-  return footer;
 }
 
 function renderMain(): HTMLElement {
   const main = el("main");
   main.id = "main";
-  if (state.phase === "home") main.append(renderHome());
-  else if (state.phase === "privacy") main.append(renderPrivacy());
-  else if (state.phase === "wizard") main.append(renderWizard());
-  else if (state.phase === "accept") main.append(renderAccept());
-  else main.append(renderReview());
+  switch (state.phase) {
+    case "home":
+      main.append(renderHome());
+      break;
+    case "privacy":
+      main.append(renderTransparency());
+      break;
+    case "wizard":
+      main.append(renderWizard());
+      break;
+    case "accept":
+      main.append(renderAccept());
+      break;
+    default:
+      main.append(renderReview());
+  }
   return main;
-}
-
-const LEGAL_DISCLAIMER =
-  "Este documento no ha sido revisado por abogados ni por ningún profesional del derecho. Es una plantilla orientativa generada por Open Art Tools y no constituye asesoramiento legal.";
-
-function legalDisclaimer(): HTMLElement {
-  const d = el("aside", "oat-legal-disclaimer");
-  d.setAttribute("role", "note");
-  d.textContent = LEGAL_DISCLAIMER;
-  return d;
 }
 
 function renderHome(): HTMLElement {
@@ -216,9 +202,8 @@ function renderHome(): HTMLElement {
   for (const tool of TOOLS) {
     const card = el("button", "oat-card") as HTMLButtonElement;
     card.type = "button";
-    const status =
-      tool.status === "available" ? "Disponible" : "Próximamente";
-    card.innerHTML = `<p class="oat-card-kicker">Herramienta · ${escape(status)}</p><h3>${escape(tool.name)}</h3><p>${escape(tool.blurb)}</p>`;
+    const status = tool.status === "available" ? "Disponible" : "Próximamente";
+    card.innerHTML = `<p class="oat-card-kicker">Herramienta · ${escapeHtml(status)}</p><h3>${escapeHtml(tool.name)}</h3><p>${escapeHtml(tool.blurb)}</p>`;
     if (tool.status !== "available" || !tool.templateId) {
       card.disabled = true;
     } else {
@@ -234,47 +219,43 @@ function renderHome(): HTMLElement {
     shelf.append(card);
   }
 
-  const fileActions = el("div", "oat-actions");
-  fileActions.append(
-    btn("Cargar sesión (.json)", "oat-btn oat-btn-ghost", () => {
-      pickSessionFile();
-    }),
+  const actions = el("div", "oat-actions");
+  actions.append(
+    btn("Cargar sesión (.json)", "oat-btn oat-btn-ghost", pickSessionFile),
   );
-  shelf.append(fileActions);
+  shelf.append(actions);
   wrap.append(shelf);
 
   const meta = el("p", "oat-home-meta");
-  meta.textContent =
-    "No almacena tus datos. La sesión vive en memoria; descarga un archivo si quieres reutilizarla. Las plantillas no están revisadas por abogados ni constituyen asesoramiento legal.";
+  meta.textContent = `${TRANSPARENCY.strip}. ${TRANSPARENCY.legal}`;
   wrap.append(meta);
   return wrap;
 }
 
-function pickSessionFile(): void {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "application/json,.json";
-  input.addEventListener("change", async () => {
-    const file = input.files?.[0];
-    if (!file) return;
-    try {
-      await importSessionFromFile(file);
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "No se pudo cargar el archivo.");
-    }
-  });
-  input.click();
-}
-
-function renderPrivacy(): HTMLElement {
+function renderTransparency(): HTMLElement {
   const wrap = el("div", "oat-prose");
-  wrap.innerHTML = `
-    <h2>Privacidad</h2>
-    <p><strong>Open Art Tools es la plataforma</strong>: agrupa y aloja herramientas open source para artistas. <strong>No almacena tus datos</strong> en el navegador, en GitHub ni en ningún servidor.</p>
-    <p>Los datos de cada herramienta viven solo en la memoria de esa sesión. Al cerrar la pestaña, desaparecen.</p>
-    <p>Si quieres ahorrar tiempo la próxima vez, <strong>descarga un archivo de sesión</strong> (.json) y vuelve a cargarlo cuando quieras. Ese archivo lo guardas tú donde elijas.</p>
-    <p>No hay cuentas cloud ni trackers.</p>
-  `;
+  const h2 = el("h2");
+  h2.textContent = "Transparencia";
+  wrap.append(h2);
+
+  const intro = el("p");
+  intro.textContent =
+    "Open Art Tools promete transparencia total: código abierto, sin vigilancia y sin almacenar tus datos.";
+  wrap.append(intro);
+
+  for (const point of TRANSPARENCY.points) {
+    const block = el("section", "oat-transparency-point");
+    const title = el("h3");
+    title.textContent = point.title;
+    const body = el("p");
+    body.textContent = point.body;
+    block.append(title, body);
+    wrap.append(block);
+  }
+
+  const links = el("p");
+  links.innerHTML = `Documentación en el repositorio: <a href="${PLATFORM.repoUrl}/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">PRIVACY.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/AUDITABILITY.md" target="_blank" rel="noopener noreferrer">AUDITABILITY.md</a> · <a href="${PLATFORM.repoUrl}" target="_blank" rel="noopener noreferrer">código fuente</a>`;
+  wrap.append(links);
   return wrap;
 }
 
@@ -299,11 +280,10 @@ function renderWizard(): HTMLElement {
   blurb.textContent = step.blurb;
   wrap.append(h2, blurb);
 
-  const fields = fieldsForStep(t, step.id).filter((f) =>
-    fieldVisible(f, state.values),
-  );
   let lastGroup = "";
-  for (const field of fields) {
+  for (const field of fieldsForStep(t, step.id).filter((f) =>
+    fieldVisible(f, state.values),
+  )) {
     if (field.group && field.group !== lastGroup) {
       lastGroup = field.group;
       const g = el("div", "oat-group-label");
@@ -325,14 +305,14 @@ function renderWizard(): HTMLElement {
   const isLast = state.stepIndex >= t.steps.length - 1;
   nav.append(
     btn(isLast ? "Revisar documento" : "Siguiente", "oat-btn", () => {
-      if (isLast) {
-        rebuildClauses();
-        state.acceptedFinal = false;
-        state.phase = "review";
+      if (!isLast) {
+        state.stepIndex += 1;
         render();
         return;
       }
-      state.stepIndex += 1;
+      rebuildClauses();
+      state.acceptedFinal = false;
+      state.phase = "review";
       render();
     }),
   );
@@ -382,33 +362,34 @@ function renderField(field: {
     const ta = document.createElement("textarea");
     ta.id = field.id;
     ta.placeholder = field.placeholder;
-    ta.value = val !== undefined && val !== null ? String(val) : "";
+    ta.value = val != null ? String(val) : "";
     ta.addEventListener("input", () => setValue(field.path, ta.value));
     box.append(ta);
-  } else {
-    const input = document.createElement("input");
-    input.id = field.id;
-    input.type =
-      field.type === "money" || field.type === "number"
-        ? "number"
-        : field.type === "date"
-          ? "date"
-          : "text";
-    input.placeholder = field.placeholder;
-    input.value = val !== undefined && val !== null ? String(val) : "";
-    if (field.type === "money" || field.type === "number") {
-      input.step = field.type === "money" ? "0.01" : "1";
-      input.min = "0";
-    }
-    input.addEventListener("input", () => {
-      if (field.type === "number" || field.type === "money") {
-        setValue(field.path, input.value === "" ? "" : Number(input.value));
-      } else {
-        setValue(field.path, input.value);
-      }
-    });
-    box.append(input);
+    return box;
   }
+
+  const input = document.createElement("input");
+  input.id = field.id;
+  input.type =
+    field.type === "money" || field.type === "number"
+      ? "number"
+      : field.type === "date"
+        ? "date"
+        : "text";
+  input.placeholder = field.placeholder;
+  input.value = val != null ? String(val) : "";
+  if (field.type === "money" || field.type === "number") {
+    input.step = field.type === "money" ? "0.01" : "1";
+    input.min = "0";
+  }
+  input.addEventListener("input", () => {
+    if (field.type === "number" || field.type === "money") {
+      setValue(field.path, input.value === "" ? "" : Number(input.value));
+    } else {
+      setValue(field.path, input.value);
+    }
+  });
+  box.append(input);
   return box;
 }
 
@@ -420,12 +401,8 @@ function renderSessionFiles(): HTMLElement {
   const actions = el("div", "oat-actions");
   actions.style.marginTop = "0";
   actions.append(
-    btn("Descargar sesión", "oat-btn oat-btn-ghost", () => {
-      downloadCurrentSession();
-    }),
-    btn("Cargar sesión", "oat-btn oat-btn-ghost", () => {
-      pickSessionFile();
-    }),
+    btn("Descargar sesión", "oat-btn oat-btn-ghost", downloadCurrentSession),
+    btn("Cargar sesión", "oat-btn oat-btn-ghost", pickSessionFile),
   );
   box.append(note, actions);
   return box;
@@ -434,7 +411,6 @@ function renderSessionFiles(): HTMLElement {
 function renderReview(): HTMLElement {
   const t = template();
   state.clauses = ensurePlaceAtEnd(state.clauses, t);
-
   const wrap = el("div", "oat-step");
 
   const h2 = el("h2");
@@ -462,15 +438,14 @@ function renderReview(): HTMLElement {
     }),
     btn("Añadir cláusula", "oat-btn oat-btn-ghost", () => {
       state.manualOverride = true;
-      const id = `user-${crypto.randomUUID().slice(0, 8)}`;
-      const insertAt = state.clauses.findIndex((c) => c.placeAtEnd);
       const clause: Clause = {
-        id,
+        id: `user-${crypto.randomUUID().slice(0, 8)}`,
         title: "Nueva cláusula",
         body: "Escribe aquí el texto de la cláusula.",
         enabled: true,
         source: "user",
       };
+      const insertAt = state.clauses.findIndex((c) => c.placeAtEnd);
       if (insertAt === -1) state.clauses.push(clause);
       else state.clauses.splice(insertAt, 0, clause);
       state.clauses = ensurePlaceAtEnd(state.clauses, t);
@@ -489,15 +464,13 @@ function renderReview(): HTMLElement {
     wrap.append(renderClauseEditor(clause, index));
   });
 
-  wrap.append(renderSessionFiles());
-  wrap.append(legalDisclaimer());
+  wrap.append(renderSessionFiles(), legalDisclaimer());
   return wrap;
 }
 
 function renderAccept(): HTMLElement {
   const t = template();
   state.clauses = ensurePlaceAtEnd(state.clauses, t);
-
   const wrap = el("div", "oat-step");
 
   const h2 = el("h2");
@@ -507,8 +480,7 @@ function renderAccept(): HTMLElement {
   const note = el("p", "oat-review-note");
   note.textContent =
     "Revisa el documento final. Si está correcto, confírmalo y exporta. Las páginas se numeran al imprimir o guardar como PDF.";
-  wrap.append(note);
-  wrap.append(legalDisclaimer());
+  wrap.append(note, legalDisclaimer());
 
   const acceptBox = el("label", "oat-accept-box");
   const cb = document.createElement("input");
@@ -534,25 +506,24 @@ function renderAccept(): HTMLElement {
   );
 
   const exports = el("div", "oat-review-toolbar");
-  const exportPdf = btn("Exportar PDF", "oat-btn", () => {
-    exportPdfViaPrint(state.clauses, t.name);
-  });
-  const exportHtml = btn("Descargar HTML", "oat-btn oat-btn-ghost", () => {
-    downloadHtml(state.clauses, t.name);
-  });
-  const exportTxt = btn("Descargar TXT", "oat-btn oat-btn-ghost", () => {
-    downloadText(state.clauses, t.name);
-  });
-  const exportCopy = btn("Copiar texto", "oat-btn oat-btn-ghost", async () => {
-    try {
-      await copyText(state.clauses);
-      alert("Texto copiado al portapapeles.");
-    } catch {
-      alert("No se pudo copiar. Prueba a descargar TXT.");
-    }
-  });
-
-  for (const b of [exportPdf, exportHtml, exportTxt, exportCopy]) {
+  const buttons = [
+    btn("Exportar PDF", "oat-btn", () => exportPdfViaPrint(state.clauses, t.name)),
+    btn("Descargar HTML", "oat-btn oat-btn-ghost", () =>
+      downloadHtml(state.clauses, t.name),
+    ),
+    btn("Descargar TXT", "oat-btn oat-btn-ghost", () =>
+      downloadText(state.clauses, t.name),
+    ),
+    btn("Copiar texto", "oat-btn oat-btn-ghost", async () => {
+      try {
+        await copyText(state.clauses);
+        alert("Texto copiado al portapapeles.");
+      } catch {
+        alert("No se pudo copiar. Prueba a descargar TXT.");
+      }
+    }),
+  ];
+  for (const b of buttons) {
     b.disabled = !state.acceptedFinal;
     exports.append(b);
   }
@@ -564,19 +535,15 @@ function renderAccept(): HTMLElement {
     wrap.append(hint);
   }
 
-  wrap.append(toolbar, exports);
-  wrap.append(renderSessionFiles());
+  wrap.append(toolbar, exports, renderSessionFiles());
 
   const previewLabel = el("div", "oat-group-label");
   previewLabel.textContent = "Previsualización";
-  wrap.append(previewLabel);
-
   const frame = document.createElement("iframe");
   frame.className = "oat-preview-frame";
   frame.title = "Previsualización del documento";
   frame.srcdoc = clausesToHtml(state.clauses, t.name);
-  wrap.append(frame);
-
+  wrap.append(previewLabel, frame);
   return wrap;
 }
 
@@ -624,19 +591,22 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
   box.append(body);
 
   const actions = el("div", "oat-clause-actions");
-  if (!clause.placeAtEnd) {
+  if (clause.placeAtEnd) {
+    const lock = el("span", "oat-review-note");
+    lock.textContent = "Bloque de firmas — siempre al final del documento.";
+    actions.append(lock);
+  } else {
     actions.append(
       mini("Subir", () => moveClause(index, -1)),
       mini("Bajar", () => moveClause(index, 1)),
       mini("Duplicar", () => {
         state.manualOverride = true;
-        const copy: Clause = {
+        state.clauses.splice(index + 1, 0, {
           ...clause,
           id: `user-${crypto.randomUUID().slice(0, 8)}`,
           source: "user",
           placeAtEnd: false,
-        };
-        state.clauses.splice(index + 1, 0, copy);
+        });
         state.clauses = ensurePlaceAtEnd(state.clauses, template());
         render();
       }),
@@ -647,10 +617,6 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
         render();
       }),
     );
-  } else {
-    const lock = el("span", "oat-review-note");
-    lock.textContent = "Bloque de firmas — siempre al final del documento.";
-    actions.append(lock);
   }
   box.append(actions);
   return box;
@@ -669,35 +635,8 @@ function moveClause(index: number, delta: number): void {
   render();
 }
 
-function bindGlobal(): void {
-  // reserved for future shortcuts
-}
-
-function el(tag: string, className?: string): HTMLElement {
-  const node = document.createElement(tag);
-  if (className) node.className = className;
-  return node;
-}
-
-function btn(label: string, className: string, onClick: () => void): HTMLButtonElement {
-  const b = document.createElement("button");
-  b.type = "button";
-  b.className = className;
-  b.textContent = label;
-  b.addEventListener("click", onClick);
-  return b;
-}
-
 function mini(label: string, onClick: () => void): HTMLButtonElement {
   return btn(label, "oat-mini", onClick);
-}
-
-function escape(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 }
 
 render();

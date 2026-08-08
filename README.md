@@ -17,10 +17,24 @@ Más herramientas se irán sumando a la misma plataforma.
 ## Principios
 
 - **Plataforma → herramientas** — Open Art Tools contiene las herramientas; cada una hace un trabajo concreto
+- **Transparencia siempre visible** — open source, cero almacenamiento de tus datos, auditable
 - **Gratis y open source** — para cualquier artista
-- **Cero almacenamiento de datos de usuario** — nada en navegador ni servidor; sesión solo en memoria
 - **Archivos que controlas tú** — descarga/carga un `.json` de sesión para reutilizar datos
-- **Transparente** — sin cuentas cloud, sin analytics, sin telemetría
+- **Código claro** — pensado para que cualquiera pueda leerlo y usarlo
+
+## Estructura del código
+
+```
+src/
+  main.ts          → pantallas y flujo
+  platform.ts      → marca, catálogo de herramientas, textos de transparencia
+  shell.ts         → header, franja de transparencia, footer
+  dom.ts           → helpers DOM mínimos
+  engine/          → lógica de plantillas (testeada)
+  templates/       → textos de documentos
+  storage/         → solo archivos .json descargables
+  export/          → PDF / HTML / TXT
+```
 
 ## Sitio público
 

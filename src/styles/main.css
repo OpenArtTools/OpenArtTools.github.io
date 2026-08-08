@@ -161,6 +161,44 @@ body {
   color: var(--color-text);
 }
 
+.oat-transparency {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem 1.25rem;
+  padding: 0.65rem max(var(--page-pad), var(--safe-right)) 0.7rem
+    max(var(--page-pad), var(--safe-left));
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.oat-transparency p {
+  margin: 0;
+  max-width: 44rem;
+  line-height: 1.45;
+}
+
+.oat-link-btn {
+  appearance: none;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.82rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.oat-link-btn:hover {
+  opacity: 0.8;
+}
+
 main {
   flex: 1;
   width: 100%;
@@ -177,6 +215,11 @@ main {
   font-size: 0.8rem;
   line-height: 1.55;
   color: var(--color-text-muted);
+}
+
+.oat-footer a {
+  color: var(--color-text);
+  text-underline-offset: 0.15em;
 }
 
 /* —— Home —— */
@@ -620,6 +663,23 @@ main {
 .oat-prose ul {
   padding-left: 1.15rem;
   margin-bottom: 1rem;
+}
+
+.oat-prose a {
+  color: var(--color-text);
+}
+
+.oat-transparency-point {
+  margin: 1.35rem 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.oat-transparency-point h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+  color: var(--color-text);
 }
 
 @media (max-width: 640px) {

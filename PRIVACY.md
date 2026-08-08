@@ -11,7 +11,7 @@ Open Art Tools **does not store any of your data**:
 - No cloud accounts
 - No analytics or trackers
 - No servers that receive form contents
-- No `localStorage`, cookies, or on-device vaults
+- No `localStorage`, cookies, or on-device vaults for your session
 - Session data lives **only in memory** while the tab is open
 
 Closing the tab or window ends the session.
@@ -21,3 +21,7 @@ Closing the tab or window ends the session.
 To save time next time, **download a session file** (`.json`). You keep that file wherever you want and can **load it later** into the tool. Open Art Tools never uploads it.
 
 PDF / HTML / TXT exports are also files you choose to save. The app does not upload them.
+
+## In the product
+
+The UI always shows a transparency strip. The **Transparencia** page repeats these promises in plain language and links to this file and `AUDITABILITY.md`.
