@@ -14,7 +14,7 @@ function escapeHtml(s: string): string {
 }
 
 const LEGAL_HINT =
-  "OpenArtTools — plantilla orientativa. Este documento no ha sido revisado por abogados ni por ningún profesional del derecho y no constituye asesoramiento legal.";
+  "Open Art Tools — plantilla orientativa. Este documento no ha sido revisado por abogados ni por ningún profesional del derecho y no constituye asesoramiento legal.";
 
 export function clausesToHtml(clauses: Clause[], docTitle: string): string {
   const blocks = clauses

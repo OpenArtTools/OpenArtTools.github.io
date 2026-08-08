@@ -10,9 +10,9 @@ import type { TemplateDoc } from "../engine/types";
 
 export const exhibitionCustodyEs: TemplateDoc = {
   id: "exhibition-custody-es",
-  name: "Anexo de exhibición, custodia, seguro y responsabilidad",
+  name: "Acuerdo de exhibición, custodia, seguro y responsabilidad",
   description:
-    "Condiciones específicas de exhibición, custodia, seguro y responsabilidad de una instalación artística.",
+    "Condiciones para exhibir una instalación u obra en un festival, galería u otro espacio: custodia, seguro y responsabilidad.",
   steps: [
     {
       id: "parties",

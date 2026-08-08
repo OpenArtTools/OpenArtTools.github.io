@@ -2,7 +2,7 @@
   "name": "openarttools",
   "version": "0.1.0",
   "private": true,
-  "description": "OpenArtTools — Contract Studio for artists. Open source. Local-first. By Gerard Valls Montaño.",
+  "description": "Open Art Tools — open-source free tools for artists. First tool: exhibition agreements. By Gerard Valls Montaño.",
   "license": "Apache-2.0",
   "author": "Gerard Valls Montaño",
   "type": "module",

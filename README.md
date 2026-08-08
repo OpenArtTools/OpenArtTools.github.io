@@ -1,51 +1,48 @@
-# OpenArtTools
+# Open Art Tools
 
-**Contract Studio** for artists and creators — generate exhibition, custody, insurance and liability annexes step by step.
+Plataforma **open source** de herramientas **gratuitas** para artistas. Úsala siempre que quieras.
 
 Idea, design & creation by **Gerard Valls Montaño**. Licensed under **Apache-2.0**.
 
-## Principles
+## Primera herramienta: Acuerdos de exhibición
 
-- **Local-first** — by default nothing is stored
-- **Transparent** — no cloud accounts, no analytics, no telemetry
-- **Fine control** — toggles reshape clauses; the final step lets you edit every line
-- **Instructive placeholders** — fields say what to write; they never ship sample identities
+Crea acuerdos y anexos para exhibir obra en **festivales, galerías u otros espacios**: custodia, seguro y responsabilidad, paso a paso, con control fino de cada cláusula y exportación a PDF.
 
-## Run (web)
+Más herramientas irán sumándose bajo el mismo paraguas.
+
+## Principios
+
+- **Gratis y open source** — para cualquier artista
+- **Local-first** — por defecto no se guarda nada
+- **Transparente** — sin cuentas cloud, sin analytics, sin telemetría
+- **Control fino** — el documento final se puede editar cláusula a cláusula
+
+## Sitio público
+
+https://openarttools.github.io/contract-studio/
+
+## Desarrollo
 
 ```bash
 npm install
 npm run dev
-```
-
-Open the URL Vite prints (default `http://localhost:5173`).
-
-```bash
 npm test
 npm run build
 ```
 
-## Public site
+### Desktop (macOS, Windows, Linux)
 
-Live (GitHub Pages): https://openarttools.github.io/contract-studio/
-
-## Desktop (macOS, Windows, Linux)
-
-The UI is packaged with **Tauri 2**. Requires [Rust](https://rustup.rs/) and platform build tools.
+Requiere [Rust](https://rustup.rs/):
 
 ```bash
-# once: install Rust via rustup, then:
-npm install
-npm run tauri:dev      # development
-npm run tauri:build    # release installers for your OS
+npm run tauri:dev
+npm run tauri:build
 ```
 
-Targets: **macOS**, **Windows**, **Linux**. The same frontend can also run as a static web build. Additional Tauri targets (e.g. mobile) can be added later without changing the contract engine.
+## Privacidad
 
-## Privacy
+Ver [PRIVACY.md](PRIVACY.md).
 
-See [PRIVACY.md](PRIVACY.md). Opt-in checkboxes are the only way data stays on disk.
+## Aviso
 
-## Disclaimer
-
-Templates are **orientation aids**. They do not replace legal advice.
+Las plantillas son **orientativas**. No han sido revisadas por abogados ni constituyen asesoramiento legal.

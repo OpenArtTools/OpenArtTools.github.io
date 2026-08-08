@@ -1,6 +1,6 @@
 # Auditability
 
-OpenArtTools is open source (Apache-2.0).
+Open Art Tools is open source (Apache-2.0).
 
 ## What to verify
 

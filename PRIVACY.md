@@ -1,10 +1,10 @@
 # Privacy
 
-OpenArtTools — concept, idea, design, creation & development by Gerard Valls Montaño.
+Open Art Tools — concept, idea, design, creation & development by Gerard Valls Montaño.
 
 ## Absolute default: nothing is stored
 
-By default OpenArtTools **does not store any of your data**:
+By default Open Art Tools **does not store any of your data**:
 
 - No cloud accounts
 - No analytics or trackers
@@ -24,4 +24,4 @@ Those writes go only to local storage on your machine. You can clear them from t
 
 ## Export
 
-PDF / HTML / TXT exports are files you choose to save. OpenArtTools does not upload them.
+PDF / HTML / TXT exports are files you choose to save. Open Art Tools does not upload them.

@@ -30,11 +30,11 @@ import {
   saveProfile,
 } from "./storage/local";
 import {
-  TEMPLATES,
   enrichDerivedValues,
   exhibitionCustodyEs,
   getTemplate,
 } from "./templates/exhibition-custody-es";
+import { PLATFORM, TOOLS } from "./platform";
 
 const DEFAULT_TOGGLES: AppValues = {
   "features.interactive": true,
@@ -132,7 +132,7 @@ function renderHeader(): HTMLElement {
   const header = el("header", "oat-header");
   const brand = el("button", "oat-brand") as HTMLButtonElement;
   brand.type = "button";
-  brand.textContent = "OpenArtTools";
+  brand.textContent = PLATFORM.name;
   brand.addEventListener("click", () => {
     state.phase = "home";
     render();
@@ -163,14 +163,13 @@ function navBtn(label: string, phase: SessionState["phase"], current: boolean) {
 function renderPrivacyStrip(): HTMLElement {
   const strip = el("div", "oat-privacy-strip");
   strip.innerHTML =
-    "<strong>Transparencia:</strong> esta app no guarda nada a menos que tú lo actives. Sin cuentas en la nube, sin analytics, sin telemetría.";
+    "<strong>Transparencia:</strong> Open Art Tools no guarda nada a menos que tú lo actives. Open source, gratuita, sin cuentas en la nube, sin analytics.";
   return strip;
 }
 
 function renderFooter(): HTMLElement {
   const footer = el("footer", "oat-footer");
-  footer.innerHTML =
-    "OpenArtTools — idea, design &amp; creation by Gerard Valls Montaño · Apache-2.0 · No revisado por abogados ni profesionales del derecho; no constituye asesoramiento legal.";
+  footer.innerHTML = `${PLATFORM.name} — plataforma open source gratuita para artistas · idea, design &amp; creation by ${PLATFORM.author} · Apache-2.0 · No revisado por abogados ni profesionales del derecho; no constituye asesoramiento legal.`;
   return footer;
 }
 
@@ -186,7 +185,7 @@ function renderMain(): HTMLElement {
 }
 
 const LEGAL_DISCLAIMER =
-  "Este documento no ha sido revisado por abogados ni por ningún profesional del derecho. Es una plantilla orientativa generada por OpenArtTools y no constituye asesoramiento legal.";
+  "Este documento no ha sido revisado por abogados ni por ningún profesional del derecho. Es una plantilla orientativa generada por Open Art Tools y no constituye asesoramiento legal.";
 
 function legalDisclaimer(): HTMLElement {
   const d = el("aside", "oat-legal-disclaimer");
@@ -200,29 +199,58 @@ function renderHome(): HTMLElement {
   wrap.append(legalDisclaimer());
 
   const h1 = el("h1");
-  h1.textContent = "OpenArtTools";
+  h1.textContent = PLATFORM.name;
   const lede = el("p", "lede");
-  lede.textContent =
-    "Genera contratos y anexos para obras artísticas paso a paso. Local-first. Open source. Tú controlas cada cláusula.";
-  wrap.append(h1, lede);
+  lede.textContent = PLATFORM.tagline;
+  const support = el("p", "lede");
+  support.style.marginTop = "-0.75rem";
+  support.textContent =
+    "Completamente open source. Sin cuentas obligatorias. Pensada para que cualquier artista pueda usarla gratis, cuando quiera.";
+  wrap.append(h1, lede, support);
 
-  const actions = el("div", "oat-actions");
-  const start = btn("Crear contrato", "oat-btn", () => {
-    state = emptySession();
-    state.phase = "wizard";
-    state.stepIndex = 0;
-    rebuildClauses();
-    render();
-  });
-  actions.append(start);
+  const list = el("div");
+  list.style.marginTop = "2.25rem";
+  const h = el("h2");
+  h.textContent = "Herramientas";
+  h.style.fontWeight = "400";
+  h.style.fontSize = "1.25rem";
+  h.style.marginBottom = "0.35rem";
+  list.append(h);
+
+  const sub = el("p", "lede");
+  sub.style.marginBottom = "1rem";
+  sub.textContent =
+    "La primera herramienta sirve para crear acuerdos de exhibición de obra en festivales, galerías o cualquier otro lugar.";
+  list.append(sub);
+
+  for (const tool of TOOLS) {
+    if (tool.status !== "available" || !tool.templateId) continue;
+    const card = el("button", "oat-card") as HTMLButtonElement;
+    card.type = "button";
+    card.innerHTML = `<h3>${escape(tool.name)}</h3><p>${escape(tool.blurb)}</p>`;
+    card.addEventListener("click", () => {
+      state = emptySession();
+      state.templateId = tool.templateId!;
+      state.phase = "wizard";
+      state.stepIndex = 0;
+      rebuildClauses();
+      render();
+    });
+    list.append(card);
+  }
 
   const draft = loadDraft();
   if (draft && loadFlags().rememberDraft) {
+    const actions = el("div", "oat-actions");
+    actions.style.marginTop = "1.25rem";
     actions.append(
       btn("Continuar borrador guardado", "oat-btn oat-btn-ghost", () => {
         state.templateId = draft.templateId;
         state.values = draft.values;
-        state.clauses = ensurePlaceAtEnd(draft.clauses, getTemplate(draft.templateId));
+        state.clauses = ensurePlaceAtEnd(
+          draft.clauses,
+          getTemplate(draft.templateId),
+        );
         state.manualOverride = draft.manualOverride;
         state.rememberDraft = true;
         state.rememberPersonal = loadFlags().rememberPersonal;
@@ -231,33 +259,9 @@ function renderHome(): HTMLElement {
         render();
       }),
     );
+    list.append(actions);
   }
 
-  wrap.append(actions);
-
-  const list = el("div");
-  list.style.marginTop = "2.5rem";
-  const h = el("h2");
-  h.textContent = "Plantillas";
-  h.style.fontWeight = "400";
-  h.style.fontSize = "1.25rem";
-  h.style.marginBottom = "0.85rem";
-  list.append(h);
-
-  for (const t of TEMPLATES) {
-    const card = el("button", "oat-card") as HTMLButtonElement;
-    card.type = "button";
-    card.innerHTML = `<h3>${escape(t.name)}</h3><p>${escape(t.description)}</p>`;
-    card.addEventListener("click", () => {
-      state = emptySession();
-      state.templateId = t.id;
-      state.phase = "wizard";
-      state.stepIndex = 0;
-      rebuildClauses();
-      render();
-    });
-    list.append(card);
-  }
   wrap.append(list);
   wrap.append(legalDisclaimer());
   return wrap;
@@ -273,7 +277,7 @@ function renderPrivacy(): HTMLElement {
       <li>Guardar tus datos personales (autor) en este dispositivo para la próxima vez.</li>
       <li>Guardar el borrador del documento actual en este dispositivo.</li>
     </ul>
-    <p>Nunca se envían datos a un servidor de OpenArtTools. No hay cuentas cloud ni trackers.</p>
+    <p>Nunca se envían datos a un servidor de Open Art Tools. No hay cuentas cloud ni trackers.</p>
   `;
   wrap.append(
     btn("Borrar todos los datos locales ahora", "oat-btn oat-btn-ghost", () => {

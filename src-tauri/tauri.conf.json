@@ -1,5 +1,5 @@
 {
-  "productName": "OpenArtTools",
+  "productName": "Open Art Tools",
   "version": "0.1.0",
   "identifier": "com.openarttools.app",
   "build": {
@@ -12,7 +12,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "OpenArtTools",
+        "title": "Open Art Tools",
         "width": 1100,
         "height": 780,
         "resizable": true
