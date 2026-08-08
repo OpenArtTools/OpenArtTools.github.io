@@ -2,9 +2,9 @@
  * Copyright 2026 Gerard Valls Montaño
  * Licensed under the Apache License, Version 2.0
  *
- * Open Art Tools — app entry.
+ * Open Art Tools — web entry.
  * Flow: platform home → tool wizard → review → accept → export.
- * Nothing is stored by the app; sessions are downloadable JSON files.
+ * Nothing is stored by the platform. Optional draft/profile .json files stay on the user's device.
  */
 
 import "./styles/main.css";
@@ -15,7 +15,7 @@ import {
   missingRequired,
   refreshFromValues,
 } from "./engine/assemble";
-import type { AppValues, Clause, SessionState } from "./engine/types";
+import type { AppValues, Clause } from "./engine/types";
 import {
   clausesToHtml,
   copyText,
@@ -28,19 +28,38 @@ import {
   legalDisclaimer,
   renderFooter,
   renderHeader,
+  renderHomeSupport,
+  renderSessionStrip,
   renderTransparencyStrip,
 } from "./shell";
-import {
-  buildSessionFile,
-  downloadSessionFile,
-  readSessionFile,
-} from "./storage/local";
 import {
   enrichDerivedValues,
   exhibitionCustodyEs,
   getTemplate,
 } from "./templates/exhibition-custody-es";
-import { PLATFORM, TOOLS, TRANSPARENCY } from "./platform";
+import { PLATFORM, SUPPORT, TOOLS, TRANSPARENCY } from "./platform";
+import {
+  buildDraftFile,
+  downloadDraftFile,
+  pickAndReadDraftFile,
+} from "./storage/draft";
+import type { PersonalProfile } from "./storage/profile";
+import {
+  buildProfileFile,
+  downloadProfileFile,
+  pickAndReadProfileFile,
+  profileHasData,
+  profileLabel,
+  profileToAuthorValues,
+} from "./storage/profile";
+import {
+  type AppPhase,
+  type SessionState,
+  type ToolPhase,
+  createEmptySession,
+  hasDocumentWork,
+  isToolPhase,
+} from "./session";
 
 /** Sensible defaults for the exhibition tool — all can be changed in the wizard. */
 const DEFAULT_TOGGLES: AppValues = {
@@ -69,25 +88,19 @@ const DEFAULT_TOGGLES: AppValues = {
   "options.forceMajeure": false,
 };
 
-function emptySession(): SessionState {
-  return {
-    templateId: exhibitionCustodyEs.id,
-    values: { ...DEFAULT_TOGGLES },
-    clauses: [],
-    stepIndex: 0,
-    phase: "home",
-    manualOverride: false,
-    acceptedFinal: false,
-  };
-}
-
-let state: SessionState = emptySession();
+let state: SessionState = createEmptySession(
+  exhibitionCustodyEs.id,
+  DEFAULT_TOGGLES,
+);
 
 function template() {
   return getTemplate(state.templateId) ?? exhibitionCustodyEs;
 }
 
-function go(phase: SessionState["phase"]): void {
+function go(phase: AppPhase): void {
+  if (isToolPhase(state.phase) && !isToolPhase(phase)) {
+    state.lastToolPhase = state.phase;
+  }
   state.phase = phase;
   render();
 }
@@ -107,54 +120,211 @@ function setValue(path: string, value: string | boolean | number): void {
   if (!state.manualOverride) rebuildClauses();
 }
 
-function downloadCurrentSession(): void {
-  downloadSessionFile(
-    buildSessionFile({
+function applyAuthorFromProfile(profile: PersonalProfile): void {
+  state.values = { ...state.values, ...profileToAuthorValues(profile) };
+  if (!state.manualOverride) rebuildClauses();
+}
+
+function downloadCurrentDraft(): void {
+  downloadDraftFile(
+    buildDraftFile({
       templateId: state.templateId,
       values: state.values,
       clauses: state.clauses,
       manualOverride: state.manualOverride,
+      stepIndex: state.stepIndex,
     }),
   );
 }
 
-async function importSessionFromFile(file: File): Promise<void> {
-  const data = await readSessionFile(file);
-  state = emptySession();
-  state.templateId = data.templateId;
-  state.values = { ...DEFAULT_TOGGLES, ...data.values };
-  state.clauses = ensurePlaceAtEnd(data.clauses, getTemplate(data.templateId));
-  state.manualOverride = data.manualOverride;
-  state.acceptedFinal = false;
-  state.phase = "review";
+function downloadCurrentProfile(): void {
+  const profile = state.personalProfile;
+  if (!profile || !profileHasData(profile)) {
+    alert(
+      "No hay datos personales que guardar. Rellénalos abajo o carga un archivo primero.",
+    );
+    return;
+  }
+  downloadProfileFile(buildProfileFile(profile));
+}
+
+function setProfileField(key: keyof PersonalProfile, value: string): void {
+  state.personalProfile = {
+    ...(state.personalProfile ?? {}),
+    [key]: value.trim() || undefined,
+  };
+}
+
+function showDraftDownload(): boolean {
+  return hasDocumentWork(state, DEFAULT_TOGGLES) || isToolPhase(state.phase);
+}
+
+async function pickDraftFile(): Promise<void> {
+  try {
+    const draft = await pickAndReadDraftFile();
+    if (!draft) return;
+    const keptProfile = state.personalProfile;
+    state = createEmptySession(draft.templateId, DEFAULT_TOGGLES, keptProfile);
+    state.values = { ...DEFAULT_TOGGLES, ...draft.values };
+    state.clauses = draft.clauses;
+    state.manualOverride = draft.manualOverride;
+    state.stepIndex = draft.stepIndex;
+    state.phase = "wizard";
+    state.acceptedFinal = false;
+    render();
+  } catch (err) {
+    alert(err instanceof Error ? err.message : "No se pudo cargar el borrador.");
+  }
+}
+
+async function pickProfileFile(): Promise<void> {
+  try {
+    const loaded = await pickAndReadProfileFile();
+    if (!loaded) return;
+    state.personalProfile = loaded.profile;
+    render();
+  } catch (err) {
+    alert(err instanceof Error ? err.message : "No se pudo cargar el perfil.");
+  }
+}
+
+function startFreshTool(templateId: string, profile: PersonalProfile | null): void {
+  state = createEmptySession(templateId, DEFAULT_TOGGLES, profile);
+  state.phase = "wizard";
+  state.stepIndex = 0;
+  if (profileHasData(profile)) applyAuthorFromProfile(profile!);
+  else rebuildClauses();
   render();
 }
 
-function pickSessionFile(): void {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "application/json,.json";
-  input.addEventListener("change", async () => {
-    const file = input.files?.[0];
-    if (!file) return;
-    try {
-      await importSessionFromFile(file);
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "No se pudo cargar el archivo.");
+function openTool(templateId: string): void {
+  if (
+    templateId === state.templateId &&
+    hasDocumentWork(state, DEFAULT_TOGGLES)
+  ) {
+    const resume = confirm("¿Retomar el documento en curso?");
+    if (resume) {
+      const phase: ToolPhase = state.lastToolPhase ?? "wizard";
+      state.phase = phase;
+      render();
+      return;
     }
-  });
-  input.click();
+    startFreshTool(templateId, state.personalProfile);
+    return;
+  }
+  startFreshTool(templateId, state.personalProfile);
+}
+
+/** Platform-level: personal data for any tool. */
+function renderPlatformProfile(): HTMLElement {
+  const box = el("section", "oat-files-shelf oat-platform-profile");
+  const title = el("h2");
+  title.textContent = "Mis datos personales";
+  const note = el("p", "lede");
+  note.textContent =
+    "Datos tuyos para usarlos en cualquier herramienta de la plataforma. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
+
+  const status = el("p", "oat-file-status");
+  status.textContent = profileHasData(state.personalProfile)
+    ? `En memoria ahora: ${profileLabel(state.personalProfile!)} (se borran al cerrar la pestaña).`
+    : "Ningún dato en memoria. Rellena el formulario o carga un archivo.";
+
+  const actions = el("div", "oat-actions");
+  actions.append(
+    btn("Cargar mis datos (.json)", "oat-btn oat-btn-ghost", () => {
+      void pickProfileFile();
+    }),
+    btn("Descargar mis datos (.json)", "oat-btn oat-btn-ghost", downloadCurrentProfile),
+  );
+
+  const fields = el("div", "oat-profile-fields");
+  const profile = state.personalProfile ?? {};
+  const specs: { key: keyof PersonalProfile; label: string; placeholder: string }[] = [
+    { key: "name", label: "Nombre completo", placeholder: "Tu nombre y apellidos" },
+    { key: "doc", label: "Documento", placeholder: "DNI, NIE u otro documento" },
+    { key: "role", label: "Rol o profesión", placeholder: "Por ejemplo: artista / autor" },
+    { key: "address", label: "Domicilio", placeholder: "Tu domicilio" },
+    { key: "email", label: "Email", placeholder: "Tu email" },
+    { key: "phone", label: "Teléfono", placeholder: "Tu teléfono" },
+  ];
+  for (const spec of specs) {
+    const field = el("div", "oat-field");
+    const label = el("label") as HTMLLabelElement;
+    label.htmlFor = `profile-${spec.key}`;
+    label.textContent = spec.label;
+    const input = document.createElement("input");
+    input.id = `profile-${spec.key}`;
+    input.type = spec.key === "email" ? "email" : "text";
+    input.placeholder = spec.placeholder;
+    input.value = profile[spec.key] ?? "";
+    input.addEventListener("input", () => {
+      setProfileField(spec.key, input.value);
+    });
+    field.append(label, input);
+    fields.append(field);
+  }
+
+  box.append(title, note, status, actions, fields);
+  return box;
+}
+
+/** Tool-level: draft for the current exhibition agreement. */
+function renderToolDraftBar(): HTMLElement {
+  const box = el("aside", "oat-file-bar oat-draft-bar");
+  box.setAttribute("role", "note");
+  const title = el("h3");
+  title.textContent = "Borrador de este acuerdo";
+  const note = el("p", "oat-review-note");
+  note.textContent =
+    "Solo de esta herramienta. Instantánea del formulario, cláusulas y opciones. Descárgalo en cualquier momento desde la franja superior o aquí; cárgalo para retomar este documento.";
+  const actions = el("div", "oat-actions");
+  actions.style.marginTop = "0";
+  actions.append(
+    btn("Descargar borrador", "oat-btn oat-btn-ghost", downloadCurrentDraft),
+    btn("Cargar borrador", "oat-btn oat-btn-ghost", () => {
+      void pickDraftFile();
+    }),
+  );
+  box.append(title, note, actions);
+  return box;
+}
+
+/** Light reminder inside a tool — management stays on the platform home. */
+function renderApplyPlatformProfile(): HTMLElement {
+  const box = el("aside", "oat-apply-profile");
+  const note = el("p", "oat-review-note");
+  if (profileHasData(state.personalProfile)) {
+    note.textContent = `Datos de la plataforma en memoria: ${profileLabel(state.personalProfile!)}. Se usan para rellenar tu parte (autor), no la de clientes.`;
+    const actions = el("div", "oat-actions");
+    actions.style.marginTop = "0";
+    actions.append(
+      btn("Rellenar autor con mis datos", "oat-btn oat-btn-ghost", () => {
+        applyAuthorFromProfile(state.personalProfile!);
+        render();
+      }),
+    );
+    box.append(note, actions);
+  } else {
+    note.textContent =
+      "Puedes cargar tus datos personales en la página de la plataforma (sirven para cualquier herramienta). Aquí solo se rellena el autor de este documento.";
+    box.append(note);
+  }
+  return box;
 }
 
 function render(): void {
   const app = document.getElementById("app");
   if (!app) return;
-  app.replaceChildren(
+  const chrome = el("div", "oat-chrome");
+  chrome.append(
     renderHeader(state.phase, state.templateId, go),
     renderTransparencyStrip(() => go("privacy")),
-    renderMain(),
-    renderFooter(),
+    renderSessionStrip({
+      showDraftDownload: showDraftDownload(),
+      onDownloadDraft: downloadCurrentDraft,
+    }),
   );
+  app.replaceChildren(chrome, renderMain(), renderFooter(() => go("support")));
 }
 
 function renderMain(): HTMLElement {
@@ -167,14 +337,18 @@ function renderMain(): HTMLElement {
     case "privacy":
       main.append(renderTransparency());
       break;
+    case "support":
+      main.append(renderSupport());
+      break;
     case "wizard":
       main.append(renderWizard());
+      break;
+    case "review":
+      main.append(renderReview());
       break;
     case "accept":
       main.append(renderAccept());
       break;
-    default:
-      main.append(renderReview());
   }
   return main;
 }
@@ -207,29 +381,103 @@ function renderHome(): HTMLElement {
     if (tool.status !== "available" || !tool.templateId) {
       card.disabled = true;
     } else {
-      card.addEventListener("click", () => {
-        state = emptySession();
-        state.templateId = tool.templateId!;
-        state.phase = "wizard";
-        state.stepIndex = 0;
-        rebuildClauses();
-        render();
-      });
+      const templateId = tool.templateId;
+      card.addEventListener("click", () => openTool(templateId));
     }
     shelf.append(card);
   }
 
-  const actions = el("div", "oat-actions");
-  actions.append(
-    btn("Cargar sesión (.json)", "oat-btn oat-btn-ghost", pickSessionFile),
-  );
-  shelf.append(actions);
   wrap.append(shelf);
+  wrap.append(renderPlatformProfile());
+  wrap.append(renderHomeSupport(() => go("support")));
 
   const meta = el("p", "oat-home-meta");
   meta.textContent = `${TRANSPARENCY.strip}. ${TRANSPARENCY.legal}`;
   wrap.append(meta);
   return wrap;
+}
+
+function renderSupport(): HTMLElement {
+  const wrap = el("div", "oat-prose oat-support");
+  const h2 = el("h2");
+  h2.textContent = SUPPORT.title;
+  wrap.append(h2);
+
+  const intro = el("p");
+  intro.textContent = SUPPORT.intro;
+  const voluntary = el("p");
+  voluntary.textContent = SUPPORT.voluntary;
+  wrap.append(intro, voluntary);
+
+  const forTitle = el("h3");
+  forTitle.textContent = SUPPORT.whatForTitle;
+  wrap.append(forTitle);
+  wrap.append(list(SUPPORT.whatFor));
+
+  const notTitle = el("h3");
+  notTitle.textContent = SUPPORT.whatNotTitle;
+  wrap.append(notTitle);
+  wrap.append(list(SUPPORT.whatNot));
+
+  const privTitle = el("h3");
+  privTitle.textContent = SUPPORT.privacyTitle;
+  const priv = el("p");
+  priv.textContent = SUPPORT.privacy;
+  wrap.append(privTitle, priv);
+
+  const actions = el("div", "oat-support-actions");
+  const donateUrl = SUPPORT.donateUrl.trim();
+  if (donateUrl) {
+    const a = document.createElement("a");
+    a.className = "oat-btn";
+    a.href = donateUrl;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.textContent = SUPPORT.donateLabel;
+    actions.append(a);
+
+    const note = el("p", "oat-review-note");
+    note.textContent =
+      "Se abre fuera de Open Art Tools. La cantidad la eliges tú. Puedes cancelar en cualquier momento antes de confirmar en el proveedor.";
+    actions.append(note);
+  } else {
+    const pending = el("p", "oat-support-pending");
+    pending.textContent =
+      "Todavía no hay un enlace de pago público configurado. Si quieres aportar, puedes contactar con el creador y te indicará cómo hacerlo con total claridad.";
+    actions.append(pending);
+
+    const contact = document.createElement("a");
+    contact.className = "oat-btn oat-btn-ghost";
+    contact.href = SUPPORT.contactUrl;
+    contact.target = "_blank";
+    contact.rel = "noopener noreferrer";
+    contact.textContent = SUPPORT.contactLabel;
+    actions.append(contact);
+  }
+  wrap.append(actions);
+
+  const thanks = el("p", "oat-support-thanks");
+  thanks.textContent = SUPPORT.thanks;
+  wrap.append(thanks);
+
+  const back = el("p");
+  back.append(
+    btn("Volver a Transparencia", "oat-link-btn", () => go("privacy")),
+    document.createTextNode(" · "),
+    btn("Volver a la plataforma", "oat-link-btn", () => go("home")),
+  );
+  wrap.append(back);
+  return wrap;
+}
+
+function list(items: readonly string[]): HTMLElement {
+  const ul = document.createElement("ul");
+  for (const item of items) {
+    const li = document.createElement("li");
+    li.textContent = item;
+    ul.append(li);
+  }
+  return ul;
 }
 
 function renderTransparency(): HTMLElement {
@@ -253,8 +501,16 @@ function renderTransparency(): HTMLElement {
     wrap.append(block);
   }
 
+  const supportNote = el("p");
+  supportNote.append(
+    document.createTextNode("Si quieres saber cómo funciona el apoyo voluntario: "),
+    btn("ver Apoyo", "oat-link-btn", () => go("support")),
+    document.createTextNode("."),
+  );
+  wrap.append(supportNote);
+
   const links = el("p");
-  links.innerHTML = `Documentación en el repositorio: <a href="${PLATFORM.repoUrl}/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">PRIVACY.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/AUDITABILITY.md" target="_blank" rel="noopener noreferrer">AUDITABILITY.md</a> · <a href="${PLATFORM.repoUrl}" target="_blank" rel="noopener noreferrer">código fuente</a>`;
+  links.innerHTML = `Documentación en el repositorio: <a href="${PLATFORM.repoUrl}/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">PRIVACY.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/AUDITABILITY.md" target="_blank" rel="noopener noreferrer">AUDITABILITY.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/SUPPORT.md" target="_blank" rel="noopener noreferrer">SUPPORT.md</a> · <a href="${PLATFORM.repoUrl}" target="_blank" rel="noopener noreferrer">código fuente</a>`;
   wrap.append(links);
   return wrap;
 }
@@ -279,6 +535,10 @@ function renderWizard(): HTMLElement {
   const blurb = el("p", "blurb");
   blurb.textContent = step.blurb;
   wrap.append(h2, blurb);
+
+  if (step.id === "parties") {
+    wrap.append(renderApplyPlatformProfile());
+  }
 
   let lastGroup = "";
   for (const field of fieldsForStep(t, step.id).filter((f) =>
@@ -317,8 +577,8 @@ function renderWizard(): HTMLElement {
     }),
   );
   wrap.append(nav);
+  wrap.append(renderToolDraftBar());
   if (isLast) {
-    wrap.append(renderSessionFiles());
     wrap.append(legalDisclaimer());
   }
   return wrap;
@@ -384,27 +644,15 @@ function renderField(field: {
   }
   input.addEventListener("input", () => {
     if (field.type === "number" || field.type === "money") {
-      setValue(field.path, input.value === "" ? "" : Number(input.value));
+      if (input.value === "") return;
+      const n = Number(input.value);
+      if (Number.isNaN(n)) return;
+      setValue(field.path, n);
     } else {
       setValue(field.path, input.value);
     }
   });
   box.append(input);
-  return box;
-}
-
-function renderSessionFiles(): HTMLElement {
-  const box = el("div", "oat-session-bar");
-  const note = el("p", "oat-review-note");
-  note.textContent =
-    "Nada se guarda en el navegador. Descarga un .json para reutilizar la sesión, o carga uno que ya tengas.";
-  const actions = el("div", "oat-actions");
-  actions.style.marginTop = "0";
-  actions.append(
-    btn("Descargar sesión", "oat-btn oat-btn-ghost", downloadCurrentSession),
-    btn("Cargar sesión", "oat-btn oat-btn-ghost", pickSessionFile),
-  );
-  box.append(note, actions);
   return box;
 }
 
@@ -451,7 +699,7 @@ function renderReview(): HTMLElement {
       state.clauses = ensurePlaceAtEnd(state.clauses, t);
       render();
     }),
-    btn("Aceptar borrador", "oat-btn", () => {
+    btn("Continuar a aceptación", "oat-btn", () => {
       state.clauses = ensurePlaceAtEnd(state.clauses, t);
       state.acceptedFinal = false;
       state.phase = "accept";
@@ -464,7 +712,7 @@ function renderReview(): HTMLElement {
     wrap.append(renderClauseEditor(clause, index));
   });
 
-  wrap.append(renderSessionFiles(), legalDisclaimer());
+  wrap.append(renderToolDraftBar(), legalDisclaimer());
   return wrap;
 }
 
@@ -535,7 +783,8 @@ function renderAccept(): HTMLElement {
     wrap.append(hint);
   }
 
-  wrap.append(toolbar, exports, renderSessionFiles());
+  wrap.append(toolbar, exports);
+  wrap.append(renderToolDraftBar());
 
   const previewLabel = el("div", "oat-group-label");
   previewLabel.textContent = "Previsualización";

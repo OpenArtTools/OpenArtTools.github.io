@@ -6,15 +6,14 @@
  */
 
 import { btn, el } from "./dom";
-import { PLATFORM, TRANSPARENCY, findToolByTemplateId } from "./platform";
-import type { SessionState } from "./engine/types";
-
-type NavPhase = SessionState["phase"];
+import { PLATFORM, SUPPORT, TRANSPARENCY, findToolByTemplateId } from "./platform";
+import type { AppPhase } from "./session";
+import { isToolPhase } from "./session";
 
 export function renderHeader(
-  phase: NavPhase,
+  phase: AppPhase,
   templateId: string,
-  go: (phase: NavPhase) => void,
+  go: (phase: AppPhase) => void,
 ): HTMLElement {
   const header = el("header", "oat-header");
 
@@ -26,17 +25,21 @@ export function renderHeader(
   role.textContent = PLATFORM.role;
   brandWrap.append(brand, role);
 
-  const tool = findToolByTemplateId(templateId);
-  if (phase !== "home" && phase !== "privacy" && tool) {
-    const label = el("span", "oat-header-tool");
-    label.textContent = tool.name;
-    brandWrap.append(label);
+  if (isToolPhase(phase)) {
+    const tool = findToolByTemplateId(templateId);
+    if (tool) {
+      const label = el("span", "oat-header-tool");
+      label.textContent = tool.name;
+      brandWrap.append(label);
+    }
   }
 
   const nav = el("nav", "oat-nav");
+  nav.setAttribute("aria-label", "Principal");
   nav.append(
     navBtn("Plataforma", "home", phase, go),
     navBtn("Transparencia", "privacy", phase, go),
+    navBtn(SUPPORT.navLabel, "support", phase, go),
   );
 
   header.append(brandWrap, nav);
@@ -45,9 +48,9 @@ export function renderHeader(
 
 function navBtn(
   label: string,
-  target: NavPhase,
-  current: NavPhase,
-  go: (phase: NavPhase) => void,
+  target: AppPhase,
+  current: AppPhase,
+  go: (phase: AppPhase) => void,
 ): HTMLButtonElement {
   const b = btn(label, "", () => go(target));
   if (current === target) b.setAttribute("aria-current", "page");
@@ -71,9 +74,52 @@ export function renderTransparencyStrip(
   return strip;
 }
 
-export function renderFooter(): HTMLElement {
+/**
+ * Always visible: tab-close clears data.
+ * Draft download only inside a document tool (not on the platform home).
+ */
+export function renderSessionStrip(opts: {
+  showDraftDownload: boolean;
+  onDownloadDraft?: () => void;
+}): HTMLElement {
+  const strip = el("div", "oat-session-strip");
+  strip.setAttribute("role", "status");
+
+  const text = el("p");
+  text.textContent = opts.showDraftDownload
+    ? TRANSPARENCY.sessionClearInTool
+    : TRANSPARENCY.sessionClear;
+
+  strip.append(text);
+
+  if (opts.showDraftDownload && opts.onDownloadDraft) {
+    const download = btn(
+      TRANSPARENCY.draftDownloadLabel,
+      "oat-btn oat-btn-ghost oat-session-draft-btn",
+      opts.onDownloadDraft,
+    );
+    download.title =
+      "Descarga el borrador de este acuerdo tal como está ahora. Solo existe dentro de esta herramienta.";
+    strip.append(download);
+  }
+
+  return strip;
+}
+
+export function renderFooter(goSupport?: () => void): HTMLElement {
   const footer = el("footer", "oat-footer");
-  footer.innerHTML = `${PLATFORM.name} · plataforma open source · ${PLATFORM.author} · ${PLATFORM.license} · <a href="${PLATFORM.repoUrl}" target="_blank" rel="noopener noreferrer">código público</a>`;
+  const line = el("p", "oat-footer-line");
+  line.innerHTML = `${PLATFORM.name} · plataforma open source · ${PLATFORM.author} · ${PLATFORM.license} · <a href="${PLATFORM.repoUrl}" target="_blank" rel="noopener noreferrer">código público</a>`;
+  footer.append(line);
+
+  if (goSupport) {
+    const support = el("p", "oat-footer-support");
+    const link = btn(SUPPORT.footerLabel, "oat-link-btn", goSupport);
+    link.title = "Aportación voluntaria — nunca obligatoria";
+    support.append(document.createTextNode("Opcional · "), link);
+    footer.append(support);
+  }
+
   return footer;
 }
 
@@ -82,4 +128,19 @@ export function legalDisclaimer(): HTMLElement {
   d.setAttribute("role", "note");
   d.textContent = TRANSPARENCY.legal;
   return d;
+}
+
+/** Visible, honest home section — after tools, never inside the wizard. */
+export function renderHomeSupport(goSupport: () => void): HTMLElement {
+  const box = el("section", "oat-support-home");
+  const h = el("h2");
+  h.textContent = SUPPORT.homeTitle;
+  const lead = el("p");
+  lead.textContent = SUPPORT.homeLead;
+  const body = el("p");
+  body.textContent = SUPPORT.homeBody;
+  const actions = el("div", "oat-actions");
+  actions.append(btn(SUPPORT.homeCtaLabel, "oat-btn oat-btn-ghost", goSupport));
+  box.append(h, lead, body, actions);
+  return box;
 }

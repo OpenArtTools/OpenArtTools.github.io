@@ -79,17 +79,21 @@ body {
 }
 
 /* —— Chrome —— */
-.oat-header {
+.oat-chrome {
   position: sticky;
   top: 0;
   z-index: 40;
+  background: var(--color-bg);
+}
+
+.oat-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   padding: calc(0.95rem + var(--safe-top)) max(var(--page-pad), var(--safe-right))
     0.95rem max(var(--page-pad), var(--safe-left));
-  background: rgba(5, 5, 5, 0.92);
+  background: rgba(5, 5, 5, 0.96);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
 }
@@ -170,7 +174,7 @@ body {
   padding: 0.65rem max(var(--page-pad), var(--safe-right)) 0.7rem
     max(var(--page-pad), var(--safe-left));
   border-bottom: 1px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(5, 5, 5, 0.96);
   font-size: 0.82rem;
   color: var(--color-text-muted);
 }
@@ -179,6 +183,33 @@ body {
   margin: 0;
   max-width: 44rem;
   line-height: 1.45;
+}
+
+.oat-session-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  padding: 0.7rem max(var(--page-pad), var(--safe-right)) 0.75rem
+    max(var(--page-pad), var(--safe-left));
+  border-bottom: 1px solid var(--color-border-strong);
+  background: rgba(5, 5, 5, 0.96);
+  font-size: 0.86rem;
+  color: var(--color-text);
+}
+
+.oat-session-strip p {
+  margin: 0;
+  max-width: 40rem;
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.oat-session-draft-btn {
+  font-size: 0.82rem;
+  padding: 0.4rem 0.75rem;
+  white-space: nowrap;
 }
 
 .oat-link-btn {
@@ -220,6 +251,16 @@ main {
 .oat-footer a {
   color: var(--color-text);
   text-underline-offset: 0.15em;
+}
+
+.oat-footer-line,
+.oat-footer-support {
+  margin: 0;
+}
+
+.oat-footer-support {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
 }
 
 /* —— Home —— */
@@ -331,6 +372,62 @@ main {
   line-height: 1.55;
 }
 
+.oat-support-home {
+  margin-top: 2.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--color-border);
+  max-width: 34rem;
+}
+
+.oat-support-home h2 {
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.75rem;
+}
+
+.oat-support-home p {
+  margin: 0 0 0.75rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  font-size: 0.98rem;
+}
+
+.oat-support-home .oat-actions {
+  margin-top: 1rem;
+}
+
+.oat-support h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 1.5rem 0 0.5rem;
+  color: var(--color-text);
+}
+
+.oat-support-actions {
+  margin: 1.75rem 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.oat-support-actions .oat-btn {
+  text-decoration: none;
+}
+
+.oat-support-pending {
+  margin: 0;
+  max-width: var(--measure);
+}
+
+.oat-support-thanks {
+  margin-top: 1.5rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text) !important;
+}
+
 @keyframes oat-in {
   from {
     opacity: 0;
@@ -377,8 +474,8 @@ main {
 .oat-nav button:focus-visible,
 .oat-brand:focus-visible,
 .oat-card:focus-visible,
-.oat-field input:focus,
-.oat-field textarea:focus {
+.oat-field input:focus-visible,
+.oat-field textarea:focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
@@ -441,24 +538,56 @@ main {
   display: block;
   margin-bottom: 0.4rem;
   font-size: 0.95rem;
+  color: var(--color-text);
 }
 
-.oat-field input[type="text"],
-.oat-field input[type="number"],
-.oat-field input[type="date"],
+.oat-field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
 .oat-field textarea {
   width: 100%;
   max-width: var(--measure);
+  appearance: none;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
+  border-radius: 0;
   color: var(--color-text);
+  caret-color: var(--color-text);
   font: inherit;
+  font-size: 0.98rem;
+  line-height: 1.4;
   padding: 0.7rem 0.8rem;
+  color-scheme: dark;
+}
+
+.oat-field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):hover,
+.oat-field textarea:hover {
+  border-color: var(--color-border-strong);
+}
+
+.oat-field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+.oat-field textarea:focus {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
 }
 
 .oat-field input::placeholder,
 .oat-field textarea::placeholder {
-  color: rgba(245, 245, 245, 0.38);
+  color: var(--color-text-muted);
+  opacity: 0.65;
+}
+
+.oat-field input::-webkit-input-placeholder,
+.oat-field textarea::-webkit-input-placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.65;
+}
+
+.oat-field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):-webkit-autofill,
+.oat-field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):-webkit-autofill:hover,
+.oat-field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-text);
+  caret-color: var(--color-text);
+  box-shadow: 0 0 0 1000px var(--color-surface) inset;
+  transition: background-color 99999s ease-out;
 }
 
 .oat-field textarea {
@@ -498,14 +627,72 @@ main {
   border-top: 1px solid var(--color-border);
 }
 
-.oat-session-bar {
-  margin-top: 1.75rem;
-  padding: 1rem 0 0;
+.oat-files-shelf {
+  margin-top: 2.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.oat-files-shelf > h2 {
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.45rem;
+}
+
+.oat-profile-fields {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1.15rem;
+  max-width: 34rem;
+}
+
+.oat-apply-profile {
+  margin: 0 0 1.5rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--color-border);
+  max-width: var(--measure);
+}
+
+.oat-apply-profile .oat-review-note {
+  margin-bottom: 0.65rem;
+}
+
+.oat-file-bar {
+  margin-top: 1.35rem;
+  padding: 1.1rem 0 0;
   border-top: 1px solid var(--color-border);
   max-width: var(--measure);
 }
 
-.oat-session-bar .oat-review-note {
+.oat-file-bar h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.oat-file-bar .oat-review-note {
+  margin-bottom: 0.55rem;
+}
+
+.oat-file-status {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.oat-step .oat-file-bar {
+  margin-bottom: 1.5rem;
+}
+
+.oat-draft-bar {
+  margin-top: 1.75rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--color-border);
+  max-width: var(--measure);
+}
+
+.oat-draft-bar .oat-review-note {
   margin-bottom: 0.75rem;
 }
 
@@ -699,12 +886,16 @@ main {
 }
 
 @media print {
+  .oat-chrome,
   .oat-header,
   .oat-footer,
+  .oat-transparency,
+  .oat-session-strip,
   .oat-review-toolbar,
   .oat-step-nav,
   .oat-clause-actions,
-  .oat-session-bar,
+  .oat-file-bar,
+  .oat-draft-bar,
   .oat-legal-disclaimer {
     display: none !important;
   }

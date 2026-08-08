@@ -9,7 +9,6 @@ export type FieldType =
   | "date"
   | "money"
   | "toggle"
-  | "list"
   | "textarea";
 
 export type Field = {
@@ -20,11 +19,9 @@ export type Field = {
   type: FieldType;
   path: string;
   required?: boolean;
-  /** Marker shown in the assembled document when empty, e.g. [nombre completo del autor] */
   emptyMarker: string;
   step: string;
   group?: string;
-  /** When set, field only shows if this toggle path is true */
   showIf?: string;
 };
 
@@ -32,15 +29,11 @@ export type ClauseTemplate = {
   id: string;
   title: string;
   body: string;
-  /** Include when all of these toggle paths are true (or omitted = always) */
   requireAll?: string[];
-  /** Include when any of these toggle paths are true */
   requireAny?: string[];
-  /** Exclude when any of these toggle paths are true */
   excludeIf?: string[];
   optional?: boolean;
   defaultEnabled?: boolean;
-  /** Always keep this block at the very end (e.g. signatures). */
   placeAtEnd?: boolean;
 };
 
@@ -63,13 +56,3 @@ export type Clause = {
 };
 
 export type AppValues = Record<string, string | boolean | number>;
-
-export type SessionState = {
-  templateId: string;
-  values: AppValues;
-  clauses: Clause[];
-  stepIndex: number;
-  phase: "home" | "wizard" | "review" | "accept" | "privacy";
-  manualOverride: boolean;
-  acceptedFinal?: boolean;
-};

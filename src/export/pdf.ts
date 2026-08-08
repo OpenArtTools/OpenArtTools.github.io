@@ -3,15 +3,9 @@
  * Licensed under the Apache License, Version 2.0
  */
 
+import { documentText } from "../engine/assemble";
 import type { Clause } from "../engine/types";
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+import { escapeHtml } from "../dom";
 
 const LEGAL_HINT =
   "Open Art Tools — plantilla orientativa. Este documento no ha sido revisado por abogados ni por ningún profesional del derecho y no constituye asesoramiento legal.";
@@ -19,10 +13,10 @@ const LEGAL_HINT =
 export function clausesToHtml(clauses: Clause[], docTitle: string): string {
   const blocks = clauses
     .filter((c) => c.enabled)
-    .map(
-      (c) =>
-        `<section class="pdf-clause"><h2>${escapeHtml(c.title)}</h2><pre class="pdf-body">${escapeHtml(c.body)}</pre></section>`,
-    )
+    .map((c) => {
+      const endAttr = c.placeAtEnd ? ' data-end="true"' : "";
+      return `<section class="pdf-clause"${endAttr}><h2>${escapeHtml(c.title)}</h2><pre class="pdf-body">${escapeHtml(c.body)}</pre></section>`;
+    })
     .join("\n");
 
   return `<!DOCTYPE html>
@@ -116,12 +110,7 @@ export function downloadHtml(clauses: Clause[], docTitle: string): void {
 }
 
 export function downloadText(clauses: Clause[], docTitle: string): void {
-  const text =
-    `${docTitle}\n\n${LEGAL_HINT}\n\n` +
-    clauses
-      .filter((c) => c.enabled)
-      .map((c) => `${c.title}\n\n${c.body}`)
-      .join("\n\n────────────────\n\n");
+  const text = `${docTitle}\n\n${LEGAL_HINT}\n\n${documentText(clauses)}`;
   const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -132,11 +121,5 @@ export function downloadText(clauses: Clause[], docTitle: string): void {
 }
 
 export function copyText(clauses: Clause[]): Promise<void> {
-  const text = clauses
-    .filter((c) => c.enabled)
-    .map((c) => `${c.title}\n\n${c.body}`)
-    .join("\n\n");
-  return navigator.clipboard.writeText(text);
+  return navigator.clipboard.writeText(documentText(clauses));
 }
-
-export { LEGAL_HINT };

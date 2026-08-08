@@ -81,6 +81,36 @@ export const exhibitionCustodyEs: TemplateDoc = {
       group: "Autor",
     },
     {
+      id: "author_address",
+      label: "Domicilio del autor",
+      placeholder: "Escribe el domicilio del autor o titular",
+      emptyMarker: "[domicilio del autor]",
+      type: "text",
+      path: "parties.author.address",
+      step: "parties",
+      group: "Autor",
+    },
+    {
+      id: "author_email",
+      label: "Email del autor",
+      placeholder: "Escribe el email de contacto del autor",
+      emptyMarker: "[email del autor]",
+      type: "text",
+      path: "parties.author.email",
+      step: "parties",
+      group: "Autor",
+    },
+    {
+      id: "author_phone",
+      label: "Teléfono del autor",
+      placeholder: "Escribe el teléfono de contacto del autor",
+      emptyMarker: "[teléfono del autor]",
+      type: "text",
+      path: "parties.author.phone",
+      step: "parties",
+      group: "Autor",
+    },
+    {
       id: "org_name",
       label: "Razón social de la organización",
       placeholder: "Escribe la razón social completa de la organización",
@@ -89,7 +119,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "parties.org.name",
       required: true,
       step: "parties",
-      group: "Organización",
+      group: "Organización / cliente",
     },
     {
       id: "org_cif",
@@ -100,7 +130,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "parties.org.cif",
       required: true,
       step: "parties",
-      group: "Organización",
+      group: "Organización / cliente",
     },
     {
       id: "org_rep_name",
@@ -111,7 +141,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "parties.org.repName",
       required: true,
       step: "parties",
-      group: "Organización",
+      group: "Organización / cliente",
     },
     {
       id: "org_rep_doc",
@@ -122,7 +152,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "parties.org.repDoc",
       required: true,
       step: "parties",
-      group: "Organización",
+      group: "Organización / cliente",
     },
     {
       id: "org_rep_role",
@@ -133,7 +163,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "parties.org.repRole",
       required: true,
       step: "parties",
-      group: "Organización",
+      group: "Organización / cliente",
     },
     {
       id: "org_role_desc",
@@ -144,7 +174,37 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "parties.org.roleDesc",
       required: true,
       step: "parties",
-      group: "Organización",
+      group: "Organización / cliente",
+    },
+    {
+      id: "org_address",
+      label: "Domicilio de la organización",
+      placeholder: "Escribe el domicilio social o de notificación",
+      emptyMarker: "[domicilio de la organización]",
+      type: "text",
+      path: "parties.org.address",
+      step: "parties",
+      group: "Organización / cliente",
+    },
+    {
+      id: "org_email",
+      label: "Email de la organización",
+      placeholder: "Escribe el email de contacto",
+      emptyMarker: "[email de la organización]",
+      type: "text",
+      path: "parties.org.email",
+      step: "parties",
+      group: "Organización / cliente",
+    },
+    {
+      id: "org_phone",
+      label: "Teléfono de la organización",
+      placeholder: "Escribe el teléfono de contacto",
+      emptyMarker: "[teléfono de la organización]",
+      type: "text",
+      path: "parties.org.phone",
+      step: "parties",
+      group: "Organización / cliente",
     },
 
     // —— Project ——
@@ -552,10 +612,10 @@ En {{project.city}}, a {{project.signDate}}`,
       id: "reunidos",
       title: "REUNIDOS",
       body: `De una parte
-{{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, el Autor.
+{{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, el Autor.{{parties.author.extra}}
 
 Y de otra,
-{{parties.org.name}}, con CIF/NIF {{parties.org.cif}}, {{parties.org.roleDesc}} de {{project.eventName}}, representada en este acto por {{parties.org.repName}}, con documento {{parties.org.repDoc}}, en calidad de {{parties.org.repRole}}, en adelante, la Organización.
+{{parties.org.name}}, con CIF/NIF {{parties.org.cif}}, {{parties.org.roleDesc}} de {{project.eventName}}, representada en este acto por {{parties.org.repName}}, con documento {{parties.org.repDoc}}, en calidad de {{parties.org.repRole}}, en adelante, la Organización.{{parties.org.extra}}
 
 Ambas partes, reconociéndose capacidad legal suficiente para obligarse,`,
     },
@@ -725,6 +785,32 @@ export function enrichDerivedValues(
   values: Record<string, string | boolean | number>,
 ): Record<string, string | boolean | number> {
   const v = { ...values };
+
+  const authorBits: string[] = [];
+  if (v["parties.author.address"]) {
+    authorBits.push(`Domicilio: ${v["parties.author.address"]}.`);
+  }
+  if (v["parties.author.email"]) {
+    authorBits.push(`Email: ${v["parties.author.email"]}.`);
+  }
+  if (v["parties.author.phone"]) {
+    authorBits.push(`Teléfono: ${v["parties.author.phone"]}.`);
+  }
+  v["parties.author.extra"] =
+    authorBits.length > 0 ? `\n${authorBits.join(" ")}` : "";
+
+  const orgBits: string[] = [];
+  if (v["parties.org.address"]) {
+    orgBits.push(`Domicilio: ${v["parties.org.address"]}.`);
+  }
+  if (v["parties.org.email"]) {
+    orgBits.push(`Email: ${v["parties.org.email"]}.`);
+  }
+  if (v["parties.org.phone"]) {
+    orgBits.push(`Teléfono: ${v["parties.org.phone"]}.`);
+  }
+  v["parties.org.extra"] = orgBits.length > 0 ? `\n${orgBits.join(" ")}` : "";
+
   const bullets: string[] = [];
 
   if (v["features.interactive"]) {
