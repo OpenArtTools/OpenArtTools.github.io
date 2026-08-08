@@ -2,26 +2,20 @@
 
 Open Art Tools — concept, idea, design, creation & development by Gerard Valls Montaño.
 
-## Absolute default: nothing is stored
+## Absolute rule: nothing is stored by the app
 
-By default Open Art Tools **does not store any of your data**:
+Open Art Tools **does not store any of your data**:
 
 - No cloud accounts
 - No analytics or trackers
 - No servers that receive form contents
-- Session data lives in memory only
+- No `localStorage`, cookies, or on-device vaults
+- Session data lives **only in memory** while the tab is open
 
-Closing the app or tab ends the session unless you explicitly opt in.
+Closing the tab or window ends the session.
 
-## Opt-in on this device only
+## Reuse via files you control
 
-You may check:
+To save time next time, **download a session file** (`.json`). You keep that file wherever you want and can **load it later** into the tool. Open Art Tools never uploads it.
 
-1. **Save my personal data (author) on this device for next time**
-2. **Also save this document draft on this device**
-
-Those writes go only to local storage on your machine. You can clear them from the Privacy screen.
-
-## Export
-
-PDF / HTML / TXT exports are files you choose to save. Open Art Tools does not upload them.
+PDF / HTML / TXT exports are also files you choose to save. The app does not upload them.

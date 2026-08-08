@@ -19,7 +19,7 @@ export type OpenArtTool = {
 export const PLATFORM = {
   name: "Open Art Tools",
   tagline:
-    "Plataforma open source de herramientas gratuitas para artistas. Úsalas siempre que quieras.",
+    "Plataforma open source de herramientas gratuitas para artistas. Úsalas siempre que quieras. No almacena tus datos.",
   author: "Gerard Valls Montaño",
 } as const;
 

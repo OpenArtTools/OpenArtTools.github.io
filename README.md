@@ -13,7 +13,8 @@ Más herramientas irán sumándose bajo el mismo paraguas.
 ## Principios
 
 - **Gratis y open source** — para cualquier artista
-- **Local-first** — por defecto no se guarda nada
+- **Cero almacenamiento** — nada en navegador ni servidor; sesión solo en memoria
+- **Archivos que controlas tú** — descarga/carga un `.json` de sesión para reutilizar datos
 - **Transparente** — sin cuentas cloud, sin analytics, sin telemetría
 - **Control fino** — el documento final se puede editar cláusula a cláusula
 

@@ -20,14 +20,9 @@ import {
   clausesToHtml,
 } from "./export/pdf";
 import {
-  clearAllLocal,
-  loadDraft,
-  loadFlags,
-  loadProfile,
-  profileFromValues,
-  saveDraft,
-  saveFlags,
-  saveProfile,
+  buildSessionFile,
+  downloadSessionFile,
+  readSessionFile,
 } from "./storage/local";
 import {
   enrichDerivedValues,
@@ -63,17 +58,13 @@ const DEFAULT_TOGGLES: AppValues = {
 };
 
 function emptySession(): SessionState {
-  const flags = loadFlags();
-  const profile = loadProfile();
   return {
     templateId: exhibitionCustodyEs.id,
-    values: { ...DEFAULT_TOGGLES, ...profile },
+    values: { ...DEFAULT_TOGGLES },
     clauses: [],
     stepIndex: 0,
     phase: "home",
     manualOverride: false,
-    rememberPersonal: flags.rememberPersonal,
-    rememberDraft: flags.rememberDraft,
     acceptedFinal: false,
   };
 }
@@ -95,29 +86,32 @@ function rebuildClauses(): void {
   );
 }
 
-function persistIfNeeded(): void {
-  saveFlags({
-    rememberPersonal: state.rememberPersonal,
-    rememberDraft: state.rememberDraft,
-  });
-  if (state.rememberPersonal) {
-    saveProfile(profileFromValues(state.values));
-  }
-  if (state.rememberDraft) {
-    saveDraft({
+function downloadCurrentSession(): void {
+  downloadSessionFile(
+    buildSessionFile({
       templateId: state.templateId,
       values: state.values,
       clauses: state.clauses,
       manualOverride: state.manualOverride,
-      savedAt: new Date().toISOString(),
-    });
-  }
+    }),
+  );
+}
+
+async function importSessionFromFile(file: File): Promise<void> {
+  const data = await readSessionFile(file);
+  state = emptySession();
+  state.templateId = data.templateId;
+  state.values = { ...DEFAULT_TOGGLES, ...data.values };
+  state.clauses = ensurePlaceAtEnd(data.clauses, getTemplate(data.templateId));
+  state.manualOverride = data.manualOverride;
+  state.acceptedFinal = false;
+  state.phase = "review";
+  render();
 }
 
 function setValue(path: string, value: string | boolean | number): void {
   state.values = { ...state.values, [path]: value };
   if (!state.manualOverride) rebuildClauses();
-  persistIfNeeded();
 }
 
 function render(): void {
@@ -163,7 +157,7 @@ function navBtn(label: string, phase: SessionState["phase"], current: boolean) {
 function renderPrivacyStrip(): HTMLElement {
   const strip = el("div", "oat-privacy-strip");
   strip.innerHTML =
-    "<strong>Transparencia:</strong> Open Art Tools no guarda nada a menos que tú lo actives. Open source, gratuita, sin cuentas en la nube, sin analytics.";
+    "<strong>Transparencia:</strong> Open Art Tools no almacena absolutamente nada. La sesión vive solo en memoria; si quieres reutilizar datos, descarga un archivo y cárgalo después.";
   return strip;
 }
 
@@ -205,7 +199,7 @@ function renderHome(): HTMLElement {
   const support = el("p", "lede");
   support.style.marginTop = "-0.75rem";
   support.textContent =
-    "Completamente open source. Sin cuentas obligatorias. Pensada para que cualquier artista pueda usarla gratis, cuando quiera.";
+    "Completamente open source. Sin cuentas. No almacena nada: descarga un archivo de sesión si quieres reutilizar datos más tarde.";
   wrap.append(h1, lede, support);
 
   const list = el("div");
@@ -239,55 +233,45 @@ function renderHome(): HTMLElement {
     list.append(card);
   }
 
-  const draft = loadDraft();
-  if (draft && loadFlags().rememberDraft) {
-    const actions = el("div", "oat-actions");
-    actions.style.marginTop = "1.25rem";
-    actions.append(
-      btn("Continuar borrador guardado", "oat-btn oat-btn-ghost", () => {
-        state.templateId = draft.templateId;
-        state.values = draft.values;
-        state.clauses = ensurePlaceAtEnd(
-          draft.clauses,
-          getTemplate(draft.templateId),
-        );
-        state.manualOverride = draft.manualOverride;
-        state.rememberDraft = true;
-        state.rememberPersonal = loadFlags().rememberPersonal;
-        state.acceptedFinal = false;
-        state.phase = "review";
-        render();
-      }),
-    );
-    list.append(actions);
-  }
+  const fileActions = el("div", "oat-actions");
+  fileActions.style.marginTop = "1.25rem";
+  fileActions.append(
+    btn("Cargar sesión desde archivo", "oat-btn oat-btn-ghost", () => {
+      pickSessionFile();
+    }),
+  );
+  list.append(fileActions);
 
   wrap.append(list);
   wrap.append(legalDisclaimer());
   return wrap;
 }
 
+function pickSessionFile(): void {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json,.json";
+  input.addEventListener("change", async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      await importSessionFromFile(file);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "No se pudo cargar el archivo.");
+    }
+  });
+  input.click();
+}
+
 function renderPrivacy(): HTMLElement {
   const wrap = el("div", "oat-prose");
   wrap.innerHTML = `
     <h2>Privacidad</h2>
-    <p><strong>Por defecto no se almacena nada.</strong> Los datos del contrato viven solo en la memoria de esta sesión. Al cerrar la ventana, desaparecen.</p>
-    <p>Puedes marcar casillas explícitas para:</p>
-    <ul>
-      <li>Guardar tus datos personales (autor) en este dispositivo para la próxima vez.</li>
-      <li>Guardar el borrador del documento actual en este dispositivo.</li>
-    </ul>
-    <p>Nunca se envían datos a un servidor de Open Art Tools. No hay cuentas cloud ni trackers.</p>
+    <p><strong>Open Art Tools no almacena absolutamente nada</strong> en el navegador, en GitHub ni en ningún servidor.</p>
+    <p>Los datos viven solo en la memoria de esta sesión. Al cerrar la pestaña, desaparecen.</p>
+    <p>Si quieres ahorrar tiempo la próxima vez, <strong>descarga un archivo de sesión</strong> (.json) y vuelve a cargarlo cuando quieras. Ese archivo lo guardas tú donde elijas.</p>
+    <p>No hay cuentas cloud ni trackers.</p>
   `;
-  wrap.append(
-    btn("Borrar todos los datos locales ahora", "oat-btn oat-btn-ghost", () => {
-      clearAllLocal();
-      state.rememberPersonal = false;
-      state.rememberDraft = false;
-      alert("Datos locales borrados.");
-      render();
-    }),
-  );
   return wrap;
 }
 
@@ -329,7 +313,7 @@ function renderWizard(): HTMLElement {
     wrap.append(renderField(field));
   }
 
-  wrap.append(renderOptIn());
+  wrap.append(renderSessionFiles());
 
   const nav = el("div", "oat-step-nav");
   if (state.stepIndex > 0) {
@@ -347,7 +331,6 @@ function renderWizard(): HTMLElement {
         rebuildClauses();
         state.acceptedFinal = false;
         state.phase = "review";
-        persistIfNeeded();
         render();
         return;
       }
@@ -428,35 +411,22 @@ function renderField(field: {
   return box;
 }
 
-function renderOptIn(): HTMLElement {
+function renderSessionFiles(): HTMLElement {
   const box = el("div", "oat-optin");
-  const a = el("label");
-  const ca = document.createElement("input");
-  ca.type = "checkbox";
-  ca.checked = state.rememberPersonal;
-  ca.addEventListener("change", () => {
-    state.rememberPersonal = ca.checked;
-    persistIfNeeded();
-  });
-  const ta = el("span");
-  ta.textContent =
-    "Guardar mis datos personales (autor) en este dispositivo para la próxima vez.";
-  a.append(ca, ta);
-
-  const b = el("label");
-  const cb = document.createElement("input");
-  cb.type = "checkbox";
-  cb.checked = state.rememberDraft;
-  cb.addEventListener("change", () => {
-    state.rememberDraft = cb.checked;
-    persistIfNeeded();
-  });
-  const tb = el("span");
-  tb.textContent =
-    "Guardar también el borrador de este documento en este dispositivo.";
-  b.append(cb, tb);
-
-  box.append(a, b);
+  const note = el("p", "oat-review-note");
+  note.style.marginBottom = "0.75rem";
+  note.textContent =
+    "Nada se guarda en el navegador. Descarga un archivo de sesión para reutilizarlo más tarde, o carga uno que ya tengas.";
+  const actions = el("div", "oat-actions");
+  actions.append(
+    btn("Descargar sesión (.json)", "oat-btn oat-btn-ghost", () => {
+      downloadCurrentSession();
+    }),
+    btn("Cargar sesión", "oat-btn oat-btn-ghost", () => {
+      pickSessionFile();
+    }),
+  );
+  box.append(note, actions);
   return box;
 }
 
@@ -510,19 +480,17 @@ function renderReview(): HTMLElement {
       if (insertAt === -1) state.clauses.push(clause);
       else state.clauses.splice(insertAt, 0, clause);
       state.clauses = ensurePlaceAtEnd(state.clauses, t);
-      persistIfNeeded();
       render();
     }),
     btn("Aceptar borrador", "oat-btn", () => {
       state.clauses = ensurePlaceAtEnd(state.clauses, t);
       state.acceptedFinal = false;
       state.phase = "accept";
-      persistIfNeeded();
       render();
     }),
   );
   wrap.append(toolbar);
-  wrap.append(renderOptIn());
+  wrap.append(renderSessionFiles());
 
   state.clauses.forEach((clause, index) => {
     wrap.append(renderClauseEditor(clause, index));
@@ -609,6 +577,7 @@ function renderAccept(): HTMLElement {
   }
 
   wrap.append(toolbar, exports);
+  wrap.append(renderSessionFiles());
 
   const previewLabel = el("h3");
   previewLabel.className = "oat-group-label";
@@ -639,7 +608,6 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
   enabled.addEventListener("change", () => {
     state.manualOverride = true;
     state.clauses[index] = { ...clause, enabled: enabled.checked };
-    persistIfNeeded();
     render();
   });
 
@@ -653,7 +621,6 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
       title: title.value,
       source: "user",
     };
-    persistIfNeeded();
   });
   head.append(enabled, title);
   box.append(head);
@@ -667,7 +634,6 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
       body: body.value,
       source: "user",
     };
-    persistIfNeeded();
   });
   box.append(body);
 
@@ -686,14 +652,12 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
         };
         state.clauses.splice(index + 1, 0, copy);
         state.clauses = ensurePlaceAtEnd(state.clauses, template());
-        persistIfNeeded();
         render();
       }),
       mini("Eliminar", () => {
         state.manualOverride = true;
         state.clauses.splice(index, 1);
         state.clauses = ensurePlaceAtEnd(state.clauses, template());
-        persistIfNeeded();
         render();
       }),
     );
@@ -716,7 +680,6 @@ function moveClause(index: number, delta: number): void {
   const [item] = arr.splice(index, 1);
   arr.splice(next, 0, item);
   state.clauses = ensurePlaceAtEnd(arr, template());
-  persistIfNeeded();
   render();
 }
 

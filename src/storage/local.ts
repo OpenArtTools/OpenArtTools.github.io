@@ -2,62 +2,17 @@
  * Copyright 2026 Gerard Valls Montaño
  * Licensed under the Apache License, Version 2.0
  *
- * Opt-in local storage only. Nothing is written unless the user checks the box.
+ * No browser/server storage. Session data can only leave the app as a
+ * downloaded file that the user may reload later.
  */
 
-const PROFILE_KEY = "oat.profile.v1";
-const DRAFT_KEY = "oat.draft.v1";
-const FLAGS_KEY = "oat.flags.v1";
+export const SESSION_FILE_KIND = "openarttools.session" as const;
+export const SESSION_FILE_VERSION = 1 as const;
 
-export type PersonalProfile = {
-  "parties.author.name"?: string;
-  "parties.author.doc"?: string;
-  "parties.author.role"?: string;
-};
-
-export type Flags = {
-  rememberPersonal: boolean;
-  rememberDraft: boolean;
-};
-
-export function loadFlags(): Flags {
-  try {
-    const raw = localStorage.getItem(FLAGS_KEY);
-    if (!raw) return { rememberPersonal: false, rememberDraft: false };
-    return { rememberPersonal: false, rememberDraft: false, ...JSON.parse(raw) };
-  } catch {
-    return { rememberPersonal: false, rememberDraft: false };
-  }
-}
-
-export function saveFlags(flags: Flags): void {
-  localStorage.setItem(FLAGS_KEY, JSON.stringify(flags));
-  if (!flags.rememberPersonal) localStorage.removeItem(PROFILE_KEY);
-  if (!flags.rememberDraft) localStorage.removeItem(DRAFT_KEY);
-}
-
-export function loadProfile(): PersonalProfile {
-  if (!loadFlags().rememberPersonal) return {};
-  try {
-    const raw = localStorage.getItem(PROFILE_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch {
-    return {};
-  }
-}
-
-export function saveProfile(profile: PersonalProfile): void {
-  if (!loadFlags().rememberPersonal) return;
-  localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-}
-
-export function clearAllLocal(): void {
-  localStorage.removeItem(PROFILE_KEY);
-  localStorage.removeItem(DRAFT_KEY);
-  localStorage.removeItem(FLAGS_KEY);
-}
-
-export type DraftPayload = {
+export type SessionFile = {
+  kind: typeof SESSION_FILE_KIND;
+  version: typeof SESSION_FILE_VERSION;
+  savedAt: string;
   templateId: string;
   values: Record<string, string | boolean | number>;
   clauses: {
@@ -66,32 +21,73 @@ export type DraftPayload = {
     body: string;
     enabled: boolean;
     source: "template" | "user";
+    placeAtEnd?: boolean;
   }[];
   manualOverride: boolean;
-  savedAt: string;
 };
 
-export function loadDraft(): DraftPayload | null {
-  if (!loadFlags().rememberDraft) return null;
-  try {
-    const raw = localStorage.getItem(DRAFT_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-export function saveDraft(draft: DraftPayload): void {
-  if (!loadFlags().rememberDraft) return;
-  localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-}
-
-export function profileFromValues(
-  values: Record<string, string | boolean | number>,
-): PersonalProfile {
+export function buildSessionFile(input: {
+  templateId: string;
+  values: Record<string, string | boolean | number>;
+  clauses: SessionFile["clauses"];
+  manualOverride: boolean;
+}): SessionFile {
   return {
-    "parties.author.name": String(values["parties.author.name"] ?? ""),
-    "parties.author.doc": String(values["parties.author.doc"] ?? ""),
-    "parties.author.role": String(values["parties.author.role"] ?? ""),
+    kind: SESSION_FILE_KIND,
+    version: SESSION_FILE_VERSION,
+    savedAt: new Date().toISOString(),
+    templateId: input.templateId,
+    values: input.values,
+    clauses: input.clauses,
+    manualOverride: input.manualOverride,
   };
+}
+
+export function downloadSessionFile(file: SessionFile): void {
+  const blob = new Blob([JSON.stringify(file, null, 2)], {
+    type: "application/json;charset=utf-8",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `open-art-tools-sesion-${file.savedAt.slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+export function parseSessionFile(raw: string): SessionFile {
+  const data = JSON.parse(raw) as Partial<SessionFile>;
+  if (data.kind !== SESSION_FILE_KIND) {
+    throw new Error("El archivo no es una sesión de Open Art Tools.");
+  }
+  if (data.version !== SESSION_FILE_VERSION) {
+    throw new Error("Versión de archivo no compatible.");
+  }
+  if (!data.templateId || !data.values || !Array.isArray(data.clauses)) {
+    throw new Error("El archivo de sesión está incompleto o dañado.");
+  }
+  return {
+    kind: SESSION_FILE_KIND,
+    version: SESSION_FILE_VERSION,
+    savedAt: data.savedAt ?? new Date().toISOString(),
+    templateId: data.templateId,
+    values: data.values,
+    clauses: data.clauses,
+    manualOverride: Boolean(data.manualOverride),
+  };
+}
+
+export function readSessionFile(file: File): Promise<SessionFile> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        resolve(parseSessionFile(String(reader.result ?? "")));
+      } catch (err) {
+        reject(err);
+      }
+    };
+    reader.onerror = () => reject(new Error("No se pudo leer el archivo."));
+    reader.readAsText(file);
+  });
 }

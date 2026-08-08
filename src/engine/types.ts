@@ -71,7 +71,5 @@ export type SessionState = {
   stepIndex: number;
   phase: "home" | "wizard" | "review" | "accept" | "privacy";
   manualOverride: boolean;
-  rememberPersonal: boolean;
-  rememberDraft: boolean;
   acceptedFinal?: boolean;
 };
