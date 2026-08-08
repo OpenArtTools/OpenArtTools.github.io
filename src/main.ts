@@ -505,9 +505,8 @@ function renderMain(): HTMLElement {
 }
 
 function renderAppCard(tool: (typeof TOOLS)[number]): HTMLElement {
-  const path = `/${tool.slug}`;
   const status = tool.status === "available" ? "Disponible" : "Próximamente";
-  const body = `<p class="oat-card-kicker">App · ${escapeHtml(status)}</p><h3>${escapeHtml(tool.name)}</h3><p class="oat-card-path">${escapeHtml(path)}</p><p>${escapeHtml(tool.blurb)}</p>`;
+  const body = `<p class="oat-card-kicker">App · ${escapeHtml(status)}</p><h3>${escapeHtml(tool.name)}</h3><p>${escapeHtml(tool.blurb)}</p>`;
 
   if (tool.status !== "available" || !tool.templateId) {
     const card = el("div", "oat-card oat-card-disabled");
@@ -518,7 +517,7 @@ function renderAppCard(tool: (typeof TOOLS)[number]): HTMLElement {
   const templateId = tool.templateId;
   const card = document.createElement("a");
   card.className = "oat-card";
-  card.href = hrefForPath(path);
+  card.href = hrefForPath(`/${tool.slug}`);
   card.innerHTML = body;
   card.addEventListener("click", (ev) => {
     ev.preventDefault();
@@ -572,8 +571,7 @@ function renderHome(): HTMLElement {
   const h = el("h2");
   h.textContent = "Apps";
   const sub = el("p", "lede");
-  sub.textContent =
-    "Cada app tiene su propia ruta bajo la home de Open ArtCore.";
+  sub.textContent = "Herramientas alojadas en la plataforma.";
   shelf.append(h, sub);
 
   for (const tool of TOOLS) {

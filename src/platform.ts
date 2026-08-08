@@ -118,7 +118,7 @@ export const TRANSPARENCY = {
     },
     {
       title: "Plataforma paraguas",
-      body: "Open ArtCore es la home. Cada herramienta es una app con su propia ruta (por ejemplo /acuerdos-de-exhibicion).",
+      body: "Open ArtCore es la home. Cada herramienta es una app con su propia ruta.",
     },
     {
       title: "Código abierto",

@@ -393,13 +393,6 @@ main {
   cursor: not-allowed;
 }
 
-.oat-card-path {
-  font-family: ui-monospace, "Cascadia Code", "SF Mono", Menlo, monospace;
-  font-size: 0.85rem !important;
-  color: var(--color-text) !important;
-  margin-bottom: 0.45rem;
-}
-
 .oat-card-kicker {
   font-size: 0.72rem;
   letter-spacing: 0.08em;
