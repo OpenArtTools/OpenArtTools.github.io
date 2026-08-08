@@ -22,8 +22,7 @@ export const PLATFORM = {
   version: "0.1.0-beta.3",
   tagline:
     "Segura, privada, accesible, transparente cristalina y auditable.",
-  about:
-    "Open ArtCore es la plataforma paraguas open source. En la home se elige una app; cada una vive en su propia ruta. Primera app: Acuerdos de exhibición.",
+  about: "Se elige la app que se necesite y se usa.",
   /** Why the platform exists — separate from voluntary coffee support. */
   origin:
     "La idea sale de la experiencia propia en la práctica artística y de la necesidad real de estos recursos: claros, libres y respetuosos con la privacidad. Se construyen y se comparten abiertas para quien las necesite.",
