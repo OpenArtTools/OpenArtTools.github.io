@@ -19,7 +19,7 @@ export type OpenArtTool = {
 export const PLATFORM = {
   name: "Open ArtCore",
   role: "Plataforma",
-  version: "0.1.0-beta.4",
+  version: "0.1.0-beta.5",
   tagline:
     "Segura, privada, accesible, transparente cristalina y auditable.",
   about: "Se elige la app que se necesite y se usa.",
