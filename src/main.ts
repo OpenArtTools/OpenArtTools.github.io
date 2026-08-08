@@ -697,14 +697,6 @@ function renderTransparency(): HTMLElement {
     wrap.append(block);
   }
 
-  const supportNote = el("p");
-  supportNote.append(
-    document.createTextNode("Sobre el apoyo voluntario (invitar a un café): "),
-    btn("ver Apoyo", "oat-link-btn", () => go("support")),
-    document.createTextNode("."),
-  );
-  wrap.append(supportNote);
-
   const links = el("p");
   links.innerHTML = `Documentación completa: <a href="${PLATFORM.repoUrl}/blob/main/README.md" target="_blank" rel="noopener noreferrer">README.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">PRIVACY.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/AUDITABILITY.md" target="_blank" rel="noopener noreferrer">AUDITABILITY.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/SUPPORT.md" target="_blank" rel="noopener noreferrer">SUPPORT.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/NOTICE" target="_blank" rel="noopener noreferrer">NOTICE</a> · <a href="${PLATFORM.repoUrl}/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">LICENSE</a> · <a href="${PLATFORM.repoUrl}" target="_blank" rel="noopener noreferrer">código fuente</a>`;
   wrap.append(links);

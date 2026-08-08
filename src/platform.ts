@@ -147,10 +147,6 @@ export const TRANSPARENCY = {
       body: "No hay listas de clientes de terceros. Los datos de la otra parte se escriben en el formulario de ese documento (o van en el borrador si se descarga).",
     },
     {
-      title: "Invitar a un café",
-      body: "Apoyo voluntario al trabajo de desarrollo (tiempo y costes). Distinto del origen de la idea. No desbloquea funciones. Nunca es obligatorio. Ver SUPPORT.md.",
-    },
-    {
       title: "Plantillas orientativas",
       body: "Los documentos son ayuda práctica para el arte. No han sido revisados por profesionales del derecho y no sustituyen asesoramiento legal profesional.",
     },
