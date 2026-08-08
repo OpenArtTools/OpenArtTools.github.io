@@ -2,7 +2,7 @@
  * Copyright 2026 Gerard Valls Montaño
  * Licensed under the Apache License, Version 2.0
  *
- * Open Art Tools — umbrella catalog of free open-source tools for artists.
+ * Open Art Tools — umbrella platform that hosts free open-source tools for artists.
  */
 
 export type ToolStatus = "available" | "coming";
@@ -18,8 +18,13 @@ export type OpenArtTool = {
 
 export const PLATFORM = {
   name: "Open Art Tools",
+  role: "Plataforma",
   tagline:
-    "Plataforma open source de herramientas gratuitas para artistas. Úsalas siempre que quieras. No almacena tus datos.",
+    "Plataforma open source que agrupa herramientas gratuitas para artistas.",
+  about:
+    "Open Art Tools no es una sola app: es el lugar donde viven las herramientas. Entras a la plataforma, eliges una herramienta y la usas cuando quieras. Completamente open source y gratuita.",
+  dataNote:
+    "La plataforma no almacena tus datos. Cada herramienta trabaja en memoria; si quieres reutilizar información, descargas un archivo y lo cargas tú.",
   author: "Gerard Valls Montaño",
 } as const;
 
@@ -28,8 +33,14 @@ export const TOOLS: OpenArtTool[] = [
     id: "exhibition-agreements",
     name: "Acuerdos de exhibición",
     blurb:
-      "Crea anexos y condiciones para exhibir obra en festivales, galerías u otros espacios: custodia, seguro y responsabilidad, paso a paso.",
+      "Herramienta para crear acuerdos y anexos al exhibir obra en festivales, galerías u otros espacios: custodia, seguro y responsabilidad.",
     status: "available",
     templateId: "exhibition-custody-es",
   },
 ];
+
+export function findToolByTemplateId(
+  templateId: string,
+): OpenArtTool | undefined {
+  return TOOLS.find((t) => t.templateId === templateId);
+}

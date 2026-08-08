@@ -29,7 +29,7 @@ import {
   exhibitionCustodyEs,
   getTemplate,
 } from "./templates/exhibition-custody-es";
-import { PLATFORM, TOOLS } from "./platform";
+import { PLATFORM, TOOLS, findToolByTemplateId } from "./platform";
 
 const DEFAULT_TOGGLES: AppValues = {
   "features.interactive": true,
@@ -124,21 +124,33 @@ function render(): void {
 
 function renderHeader(): HTMLElement {
   const header = el("header", "oat-header");
+  const brandWrap = el("div", "oat-brand-wrap");
   const brand = el("button", "oat-brand") as HTMLButtonElement;
   brand.type = "button";
   brand.textContent = PLATFORM.name;
+  brand.title = "Volver a la plataforma";
   brand.addEventListener("click", () => {
     state.phase = "home";
     render();
   });
+  const role = el("span", "oat-brand-role");
+  role.textContent = PLATFORM.role;
+  brandWrap.append(brand, role);
+
+  const activeTool = findToolByTemplateId(state.templateId);
+  if (state.phase !== "home" && state.phase !== "privacy" && activeTool) {
+    const toolLabel = el("span", "oat-header-tool");
+    toolLabel.textContent = activeTool.name;
+    brandWrap.append(toolLabel);
+  }
 
   const nav = el("nav", "oat-nav");
   nav.append(
-    navBtn("Inicio", "home", state.phase === "home"),
+    navBtn("Plataforma", "home", state.phase === "home"),
     navBtn("Privacidad", "privacy", state.phase === "privacy"),
   );
 
-  header.append(brand, nav);
+  header.append(brandWrap, nav);
   return header;
 }
 
@@ -157,13 +169,13 @@ function navBtn(label: string, phase: SessionState["phase"], current: boolean) {
 function renderPrivacyStrip(): HTMLElement {
   const strip = el("div", "oat-privacy-strip");
   strip.innerHTML =
-    "<strong>Transparencia:</strong> Open Art Tools no almacena absolutamente nada. La sesión vive solo en memoria; si quieres reutilizar datos, descarga un archivo y cárgalo después.";
+    "<strong>Plataforma:</strong> Open Art Tools agrupa las herramientas. <strong>Datos:</strong> no almacena los tuyos; la sesión vive en memoria o en el archivo que tú descargas.";
   return strip;
 }
 
 function renderFooter(): HTMLElement {
   const footer = el("footer", "oat-footer");
-  footer.innerHTML = `${PLATFORM.name} — plataforma open source gratuita para artistas · idea, design &amp; creation by ${PLATFORM.author} · Apache-2.0 · No revisado por abogados ni profesionales del derecho; no constituye asesoramiento legal.`;
+  footer.innerHTML = `${PLATFORM.name} — plataforma open source que aloja herramientas gratuitas para artistas · idea, design &amp; creation by ${PLATFORM.author} · Apache-2.0 · No revisado por abogados ni profesionales del derecho; no constituye asesoramiento legal.`;
   return footer;
 }
 
@@ -192,57 +204,59 @@ function renderHome(): HTMLElement {
   const wrap = el("div", "oat-hero");
   wrap.append(legalDisclaimer());
 
+  const eyebrow = el("p", "oat-eyebrow");
+  eyebrow.textContent = "Plataforma";
   const h1 = el("h1");
   h1.textContent = PLATFORM.name;
   const lede = el("p", "lede");
   lede.textContent = PLATFORM.tagline;
-  const support = el("p", "lede");
-  support.style.marginTop = "-0.75rem";
-  support.textContent =
-    "Completamente open source. Sin cuentas. No almacena nada: descarga un archivo de sesión si quieres reutilizar datos más tarde.";
-  wrap.append(h1, lede, support);
+  const about = el("p", "lede");
+  about.style.marginTop = "-0.85rem";
+  about.textContent = PLATFORM.about;
+  const dataNote = el("p", "lede oat-data-note");
+  dataNote.style.marginTop = "-0.85rem";
+  dataNote.textContent = PLATFORM.dataNote;
+  wrap.append(eyebrow, h1, lede, about, dataNote);
 
-  const list = el("div");
-  list.style.marginTop = "2.25rem";
+  const shelf = el("section", "oat-tools-shelf");
   const h = el("h2");
-  h.textContent = "Herramientas";
-  h.style.fontWeight = "400";
-  h.style.fontSize = "1.25rem";
-  h.style.marginBottom = "0.35rem";
-  list.append(h);
-
+  h.textContent = "Herramientas en la plataforma";
   const sub = el("p", "lede");
-  sub.style.marginBottom = "1rem";
   sub.textContent =
-    "La primera herramienta sirve para crear acuerdos de exhibición de obra en festivales, galerías o cualquier otro lugar.";
-  list.append(sub);
+    "Cada tarjeta es una herramienta distinta alojada en Open Art Tools. Elige una para empezar.";
+  shelf.append(h, sub);
 
   for (const tool of TOOLS) {
-    if (tool.status !== "available" || !tool.templateId) continue;
     const card = el("button", "oat-card") as HTMLButtonElement;
     card.type = "button";
-    card.innerHTML = `<h3>${escape(tool.name)}</h3><p>${escape(tool.blurb)}</p>`;
-    card.addEventListener("click", () => {
-      state = emptySession();
-      state.templateId = tool.templateId!;
-      state.phase = "wizard";
-      state.stepIndex = 0;
-      rebuildClauses();
-      render();
-    });
-    list.append(card);
+    const status =
+      tool.status === "available" ? "Disponible" : "Próximamente";
+    card.innerHTML = `<p class="oat-card-kicker">Herramienta · ${escape(status)}</p><h3>${escape(tool.name)}</h3><p>${escape(tool.blurb)}</p>`;
+    if (tool.status !== "available" || !tool.templateId) {
+      card.disabled = true;
+    } else {
+      card.addEventListener("click", () => {
+        state = emptySession();
+        state.templateId = tool.templateId!;
+        state.phase = "wizard";
+        state.stepIndex = 0;
+        rebuildClauses();
+        render();
+      });
+    }
+    shelf.append(card);
   }
 
   const fileActions = el("div", "oat-actions");
   fileActions.style.marginTop = "1.25rem";
   fileActions.append(
-    btn("Cargar sesión desde archivo", "oat-btn oat-btn-ghost", () => {
+    btn("Cargar sesión de una herramienta", "oat-btn oat-btn-ghost", () => {
       pickSessionFile();
     }),
   );
-  list.append(fileActions);
+  shelf.append(fileActions);
 
-  wrap.append(list);
+  wrap.append(shelf);
   wrap.append(legalDisclaimer());
   return wrap;
 }
@@ -267,8 +281,8 @@ function renderPrivacy(): HTMLElement {
   const wrap = el("div", "oat-prose");
   wrap.innerHTML = `
     <h2>Privacidad</h2>
-    <p><strong>Open Art Tools no almacena absolutamente nada</strong> en el navegador, en GitHub ni en ningún servidor.</p>
-    <p>Los datos viven solo en la memoria de esta sesión. Al cerrar la pestaña, desaparecen.</p>
+    <p><strong>Open Art Tools es la plataforma</strong>: agrupa y aloja herramientas open source para artistas. <strong>No almacena tus datos</strong> en el navegador, en GitHub ni en ningún servidor.</p>
+    <p>Los datos de cada herramienta viven solo en la memoria de esa sesión. Al cerrar la pestaña, desaparecen.</p>
     <p>Si quieres ahorrar tiempo la próxima vez, <strong>descarga un archivo de sesión</strong> (.json) y vuelve a cargarlo cuando quieras. Ese archivo lo guardas tú donde elijas.</p>
     <p>No hay cuentas cloud ni trackers.</p>
   `;

@@ -171,10 +171,71 @@ main {
   margin-bottom: 0.85rem;
 }
 
-.oat-hero .lede {
-  max-width: 28rem;
+.oat-brand-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem 0.75rem;
+}
+
+.oat-brand-role {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
-  margin-bottom: 1.75rem;
+}
+
+.oat-header-tool {
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+}
+
+.oat-header-tool::before {
+  content: "·";
+  margin-right: 0.65rem;
+  color: rgba(245, 245, 245, 0.35);
+}
+
+.oat-eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.65rem;
+}
+
+.oat-data-note {
+  max-width: 34rem !important;
+}
+
+.oat-tools-shelf {
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.oat-tools-shelf h2 {
+  font-weight: 400;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.45rem;
+}
+
+.oat-tools-shelf .lede {
+  margin-bottom: 1.15rem;
+}
+
+.oat-card-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.45rem !important;
+}
+
+.oat-card:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .oat-actions {

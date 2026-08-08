@@ -2,6 +2,8 @@
 
 Open Art Tools — concept, idea, design, creation & development by Gerard Valls Montaño.
 
+Open Art Tools is a **platform that hosts tools**. It does **not** store your personal or contract data.
+
 ## Absolute rule: nothing is stored by the app
 
 Open Art Tools **does not store any of your data**:
