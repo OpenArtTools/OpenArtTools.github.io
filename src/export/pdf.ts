@@ -1,6 +1,6 @@
 /**
- * Copyright 2026 Gerard Valls Montaño
- * Licensed under the Apache License, Version 2.0
+ * Copyright (C) 2026 Gerard Valls Montaño
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import { documentText } from "../engine/assemble";
@@ -9,6 +9,16 @@ import { escapeHtml } from "../dom";
 
 const LEGAL_HINT =
   "Open Art Tools — plantilla orientativa. Este documento no ha sido revisado por abogados ni por ningún profesional del derecho y no constituye asesoramiento legal.";
+
+function fileBaseName(docTitle: string): string {
+  const cleaned = docTitle
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 56);
+  return cleaned || "documento-openarttools";
+}
 
 export function clausesToHtml(clauses: Clause[], docTitle: string): string {
   const blocks = clauses
@@ -27,13 +37,7 @@ export function clausesToHtml(clauses: Clause[], docTitle: string): string {
 <style>
   @page {
     size: A4;
-    margin: 22mm 18mm 28mm 18mm;
-    @bottom-center {
-      content: "Página " counter(page) " de " counter(pages);
-      font-family: Helvetica, Arial, sans-serif;
-      font-size: 9pt;
-      color: #444;
-    }
+    margin: 22mm 18mm 24mm 18mm;
   }
   body {
     font-family: "Times New Roman", Times, serif;
@@ -74,52 +78,76 @@ export function clausesToHtml(clauses: Clause[], docTitle: string): string {
   <p class="hint">${escapeHtml(LEGAL_HINT)}</p>
   <h1>${escapeHtml(docTitle)}</h1>
   ${blocks}
-  <p class="screen-page-note">Al imprimir o guardar como PDF, cada página se numera automáticamente («Página X de Y»).</p>
+  <p class="screen-page-note">Usa el diálogo de impresión del navegador para guardar como PDF. Si tu navegador ofrece numeración de páginas en el pie, actívala ahí.</p>
 </body>
 </html>`;
 }
 
-/** Open print dialog so the user can save as PDF locally. */
+/** Open print dialog so the user can save as PDF locally (iframe, no popup blocker). */
 export function exportPdfViaPrint(clauses: Clause[], docTitle: string): void {
   const html = clausesToHtml(clauses, docTitle);
-  const w = window.open("", "_blank", "noopener,noreferrer,width=900,height=700");
+  const iframe = document.createElement("iframe");
+  iframe.setAttribute("aria-hidden", "true");
+  iframe.title = "Impresión";
+  iframe.style.cssText =
+    "position:fixed;right:0;bottom:0;width:0;height:0;border:0;opacity:0;pointer-events:none";
+  document.body.appendChild(iframe);
+
+  const w = iframe.contentWindow;
   if (!w) {
-    alert(
-      "No se pudo abrir la ventana de impresión. Permite ventanas emergentes o usa «Descargar HTML».",
-    );
+    iframe.remove();
+    alert("No se pudo preparar la impresión. Usa «Descargar HTML».");
     return;
   }
+
   w.document.open();
   w.document.write(html);
   w.document.close();
-  w.focus();
+
+  const cleanup = () => {
+    iframe.remove();
+  };
+  w.addEventListener("afterprint", cleanup);
   setTimeout(() => {
-    w.print();
-  }, 250);
+    try {
+      w.focus();
+      w.print();
+    } catch {
+      alert("No se pudo abrir la impresión. Usa «Descargar HTML».");
+    }
+    setTimeout(cleanup, 2500);
+  }, 300);
+}
+
+function triggerDownload(blob: Blob, filename: string): void {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 export function downloadHtml(clauses: Clause[], docTitle: string): void {
   const html = clausesToHtml(clauses, docTitle);
-  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "contrato-openarttools.html";
-  a.click();
-  URL.revokeObjectURL(url);
+  triggerDownload(
+    new Blob([html], { type: "text/html;charset=utf-8" }),
+    `${fileBaseName(docTitle)}.html`,
+  );
 }
 
 export function downloadText(clauses: Clause[], docTitle: string): void {
   const text = `${docTitle}\n\n${LEGAL_HINT}\n\n${documentText(clauses)}`;
-  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "contrato-openarttools.txt";
-  a.click();
-  URL.revokeObjectURL(url);
+  triggerDownload(
+    new Blob([text], { type: "text/plain;charset=utf-8" }),
+    `${fileBaseName(docTitle)}.txt`,
+  );
 }
 
-export function copyText(clauses: Clause[]): Promise<void> {
-  return navigator.clipboard.writeText(documentText(clauses));
+export function copyText(clauses: Clause[], docTitle?: string): Promise<void> {
+  const body = documentText(clauses);
+  const text = docTitle
+    ? `${docTitle}\n\n${LEGAL_HINT}\n\n${body}`
+    : body;
+  return navigator.clipboard.writeText(text);
 }

@@ -1,9 +1,22 @@
-Copyright 2026 Gerard Valls Montaño
+Copyright (C) 2026 Gerard Valls Montaño
 
 Open Art Tools — idea, design, creation and development by Gerard Valls Montaño.
 
-An open-source umbrella platform of free tools for artists.
+An open-source web platform that hosts free tools for artists.
 First tool: exhibition agreements for festivals, galleries and other venues.
 
-Licensed under the Apache License, Version 2.0.
-See the LICENSE file for details.
+Web only. No desktop installer.
+
+This project is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+See the LICENSE file for the full license text.
+See NOTICE for attribution and share-alike obligations in plain language.
+
+Author / origin (must be preserved and mentioned):
+  Gerard Valls Montaño
+  https://github.com/OpenArtTools/contract-studio
+  https://openarttools.github.io/contract-studio/
+  https://bygerardvisuals.com/

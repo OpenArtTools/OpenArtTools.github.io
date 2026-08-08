@@ -1,0 +1,65 @@
+# NOTICE — Autoría, origen y obligaciones
+
+**Copyright (C) 2026 Gerard Valls Montaño**
+
+Open Art Tools es software libre bajo la **GNU Affero General Public License v3** (AGPL-3.0) o posterior. El texto legal completo está en [LICENSE](LICENSE).
+
+Este archivo explica en lenguaje claro lo que la licencia ya obliga. **No sustituye** a la AGPL: si hay duda, prevalece [LICENSE](LICENSE).
+
+---
+
+## Autoría (para siempre)
+
+La autoría intelectual de Open Art Tools corresponde a:
+
+**Gerard Valls Montaño**
+
+Esa autoría **debe conservarse y mencionarse siempre**, en cualquier copia, redistribución o versión modificada, durante toda la vida del proyecto derivado.
+
+---
+
+## Origen que debes compartir y mencionar
+
+Cuando uses, copies, redistribuyas o publiques Open Art Tools (o una versión modificada), debes:
+
+1. **Mantener** los avisos de copyright y de licencia.
+2. **Mencionar el origen**: Open Art Tools, creado por Gerard Valls Montaño.
+3. **Señalar el proyecto original**, por ejemplo:
+   - https://github.com/OpenArtTools/contract-studio  
+   - https://openarttools.github.io/contract-studio/
+4. Si **modificas** el código o los documentos del proyecto, debes:
+   - indicar que se trata de una **versión modificada**, y  
+   - **referenciar la obra original** (autor + repositorio / sitio de origen).
+
+---
+
+## Open source con copyleft (compartir igual)
+
+La AGPL es **copyleft**:
+
+- Puedes usar, estudiar, modificar y redistribuir el software.
+- Si redistribuyes el programa (o una versión modificada), debes hacerlo **bajo la misma licencia AGPL** (o compatible según la AGPL).
+- Debes ofrecer el **código fuente completo** correspondiente.
+- Como es una plataforma **web**, si alguien publica una versión modificada para que otros la usen **en red** (por ejemplo, un sitio hospedado), también debe ofrecer a los usuarios el **código fuente** de esa versión modificada (AGPL, sección 13).
+
+No puedes convertir este proyecto en software cerrado quitando la autoría ni ocultando el origen.
+
+---
+
+## Resumen práctico
+
+| Quieres… | Debes… |
+|----------|--------|
+| Usar Open Art Tools | Puedes; sigue siendo AGPL |
+| Copiarlo / redistribuirlo | Mencionar autoría y origen; incluir LICENSE |
+| Modificarlo | Marcar cambios; referenciar el original; licenciar el resultado bajo AGPL |
+| Publicarlo en un sitio web | Ofrecer el código fuente de lo que estás sirviendo |
+| Quitar el nombre del autor | **No** — la autoría debe permanecer |
+
+---
+
+## Contacto del autor
+
+Gerard Valls Montaño — https://bygerardvisuals.com/
+
+Repositorio de origen: https://github.com/OpenArtTools/contract-studio

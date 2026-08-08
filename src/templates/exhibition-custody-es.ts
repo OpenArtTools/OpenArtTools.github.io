@@ -1,6 +1,6 @@
 /**
- * Copyright 2026 Gerard Valls Montaño
- * Licensed under the Apache License, Version 2.0
+ * Copyright (C) 2026 Gerard Valls Montaño
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * Generic exhibition / custody / insurance annex template.
  * No real personal or project data — only instructional placeholders.
@@ -603,7 +603,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
   clauses: [
     {
       id: "header",
-      title: "ANEXO I AL ACUERDO DE PARTICIPACIÓN",
+      title: "{{document.annexTitle}}",
       body: `CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD DE LA INSTALACIÓN ARTÍSTICA «{{project.workTitle}}»
 
 En {{project.city}}, a {{project.signDate}}`,
@@ -717,42 +717,36 @@ Las partes manifiestan que el presente Anexo ha sido negociado y aceptado librem
       title: "UNDÉCIMA. Acta de entrega y devolución",
       body: `La entrega y la devolución de la instalación se documentarán mediante acta firmada por ambas partes, que incluirá la fecha, el estado aparente de la instalación, un inventario de componentes y, cuando sea posible, registro fotográfico. La falta de acta no exime a la Organización de sus obligaciones de custodia.`,
       requireAll: ["options.deliveryAct"],
-      optional: true,
     },
     {
       id: "opt_certs",
       title: "DUODÉCIMA. Acreditación de seguros",
       body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Organización entregará al Autor certificado o extracto de las pólizas de Responsabilidad Civil y de daños que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará al Autor a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
       requireAll: ["options.policyCerts"],
-      optional: true,
     },
     {
       id: "opt_franq",
       title: "DECIMOTERCERA. Franquicia",
       body: `Cualquier franquicia, deducible o importe no cubierto por las pólizas será asumido íntegramente por la Organización, sin que pueda trasladarse al Autor.`,
       requireAll: ["options.franchise"],
-      optional: true,
     },
     {
       id: "opt_jur",
       title: "DECIMOCUARTA. Ley aplicable y jurisdicción",
       body: `El presente Anexo se rige por {{options.lawText}}. Para la resolución de cualquier controversia derivada del mismo, las partes se someten a los {{options.courtsText}}, con renuncia a cualquier otro fuero que pudiera corresponderles.`,
       requireAll: ["options.jurisdiction"],
-      optional: true,
     },
     {
       id: "opt_expert",
       title: "DECIMOQUINTA. Valoración de pérdida artística",
       body: `La valoración sobre la afectación irreversible de las características artísticas de la obra podrá ser realizada por el Autor y, a solicitud de cualquiera de las partes, contrastada por un perito independiente de común acuerdo. A falta de acuerdo sobre el perito en el plazo de quince (15) días, podrá designarse conforme a la práctica habitual de arbitraje pericial o por el colegio profesional competente.`,
       requireAll: ["options.independentExpert"],
-      optional: true,
     },
     {
       id: "opt_fm",
       title: "DECIMOSEXTA. Fuerza mayor",
       body: `Ninguna de las partes será responsable por el incumplimiento de obligaciones cuando dicho incumplimiento derive de causas de fuerza mayor debidamente acreditadas. Ello no exime a la Organización de sus deberes de protección razonable de la instalación ni de las coberturas de seguro comprometidas, en la medida en que resulten aplicables.`,
       requireAll: ["options.forceMajeure"],
-      optional: true,
     },
     {
       id: "signatures",
@@ -781,10 +775,44 @@ Sello de la empresa`,
 };
 
 /** Build dynamic list bullets and duty lists into values before assemble. */
+function formatSpanishDate(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  if (!y || !m || !d) return iso;
+  const months = [
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+  ];
+  return `${d} de ${months[m - 1]} de ${y}`;
+}
+
 export function enrichDerivedValues(
   values: Record<string, string | boolean | number>,
 ): Record<string, string | boolean | number> {
   const v = { ...values };
+
+  const annex = String(v["project.annexTitle"] ?? "").trim();
+  v["document.annexTitle"] = annex || "ANEXO I AL ACUERDO DE PARTICIPACIÓN";
+
+  for (const path of [
+    "project.signDate",
+    "project.baseAgreementDate",
+    "project.exhibitFrom",
+    "project.exhibitTo",
+  ]) {
+    if (typeof v[path] === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v[path] as string)) {
+      v[path] = formatSpanishDate(v[path] as string);
+    }
+  }
 
   const authorBits: string[] = [];
   if (v["parties.author.address"]) {
@@ -853,6 +881,11 @@ export function enrichDerivedValues(
   if (v["features.needsWatch"]) {
     bullets.push(
       "— Requiere vigilancia presencial permanente mientras permanezca accesible al público.",
+    );
+  }
+  if (v["features.outdoor"]) {
+    bullets.push(
+      "— Está prevista para un entorno exterior o expuesto a condiciones meteorológicas.",
     );
   }
   if (v["features.hasExtra"] && v["features.extraText"]) {

@@ -1,6 +1,6 @@
 /**
- * Copyright 2026 Gerard Valls Montaño
- * Licensed under the Apache License, Version 2.0
+ * Copyright (C) 2026 Gerard Valls Montaño
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 export type FieldType =
@@ -32,7 +32,6 @@ export type ClauseTemplate = {
   requireAll?: string[];
   requireAny?: string[];
   excludeIf?: string[];
-  optional?: boolean;
   defaultEnabled?: boolean;
   placeAtEnd?: boolean;
 };

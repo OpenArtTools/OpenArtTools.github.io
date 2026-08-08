@@ -1,6 +1,6 @@
 /**
- * Copyright 2026 Gerard Valls Montaño
- * Licensed under the Apache License, Version 2.0
+ * Copyright (C) 2026 Gerard Valls Montaño
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * Tiny DOM helpers — keep UI code readable.
  */

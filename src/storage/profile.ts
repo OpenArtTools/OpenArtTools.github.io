@@ -1,9 +1,11 @@
 /**
- * Copyright 2026 Gerard Valls Montaño
- * Licensed under the Apache License, Version 2.0
+ * Copyright (C) 2026 Gerard Valls Montaño
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  *
- * Personal profile — YOUR identity only, reusable across tools.
- * Platform-level. Not a client agenda. Not browser storage.
+ * Personal profile file (openarttools.profile).
+ * YOUR identity only — platform home, reusable across tools.
+ * Not a client agenda. Not browser storage. Not uploaded by the platform.
+ * See README.md and PRIVACY.md.
  */
 
 import { downloadJson, pickJsonFile, readTextFile } from "./jsonFile";

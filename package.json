@@ -2,9 +2,17 @@
   "name": "openarttools",
   "version": "0.2.0",
   "private": true,
-  "description": "Open Art Tools — open-source web platform that hosts free tools for artists. First tool: exhibition agreements. By Gerard Valls Montaño.",
-  "license": "Apache-2.0",
+  "description": "Open Art Tools — AGPL-3.0-or-later open-source web platform hosting free tools for artists. By Gerard Valls Montaño.",
+  "license": "AGPL-3.0-or-later",
   "author": "Gerard Valls Montaño",
+  "homepage": "https://openarttools.github.io/contract-studio/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenArtTools/contract-studio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenArtTools/contract-studio/issues"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

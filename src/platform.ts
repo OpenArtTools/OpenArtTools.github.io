@@ -1,6 +1,6 @@
 /**
- * Copyright 2026 Gerard Valls Montaño
- * Licensed under the Apache License, Version 2.0
+ * Copyright (C) 2026 Gerard Valls Montaño
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * Shared platform copy — one place for brand + transparency promises.
  */
@@ -18,11 +18,12 @@ export type OpenArtTool = {
 export const PLATFORM = {
   name: "Open Art Tools",
   role: "Plataforma",
+  version: "0.2.0",
   tagline: "Herramientas open source y gratuitas para artistas.",
   about:
     "Open Art Tools es la plataforma. Aquí viven las herramientas: eliges una y la usas cuando quieras.",
   author: "Gerard Valls Montaño",
-  license: "Apache-2.0",
+  license: "AGPL-3.0-or-later",
   repoUrl: "https://github.com/OpenArtTools/contract-studio",
   siteUrl: "https://openarttools.github.io/contract-studio/",
   authorSiteUrl: "https://bygerardvisuals.com/",
@@ -79,7 +80,8 @@ export const SUPPORT = {
 /** Always-visible transparency promise (short). */
 export const TRANSPARENCY = {
   strip:
-    "Open source · Sin nube ni localStorage · Auditable",
+    "Código abierto · Sin nube ni almacenamiento local · Auditable",
+  stripShort: "Sin nube · Sin almacenamiento local",
   sessionClear:
     "Al cerrar esta pestaña se borran los datos de la plataforma.",
   sessionClearInTool:
@@ -89,36 +91,36 @@ export const TRANSPARENCY = {
     "Las plantillas no han sido revisadas por abogados ni por profesionales del derecho y no constituyen asesoramiento legal.",
   points: [
     {
-      title: "Open source",
-      body: "Todo el código es público (Apache-2.0). Cualquiera puede leerlo, usarlo, auditarlo o mejorarlo.",
+      title: "Código abierto",
+      body: "Todo el código es público bajo AGPL-3.0-or-later: puedes usarlo y mejorarlo, pero debes mantener la autoría, mencionar el origen y compartir el código (también si publicas una versión modificada en la web). Ver LICENSE y NOTICE.",
     },
     {
       title: "Cero almacenamiento en la plataforma",
-      body: "La plataforma no guarda formularios, contratos ni datos personales en servidores ni en el navegador (sin localStorage). Lo que escribes vive solo en memoria mientras la pestaña está abierta. Al cerrarla, se borran de la plataforma.",
+      body: "No hay nube, cuentas ni localStorage para tus datos. Lo que escribes vive solo en la memoria de la pestaña. Al cerrarla, desaparece de la plataforma.",
     },
     {
-      title: "Mis datos personales (plataforma)",
-      body: "En la página de la plataforma puedes descargar y cargar un .json con tus datos personales. Sirven para cualquier herramienta. No es una agenda de clientes.",
+      title: "Mis datos personales (en la plataforma)",
+      body: "En el inicio puedes guardar un .json solo con tus datos (nombre, documento, domicilio…). Sirve para cualquier herramienta. No es una agenda de clientes. Detalle: PRIVACY.md.",
     },
     {
       title: "Borrador del documento (dentro de cada herramienta)",
-      body: "El borrador de un acuerdo vive solo dentro de esa herramienta (p. ej. Acuerdos de exhibición). Puedes descargarlo en cualquier momento mientras estés usándola.",
+      body: "El borrador de un acuerdo (formulario y cláusulas) se descarga y carga solo dentro de esa herramienta. Puedes hacerlo en cualquier momento mientras el documento esté en memoria.",
     },
     {
       title: "Sin agendas de clientes",
-      body: "No hay listas de clientes de terceros. Los datos de la otra parte se escriben en el formulario de ese documento (o van en el borrador si tú los incluiste).",
+      body: "No hay listas de clientes de terceros. Los datos de la otra parte se escriben en el formulario de ese documento (o van en el borrador si tú lo descargas).",
     },
     {
       title: "Auditable",
-      body: "Puedes comprobar en el código que no hay telemetría, cuentas cloud ni localStorage para tus datos. Ver AUDITABILITY.md en el repositorio.",
+      body: "Puedes comprobar en el código que no hay telemetría ni almacenamiento oculto. Guía: AUDITABILITY.md.",
     },
     {
       title: "Gratis, con apoyo voluntario",
-      body: "Lo desarrollo de forma voluntaria, sin cobros ni suscripciones. El apoyo voluntario ayuda a dedicarle más tiempo al proyecto. Nunca es obligatorio ni bloquea el uso.",
+      body: "Desarrollo voluntario, sin cobros ni suscripciones. El apoyo voluntario ayuda a dedicarle más tiempo al proyecto. Nunca es obligatorio. Ver SUPPORT.md.",
     },
     {
       title: "Plantillas orientativas",
-      body: "Los documentos generados son ayuda práctica para artistas. No sustituyen asesoramiento legal profesional.",
+      body: "Los documentos son ayuda práctica para artistas. No han sido revisados por abogados y no sustituyen asesoramiento legal profesional.",
     },
   ],
 } as const;

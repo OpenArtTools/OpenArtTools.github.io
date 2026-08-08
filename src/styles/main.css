@@ -1,6 +1,6 @@
 /**
- * Copyright 2026 Gerard Valls Montaño
- * Licensed under the Apache License, Version 2.0
+ * Copyright (C) 2026 Gerard Valls Montaño
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * Visual language aligned with ArtCore (black / white / light type).
  */
@@ -475,7 +475,13 @@ main {
 .oat-brand:focus-visible,
 .oat-card:focus-visible,
 .oat-field input:focus-visible,
-.oat-field textarea:focus-visible {
+.oat-field textarea:focus-visible,
+.oat-clause input:focus-visible,
+.oat-clause textarea:focus-visible,
+.oat-toggle input:focus-visible,
+.oat-accept-box input:focus-visible,
+.oat-link-btn:focus-visible,
+.oat-mini:focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
@@ -631,6 +637,59 @@ main {
   margin-top: 2.75rem;
   padding-top: 1.75rem;
   border-top: 1px solid var(--color-border);
+}
+
+.oat-platform-profile {
+  max-width: 34rem;
+}
+
+.oat-disclosure-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.45rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  padding: 0.35rem 0;
+  color: var(--color-text);
+}
+
+.oat-disclosure-summary::-webkit-details-marker {
+  display: none;
+}
+
+.oat-disclosure-summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.55rem;
+  color: var(--color-text-muted);
+  transition: transform 0.15s var(--ease);
+}
+
+.oat-platform-profile[open] > .oat-disclosure-summary::before {
+  transform: rotate(90deg);
+}
+
+.oat-disclosure-title {
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.oat-disclosure-hint {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.oat-disclosure-body {
+  margin-top: 1rem;
+  padding-top: 0.25rem;
+}
+
+.oat-disclosure-summary:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
 }
 
 .oat-files-shelf > h2 {
@@ -869,19 +928,82 @@ main {
   color: var(--color-text);
 }
 
+.oat-transparency-short {
+  display: none;
+  margin: 0;
+  line-height: 1.35;
+}
+
 @media (max-width: 640px) {
   .oat-header {
     align-items: flex-start;
     flex-direction: column;
-    gap: 0.65rem;
+    gap: 0.45rem;
+    padding-top: calc(0.55rem + var(--safe-top));
+    padding-bottom: 0.55rem;
   }
 
   .oat-header-tool {
     max-width: 100%;
   }
 
+  .oat-brand-role {
+    display: none;
+  }
+
+  .oat-nav {
+    gap: 0.35rem;
+  }
+
+  .oat-nav button {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.35rem;
+  }
+
+  .oat-transparency {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    font-size: 0.74rem;
+    gap: 0.4rem 0.75rem;
+  }
+
+  .oat-transparency-full {
+    display: none;
+  }
+
+  .oat-transparency-short {
+    display: block;
+  }
+
+  .oat-session-strip {
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+    font-size: 0.78rem;
+    gap: 0.45rem 0.75rem;
+  }
+
+  .oat-session-strip p {
+    font-size: 0.74rem;
+    line-height: 1.35;
+  }
+
+  .oat-session-draft-btn {
+    font-size: 0.74rem;
+    padding: 0.32rem 0.6rem;
+  }
+
   .oat-hero h1 {
     font-size: clamp(2.2rem, 12vw, 3rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
 }
 

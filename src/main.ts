@@ -1,6 +1,6 @@
 /**
- * Copyright 2026 Gerard Valls Montaño
- * Licensed under the Apache License, Version 2.0
+ * Copyright (C) 2026 Gerard Valls Montaño
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * Open Art Tools — web entry.
  * Flow: platform home → tool wizard → review → accept → export.
@@ -37,7 +37,13 @@ import {
   exhibitionCustodyEs,
   getTemplate,
 } from "./templates/exhibition-custody-es";
-import { PLATFORM, SUPPORT, TOOLS, TRANSPARENCY } from "./platform";
+import {
+  PLATFORM,
+  SUPPORT,
+  TOOLS,
+  TRANSPARENCY,
+  findToolByTemplateId,
+} from "./platform";
 import {
   buildDraftFile,
   downloadDraftFile,
@@ -163,14 +169,24 @@ async function pickDraftFile(): Promise<void> {
   try {
     const draft = await pickAndReadDraftFile();
     if (!draft) return;
+    const known = getTemplate(draft.templateId);
+    if (!known) {
+      alert(
+        "Este borrador pertenece a una herramienta no disponible en esta versión de la plataforma.",
+      );
+      return;
+    }
     const keptProfile = state.personalProfile;
     state = createEmptySession(draft.templateId, DEFAULT_TOGGLES, keptProfile);
     state.values = { ...DEFAULT_TOGGLES, ...draft.values };
     state.clauses = draft.clauses;
     state.manualOverride = draft.manualOverride;
-    state.stepIndex = draft.stepIndex;
+    const maxStep = Math.max(0, known.steps.length - 1);
+    state.stepIndex = Math.min(Math.max(0, draft.stepIndex), maxStep);
     state.phase = "wizard";
     state.acceptedFinal = false;
+    if (!state.manualOverride) rebuildClauses();
+    else state.clauses = ensurePlaceAtEnd(state.clauses, known);
     render();
   } catch (err) {
     alert(err instanceof Error ? err.message : "No se pudo cargar el borrador.");
@@ -182,6 +198,7 @@ async function pickProfileFile(): Promise<void> {
     const loaded = await pickAndReadProfileFile();
     if (!loaded) return;
     state.personalProfile = loaded.profile;
+    profilePanelOpen = true;
     render();
   } catch (err) {
     alert(err instanceof Error ? err.message : "No se pudo cargar el perfil.");
@@ -215,11 +232,28 @@ function openTool(templateId: string): void {
   startFreshTool(templateId, state.personalProfile);
 }
 
-/** Platform-level: personal data for any tool. */
+let profilePanelOpen = false;
+
+/** Platform-level: personal data for any tool (collapsible). */
 function renderPlatformProfile(): HTMLElement {
-  const box = el("section", "oat-files-shelf oat-platform-profile");
-  const title = el("h2");
+  const box = document.createElement("details");
+  box.className = "oat-files-shelf oat-platform-profile";
+  box.open = profilePanelOpen;
+  box.addEventListener("toggle", () => {
+    profilePanelOpen = box.open;
+  });
+
+  const summary = document.createElement("summary");
+  summary.className = "oat-disclosure-summary";
+  const title = el("span", "oat-disclosure-title");
   title.textContent = "Mis datos personales";
+  const hint = el("span", "oat-disclosure-hint");
+  hint.textContent = profileHasData(state.personalProfile)
+    ? profileLabel(state.personalProfile!)
+    : "Cerrado · opcional";
+  summary.append(title, hint);
+
+  const body = el("div", "oat-disclosure-body");
   const note = el("p", "lede");
   note.textContent =
     "Datos tuyos para usarlos en cualquier herramienta de la plataforma. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
@@ -259,12 +293,19 @@ function renderPlatformProfile(): HTMLElement {
     input.value = profile[spec.key] ?? "";
     input.addEventListener("input", () => {
       setProfileField(spec.key, input.value);
+      hint.textContent = profileHasData(state.personalProfile)
+        ? profileLabel(state.personalProfile!)
+        : "Cerrado · opcional";
+      status.textContent = profileHasData(state.personalProfile)
+        ? `En memoria ahora: ${profileLabel(state.personalProfile!)} (se borran al cerrar la pestaña).`
+        : "Ningún dato en memoria. Rellena el formulario o carga un archivo.";
     });
     field.append(label, input);
     fields.append(field);
   }
 
-  box.append(title, note, status, actions, fields);
+  body.append(note, status, actions, fields);
+  box.append(summary, body);
   return box;
 }
 
@@ -315,6 +356,14 @@ function renderApplyPlatformProfile(): HTMLElement {
 function render(): void {
   const app = document.getElementById("app");
   if (!app) return;
+
+  const tool = isToolPhase(state.phase)
+    ? findToolByTemplateId(state.templateId)
+    : undefined;
+  document.title = tool
+    ? `${tool.name} · ${PLATFORM.name}`
+    : `${PLATFORM.name} — herramientas open source para artistas`;
+
   const chrome = el("div", "oat-chrome");
   chrome.append(
     renderHeader(state.phase, state.templateId, go),
@@ -488,7 +537,7 @@ function renderTransparency(): HTMLElement {
 
   const intro = el("p");
   intro.textContent =
-    "Open Art Tools promete transparencia total: código abierto, sin vigilancia y sin almacenar tus datos.";
+    "Open Art Tools promete transparencia total: código abierto, sin vigilancia y sin almacenar tus datos. Aquí va el resumen; el detalle está en el repositorio.";
   wrap.append(intro);
 
   for (const point of TRANSPARENCY.points) {
@@ -510,22 +559,49 @@ function renderTransparency(): HTMLElement {
   wrap.append(supportNote);
 
   const links = el("p");
-  links.innerHTML = `Documentación en el repositorio: <a href="${PLATFORM.repoUrl}/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">PRIVACY.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/AUDITABILITY.md" target="_blank" rel="noopener noreferrer">AUDITABILITY.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/SUPPORT.md" target="_blank" rel="noopener noreferrer">SUPPORT.md</a> · <a href="${PLATFORM.repoUrl}" target="_blank" rel="noopener noreferrer">código fuente</a>`;
+  links.innerHTML = `Documentación completa: <a href="${PLATFORM.repoUrl}/blob/main/README.md" target="_blank" rel="noopener noreferrer">README.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">PRIVACY.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/AUDITABILITY.md" target="_blank" rel="noopener noreferrer">AUDITABILITY.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/SUPPORT.md" target="_blank" rel="noopener noreferrer">SUPPORT.md</a> · <a href="${PLATFORM.repoUrl}/blob/main/NOTICE" target="_blank" rel="noopener noreferrer">NOTICE</a> · <a href="${PLATFORM.repoUrl}/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">LICENSE</a> · <a href="${PLATFORM.repoUrl}" target="_blank" rel="noopener noreferrer">código / origen</a>`;
   wrap.append(links);
+
+  const back = el("p");
+  back.append(btn("Volver a la plataforma", "oat-link-btn", () => go("home")));
+  wrap.append(back);
   return wrap;
 }
 
 function renderWizard(): HTMLElement {
   const t = template();
+  const maxStep = Math.max(0, t.steps.length - 1);
+  if (state.stepIndex > maxStep) state.stepIndex = maxStep;
+  if (state.stepIndex < 0) state.stepIndex = 0;
   const step = t.steps[state.stepIndex];
   const wrap = el("div", "oat-step");
 
   const progress = el("ol", "oat-progress");
+  progress.setAttribute(
+    "aria-label",
+    `Paso ${state.stepIndex + 1} de ${t.steps.length}`,
+  );
   t.steps.forEach((s, i) => {
     const li = el("li");
     li.textContent = `${i + 1}. ${s.title}`;
     li.dataset.active = String(i === state.stepIndex);
     li.dataset.done = String(i < state.stepIndex);
+    if (i < state.stepIndex) {
+      li.tabIndex = 0;
+      li.setAttribute("role", "button");
+      li.title = `Ir a ${s.title}`;
+      const goStep = () => {
+        state.stepIndex = i;
+        render();
+      };
+      li.addEventListener("click", goStep);
+      li.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          goStep();
+        }
+      });
+    }
     progress.append(li);
   });
   wrap.append(progress);
@@ -635,7 +711,9 @@ function renderField(field: {
       ? "number"
       : field.type === "date"
         ? "date"
-        : "text";
+        : field.path.endsWith(".email")
+          ? "email"
+          : "text";
   input.placeholder = field.placeholder;
   input.value = val != null ? String(val) : "";
   if (field.type === "money" || field.type === "number") {
@@ -644,7 +722,10 @@ function renderField(field: {
   }
   input.addEventListener("input", () => {
     if (field.type === "number" || field.type === "money") {
-      if (input.value === "") return;
+      if (input.value === "") {
+        setValue(field.path, "");
+        return;
+      }
       const n = Number(input.value);
       if (Number.isNaN(n)) return;
       setValue(field.path, n);
@@ -727,8 +808,61 @@ function renderAccept(): HTMLElement {
 
   const note = el("p", "oat-review-note");
   note.textContent =
-    "Revisa el documento final. Si está correcto, confírmalo y exporta. Las páginas se numeran al imprimir o guardar como PDF.";
+    "Revisa el documento final. Si está correcto, confírmalo y exporta. Para PDF usa el diálogo de impresión del navegador (puedes activar numeración de páginas ahí si está disponible).";
   wrap.append(note, legalDisclaimer());
+
+  const gaps = missingRequired(t, state.values);
+  if (gaps.length) {
+    const warn = el("p", "oat-gap-warn");
+    warn.textContent = `Campos pendientes antes de exportar: ${gaps.map((m) => m.label).join(", ")}.`;
+    wrap.append(warn);
+  }
+
+  const docTitle =
+    String(state.values["project.workTitle"] || "").trim() || t.name;
+
+  const runExport = (fn: () => void) => {
+    if (!state.acceptedFinal) return;
+    const pending = missingRequired(t, state.values);
+    if (pending.length) {
+      const ok = confirm(
+        `Hay campos sin rellenar (${pending.map((p) => p.label).join(", ")}). ¿Exportar igual con huecos entre corchetes?`,
+      );
+      if (!ok) return;
+    }
+    fn();
+  };
+
+  const exports = el("div", "oat-review-toolbar");
+  const buttons = [
+    btn("Exportar PDF", "oat-btn", () =>
+      runExport(() => exportPdfViaPrint(state.clauses, docTitle)),
+    ),
+    btn("Descargar HTML", "oat-btn oat-btn-ghost", () =>
+      runExport(() => downloadHtml(state.clauses, docTitle)),
+    ),
+    btn("Descargar TXT", "oat-btn oat-btn-ghost", () =>
+      runExport(() => downloadText(state.clauses, docTitle)),
+    ),
+    btn("Copiar texto", "oat-btn oat-btn-ghost", () =>
+      runExport(() => {
+        void copyText(state.clauses, docTitle)
+          .then(() => alert("Texto copiado al portapapeles."))
+          .catch(() =>
+            alert("No se pudo copiar. Prueba a descargar TXT."),
+          );
+      }),
+    ),
+  ];
+  for (const b of buttons) {
+    b.disabled = !state.acceptedFinal;
+    exports.append(b);
+  }
+
+  const hint = el("p", "oat-review-note");
+  hint.textContent =
+    "Marca la casilla de aceptación para habilitar la exportación.";
+  hint.hidden = Boolean(state.acceptedFinal);
 
   const acceptBox = el("label", "oat-accept-box");
   const cb = document.createElement("input");
@@ -736,13 +870,14 @@ function renderAccept(): HTMLElement {
   cb.checked = Boolean(state.acceptedFinal);
   cb.addEventListener("change", () => {
     state.acceptedFinal = cb.checked;
-    render();
+    for (const b of buttons) b.disabled = !cb.checked;
+    hint.hidden = cb.checked;
   });
   const span = el("span");
   span.textContent =
     "Acepto el documento tal como está mostrado en la previsualización.";
   acceptBox.append(cb, span);
-  wrap.append(acceptBox);
+  wrap.append(acceptBox, hint);
 
   const toolbar = el("div", "oat-review-toolbar");
   toolbar.append(
@@ -753,36 +888,6 @@ function renderAccept(): HTMLElement {
     }),
   );
 
-  const exports = el("div", "oat-review-toolbar");
-  const buttons = [
-    btn("Exportar PDF", "oat-btn", () => exportPdfViaPrint(state.clauses, t.name)),
-    btn("Descargar HTML", "oat-btn oat-btn-ghost", () =>
-      downloadHtml(state.clauses, t.name),
-    ),
-    btn("Descargar TXT", "oat-btn oat-btn-ghost", () =>
-      downloadText(state.clauses, t.name),
-    ),
-    btn("Copiar texto", "oat-btn oat-btn-ghost", async () => {
-      try {
-        await copyText(state.clauses);
-        alert("Texto copiado al portapapeles.");
-      } catch {
-        alert("No se pudo copiar. Prueba a descargar TXT.");
-      }
-    }),
-  ];
-  for (const b of buttons) {
-    b.disabled = !state.acceptedFinal;
-    exports.append(b);
-  }
-
-  if (!state.acceptedFinal) {
-    const hint = el("p", "oat-review-note");
-    hint.textContent =
-      "Marca la casilla de aceptación para habilitar la exportación.";
-    wrap.append(hint);
-  }
-
   wrap.append(toolbar, exports);
   wrap.append(renderToolDraftBar());
 
@@ -791,7 +896,7 @@ function renderAccept(): HTMLElement {
   const frame = document.createElement("iframe");
   frame.className = "oat-preview-frame";
   frame.title = "Previsualización del documento";
-  frame.srcdoc = clausesToHtml(state.clauses, t.name);
+  frame.srcdoc = clausesToHtml(state.clauses, docTitle);
   wrap.append(previewLabel, frame);
   return wrap;
 }
@@ -806,6 +911,7 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
   enabled.type = "checkbox";
   enabled.checked = clause.enabled;
   enabled.title = "Incluir en el documento";
+  enabled.setAttribute("aria-label", "Incluir en el documento");
   enabled.disabled = Boolean(clause.placeAtEnd);
   enabled.addEventListener("change", () => {
     state.manualOverride = true;
@@ -816,6 +922,7 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
   const title = document.createElement("input");
   title.type = "text";
   title.value = clause.title;
+  title.setAttribute("aria-label", "Título de la cláusula");
   title.addEventListener("input", () => {
     state.manualOverride = true;
     state.clauses[index] = {
@@ -829,6 +936,7 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
 
   const body = document.createElement("textarea");
   body.value = clause.body;
+  body.setAttribute("aria-label", "Texto de la cláusula");
   body.addEventListener("input", () => {
     state.manualOverride = true;
     state.clauses[index] = {
@@ -887,5 +995,15 @@ function moveClause(index: number, delta: number): void {
 function mini(label: string, onClick: () => void): HTMLButtonElement {
   return btn(label, "oat-mini", onClick);
 }
+
+window.addEventListener("beforeunload", (event) => {
+  if (
+    hasDocumentWork(state, DEFAULT_TOGGLES) ||
+    profileHasData(state.personalProfile)
+  ) {
+    event.preventDefault();
+    event.returnValue = "";
+  }
+});
 
 render();

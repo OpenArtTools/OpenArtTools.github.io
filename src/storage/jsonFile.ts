@@ -1,6 +1,6 @@
 /**
- * Copyright 2026 Gerard Valls Montaño
- * Licensed under the Apache License, Version 2.0
+ * Copyright (C) 2026 Gerard Valls Montaño
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * Shared download helper for user-owned JSON files.
  */
@@ -22,10 +22,22 @@ export function pickJsonFile(): Promise<File | null> {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "application/json,.json";
+    let settled = false;
+    const finish = (file: File | null) => {
+      if (settled) return;
+      settled = true;
+      window.removeEventListener("focus", onFocus);
+      resolve(file);
+    };
+    const onFocus = () => {
+      // If the dialog was cancelled, change may never fire.
+      setTimeout(() => finish(null), 400);
+    };
     input.addEventListener("change", () => {
-      resolve(input.files?.[0] ?? null);
+      finish(input.files?.[0] ?? null);
     });
-    input.addEventListener("cancel", () => resolve(null));
+    input.addEventListener("cancel", () => finish(null));
+    window.addEventListener("focus", onFocus, { once: true });
     input.click();
   });
 }

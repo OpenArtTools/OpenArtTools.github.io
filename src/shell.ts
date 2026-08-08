@@ -1,6 +1,6 @@
 /**
- * Copyright 2026 Gerard Valls Montaño
- * Licensed under the Apache License, Version 2.0
+ * Copyright (C) 2026 Gerard Valls Montaño
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * Persistent chrome: header, transparency strip, footer.
  */
@@ -65,12 +65,17 @@ export function renderTransparencyStrip(
   strip.setAttribute("role", "note");
 
   const text = el("p");
+  text.className = "oat-transparency-full";
   text.textContent = TRANSPARENCY.strip;
 
-  const more = btn("Ver transparencia", "oat-link-btn", goTransparency);
-  more.title = "Open source, auditoría, datos y límites legales";
+  const textShort = el("p");
+  textShort.className = "oat-transparency-short";
+  textShort.textContent = TRANSPARENCY.stripShort;
 
-  strip.append(text, more);
+  const more = btn("Ver transparencia", "oat-link-btn", goTransparency);
+  more.title = "Código abierto, auditoría, datos y límites legales";
+
+  strip.append(text, textShort, more);
   return strip;
 }
 
@@ -109,7 +114,7 @@ export function renderSessionStrip(opts: {
 export function renderFooter(goSupport?: () => void): HTMLElement {
   const footer = el("footer", "oat-footer");
   const line = el("p", "oat-footer-line");
-  line.innerHTML = `${PLATFORM.name} · plataforma open source · ${PLATFORM.author} · ${PLATFORM.license} · <a href="${PLATFORM.repoUrl}" target="_blank" rel="noopener noreferrer">código público</a>`;
+  line.innerHTML = `${PLATFORM.name} · v${PLATFORM.version} · código abierto · ${PLATFORM.author} · ${PLATFORM.license} · <a href="${PLATFORM.repoUrl}" target="_blank" rel="noopener noreferrer">código / origen</a> · <a href="${PLATFORM.repoUrl}/blob/main/NOTICE" target="_blank" rel="noopener noreferrer">NOTICE</a>`;
   footer.append(line);
 
   if (goSupport) {
