@@ -1,0 +1,28 @@
+{
+  "name": "open-artcore",
+  "version": "0.1.0-beta.3",
+  "private": true,
+  "description": "Open ArtCore — segura, privada, accesible, transparente y auditable. Beta golden master. AGPL-3.0-or-later. By Gerard Valls Montaño.",
+  "license": "AGPL-3.0-or-later",
+  "author": "Gerard Valls Montaño",
+  "homepage": "https://openarttools.github.io/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenArtTools/OpenArtTools.github.io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenArtTools/OpenArtTools.github.io/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
+  }
+}
