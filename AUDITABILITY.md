@@ -6,13 +6,13 @@ La autoría de **Gerard Valls Montaño** debe conservarse. Las obligaciones de a
 
 Cualquiera debería poder verificar **qué hace** la plataforma y, sobre todo, **qué no hace**.
 
-Open ArtCore se compromete a ser **segura, privada, accesible, transparente cristalina y auditable**. Este documento es la guía para comprobarlo.
+Open ArtCore se ofrece para **libre uso** bajo premisas fundamentales: **segura, privada, accesible, transparente cristalina y auditable**. Este documento es la guía para comprobarlo.
 
 ---
 
-## Promesas que se pueden comprobar
+## Premisas que se pueden comprobar
 
-| # | Promesa | Dónde mirar |
+| # | Premisa | Dónde mirar |
 |---|---------|-------------|
 | 1 | **Seguro:** no se envían los datos del formulario a un servidor de la plataforma | No debería haber `fetch` / `XMLHttpRequest` / `sendBeacon` con el contenido del formulario en `src/` |
 | 2 | **Privado:** no hay `localStorage`, cookies ni almacén del navegador para esos datos | Buscar `localStorage` / cookies de sesión en `src/` |

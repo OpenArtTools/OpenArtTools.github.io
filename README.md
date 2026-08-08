@@ -25,7 +25,9 @@ El apartado **Invitar a un café** es **otra cosa**: apoyo voluntario al trabajo
 
 ---
 
-## Compromisos
+## Premisas fundamentales
+
+Se ofrece para **libre uso** bajo estas premisas:
 
 | | |
 |--|--|
@@ -33,7 +35,7 @@ El apartado **Invitar a un café** es **otra cosa**: apoyo voluntario al trabajo
 | **Privado** | Sin cuentas, sin nube, sin almacenamiento en la plataforma |
 | **Accesible** | Gratis, open source, usable en el navegador; foco visible y respeto a movimiento reducido |
 | **Transparente** | Transparencia cristalina: qué hace y qué no hace, sin letra pequeña |
-| **Auditable** | Código público; cualquiera puede comprobar las promesas ([AUDITABILITY.md](AUDITABILITY.md)) |
+| **Auditable** | Código público; cualquiera puede comprobar estas premisas ([AUDITABILITY.md](AUDITABILITY.md)) |
 
 ---
 
@@ -166,7 +168,7 @@ Las plantillas **no han sido revisadas por profesionales del derecho**. **No con
 |---------|-----------|
 | [README.md](README.md) | Qué es la plataforma y cómo usarla (este archivo) |
 | [PRIVACY.md](PRIVACY.md) | Privacidad: qué se guarda, qué no, y los archivos opcionales |
-| [AUDITABILITY.md](AUDITABILITY.md) | Cómo auditar el código y las promesas |
+| [AUDITABILITY.md](AUDITABILITY.md) | Cómo auditar el código y las premisas |
 | [SUPPORT.md](SUPPORT.md) | Invitar a un café: qué es y qué no es |
 | [LICENSE](LICENSE) | Licencia AGPL-3.0-or-later (texto legal) |
 | [NOTICE](NOTICE) | Autoría, origen y obligaciones en lenguaje claro |

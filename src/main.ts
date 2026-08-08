@@ -39,7 +39,7 @@ import {
 } from "./templates/exhibition-custody-es";
 import {
   PLATFORM,
-  PRINCIPLES,
+  PREMISES,
   SUPPORT,
   TOOLS,
   TRANSPARENCY,
@@ -539,25 +539,7 @@ function renderHome(): HTMLElement {
   about.textContent = PLATFORM.about;
   wrap.append(eyebrow, h1, lede, about);
 
-  const principles = el("section", "oat-principles");
-  principles.setAttribute("aria-label", "Compromisos de la plataforma");
-  const principlesTitle = el("h2");
-  principlesTitle.textContent = "Compromisos";
-  const principlesLead = el("p", "lede");
-  principlesLead.textContent =
-    "Cinco promesas comprobables. Sin letra pequeña.";
-  principles.append(principlesTitle, principlesLead);
-  const listEl = document.createElement("dl");
-  listEl.className = "oat-principles-list";
-  for (const item of PRINCIPLES) {
-    const dt = document.createElement("dt");
-    dt.textContent = item.title;
-    const dd = document.createElement("dd");
-    dd.textContent = item.body;
-    listEl.append(dt, dd);
-  }
-  principles.append(listEl);
-  wrap.append(principles);
+  wrap.append(renderPremisesSection("h2"));
 
   const origin = el("section", "oat-origin");
   const originTitle = el("h2");
@@ -588,14 +570,20 @@ function renderHome(): HTMLElement {
   return wrap;
 }
 
-function renderPrinciplesBlock(): HTMLElement {
-  const block = el("section", "oat-principles oat-principles--page");
-  const h = el("h3");
-  h.textContent = "Los cinco compromisos";
-  block.append(h);
+function renderPremisesSection(heading: "h2" | "h3" = "h2"): HTMLElement {
+  const block = el(
+    "section",
+    heading === "h3" ? "oat-principles oat-principles--page" : "oat-principles",
+  );
+  block.setAttribute("aria-label", PREMISES.title);
+  const title = el(heading);
+  title.textContent = PREMISES.title;
+  const lead = el("p", "lede");
+  lead.textContent = PREMISES.lead;
+  block.append(title, lead);
   const listEl = document.createElement("dl");
   listEl.className = "oat-principles-list";
-  for (const item of PRINCIPLES) {
+  for (const item of PREMISES.items) {
     const dt = document.createElement("dt");
     dt.textContent = item.title;
     const dd = document.createElement("dd");
@@ -697,7 +685,7 @@ function renderTransparency(): HTMLElement {
 
   const intro = el("p");
   intro.textContent = TRANSPARENCY.pageIntro;
-  wrap.append(intro, renderPrinciplesBlock());
+  wrap.append(intro, renderPremisesSection("h3"));
 
   for (const point of TRANSPARENCY.points) {
     const block = el("section", "oat-transparency-point");

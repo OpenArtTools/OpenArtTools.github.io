@@ -74,35 +74,42 @@ export const SUPPORT = {
   footerLabel: "Invitar a un café",
 } as const;
 
-/** Five non-negotiable platform commitments — always visible. */
-export const PRINCIPLES = [
-  {
-    title: "Seguro",
-    body: "Los datos del formulario no salen a servidores de Open ArtCore. No hay telemetría, trackers ni envíos ocultos.",
-  },
-  {
-    title: "Privado",
-    body: "Sin cuentas, sin nube y sin almacenamiento en la plataforma. Lo escrito vive solo en la memoria de la pestaña; al cerrarla, desaparece.",
-  },
-  {
-    title: "Accesible",
-    body: "Gratis, open source y usable en el navegador. Interfaz con saltos de contenido, foco visible y respeto a preferencias de movimiento reducido.",
-  },
-  {
-    title: "Transparente",
-    body: "Transparencia cristalina: se dice qué hace y qué no hace, sin letra pequeña. El código, la licencia y los límites están a la vista.",
-  },
-  {
-    title: "Auditable",
-    body: "Cualquiera puede revisar el código y comprobar las promesas. Guía en AUDITABILITY.md.",
-  },
-] as const;
+/**
+ * Fundamental premises of free use — not marketing promises.
+ * Always visible on the home and Transparencia pages.
+ */
+export const PREMISES = {
+  title: "Premisas fundamentales",
+  lead: "Se ofrece para libre uso bajo estas premisas. Sin letra pequeña.",
+  items: [
+    {
+      title: "Seguro",
+      body: "Los datos del formulario no salen a servidores de Open ArtCore. No hay telemetría, trackers ni envíos ocultos.",
+    },
+    {
+      title: "Privado",
+      body: "Sin cuentas, sin nube y sin almacenamiento en la plataforma. Lo escrito vive solo en la memoria de la pestaña; al cerrarla, desaparece.",
+    },
+    {
+      title: "Accesible",
+      body: "Gratis, open source y usable en el navegador. Interfaz con saltos de contenido, foco visible y respeto a preferencias de movimiento reducido.",
+    },
+    {
+      title: "Transparente",
+      body: "Transparencia cristalina: se dice qué hace y qué no hace, sin letra pequeña. El código, la licencia y los límites están a la vista.",
+    },
+    {
+      title: "Auditable",
+      body: "Cualquiera puede revisar el código y comprobar estas premisas. Guía en AUDITABILITY.md.",
+    },
+  ],
+} as const;
 
 export const TRANSPARENCY = {
   strip: "Seguro · Privado · Accesible · Transparente · Auditable",
   stripShort: "Seguro · Privado · Transparente · Auditable",
   pageIntro:
-    "Open ArtCore es segura, privada, accesible, transparente cristalina y auditable. Aquí está el compromiso, sin rodeos; el detalle vive en el repositorio.",
+    "Open ArtCore se ofrece para libre uso bajo premisas fundamentales: segura, privada, accesible, transparente cristalina y auditable. El detalle vive en el repositorio.",
   sessionClear:
     "Al cerrar esta pestaña se borran los datos de la plataforma.",
   sessionClearInTool:

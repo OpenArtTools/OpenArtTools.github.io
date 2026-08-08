@@ -74,7 +74,7 @@ export function renderTransparencyStrip(
   strip.setAttribute("role", "note");
   strip.setAttribute(
     "aria-label",
-    "Compromisos: seguro, privado, accesible, transparente y auditable",
+    "Premisas: seguro, privado, accesible, transparente y auditable",
   );
 
   const text = el("p");
@@ -87,7 +87,7 @@ export function renderTransparencyStrip(
 
   const more = btn("Ver transparencia", "oat-link-btn", goTransparency);
   more.title =
-    "Seguro, privado, accesible, transparente cristalino y auditable";
+    "Premisas fundamentales: seguro, privado, accesible, transparente y auditable";
 
   strip.append(text, textShort, more);
   return strip;
