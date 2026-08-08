@@ -9,6 +9,7 @@ import {
   fieldsForStep,
   missingRequired,
   refreshFromValues,
+  ensurePlaceAtEnd,
 } from "./engine/assemble";
 import type { AppValues, Clause, SessionState } from "./engine/types";
 import {
@@ -16,6 +17,7 @@ import {
   downloadText,
   exportPdfViaPrint,
   copyText,
+  clausesToHtml,
 } from "./export/pdf";
 import {
   clearAllLocal,
@@ -72,6 +74,7 @@ function emptySession(): SessionState {
     manualOverride: false,
     rememberPersonal: flags.rememberPersonal,
     rememberDraft: flags.rememberDraft,
+    acceptedFinal: false,
   };
 }
 
@@ -167,7 +170,7 @@ function renderPrivacyStrip(): HTMLElement {
 function renderFooter(): HTMLElement {
   const footer = el("footer", "oat-footer");
   footer.innerHTML =
-    "OpenArtTools — idea, design &amp; creation by Gerard Valls Montaño · Apache-2.0 · Plantilla orientativa; no sustituye asesoramiento legal.";
+    "OpenArtTools — idea, design &amp; creation by Gerard Valls Montaño · Apache-2.0 · No revisado por abogados ni profesionales del derecho; no constituye asesoramiento legal.";
   return footer;
 }
 
@@ -177,16 +180,32 @@ function renderMain(): HTMLElement {
   if (state.phase === "home") main.append(renderHome());
   else if (state.phase === "privacy") main.append(renderPrivacy());
   else if (state.phase === "wizard") main.append(renderWizard());
+  else if (state.phase === "accept") main.append(renderAccept());
   else main.append(renderReview());
   return main;
 }
 
+const LEGAL_DISCLAIMER =
+  "Este documento no ha sido revisado por abogados ni por ningún profesional del derecho. Es una plantilla orientativa generada por OpenArtTools y no constituye asesoramiento legal.";
+
+function legalDisclaimer(): HTMLElement {
+  const d = el("aside", "oat-legal-disclaimer");
+  d.setAttribute("role", "note");
+  d.textContent = LEGAL_DISCLAIMER;
+  return d;
+}
+
 function renderHome(): HTMLElement {
   const wrap = el("div", "oat-hero");
-  wrap.innerHTML = `
-    <h1>OpenArtTools</h1>
-    <p class="lede">Genera contratos y anexos para obras artísticas paso a paso. Local-first. Open source. Tú controlas cada cláusula.</p>
-  `;
+  wrap.append(legalDisclaimer());
+
+  const h1 = el("h1");
+  h1.textContent = "OpenArtTools";
+  const lede = el("p", "lede");
+  lede.textContent =
+    "Genera contratos y anexos para obras artísticas paso a paso. Local-first. Open source. Tú controlas cada cláusula.";
+  wrap.append(h1, lede);
+
   const actions = el("div", "oat-actions");
   const start = btn("Crear contrato", "oat-btn", () => {
     state = emptySession();
@@ -203,10 +222,11 @@ function renderHome(): HTMLElement {
       btn("Continuar borrador guardado", "oat-btn oat-btn-ghost", () => {
         state.templateId = draft.templateId;
         state.values = draft.values;
-        state.clauses = draft.clauses;
+        state.clauses = ensurePlaceAtEnd(draft.clauses, getTemplate(draft.templateId));
         state.manualOverride = draft.manualOverride;
         state.rememberDraft = true;
         state.rememberPersonal = loadFlags().rememberPersonal;
+        state.acceptedFinal = false;
         state.phase = "review";
         render();
       }),
@@ -239,6 +259,7 @@ function renderHome(): HTMLElement {
     list.append(card);
   }
   wrap.append(list);
+  wrap.append(legalDisclaimer());
   return wrap;
 }
 
@@ -271,6 +292,8 @@ function renderWizard(): HTMLElement {
   const step = t.steps[state.stepIndex];
   const wrap = el("div", "oat-step");
   wrap.style.animation = "oat-in 0.35s var(--ease)";
+
+  wrap.append(legalDisclaimer());
 
   const progress = el("ol", "oat-progress");
   t.steps.forEach((s, i) => {
@@ -318,6 +341,7 @@ function renderWizard(): HTMLElement {
     btn(isLast ? "Revisar documento" : "Siguiente", "oat-btn", () => {
       if (isLast) {
         rebuildClauses();
+        state.acceptedFinal = false;
         state.phase = "review";
         persistIfNeeded();
         render();
@@ -328,6 +352,7 @@ function renderWizard(): HTMLElement {
     }),
   );
   wrap.append(nav);
+  wrap.append(legalDisclaimer());
   return wrap;
 }
 
@@ -433,8 +458,12 @@ function renderOptIn(): HTMLElement {
 
 function renderReview(): HTMLElement {
   const t = template();
+  state.clauses = ensurePlaceAtEnd(state.clauses, t);
+
   const wrap = el("div");
   wrap.style.animation = "oat-in 0.35s var(--ease)";
+
+  wrap.append(legalDisclaimer());
 
   const h2 = el("h2");
   h2.textContent = "Revisión del documento";
@@ -446,7 +475,7 @@ function renderReview(): HTMLElement {
 
   const note = el("p", "oat-review-note");
   note.textContent =
-    "Edita cualquier cláusula. Puedes desactivar, reordenar, duplicar o añadir texto libre. Los huecos sin rellenar aparecen entre corchetes.";
+    "Edita cualquier cláusula. Puedes desactivar, reordenar, duplicar o añadir texto libre. Las firmas quedan siempre al final. Los huecos sin rellenar aparecen entre corchetes.";
   wrap.append(note);
 
   const missing = missingRequired(t, state.values);
@@ -466,32 +495,26 @@ function renderReview(): HTMLElement {
     btn("Añadir cláusula", "oat-btn oat-btn-ghost", () => {
       state.manualOverride = true;
       const id = `user-${crypto.randomUUID().slice(0, 8)}`;
-      state.clauses.push({
+      const insertAt = state.clauses.findIndex((c) => c.placeAtEnd);
+      const clause: Clause = {
         id,
         title: "Nueva cláusula",
         body: "Escribe aquí el texto de la cláusula.",
         enabled: true,
         source: "user",
-      });
+      };
+      if (insertAt === -1) state.clauses.push(clause);
+      else state.clauses.splice(insertAt, 0, clause);
+      state.clauses = ensurePlaceAtEnd(state.clauses, t);
       persistIfNeeded();
       render();
     }),
-    btn("Exportar PDF", "oat-btn", () => {
-      exportPdfViaPrint(state.clauses, t.name);
-    }),
-    btn("Descargar HTML", "oat-btn oat-btn-ghost", () => {
-      downloadHtml(state.clauses, t.name);
-    }),
-    btn("Descargar TXT", "oat-btn oat-btn-ghost", () => {
-      downloadText(state.clauses, t.name);
-    }),
-    btn("Copiar texto", "oat-btn oat-btn-ghost", async () => {
-      try {
-        await copyText(state.clauses);
-        alert("Texto copiado al portapapeles.");
-      } catch {
-        alert("No se pudo copiar. Prueba a descargar TXT.");
-      }
+    btn("Aceptar borrador", "oat-btn", () => {
+      state.clauses = ensurePlaceAtEnd(state.clauses, t);
+      state.acceptedFinal = false;
+      state.phase = "accept";
+      persistIfNeeded();
+      render();
     }),
   );
   wrap.append(toolbar);
@@ -501,18 +524,114 @@ function renderReview(): HTMLElement {
     wrap.append(renderClauseEditor(clause, index));
   });
 
+  wrap.append(legalDisclaimer());
+  return wrap;
+}
+
+function renderAccept(): HTMLElement {
+  const t = template();
+  state.clauses = ensurePlaceAtEnd(state.clauses, t);
+
+  const wrap = el("div");
+  wrap.style.animation = "oat-in 0.35s var(--ease)";
+
+  wrap.append(legalDisclaimer());
+
+  const h2 = el("h2");
+  h2.textContent = "Aceptación y previsualización";
+  h2.style.fontWeight = "400";
+  h2.style.fontSize = "var(--type-display)";
+  h2.style.letterSpacing = "-0.02em";
+  h2.style.marginBottom = "0.5rem";
+  wrap.append(h2);
+
+  const note = el("p", "oat-review-note");
+  note.textContent =
+    "Revisa cómo queda el documento final. Si está correcto, confírmalo y exporta. Las páginas se numeran al imprimir o guardar como PDF.";
+  wrap.append(note);
+
+  const acceptBox = el("label", "oat-accept-box");
+  const cb = document.createElement("input");
+  cb.type = "checkbox";
+  cb.checked = Boolean(state.acceptedFinal);
+  cb.addEventListener("change", () => {
+    state.acceptedFinal = cb.checked;
+    render();
+  });
+  const span = el("span");
+  span.textContent =
+    "Acepto el documento tal como está mostrado en la previsualización.";
+  acceptBox.append(cb, span);
+  wrap.append(acceptBox);
+
+  const toolbar = el("div", "oat-review-toolbar");
+  toolbar.append(
+    btn("← Volver a editar", "oat-btn oat-btn-ghost", () => {
+      state.acceptedFinal = false;
+      state.phase = "review";
+      render();
+    }),
+  );
+
+  const exports = el("div", "oat-review-toolbar");
+  const exportPdf = btn("Exportar PDF", "oat-btn", () => {
+    exportPdfViaPrint(state.clauses, t.name);
+  });
+  const exportHtml = btn("Descargar HTML", "oat-btn oat-btn-ghost", () => {
+    downloadHtml(state.clauses, t.name);
+  });
+  const exportTxt = btn("Descargar TXT", "oat-btn oat-btn-ghost", () => {
+    downloadText(state.clauses, t.name);
+  });
+  const exportCopy = btn("Copiar texto", "oat-btn oat-btn-ghost", async () => {
+    try {
+      await copyText(state.clauses);
+      alert("Texto copiado al portapapeles.");
+    } catch {
+      alert("No se pudo copiar. Prueba a descargar TXT.");
+    }
+  });
+
+  for (const b of [exportPdf, exportHtml, exportTxt, exportCopy]) {
+    b.disabled = !state.acceptedFinal;
+    exports.append(b);
+  }
+
+  if (!state.acceptedFinal) {
+    const hint = el("p", "oat-review-note");
+    hint.textContent =
+      "Marca la casilla de aceptación para habilitar las opciones de exportación.";
+    wrap.append(hint);
+  }
+
+  wrap.append(toolbar, exports);
+
+  const previewLabel = el("h3");
+  previewLabel.className = "oat-group-label";
+  previewLabel.textContent = "Previsualización";
+  wrap.append(previewLabel);
+
+  const frame = document.createElement("iframe");
+  frame.className = "oat-preview-frame";
+  frame.title = "Previsualización del documento";
+  frame.srcdoc = clausesToHtml(state.clauses, t.name);
+  wrap.append(frame);
+
+  wrap.append(legalDisclaimer());
   return wrap;
 }
 
 function renderClauseEditor(clause: Clause, index: number): HTMLElement {
   const box = el("article", "oat-clause");
   box.dataset.disabled = String(!clause.enabled);
+  if (clause.placeAtEnd) box.dataset.end = "true";
 
   const head = el("div", "oat-clause-head");
   const enabled = document.createElement("input");
   enabled.type = "checkbox";
   enabled.checked = clause.enabled;
   enabled.title = "Incluir en el documento";
+  enabled.disabled = Boolean(clause.placeAtEnd);
   enabled.addEventListener("change", () => {
     state.manualOverride = true;
     state.clauses[index] = { ...clause, enabled: enabled.checked };
@@ -549,27 +668,36 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
   box.append(body);
 
   const actions = el("div", "oat-clause-actions");
-  actions.append(
-    mini("Subir", () => moveClause(index, -1)),
-    mini("Bajar", () => moveClause(index, 1)),
-    mini("Duplicar", () => {
-      state.manualOverride = true;
-      const copy: Clause = {
-        ...clause,
-        id: `user-${crypto.randomUUID().slice(0, 8)}`,
-        source: "user",
-      };
-      state.clauses.splice(index + 1, 0, copy);
-      persistIfNeeded();
-      render();
-    }),
-    mini("Eliminar", () => {
-      state.manualOverride = true;
-      state.clauses.splice(index, 1);
-      persistIfNeeded();
-      render();
-    }),
-  );
+  if (!clause.placeAtEnd) {
+    actions.append(
+      mini("Subir", () => moveClause(index, -1)),
+      mini("Bajar", () => moveClause(index, 1)),
+      mini("Duplicar", () => {
+        state.manualOverride = true;
+        const copy: Clause = {
+          ...clause,
+          id: `user-${crypto.randomUUID().slice(0, 8)}`,
+          source: "user",
+          placeAtEnd: false,
+        };
+        state.clauses.splice(index + 1, 0, copy);
+        state.clauses = ensurePlaceAtEnd(state.clauses, template());
+        persistIfNeeded();
+        render();
+      }),
+      mini("Eliminar", () => {
+        state.manualOverride = true;
+        state.clauses.splice(index, 1);
+        state.clauses = ensurePlaceAtEnd(state.clauses, template());
+        persistIfNeeded();
+        render();
+      }),
+    );
+  } else {
+    const lock = el("span", "oat-review-note");
+    lock.textContent = "Bloque de firmas — siempre al final del documento.";
+    actions.append(lock);
+  }
   box.append(actions);
   return box;
 }
@@ -577,11 +705,13 @@ function renderClauseEditor(clause: Clause, index: number): HTMLElement {
 function moveClause(index: number, delta: number): void {
   const next = index + delta;
   if (next < 0 || next >= state.clauses.length) return;
+  if (state.clauses[index]?.placeAtEnd) return;
+  if (state.clauses[next]?.placeAtEnd && delta > 0) return;
   state.manualOverride = true;
   const arr = [...state.clauses];
   const [item] = arr.splice(index, 1);
   arr.splice(next, 0, item);
-  state.clauses = arr;
+  state.clauses = ensurePlaceAtEnd(arr, template());
   persistIfNeeded();
   render();
 }

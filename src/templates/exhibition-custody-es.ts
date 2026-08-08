@@ -650,25 +650,7 @@ Valor total declarado de la instalación: {{insurance.totalValue}} € (impuesto
       id: "decima",
       title: "DÉCIMA. Vigencia",
       body: `El presente Anexo entrará en vigor desde el momento de su firma y permanecerá vigente desde la entrega efectiva de la instalación a la Organización hasta su devolución al Autor para proceder a su desmontaje.
-Las partes manifiestan que el presente Anexo ha sido negociado y aceptado libremente, refleja los acuerdos específicos alcanzados para la exhibición de la instalación artística y forma parte integrante del Acuerdo de Participación, constituyendo ambos documentos una única unidad contractual y debiendo interpretarse conjuntamente.
-Y para que así conste, ambas partes firman el presente documento por duplicado y a un solo efecto.
-
-En {{project.city}}, a {{project.signDate}}.
-
-EL AUTOR
-{{parties.author.name}}
-Documento: {{parties.author.doc}}
-Firma:
-
-
-
-
-POR {{parties.org.name}}
-Representante: {{parties.org.repName}}
-Documento: {{parties.org.repDoc}}
-Cargo: {{parties.org.repRole}}
-Firma:
-Sello de la empresa`,
+Las partes manifiestan que el presente Anexo ha sido negociado y aceptado libremente, refleja los acuerdos específicos alcanzados para la exhibición de la instalación artística y forma parte integrante del Acuerdo de Participación, constituyendo ambos documentos una única unidad contractual y debiendo interpretarse conjuntamente.`,
     },
     {
       id: "opt_acta",
@@ -711,6 +693,29 @@ Sello de la empresa`,
       body: `Ninguna de las partes será responsable por el incumplimiento de obligaciones cuando dicho incumplimiento derive de causas de fuerza mayor debidamente acreditadas. Ello no exime a la Organización de sus deberes de protección razonable de la instalación ni de las coberturas de seguro comprometidas, en la medida en que resulten aplicables.`,
       requireAll: ["options.forceMajeure"],
       optional: true,
+    },
+    {
+      id: "signatures",
+      title: "Firmas",
+      body: `Y para que así conste, ambas partes firman el presente documento por duplicado y a un solo efecto.
+
+En {{project.city}}, a {{project.signDate}}.
+
+EL AUTOR
+{{parties.author.name}}
+Documento: {{parties.author.doc}}
+Firma:
+
+
+
+
+POR {{parties.org.name}}
+Representante: {{parties.org.repName}}
+Documento: {{parties.org.repDoc}}
+Cargo: {{parties.org.repRole}}
+Firma:
+Sello de la empresa`,
+      placeAtEnd: true,
     },
   ],
 };

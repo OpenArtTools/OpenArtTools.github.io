@@ -61,7 +61,7 @@ export function assembleClauses(
     const title = fillPlaceholders(ct.title, values, template.fields);
 
     if (prev?.source === "user") {
-      out.push({ ...prev, enabled: prev.enabled });
+      out.push({ ...prev, enabled: prev.enabled, placeAtEnd: ct.placeAtEnd });
       continue;
     }
 
@@ -71,17 +71,35 @@ export function assembleClauses(
       body,
       enabled: prev ? prev.enabled : ct.defaultEnabled !== false,
       source: "template",
+      placeAtEnd: ct.placeAtEnd,
     });
   }
 
-  // Keep user-added clauses
+  // Keep user-added clauses (before signature / end blocks)
   for (const prev of previous ?? []) {
     if (prev.source === "user" && !out.some((c) => c.id === prev.id)) {
-      out.push(prev);
+      out.push({ ...prev, placeAtEnd: false });
     }
   }
 
-  return out;
+  return ensurePlaceAtEnd(out, template);
+}
+
+/** Force placeAtEnd clauses (signatures) to the absolute end. */
+export function ensurePlaceAtEnd(
+  clauses: Clause[],
+  template?: TemplateDoc,
+): Clause[] {
+  const endIds = new Set(
+    template?.clauses.filter((c) => c.placeAtEnd).map((c) => c.id) ?? [],
+  );
+  const normal: Clause[] = [];
+  const end: Clause[] = [];
+  for (const c of clauses) {
+    if (c.placeAtEnd || endIds.has(c.id)) end.push({ ...c, placeAtEnd: true });
+    else normal.push(c);
+  }
+  return [...normal, ...end];
 }
 
 /** Re-fill template clauses from values; preserve user edits if manualOverride. */
@@ -92,10 +110,11 @@ export function refreshFromValues(
   manualOverride: boolean,
 ): Clause[] {
   if (manualOverride) {
-    // Only refresh non-user clauses that still match template and weren't hand-edited
-    // In override mode we leave bodies as-is except for newly included clauses
     const allowed = new Set(
       template.clauses.filter((c) => clauseAllowed(c, values)).map((c) => c.id),
+    );
+    const placeAtEndById = new Map(
+      template.clauses.map((c) => [c.id, Boolean(c.placeAtEnd)]),
     );
     const existing = new Map(clauses.map((c) => [c.id, c]));
     const out: Clause[] = [];
@@ -104,7 +123,7 @@ export function refreshFromValues(
       if (!allowed.has(ct.id)) continue;
       const prev = existing.get(ct.id);
       if (prev) {
-        out.push(prev);
+        out.push({ ...prev, placeAtEnd: ct.placeAtEnd });
       } else {
         out.push({
           id: ct.id,
@@ -112,13 +131,16 @@ export function refreshFromValues(
           body: fillPlaceholders(ct.body, values, template.fields),
           enabled: ct.defaultEnabled !== false,
           source: "template",
+          placeAtEnd: ct.placeAtEnd,
         });
       }
     }
     for (const c of clauses) {
-      if (c.source === "user" && !out.some((x) => x.id === c.id)) out.push(c);
+      if (c.source === "user" && !out.some((x) => x.id === c.id)) {
+        out.push({ ...c, placeAtEnd: placeAtEndById.get(c.id) ?? false });
+      }
     }
-    return out;
+    return ensurePlaceAtEnd(out, template);
   }
   return assembleClauses(template, values, clauses);
 }

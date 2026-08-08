@@ -55,13 +55,22 @@ describe("assembleClauses", () => {
     expect(segunda?.body.toLowerCase()).not.toContain("pistola");
   });
 
-  it("excludes optional jurisdiction when off", () => {
+  it("keeps signatures after optional clauses", () => {
     const values = enrichDerivedValues({
       "custody.authorMounts": true,
-      "options.jurisdiction": false,
+      "options.deliveryAct": true,
+      "options.policyCerts": true,
+      "options.franchise": true,
+      "insurance.hasRc": true,
+      "insurance.hasNailToNail": true,
     });
     const clauses = assembleClauses(exhibitionCustodyEs, values);
-    expect(clauses.some((c) => c.id === "opt_jur")).toBe(false);
+    const ids = clauses.map((c) => c.id);
+    expect(ids[ids.length - 1]).toBe("signatures");
+    expect(ids.indexOf("decima")).toBeLessThan(ids.indexOf("opt_acta"));
+    expect(ids.indexOf("opt_franq")).toBeLessThan(ids.indexOf("signatures"));
+    expect(clauses.find((c) => c.id === "decima")?.body).not.toContain("EL AUTOR");
+    expect(clauses.find((c) => c.id === "signatures")?.body).toContain("EL AUTOR");
   });
 });
 

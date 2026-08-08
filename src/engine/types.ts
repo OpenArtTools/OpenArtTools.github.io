@@ -40,6 +40,8 @@ export type ClauseTemplate = {
   excludeIf?: string[];
   optional?: boolean;
   defaultEnabled?: boolean;
+  /** Always keep this block at the very end (e.g. signatures). */
+  placeAtEnd?: boolean;
 };
 
 export type TemplateDoc = {
@@ -57,6 +59,7 @@ export type Clause = {
   body: string;
   enabled: boolean;
   source: "template" | "user";
+  placeAtEnd?: boolean;
 };
 
 export type AppValues = Record<string, string | boolean | number>;
@@ -66,8 +69,9 @@ export type SessionState = {
   values: AppValues;
   clauses: Clause[];
   stepIndex: number;
-  phase: "home" | "wizard" | "review" | "privacy";
+  phase: "home" | "wizard" | "review" | "accept" | "privacy";
   manualOverride: boolean;
   rememberPersonal: boolean;
   rememberDraft: boolean;
+  acceptedFinal?: boolean;
 };
