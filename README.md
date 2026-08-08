@@ -21,7 +21,7 @@ Es **segura, privada, accesible, transparente cristalina y auditable**.
 
 La idea sale de la **experiencia propia** en la práctica artística y de la **necesidad real** de estos recursos: claros, libres y respetuosos con la privacidad. Se construyen y se comparten abiertas para quien las necesite.
 
-El apartado **Invitar a un café** es **otra cosa**: apoyo voluntario al trabajo de desarrollo (ver más abajo y [SUPPORT.md](SUPPORT.md)).
+La **aportación** voluntaria es **otra cosa**: respaldo al trabajo de desarrollo (ver más abajo y [SUPPORT.md](SUPPORT.md)). «Invitar a un café» es solo un guiño.
 
 ---
 
@@ -60,7 +60,7 @@ Sitio: `https://openarttools.github.io/` — cada app es `/nombre-de-la-app`.
 |-----|--------|
 | https://openarttools.github.io/ | Home de Open ArtCore (plataforma paraguas) |
 | https://openarttools.github.io/transparencia | Transparencia |
-| https://openarttools.github.io/apoyo | Invitar a un café (apoyo voluntario) |
+| https://openarttools.github.io/apoyo | Aportación voluntaria |
 | https://openarttools.github.io/acuerdos-de-exhibicion | App: Acuerdos de exhibición |
 
 ---
@@ -146,11 +146,11 @@ Se puede comprobar en el código que no hay cuentas cloud, telemetría ni `local
 
 ---
 
-## Invitar a un café
+## Aportación
 
 *(Apartado distinto del origen de la idea.)*
 
-Open ArtCore lo mantiene Gerard Valls Montaño de forma **voluntaria**, sin cobros ni suscripciones. Quien lo desee puede **invitar a un café** para **respaldar el trabajo de desarrollo**. Nunca es obligatorio ni desbloquea funciones.
+Open ArtCore lo mantiene Gerard Valls Montaño de forma **voluntaria**, sin cobros ni suscripciones. Quien lo desee puede hacer una **aportación** para **respaldar el trabajo de desarrollo**. Nunca es obligatoria ni desbloquea funciones. «Invitar a un café» es solo un guiño.
 
 Detalle: [SUPPORT.md](SUPPORT.md).
 
@@ -169,7 +169,7 @@ Las plantillas **no han sido revisadas por profesionales del derecho**. **No con
 | [README.md](README.md) | Qué es la plataforma y cómo usarla (este archivo) |
 | [PRIVACY.md](PRIVACY.md) | Privacidad: qué se guarda, qué no, y los archivos opcionales |
 | [AUDITABILITY.md](AUDITABILITY.md) | Cómo auditar el código y las premisas |
-| [SUPPORT.md](SUPPORT.md) | Invitar a un café: qué es y qué no es |
+| [SUPPORT.md](SUPPORT.md) | Aportación voluntaria: qué es y qué no es |
 | [LICENSE](LICENSE) | Licencia AGPL-3.0-or-later (texto legal) |
 | [NOTICE](NOTICE) | Autoría, origen y obligaciones en lenguaje claro |
 | [COPYRIGHT](COPYRIGHT) | Autoría |

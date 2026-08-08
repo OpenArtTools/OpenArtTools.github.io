@@ -72,7 +72,7 @@ Hay **dos tipos**, con funciones distintas:
 
 1. **Archivos `.json`** de perfil o borrador que se descargan.
 2. **Exportaciones** del documento: PDF (vía diálogo de impresión / guardar), HTML o TXT.
-3. Si se usa el apartado **Invitar a un café** (apoyo voluntario) y hay un enlace de pago, se abre un **proveedor externo** (PayPal, Ko-fi u otro). Ahí aplican sus condiciones; Open ArtCore no procesa el pago ni guarda datos de donación. Ver [SUPPORT.md](SUPPORT.md).
+3. Si se usa el apartado de **aportación** y hay un enlace de pago, se abre un **proveedor externo** (PayPal, Ko-fi u otro). Ahí aplican sus condiciones; Open ArtCore no procesa el pago ni guarda datos de aportación. Ver [SUPPORT.md](SUPPORT.md).
 
 La plataforma **no envía** el contenido de los formularios a servidores propios.
 

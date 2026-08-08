@@ -134,8 +134,7 @@ export function renderFooter(goSupport?: () => void): HTMLElement {
   if (goSupport) {
     const support = el("p", "oat-footer-support");
     const link = btn(SUPPORT.footerLabel, "oat-link-btn", goSupport);
-    link.title =
-      "Invitar a un café — apoyo voluntario al trabajo de desarrollo; nunca obligatorio";
+    link.title = "Aportación voluntaria; nunca obligatoria";
     support.append(document.createTextNode("Opcional · "), link);
     footer.append(support);
   }

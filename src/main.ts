@@ -604,7 +604,9 @@ function renderSupport(): HTMLElement {
   intro.textContent = SUPPORT.intro;
   const voluntary = el("p");
   voluntary.textContent = SUPPORT.voluntary;
-  wrap.append(intro, voluntary);
+  const wink = el("p", "oat-review-note");
+  wink.textContent = SUPPORT.wink;
+  wrap.append(intro, voluntary, wink);
 
   const forTitle = el("h3");
   forTitle.textContent = SUPPORT.whatForTitle;

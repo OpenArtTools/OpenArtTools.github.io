@@ -75,10 +75,10 @@ Si algo de lo anterior aparece donde no debería, es una señal para investigar.
 | `src/storage/jsonFile.ts` | Utilidades compartidas de lectura/escritura de JSON |
 | `src/export/` | Exportación PDF / HTML / TXT |
 | `PRIVACY.md` | Política de privacidad en lenguaje claro |
-| `SUPPORT.md` | Invitar a un café (apoyo voluntario; distinto del origen de la idea) |
+| `SUPPORT.md` | Aportación voluntaria (distinta del origen de la idea; «café» solo como guiño) |
 | `README.md` | Guía general de la plataforma |
 
-**No confundir:** el origen de la idea (experiencia / necesidad) vive en `PLATFORM.origin` + Transparencia. El café (`SUPPORT`) es solo respaldo voluntario al trabajo de desarrollo.
+**No confundir:** el origen de la idea (experiencia / necesidad) vive en `PLATFORM.origin` + Transparencia. La aportación (`SUPPORT`) es solo respaldo voluntario al trabajo de desarrollo.
 
 **Voz:** tercera persona y sin marcas de género en la copia de plataforma (`PLATFORM` / `SUPPORT` / `TRANSPARENCY`).
 

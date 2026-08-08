@@ -32,27 +32,30 @@ export const PLATFORM = {
 } as const;
 
 /**
- * Voluntary support (coffee) — never required, never gated behind features.
- * Keep this separate from PLATFORM.origin (why the tools exist).
+ * Voluntary contribution — never required, never gated behind features.
+ * "Invitar a un café" is only a light wink, not the main framing.
+ * Keep separate from PLATFORM.origin (why the tools exist).
  */
 export const SUPPORT = {
   navLabel: "Apoyo",
-  title: "Invitar a un café",
+  title: "Aportación",
   donateUrl: "",
-  donateLabel: "Invitar a un café",
-  homeCtaLabel: "Invitar a un café",
+  donateLabel: "Aportar",
+  homeCtaLabel: "Aportar",
   contactLabel: "Contactar con Gerard Valls Montaño",
   contactUrl: "https://bygerardvisuals.com/",
   homeTitle: "Cómo se mantiene",
   homeLead:
     "Open ArtCore lo mantiene Gerard Valls Montaño de forma voluntaria: es gratuito y open source, sin cobros ni suscripciones. No es un negocio ni un producto de pago.",
   homeBody:
-    "Si la plataforma resulta útil, se puede invitar a un café: es apoyo para respaldar el trabajo de desarrollo. No compra nada ni desbloquea funciones. No es obligatorio.",
+    "Si la plataforma resulta útil, se puede hacer una aportación voluntaria para respaldar el trabajo de desarrollo. No compra nada ni desbloquea funciones. No es obligatoria.",
+  /** One-line wink — keep rare. */
+  wink: "«Invitar a un café» es solo un guiño.",
   intro:
-    "Esta página trata solo del apoyo voluntario. Open ArtCore es y seguirá siendo gratuito y de código abierto. Usar la plataforma no exige aportar nada.",
+    "Esta página trata de la aportación voluntaria. Open ArtCore es y seguirá siendo gratuito y de código abierto. Usar la plataforma no exige aportar nada.",
   voluntary:
-    "Quien lo desee puede invitar a un café. Esa aportación es completamente para respaldar y dar apoyo al trabajo de desarrollo de Gerard Valls Montaño —tiempo para mantener y ampliar la plataforma—. No es necesario. No hay presión. No cambia lo que se puede usar.",
-  whatForTitle: "Para qué sirve ese café",
+    "Quien lo desee puede aportar para respaldar el trabajo de desarrollo de Gerard Valls Montaño —tiempo para mantener y ampliar la plataforma—. No es necesario. No hay presión. No cambia lo que se puede usar.",
+  whatForTitle: "Para qué sirve la aportación",
   whatFor: [
     "Respaldar el trabajo de desarrollo de Open ArtCore",
     "Más tiempo para mantener y mejorar herramientas",
@@ -66,12 +69,12 @@ export const SUPPORT = {
     "No hay contraprestación comercial: las herramientas siguen igual de libres para todo el mundo",
     "No hay seguimiento de quién aporta dentro de Open ArtCore",
   ],
-  privacyTitle: "Privacidad del aporte",
+  privacyTitle: "Privacidad de la aportación",
   privacy:
-    "Open ArtCore no procesa pagos ni guarda datos de donación. Si se usa un enlace para invitar a un café, se abre un proveedor externo (por ejemplo PayPal, Ko-fi o similar). Allí aplican sus condiciones y su privacidad, no las de esta plataforma.",
+    "Open ArtCore no procesa pagos ni guarda datos de aportación. Si hay un enlace de pago, se abre un proveedor externo (por ejemplo PayPal, Ko-fi o similar). Allí aplican sus condiciones y su privacidad, no las de esta plataforma.",
   thanks:
-    "Si se invita a un café: gracias de verdad. Si no se puede o no se quiere: también está bien. La plataforma está hecha para usarse.",
-  footerLabel: "Invitar a un café",
+    "Si se aporta: gracias de verdad. Si no se puede o no se quiere: también está bien. La plataforma está hecha para usarse.",
+  footerLabel: "Aportar",
 } as const;
 
 /**
@@ -120,7 +123,7 @@ export const TRANSPARENCY = {
   points: [
     {
       title: "De dónde sale la idea",
-      body: "Nace de la experiencia propia en la práctica artística y de la necesidad real de estos recursos. Son herramientas que faltaban en la práctica y se comparten abiertas. Esto no es lo mismo que el apoyo voluntario («invitar a un café»).",
+      body: "Nace de la experiencia propia en la práctica artística y de la necesidad real de estos recursos. Son herramientas que faltaban en la práctica y se comparten abiertas. Esto no es lo mismo que la aportación voluntaria.",
     },
     {
       title: "Plataforma paraguas",
