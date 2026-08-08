@@ -1,0 +1,24 @@
+{
+  "name": "openarttools",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OpenArtTools — Contract Studio for artists. Open source. Local-first. By Gerard Valls Montaño.",
+  "license": "Apache-2.0",
+  "author": "Gerard Valls Montaño",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.5.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
+  }
+}
