@@ -4,7 +4,7 @@
 
 Es **segura, privada, accesible, transparente cristalina y auditable**.
 
-**Estado:** **beta golden master** (`0.1.0-beta.3`). Base estable para uso público; el catálogo de apps puede crecer.
+**Estado:** **beta golden master** (`0.1.0-beta.4`). Base estable para uso público; el catálogo de apps puede crecer.
 
 - **Idea, diseño y desarrollo:** Gerard Valls Montaño  
 - **Licencia:** [AGPL-3.0-or-later](LICENSE) — ver también [NOTICE](NOTICE) (autoría y obligaciones en lenguaje claro)  
@@ -12,7 +12,7 @@ Es **segura, privada, accesible, transparente cristalina y auditable**.
 - **Sitio (home):** https://openarttools.github.io/  
 - **App:** https://openarttools.github.io/acuerdos-de-exhibicion  
 - **Código:** https://github.com/OpenArtTools/OpenArtTools.github.io  
-- **Versión:** 0.1.0-beta.3
+- **Versión:** 0.1.0-beta.4
 
 
 ---
