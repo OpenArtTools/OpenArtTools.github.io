@@ -10,21 +10,23 @@
   --color-surface: #121212;
   --color-surface-hover: #1a1a1a;
   --color-text: #f5f5f5;
-  --color-text-muted: rgba(245, 245, 245, 0.82);
-  --color-border: rgba(255, 255, 255, 0.22);
-  --color-border-strong: rgba(255, 245, 245, 0.4);
+  --color-text-muted: rgba(245, 245, 245, 0.72);
+  --color-border: rgba(255, 255, 255, 0.16);
+  --color-border-strong: rgba(255, 255, 255, 0.38);
   --color-focus-ring: rgba(255, 255, 255, 0.95);
   --color-warn: rgba(255, 220, 160, 0.95);
   --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --type-display: clamp(1.85rem, 4.5vw, 2.65rem);
-  --type-brand: clamp(2.75rem, 10vw, 5.5rem);
+  --type-display: clamp(1.75rem, 4vw, 2.4rem);
+  --type-brand: clamp(2.6rem, 9vw, 4.75rem);
   --type-body: 1.0625rem;
-  --type-body-leading: 1.65;
-  --measure: 44rem;
-  --page-pad: clamp(1.25rem, 4vw, 4rem);
+  --type-body-leading: 1.6;
+  --measure: 40rem;
+  --page-pad: clamp(1.25rem, 4vw, 3.5rem);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-top: env(safe-area-inset-top, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 }
 
 *,
@@ -44,7 +46,7 @@ body {
   min-height: 100%;
   min-height: 100dvh;
   background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 255, 255, 0.07), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 50% -18%, rgba(255, 255, 255, 0.06), transparent 55%),
     var(--color-bg);
   color: var(--color-text);
   font-family: var(--font);
@@ -76,18 +78,28 @@ body {
   transform: translateY(0);
 }
 
+/* —— Chrome —— */
 .oat-header {
   position: sticky;
   top: 0;
   z-index: 40;
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.65rem 1.25rem;
-  padding: calc(var(--page-pad) * 0.55 + var(--safe-top)) var(--page-pad);
-  background: rgba(5, 5, 5, 0.88);
-  backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: calc(0.95rem + var(--safe-top)) max(var(--page-pad), var(--safe-right))
+    0.95rem max(var(--page-pad), var(--safe-left));
+  background: rgba(5, 5, 5, 0.92);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
+}
+
+.oat-brand-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.65rem;
+  min-width: 0;
 }
 
 .oat-brand {
@@ -95,17 +107,43 @@ body {
   font-weight: 500;
   letter-spacing: -0.02em;
   color: var(--color-text);
-  text-decoration: none;
   background: none;
   border: none;
   cursor: pointer;
   font-family: inherit;
+  padding: 0;
+}
+
+.oat-brand:hover {
+  opacity: 0.82;
+}
+
+.oat-brand-role {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.oat-header-tool {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 14rem;
+}
+
+.oat-header-tool::before {
+  content: "/";
+  margin-right: 0.55rem;
+  opacity: 0.45;
 }
 
 .oat-nav {
   display: flex;
-  gap: 0.85rem;
-  flex-wrap: wrap;
+  gap: 1rem;
+  flex-shrink: 0;
 }
 
 .oat-nav button {
@@ -113,9 +151,9 @@ body {
   border: none;
   color: var(--color-text-muted);
   font: inherit;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   cursor: pointer;
-  padding: 0.15rem 0;
+  padding: 0.2rem 0;
 }
 
 .oat-nav button:hover,
@@ -123,131 +161,137 @@ body {
   color: var(--color-text);
 }
 
-.oat-privacy-strip {
-  margin: 0 var(--page-pad);
-  margin-top: 0.85rem;
-  padding: 0.7rem 1rem;
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-}
-
-.oat-privacy-strip strong {
-  color: var(--color-text);
-  font-weight: 500;
-}
-
 main {
   flex: 1;
-  padding: 1.75rem var(--page-pad) calc(3rem + var(--safe-bottom));
   width: 100%;
-  max-width: 52rem;
+  max-width: 48rem;
   margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.75rem) max(var(--page-pad), var(--safe-right))
+    calc(3rem + var(--safe-bottom)) max(var(--page-pad), var(--safe-left));
 }
 
 .oat-footer {
-  padding: 1.25rem var(--page-pad) calc(1.25rem + var(--safe-bottom));
+  padding: 1.35rem max(var(--page-pad), var(--safe-right))
+    calc(1.35rem + var(--safe-bottom)) max(var(--page-pad), var(--safe-left));
   border-top: 1px solid var(--color-border);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  line-height: 1.55;
   color: var(--color-text-muted);
 }
 
-.oat-footer a {
-  color: var(--color-text);
+/* —— Home —— */
+.oat-hero {
+  animation: oat-in 0.4s var(--ease);
 }
 
-/* Home */
-.oat-hero {
-  padding: 2.5rem 0 2rem;
-  animation: oat-in 0.45s var(--ease);
+.oat-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.85rem;
 }
 
 .oat-hero h1 {
   font-size: var(--type-brand);
   font-weight: 400;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+  margin-bottom: 1rem;
+}
+
+.lede {
+  max-width: 28rem;
+  color: var(--color-text-muted);
   margin-bottom: 0.85rem;
 }
 
-.oat-brand-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.45rem 0.75rem;
-}
-
-.oat-brand-role {
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.oat-header-tool {
-  font-size: 0.92rem;
-  color: var(--color-text-muted);
-}
-
-.oat-header-tool::before {
-  content: "·";
-  margin-right: 0.65rem;
-  color: rgba(245, 245, 245, 0.35);
-}
-
-.oat-eyebrow {
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  margin-bottom: 0.65rem;
-}
-
-.oat-data-note {
-  max-width: 34rem !important;
+.lede:last-of-type {
+  margin-bottom: 0;
 }
 
 .oat-tools-shelf {
-  margin-top: 2.5rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--color-border);
+  margin-top: 2.75rem;
 }
 
 .oat-tools-shelf h2 {
   font-weight: 400;
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   letter-spacing: -0.02em;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.4rem;
 }
 
-.oat-tools-shelf .lede {
-  margin-bottom: 1.15rem;
+.oat-tools-shelf > .lede {
+  margin-bottom: 1.35rem;
 }
 
-.oat-card-kicker {
-  font-size: 0.75rem;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  margin-bottom: 0.45rem !important;
+.oat-card {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-left: 2px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  padding: 1.25rem 1.2rem 1.3rem;
+  margin-bottom: 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.oat-card:hover {
+  border-color: var(--color-border-strong);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .oat-card:disabled {
-  opacity: 0.45;
+  opacity: 0.4;
   cursor: not-allowed;
+}
+
+.oat-card-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.55rem;
+}
+
+.oat-card h3 {
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+
+.oat-card p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  max-width: 34rem;
 }
 
 .oat-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+
+.oat-home-meta {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  max-width: 34rem;
+  line-height: 1.55;
 }
 
 @keyframes oat-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -255,15 +299,15 @@ main {
   }
 }
 
-/* Buttons */
+/* —— Buttons —— */
 .oat-btn {
   appearance: none;
   border: 1px solid var(--color-border-strong);
   background: var(--color-text);
   color: var(--color-bg);
   font: inherit;
-  font-size: 0.95rem;
-  padding: 0.7rem 1.15rem;
+  font-size: 0.92rem;
+  padding: 0.65rem 1.05rem;
   cursor: pointer;
   transition: background 0.2s var(--ease), color 0.2s var(--ease);
 }
@@ -282,24 +326,42 @@ main {
 }
 
 .oat-btn:disabled {
-  opacity: 0.45;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-/* Wizard */
+.oat-btn:focus-visible,
+.oat-nav button:focus-visible,
+.oat-brand:focus-visible,
+.oat-card:focus-visible,
+.oat-field input:focus,
+.oat-field textarea:focus {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* —— Wizard —— */
+.oat-step {
+  animation: oat-in 0.35s var(--ease);
+}
+
 .oat-progress {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 1.5rem;
+  gap: 0.35rem;
+  margin-bottom: 1.75rem;
   list-style: none;
 }
 
 .oat-progress li {
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
-  padding: 0.25rem 0.55rem;
+  font-size: 0.75rem;
+  color: rgba(245, 245, 245, 0.45);
+  padding: 0.2rem 0.5rem;
   border: 1px solid transparent;
+}
+
+.oat-progress li[data-done="true"] {
+  color: var(--color-text-muted);
 }
 
 .oat-progress li[data-active="true"] {
@@ -307,38 +369,34 @@ main {
   border-color: var(--color-border);
 }
 
-.oat-progress li[data-done="true"] {
-  color: var(--color-text);
-}
-
 .oat-step h2 {
   font-size: var(--type-display);
   font-weight: 400;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.4rem;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.45rem;
 }
 
 .oat-step .blurb {
   color: var(--color-text-muted);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
   max-width: var(--measure);
 }
 
 .oat-group-label {
-  margin: 1.35rem 0 0.65rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
+  margin: 1.6rem 0 0.75rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
 .oat-field {
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.15rem;
 }
 
 .oat-field label {
   display: block;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
   font-size: 0.95rem;
 }
 
@@ -352,46 +410,38 @@ main {
   border: 1px solid var(--color-border);
   color: var(--color-text);
   font: inherit;
-  padding: 0.65rem 0.75rem;
-}
-
-.oat-field input:focus,
-.oat-field textarea:focus,
-.oat-field button:focus-visible,
-.oat-btn:focus-visible,
-.oat-nav button:focus-visible {
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 2px;
+  padding: 0.7rem 0.8rem;
 }
 
 .oat-field input::placeholder,
 .oat-field textarea::placeholder {
-  color: rgba(245, 245, 245, 0.45);
+  color: rgba(245, 245, 245, 0.38);
 }
 
 .oat-field textarea {
-  min-height: 6rem;
+  min-height: 6.5rem;
   resize: vertical;
 }
 
 .oat-toggle {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
+  gap: 0.8rem;
   max-width: var(--measure);
-  padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .oat-toggle input {
-  margin-top: 0.3rem;
-  width: 1.1rem;
-  height: 1.1rem;
+  margin-top: 0.28rem;
+  width: 1.05rem;
+  height: 1.05rem;
   accent-color: #fff;
+  flex-shrink: 0;
 }
 
 .oat-toggle .meta {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: var(--color-text-muted);
   margin-top: 0.2rem;
 }
@@ -400,49 +450,36 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
-  margin-top: 2rem;
-  padding-top: 1.25rem;
+  margin-top: 2.25rem;
+  padding-top: 1.35rem;
   border-top: 1px solid var(--color-border);
 }
 
-/* Privacy opt-in */
-.oat-optin {
+.oat-session-bar {
   margin-top: 1.75rem;
-  padding: 1rem;
-  border: 1px dashed var(--color-border);
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--color-border);
   max-width: var(--measure);
 }
 
-.oat-optin label {
-  display: flex;
-  gap: 0.65rem;
-  align-items: flex-start;
+.oat-session-bar .oat-review-note {
   margin-bottom: 0.75rem;
-  cursor: pointer;
 }
 
-.oat-optin label:last-child {
-  margin-bottom: 0;
-}
-
-.oat-optin input {
-  margin-top: 0.25rem;
-  accent-color: #fff;
-}
-
-/* Review */
+/* —— Review / accept —— */
 .oat-review-toolbar {
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.15rem;
   align-items: center;
 }
 
 .oat-review-note {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--color-text-muted);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.15rem;
+  max-width: var(--measure);
 }
 
 .oat-gap-warn {
@@ -452,18 +489,22 @@ main {
 }
 
 .oat-legal-disclaimer {
-  border: 1px solid var(--color-border);
-  background: rgba(255, 220, 160, 0.08);
   color: var(--color-text-muted);
-  font-size: 0.9rem;
-  padding: 0.85rem 1rem;
-  margin: 0 0 1.25rem;
-  max-width: var(--measure);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  max-width: 36rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border: none;
+  background: none;
 }
 
-.oat-hero .oat-legal-disclaimer:last-child {
-  margin-top: 2rem;
-  margin-bottom: 0;
+.oat-legal-disclaimer::before {
+  content: "Aviso · ";
+  color: rgba(245, 245, 245, 0.5);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
 }
 
 .oat-accept-box {
@@ -471,9 +512,9 @@ main {
   gap: 0.75rem;
   align-items: flex-start;
   max-width: var(--measure);
-  margin: 1rem 0 1.25rem;
-  padding: 0.9rem 1rem;
-  border: 1px solid var(--color-border-strong);
+  margin: 0.5rem 0 1.35rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--color-border);
   background: var(--color-surface);
   cursor: pointer;
 }
@@ -485,23 +526,23 @@ main {
 
 .oat-preview-frame {
   width: 100%;
-  min-height: 70vh;
+  min-height: 68vh;
   border: 1px solid var(--color-border);
   background: #fff;
-  margin: 0.5rem 0 1.5rem;
+  margin: 0.35rem 0 1.5rem;
 }
 
 .oat-clause {
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  margin-bottom: 1rem;
-  padding: 1rem;
+  border-top: 1px solid var(--color-border);
+  background: transparent;
+  margin-bottom: 0;
+  padding: 1.15rem 0;
 }
 
 .oat-clause-head {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.55rem;
   align-items: center;
   margin-bottom: 0.65rem;
 }
@@ -509,18 +550,18 @@ main {
 .oat-clause-head input[type="text"] {
   flex: 1;
   min-width: 12rem;
-  background: transparent;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   color: var(--color-text);
   font: inherit;
   font-weight: 500;
-  padding: 0.45rem 0.55rem;
+  padding: 0.5rem 0.65rem;
 }
 
 .oat-clause textarea {
   width: 100%;
-  min-height: 10rem;
-  background: #0a0a0a;
+  min-height: 9.5rem;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   color: var(--color-text);
   font: inherit;
@@ -531,14 +572,15 @@ main {
 }
 
 .oat-clause[data-disabled="true"] {
-  opacity: 0.5;
+  opacity: 0.45;
 }
 
 .oat-clause-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-top: 0.55rem;
+  margin-top: 0.6rem;
+  align-items: center;
 }
 
 .oat-mini {
@@ -547,8 +589,8 @@ main {
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
   font: inherit;
-  font-size: 0.8rem;
-  padding: 0.3rem 0.55rem;
+  font-size: 0.78rem;
+  padding: 0.28rem 0.5rem;
   cursor: pointer;
 }
 
@@ -557,72 +599,63 @@ main {
   border-color: var(--color-border-strong);
 }
 
-.oat-card {
-  border: 1px solid var(--color-border);
-  padding: 1.15rem 1.25rem;
-  margin-bottom: 0.85rem;
-  background: var(--color-surface);
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  color: inherit;
-  font: inherit;
-  transition: border-color 0.2s var(--ease);
-}
-
-.oat-card:hover {
-  border-color: var(--color-border-strong);
-}
-
-.oat-card h3 {
-  font-weight: 500;
-  font-size: 1.05rem;
-  margin-bottom: 0.35rem;
-}
-
-.oat-card p {
-  color: var(--color-text-muted);
-  font-size: 0.92rem;
-}
-
 .oat-prose {
   max-width: var(--measure);
+  animation: oat-in 0.35s var(--ease);
 }
 
 .oat-prose h2 {
-  font-size: 1.5rem;
+  font-size: var(--type-display);
   font-weight: 400;
-  margin: 1.5rem 0 0.6rem;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.85rem;
 }
 
 .oat-prose p,
 .oat-prose li {
   color: var(--color-text-muted);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.8rem;
 }
 
 .oat-prose ul {
-  padding-left: 1.2rem;
+  padding-left: 1.15rem;
   margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .oat-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .oat-header-tool {
+    max-width: 100%;
+  }
+
+  .oat-hero h1 {
+    font-size: clamp(2.2rem, 12vw, 3rem);
+  }
 }
 
 @media print {
   .oat-header,
-  .oat-privacy-strip,
   .oat-footer,
   .oat-review-toolbar,
   .oat-step-nav,
   .oat-clause-actions,
-  .oat-optin {
+  .oat-session-bar,
+  .oat-legal-disclaimer {
     display: none !important;
   }
+
   body {
     background: #fff;
     color: #000;
   }
+
   .oat-clause {
     border: none;
-    background: none;
     page-break-inside: avoid;
   }
 }
