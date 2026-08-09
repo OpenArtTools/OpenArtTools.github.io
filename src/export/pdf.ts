@@ -8,6 +8,15 @@ import type { Clause } from "../engine/types";
 import { escapeHtml } from "../dom";
 import { TRANSPARENCY } from "../platform";
 import { downloadBlob } from "../storage/jsonFile";
+import { notify } from "../ui/dialogs";
+
+/**
+ * Export HTML CSP (parity with draft HTML): default-src 'none'.
+ * style-src 'unsafe-inline' is required so the embedded print stylesheet applies;
+ * no scripts, frames, or network fetches are allowed in the exported document.
+ */
+const EXPORT_HTML_CSP =
+  "default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; script-src 'none'";
 
 function fileBaseName(docTitle: string): string {
   const cleaned = docTitle
@@ -35,6 +44,7 @@ function clausesToHtml(clauses: Clause[], docTitle: string): string {
 <html lang="es">
 <head>
 <meta charset="utf-8"/>
+<meta http-equiv="Content-Security-Policy" content="${EXPORT_HTML_CSP}"/>
 <title>${escapeHtml(docTitle)}</title>
 <style>
   @page {
@@ -86,10 +96,14 @@ function clausesToHtml(clauses: Clause[], docTitle: string): string {
 }
 
 /** Open print dialog so the user can save as PDF locally (iframe, no popup blocker). */
-export function exportPdfViaPrint(clauses: Clause[], docTitle: string): void {
+export async function exportPdfViaPrint(
+  clauses: Clause[],
+  docTitle: string,
+): Promise<void> {
   const html = clausesToHtml(clauses, docTitle);
   const iframe = document.createElement("iframe");
   iframe.setAttribute("aria-hidden", "true");
+  // Print iframe sandbox: same-origin for print; no allow-scripts.
   iframe.setAttribute("sandbox", "allow-same-origin allow-modals");
   iframe.title = "Impresión";
   iframe.style.cssText =
@@ -99,7 +113,7 @@ export function exportPdfViaPrint(clauses: Clause[], docTitle: string): void {
   const w = iframe.contentWindow;
   if (!w) {
     iframe.remove();
-    alert("No se pudo preparar la impresión. Usa «Descargar HTML».");
+    await notify("No se pudo preparar la impresión. Usa «Descargar HTML».");
     return;
   }
 
@@ -116,7 +130,7 @@ export function exportPdfViaPrint(clauses: Clause[], docTitle: string): void {
       w.focus();
       w.print();
     } catch {
-      alert("No se pudo abrir la impresión. Usa «Descargar HTML».");
+      void notify("No se pudo abrir la impresión. Usa «Descargar HTML».");
     }
     setTimeout(cleanup, 2500);
   }, 300);

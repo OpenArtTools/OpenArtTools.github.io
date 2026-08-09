@@ -148,7 +148,7 @@ body {
 .oat-header-tool::before {
   content: "/";
   margin-right: 0.55rem;
-  opacity: 0.45;
+  opacity: 0.65;
 }
 
 .oat-nav {
@@ -516,6 +516,48 @@ main > * {
   outline-offset: 2px;
 }
 
+/* —— Accessible dialogs —— */
+.oat-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.oat-dialog {
+  width: min(28rem, 100%);
+  max-height: min(80vh, 32rem);
+  overflow: auto;
+  padding: 1.25rem 1.35rem 1.15rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.oat-dialog-message {
+  margin: 0 0 1.15rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  color: var(--color-text);
+}
+
+.oat-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: flex-end;
+}
+
+.oat-dialog .oat-btn:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
 /* —— Wizard —— */
 .oat-step {
   width: 100%;
@@ -533,7 +575,7 @@ main > * {
 
 .oat-progress li {
   font-size: 0.75rem;
-  color: rgba(245, 245, 245, 0.45);
+  color: var(--color-text-muted);
   padding: 0.2rem 0.5rem;
   border: 1px solid transparent;
   max-width: 100%;
@@ -1120,7 +1162,7 @@ main > * {
 }
 
 .oat-clause[data-disabled="true"] {
-  opacity: 0.45;
+  opacity: 0.65;
 }
 
 .oat-clause-actions {

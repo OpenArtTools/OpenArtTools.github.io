@@ -62,17 +62,25 @@ Si algo de lo anterior aparece donde no debería, es una señal para investigar.
 
 | Ruta | Función |
 |------|---------|
-| `src/main.ts` | Pantallas y flujo (inicio → herramienta → revisión → aceptación → exportación) |
+| `src/main.ts` | Orquestación: routing, sesión, deps de páginas, exportación |
+| `src/app/defaults.ts` | Valores por defecto del asistente y maestros de bloques opcionales |
+| `src/pages/platform-pages.ts` | Páginas de plataforma (inicio, apoyo, transparencia, perfil de autoría) |
+| `src/pages/wizard-page.ts` | Asistente de la herramienta (pasos, campos, opciones) |
+| `src/pages/review-page.ts` | Revisión de cláusulas y aceptación / previsualización / exportación |
+| `src/ui/dialogs.ts` | Diálogos accesibles (`notify` / `confirmAction`) |
+| `src/ui/editable-preview.ts` | Previsualización editable del documento (contenteditable en la página) |
 | `src/session.ts` | Estado en memoria; se pierde al cerrar la pestaña |
 | `src/platform.ts` | Marca, catálogo de herramientas, textos de transparencia y apoyo |
 | `src/shell.ts` | Header, franjas fijas, footer |
 | `src/dom.ts` | Helpers DOM mínimos |
+| `src/routing.ts` | Rutas de URL ↔ fase de la app |
 | `src/engine/` | Ensamblado de plantillas (lógica pura, con tests) |
-| `src/templates/` | Textos de los documentos |
+| `src/templates/exhibition-custody-es.ts` | Plantilla del acuerdo de exhibición / custodia (reexporta enrich) |
+| `src/templates/exhibition-custody-enrich.ts` | Valores derivados de la plantilla (fechas, partes, listas) |
 | `src/storage/profile.ts` | Perfil personal: descargar / cargar `.json` |
 | `src/storage/draft.ts` | Borrador de documento: descargar / cargar `.html` (legible; JSON embebido para recarga) |
 | `src/storage/jsonFile.ts` | Utilidades compartidas de lectura/escritura de JSON |
-| `src/export/` | Exportación PDF / HTML / TXT |
+| `src/export/pdf.ts` | Exportación PDF (iframe de impresión con sandbox) / HTML (CSP) / TXT |
 | `PRIVACY.md` | Política de privacidad en lenguaje claro |
 | `SUPPORT.md` | Apoyo voluntario |
 | `README.md` | Guía general de la plataforma |
@@ -113,9 +121,16 @@ Comprobaciones adicionales útiles:
 # CSP solo en el HTML de producción (inyectada en build)
 rg "Content-Security-Policy" dist/index.html vite.config.ts
 
-# Preview e impresión en iframes con sandbox (sin allow-scripts)
-rg "sandbox" src/main.ts src/export/pdf.ts
+# Preview editable: contenteditable en la página (no iframe)
+rg "contentEditable|oat-live-preview" src/ui/editable-preview.ts
+
+# Iframe de impresión con sandbox (sin allow-scripts) + CSP en HTML exportado
+rg "sandbox|Content-Security-Policy" src/export/pdf.ts
 ```
+
+- La **previsualización** es `contenteditable` en la página (no un iframe).
+- El **iframe de impresión** con `sandbox` está en `src/export/pdf.ts`.
+- El **HTML exportado** también lleva una meta CSP restrictiva (`default-src 'none'`, con `style-src 'unsafe-inline'` para los estilos embebidos de impresión).
 
 El borrador `.html` generado también lleva una CSP restrictiva (`default-src 'none'`).
 
