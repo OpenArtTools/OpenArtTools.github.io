@@ -408,7 +408,8 @@ function renderPlatformProfile(): HTMLElement {
   const section = el("section", "oat-files-shelf oat-platform-profile");
 
   const heading = el("h2");
-  heading.textContent = "Datos personales — autoría o posesión de la obra";
+  heading.textContent =
+    "Datos personales — autoría o posesión de la obra · Opcional";
 
   const note = el("p", "lede");
   note.textContent =
@@ -426,10 +427,12 @@ function renderPlatformProfile(): HTMLElement {
   const title = el("span", "oat-disclosure-title");
   title.textContent = "Introducir o cargar datos";
   const hint = el("span", "oat-disclosure-hint");
-  hint.textContent = profileHasData(state.personalProfile)
-    ? profileLabel(state.personalProfile!)
-    : "Opcional";
-  summary.append(title, hint);
+  if (profileHasData(state.personalProfile)) {
+    hint.textContent = profileLabel(state.personalProfile!);
+    summary.append(title, hint);
+  } else {
+    summary.append(title);
+  }
 
   const body = el("div", "oat-disclosure-body");
 
@@ -468,9 +471,12 @@ function renderPlatformProfile(): HTMLElement {
     input.value = profile[spec.key] ?? "";
     input.addEventListener("input", () => {
       setProfileField(spec.key, input.value);
-      hint.textContent = profileHasData(state.personalProfile)
-        ? profileLabel(state.personalProfile!)
-        : "Opcional";
+      if (profileHasData(state.personalProfile)) {
+        hint.textContent = profileLabel(state.personalProfile!);
+        if (!hint.isConnected) summary.append(hint);
+      } else {
+        hint.remove();
+      }
       status.textContent = profileHasData(state.personalProfile)
         ? `En memoria ahora: ${profileLabel(state.personalProfile!)} (se borran al cerrar la pestaña).`
         : "Ningún dato en memoria. Rellena el formulario o carga un archivo.";
