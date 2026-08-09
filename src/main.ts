@@ -783,7 +783,7 @@ function renderTransparency(): HTMLElement {
 
   const supportNote = el("p");
   supportNote.append(
-    document.createTextNode("Si quieres saber cómo funciona el apoyo voluntario: "),
+    document.createTextNode("Si se desea saber cómo funciona el apoyo voluntario: "),
     btn("ver Apoyo", "oat-link-btn", () => go("support")),
     document.createTextNode("."),
   );
