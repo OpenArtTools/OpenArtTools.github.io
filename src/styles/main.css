@@ -778,12 +778,13 @@ main > * {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 0.45rem 1rem;
   cursor: pointer;
   list-style: none;
   padding: 0.35rem 0;
   color: var(--color-text);
+  text-align: left;
 }
 
 .oat-disclosure-summary::-webkit-details-marker {
