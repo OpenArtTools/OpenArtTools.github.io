@@ -86,7 +86,6 @@ const DEFAULT_TOGGLES: AppValues = {
   "custody.weatherProtect": true,
   "insurance.hasRc": true,
   "insurance.hasNailToNail": true,
-  "options.loanFrame": false,
   "options.imageUse": false,
   "options.imageCommercial": false,
   "options.imageAdapt": false,
@@ -101,6 +100,7 @@ const DEFAULT_TOGGLES: AppValues = {
   "options.spaceAccess": false,
   "options.subcontract": false,
   "options.ipRights": false,
+  "options.repairs": false,
   "options.amendments": true,
   "options.notices": true,
   "options.deliveryAct": true,
@@ -140,18 +140,19 @@ function rebuildClauses(): void {
 
 /** Master toggles that decide if an options group is “included”. */
 const OPTION_GROUP_MASTERS: Record<string, string[]> = {
-  "Préstamo / cesión temporal": ["options.loanFrame"],
   "Uso de imagen / reproducción": ["options.imageUse"],
   "Condiciones de venta": ["options.saleTerms"],
   Transporte: ["options.transport"],
-  "Costes y pagos": ["options.costs"],
+  "Remuneración y gastos": ["options.costs"],
   "Cancelación / retirada": ["options.cancellation"],
   "Contactos operativos": ["options.contacts"],
   "Inventario de componentes": ["options.inventory"],
   "Espacio y accesos": ["options.spaceAccess"],
   Subcontratación: ["options.subcontract"],
   "Propiedad intelectual": ["options.ipRights"],
-  "Modificaciones y notificaciones": ["options.amendments", "options.notices"],
+  Reparaciones: ["options.repairs"],
+  "Cambios en la instalación": ["options.amendments"],
+  "Notificaciones formales": ["options.notices"],
   "Otras cláusulas": [
     "options.deliveryAct",
     "options.policyCerts",
@@ -163,19 +164,19 @@ const OPTION_GROUP_MASTERS: Record<string, string[]> = {
 };
 
 const OPTIONAL_SCOPE_LABELS: { path: string; label: string }[] = [
-  { path: "options.loanFrame", label: "Préstamo / cesión" },
   { path: "options.imageUse", label: "Uso de imagen" },
   { path: "options.saleTerms", label: "Condiciones de venta" },
   { path: "options.transport", label: "Transporte" },
-  { path: "options.costs", label: "Costes y pagos" },
+  { path: "options.costs", label: "Remuneración y gastos" },
   { path: "options.cancellation", label: "Cancelación / retirada" },
   { path: "options.contacts", label: "Contactos operativos" },
   { path: "options.inventory", label: "Inventario" },
   { path: "options.spaceAccess", label: "Espacio y accesos" },
   { path: "options.subcontract", label: "Subcontratación" },
   { path: "options.ipRights", label: "Propiedad intelectual" },
-  { path: "options.amendments", label: "Modificaciones" },
-  { path: "options.notices", label: "Notificaciones" },
+  { path: "options.repairs", label: "Reparaciones" },
+  { path: "options.amendments", label: "Cambios en la instalación" },
+  { path: "options.notices", label: "Notificaciones formales" },
   { path: "options.deliveryAct", label: "Acta de entrega" },
   { path: "options.policyCerts", label: "Certificados de póliza" },
   { path: "options.franchise", label: "Franquicia" },
@@ -185,7 +186,6 @@ const OPTIONAL_SCOPE_LABELS: { path: string; label: string }[] = [
 ];
 
 const ALL_OPTION_MASTERS = [
-  "options.loanFrame",
   "options.imageUse",
   "options.saleTerms",
   "options.transport",
@@ -196,6 +196,7 @@ const ALL_OPTION_MASTERS = [
   "options.spaceAccess",
   "options.subcontract",
   "options.ipRights",
+  "options.repairs",
   "options.amendments",
   "options.notices",
   "options.deliveryAct",
@@ -270,12 +271,12 @@ function applyOptionsPreset(kind: "essential" | "full" | "all"): void {
 
   if (kind === "full" || kind === "all") {
     for (const path of [
-      "options.loanFrame",
       "options.imageUse",
       "options.transport",
       "options.contacts",
       "options.spaceAccess",
       "options.ipRights",
+      "options.repairs",
     ] as const) {
       next[path] = true;
     }
@@ -968,7 +969,7 @@ function renderOptionsStep(t: ReturnType<typeof template>): HTMLElement {
   );
   const presetHelp = el("p", "oat-preset-help");
   presetHelp.textContent =
-    "Esencial: acta, seguros, franquicia, perito, modificaciones y notificaciones. Exhibición completa: esencial + préstamo, imagen, transporte, contactos, espacio y PI. Todo: todos los bloques.";
+    "Esencial: acta, seguros, franquicia, perito, cambios en la instalación y notificaciones formales. Exhibición completa: esencial + imagen, transporte, contactos, espacio, PI y reparaciones. Todo: todos los bloques.";
   wrap.append(presets, presetHelp);
 
   const fields = fieldsForStep(t, "options");

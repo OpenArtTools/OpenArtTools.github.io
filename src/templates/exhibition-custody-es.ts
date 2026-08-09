@@ -13,7 +13,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
   id: "exhibition-custody-es",
   name: "Acuerdo de exhibición, custodia, seguro y responsabilidad",
   description:
-    "Acuerdo (o anexo a un contrato principal) para exhibir, prestar o ceder temporalmente una obra: custodia, seguro, uso de imagen, venta y responsabilidad.",
+    "Acuerdo (o anexo a un contrato principal) para exhibir temporalmente una obra: custodia, seguro, uso de imagen, venta y responsabilidad.",
   steps: [
     {
       id: "titularidad",
@@ -25,7 +25,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "solicitante",
       title: "Solicitante de la obra",
       blurb:
-        "Datos completos de quien solicita la exhibición, el préstamo o la cesión. El representante del solicitante es opcional.",
+        "Datos completos de quien solicita la exhibición o la puesta a disposición temporal de la obra. El representante del solicitante es opcional.",
     },
     {
       id: "project",
@@ -632,31 +632,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       step: "insurance",
     },
 
-    // —— Optional: loan / image / sale + other clauses ——
-    {
-      id: "opt_loan",
-      label: "Incluir marco de préstamo o cesión temporal",
-      placeholder:
-        "Activa si la obra se presta o cede temporalmente sin transmitir la autoría",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.loanFrame",
-      step: "options",
-      group: "Préstamo / cesión temporal",
-    },
-    {
-      id: "loan_purpose",
-      label: "Finalidad del préstamo o cesión",
-      placeholder:
-        "Escribe la finalidad (por ejemplo: exhibición temporal en el evento)",
-      emptyMarker: "[finalidad del préstamo o cesión]",
-      type: "text",
-      path: "options.loanPurpose",
-      step: "options",
-      group: "Préstamo / cesión temporal",
-      showIf: "options.loanFrame",
-      required: true,
-    },
+    // —— Optional: image / sale + other clauses ——
     {
       id: "opt_image",
       label: "Incluir autorización de uso de imagen y reproducción",
@@ -886,35 +862,37 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "opt_costs",
-      label: "Incluir costes y pagos",
-      placeholder: "Activa para repartir honorarios, producción, dietas u otros gastos",
+      label: "Incluir si hay o no remuneración y el reparto de gastos",
+      placeholder:
+        "Activa para dejar claro si la Parte Autora cobra por la exhibición y quién asume honorarios, producción, dietas u otros gastos",
       emptyMarker: "",
       type: "toggle",
       path: "options.costs",
       step: "options",
-      group: "Costes y pagos",
+      group: "Remuneración y gastos",
     },
     {
       id: "costs_no_fee",
-      label: "Sin contraprestación económica por la exhibición",
-      placeholder: "Activa si no hay honorario ni pago por participar",
+      label: "Sin remuneración por la exhibición",
+      placeholder:
+        "Marca si no hay honorario ni pago a la Parte Autora por participar o ceder la obra temporalmente",
       emptyMarker: "",
       type: "toggle",
       path: "options.costsNoFee",
       step: "options",
-      group: "Costes y pagos",
+      group: "Remuneración y gastos",
       showIf: "options.costs",
     },
     {
       id: "costs_summary",
-      label: "Reparto de costes y pagos",
+      label: "Detalle de remuneración y gastos",
       placeholder:
-        "Ej.: honorario —; producción a cargo de…; dietas a cargo de…; material de montaje a cargo de…",
-      emptyMarker: "[reparto de costes y pagos]",
+        "Ej.: honorario sí/no y importe; producción a cargo de…; dietas a cargo de…; material de montaje a cargo de…",
+      emptyMarker: "[detalle de remuneración y gastos]",
       type: "textarea",
       path: "options.costsSummary",
       step: "options",
-      group: "Costes y pagos",
+      group: "Remuneración y gastos",
       showIf: "options.costs",
       required: true,
     },
@@ -1158,47 +1136,124 @@ export const exhibitionCustodyEs: TemplateDoc = {
       required: true,
     },
     {
-      id: "opt_amendments",
-      label: "Incluir que las modificaciones sean por escrito",
+      id: "opt_repairs",
+      label: "Incluir régimen de reparaciones",
       placeholder:
-        "Activa para exigir que cualquier cambio al documento conste por escrito",
+        "Activa para fijar quién puede reparar, cómo y qué tipos de reparación están permitidas o prohibidas",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.repairs",
+      step: "options",
+      group: "Reparaciones",
+    },
+    {
+      id: "repairs_who",
+      label: "Quién puede realizar reparaciones",
+      placeholder:
+        "Ej.: solo la Parte Autora; la Parte Solicitante con autorización previa; técnico designado por…",
+      emptyMarker: "[quién puede realizar reparaciones]",
+      type: "text",
+      path: "options.repairsWho",
+      step: "options",
+      group: "Reparaciones",
+      showIf: "options.repairs",
+      required: true,
+    },
+    {
+      id: "repairs_how",
+      label: "Cómo deben hacerse",
+      placeholder:
+        "Describe el procedimiento (aviso previo, autorización escrita, materiales, plazos, supervisión…)",
+      emptyMarker: "[procedimiento de reparaciones]",
+      type: "textarea",
+      path: "options.repairsHow",
+      step: "options",
+      group: "Reparaciones",
+      showIf: "options.repairs",
+      required: true,
+    },
+    {
+      id: "repairs_allowed",
+      label: "Reparaciones permitidas",
+      placeholder:
+        "Ej.: reposición de consumibles, ajustes menores de funcionamiento, limpieza superficial…",
+      emptyMarker: "[reparaciones permitidas]",
+      type: "textarea",
+      path: "options.repairsAllowed",
+      step: "options",
+      group: "Reparaciones",
+      showIf: "options.repairs",
+      required: true,
+    },
+    {
+      id: "repairs_forbidden",
+      label: "Reparaciones no permitidas",
+      placeholder:
+        "Ej.: abrir el sistema electrónico, soldar, sustituir piezas originales, alterar la programación…",
+      emptyMarker: "[reparaciones no permitidas]",
+      type: "textarea",
+      path: "options.repairsForbidden",
+      step: "options",
+      group: "Reparaciones",
+      showIf: "options.repairs",
+      required: true,
+    },
+    {
+      id: "opt_install_changes",
+      label: "Incluir cambios de ubicación, iluminación o configuración",
+      placeholder:
+        "Activa para exigir autorización si se mueve la obra, se cambia la iluminación, se redistribuye el espacio o se altera la configuración",
       emptyMarker: "",
       type: "toggle",
       path: "options.amendments",
       step: "options",
-      group: "Modificaciones y notificaciones",
+      group: "Cambios en la instalación",
+    },
+    {
+      id: "install_changes_terms",
+      label: "Qué cambios requieren autorización y cómo se piden",
+      placeholder:
+        "Ej.: cambio de sala o ubicación; modificar iluminación; redistribuir piezas o perímetro; alterar programación. Indica si hace falta aviso escrito y plazo",
+      emptyMarker: "[régimen de cambios en la instalación]",
+      type: "textarea",
+      path: "options.amendmentTerms",
+      step: "options",
+      group: "Cambios en la instalación",
+      showIf: "options.amendments",
+      required: true,
     },
     {
       id: "opt_notices",
-      label: "Incluir notificaciones formales",
-      placeholder: "Activa para fijar los emails válidos para avisos formales",
+      label: "Incluir emails para avisos formales",
+      placeholder:
+        "Activa para fijar a qué correos deben enviarse las notificaciones formales entre las partes (no son los contactos operativos del día a día)",
       emptyMarker: "",
       type: "toggle",
       path: "options.notices",
       step: "options",
-      group: "Modificaciones y notificaciones",
+      group: "Notificaciones formales",
     },
     {
       id: "notice_email_titular",
       label: "Email para notificaciones — autoría",
-      placeholder: "Escribe el email que vale para avisos formales",
+      placeholder: "Email válido para avisos formales a la Parte Autora",
       emptyMarker: "[email de notificaciones — autoría]",
       type: "text",
       path: "options.noticeEmailTitular",
       step: "options",
-      group: "Modificaciones y notificaciones",
+      group: "Notificaciones formales",
       showIf: "options.notices",
       required: true,
     },
     {
       id: "notice_email_org",
       label: "Email para notificaciones — solicitante de la obra",
-      placeholder: "Escribe el email que vale para avisos formales",
+      placeholder: "Email válido para avisos formales a la Parte Solicitante",
       emptyMarker: "[email de notificaciones — solicitante de la obra]",
       type: "text",
       path: "options.noticeEmailOrg",
       step: "options",
-      group: "Modificaciones y notificaciones",
+      group: "Notificaciones formales",
       showIf: "options.notices",
       required: true,
     },
@@ -1453,14 +1508,6 @@ Las partes manifiestan que {{document.this}} ha sido negociado y aceptado librem
       requireAll: ["options.forceMajeure"],
     },
     {
-      id: "opt_loan",
-      title: "Préstamo o cesión temporal",
-      body: `Las partes acuerdan que la puesta a disposición de la obra o instalación «{{project.workTitle}}» tiene carácter de préstamo o cesión temporal con la siguiente finalidad: {{options.loanPurpose}}.
-Dicha puesta a disposición no transmite la autoría ni la propiedad de la obra ni ningún derecho de explotación distinto de los expresamente regulados en {{document.this}}. La Parte Solicitante recibe la obra en calidad de depositaria / cesionaria temporal a los solos efectos de su exhibición y custodia durante el período acordado, debiendo devolverla a la Parte Autora en los términos previstos {{document.inThis}}.
-Cualquier uso, traslado o manipulación no contemplado requerirá autorización expresa de la Parte Autora.`,
-      requireAll: ["options.loanFrame"],
-    },
-    {
       id: "opt_image",
       title: "Uso de imagen y reproducción",
       body: `La Parte Autora autoriza a la Parte Solicitante a captar, reproducir y difundir imágenes (fijas o en movimiento) de la obra «{{project.workTitle}}» en el siguiente ámbito: {{options.imageScope}}.
@@ -1498,11 +1545,22 @@ Quien organice el transporte cuidará un embalaje adecuado y la coordinación de
     },
     {
       id: "opt_costs",
-      title: "Costes y pagos",
+      title: "Remuneración y gastos",
       body: `{{options.costsNoFeeText}}
-Reparto concreto de costes y pagos (honorarios, producción, dietas, material de montaje u otros): {{options.costsSummary}}.
-Cada parte asume únicamente los conceptos que le correspondan según ese reparto. Cualquier gasto adicional, extraordinario o no previsto requerirá acuerdo expreso previo. La existencia de un pago o reembolso no altera la autoría de la obra ni las obligaciones de custodia, seguro y devolución de {{document.this}}.`,
+Detalle concreto de la remuneración (si la hay) y del reparto de gastos (honorarios, producción, dietas, material de montaje u otros): {{options.costsSummary}}.
+Cada parte asume únicamente los conceptos que le correspondan según ese detalle. Cualquier gasto adicional, extraordinario o no previsto requerirá acuerdo expreso previo. La existencia o no de remuneración no altera la autoría de la obra ni las obligaciones de custodia, seguro y devolución de {{document.this}}.`,
       requireAll: ["options.costs"],
+    },
+    {
+      id: "opt_repairs",
+      title: "Reparaciones",
+      body: `Las reparaciones de la obra o instalación «{{project.workTitle}}» durante el período de custodia se regirán por lo siguiente:
+— Quién puede realizarlas: {{options.repairsWho}}.
+— Procedimiento: {{options.repairsHow}}.
+— Reparaciones permitidas: {{options.repairsAllowed}}.
+— Reparaciones no permitidas: {{options.repairsForbidden}}.
+Salvo autorización expresa de la Parte Autora, queda prohibida cualquier intervención no contemplada como permitida. Las reparaciones no eximen a la Parte Solicitante de su responsabilidad por daños ni de las obligaciones de seguro e indemnización de {{document.this}}.`,
+      requireAll: ["options.repairs"],
     },
     {
       id: "opt_cancellation",
@@ -1557,14 +1615,16 @@ Cualquier uso distinto requerirá autorización adicional y expresa de la Parte 
     },
     {
       id: "opt_amendments",
-      title: "Modificaciones",
-      body: `Cualquier modificación, ampliación o excepción {{document.toThis}} deberá constar por escrito y ser aceptada por ambas partes. No tendrán validez los pactos verbales que contradigan lo aquí acordado.`,
+      title: "Cambios en la instalación",
+      body: `Cualquier cambio de ubicación, iluminación, redistribución espacial, perímetro de protección, configuración, programación u otra condición de exhibición de la obra «{{project.workTitle}}» requerirá autorización previa y expresa de la Parte Autora, preferentemente por escrito.
+Régimen concreto de estos cambios: {{options.amendmentTerms}}.
+Los cambios no autorizados se considerarán incumplimiento de las obligaciones de custodia. Esta cláusula no sustituye la necesidad de acuerdo escrito para modificar el resto de pactos de {{document.this}}.`,
       requireAll: ["options.amendments"],
     },
     {
       id: "opt_notices",
-      title: "Notificaciones",
-      body: `Las notificaciones formales entre las partes relacionadas con {{document.this}} se dirigirán a:
+      title: "Notificaciones formales",
+      body: `Las notificaciones formales entre las partes relacionadas con {{document.this}} (avisos jurídicos o contractuales, no la coordinación operativa cotidiana) se dirigirán a:
 Parte Autora: {{options.noticeEmailTitular}}.
 Parte Solicitante: {{options.noticeEmailOrg}}.
 Se entenderán recibidas cuando conste su envío a dichas direcciones, sin perjuicio de otros medios admitidos en derecho.`,
@@ -1758,10 +1818,10 @@ export function enrichDerivedValues(
 
   if (v["options.costsNoFee"]) {
     v["options.costsNoFeeText"] =
-      "Las partes dejan constancia de que la exhibición o puesta a disposición de la obra no lleva aparejada contraprestación económica por participación, salvo los costes expresamente repartidos a continuación.";
+      "Las partes dejan constancia de que no hay remuneración económica a la Parte Autora por la exhibición o puesta a disposición temporal de la obra, sin perjuicio del reparto de gastos que se detalla a continuación.";
   } else {
     v["options.costsNoFeeText"] =
-      "Las partes regulan los costes y pagos asociados a la exhibición o puesta a disposición de la obra según lo siguiente.";
+      "Las partes regulan la remuneración (si la hay) y el reparto de gastos asociados a la exhibición o puesta a disposición de la obra según lo siguiente.";
   }
 
   const inventoryRaw = String(v["options.inventoryList"] ?? "").trim();

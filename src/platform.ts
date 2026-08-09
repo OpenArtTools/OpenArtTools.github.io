@@ -130,7 +130,7 @@ export const TOOLS: OpenArtTool[] = [
     id: "exhibition-agreements",
     name: "Acuerdos de exhibición",
     blurb:
-      "Exhibición, préstamo, custodia, seguro, imagen, venta, transporte, costes y más cláusulas opcionales.",
+      "Exhibición, custodia, seguro, imagen, venta, transporte, remuneración, reparaciones y más cláusulas opcionales.",
     status: "available",
     templateId: "exhibition-custody-es",
   },

@@ -112,13 +112,11 @@ describe("assembleClauses", () => {
     );
   });
 
-  it("includes loan, image and sale optional clauses when enabled", () => {
+  it("includes image and sale optional clauses when enabled", () => {
     const values = enrichDerivedValues({
       "custody.authorMounts": true,
       "insurance.hasRc": true,
       "insurance.hasNailToNail": true,
-      "options.loanFrame": true,
-      "options.loanPurpose": "exhibición temporal en el evento",
       "options.imageUse": true,
       "options.imageScope": "vista general de la instalación",
       "options.imageMedia": "web y catálogo",
@@ -133,13 +131,10 @@ describe("assembleClauses", () => {
     });
     const clauses = assembleClauses(exhibitionCustodyEs, values);
     const ids = clauses.map((c) => c.id);
-    expect(ids).toContain("opt_loan");
+    expect(ids).not.toContain("opt_loan");
     expect(ids).toContain("opt_image");
     expect(ids).toContain("opt_sale");
     expect(ids[ids.length - 1]).toBe("signatures");
-    expect(clauses.find((c) => c.id === "opt_loan")?.body).toContain(
-      "préstamo o cesión temporal",
-    );
     expect(clauses.find((c) => c.id === "opt_image")?.body).toContain(
       "web y catálogo",
     );
@@ -179,7 +174,14 @@ describe("assembleClauses", () => {
       "options.subcontractTerms": "puede subcontratarse seguridad",
       "options.ipRights": true,
       "options.ipNameUse": "crédito obligatorio en cartela",
+      "options.repairs": true,
+      "options.repairsWho": "solo la Parte Autora o técnico autorizado por ella",
+      "options.repairsHow": "aviso previo por escrito y materiales originales",
+      "options.repairsAllowed": "ajustes menores y reposición de consumibles",
+      "options.repairsForbidden": "abrir electrónica o alterar programación",
       "options.amendments": true,
+      "options.amendmentTerms":
+        "cambio de sala, iluminación o redistribución requiere autorización escrita",
       "options.notices": true,
       "options.noticeEmailTitular": "avisos-a@ejemplo.test",
       "options.noticeEmailOrg": "avisos-b@ejemplo.test",
@@ -195,6 +197,7 @@ describe("assembleClauses", () => {
       "opt_space",
       "opt_subcontract",
       "opt_ip",
+      "opt_repairs",
       "opt_amendments",
       "opt_notices",
     ]) {
@@ -213,6 +216,9 @@ describe("assembleClauses", () => {
     expect(clauses.find((c) => c.id === "opt_costs")?.body).toContain(
       "gasto adicional",
     );
+    expect(clauses.find((c) => c.id === "opt_costs")?.title).toBe(
+      "Remuneración y gastos",
+    );
     expect(clauses.find((c) => c.id === "opt_cancellation")?.body).toContain(
       "incumplimiento grave de custodia",
     );
@@ -227,6 +233,12 @@ describe("assembleClauses", () => {
     );
     expect(clauses.find((c) => c.id === "opt_space")?.title).toBe(
       "Espacio y accesos",
+    );
+    expect(clauses.find((c) => c.id === "opt_repairs")?.body).toContain(
+      "abrir electrónica",
+    );
+    expect(clauses.find((c) => c.id === "opt_amendments")?.body).toContain(
+      "iluminación",
     );
     expect(clauses.find((c) => c.id === "opt_notices")?.body).toContain(
       "avisos-a@ejemplo.test",
@@ -247,10 +259,10 @@ describe("assembleClauses", () => {
       "sigue siendo plenamente responsable",
     );
     expect(clauses.find((c) => c.id === "opt_amendments")?.title).toBe(
-      "Modificaciones",
+      "Cambios en la instalación",
     );
     expect(clauses.find((c) => c.id === "opt_notices")?.title).toBe(
-      "Notificaciones",
+      "Notificaciones formales",
     );
   });
 });

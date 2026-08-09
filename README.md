@@ -50,7 +50,7 @@ Incluye, entre otras cosas:
 - Datos del proyecto e instalación
 - Custodia, montaje y riesgos
 - Seguros y responsabilidad
-- Opcional: préstamo/cesión, imagen, venta, transporte, costes, cancelación, contactos, inventario, espacio, subcontratación, PI, modificaciones y notificaciones
+- Opcional: imagen, venta, transporte, remuneración y gastos, cancelación, contactos, inventario, espacio, subcontratación, PI, reparaciones, cambios en la instalación y notificaciones formales
 - Revisión cláusula a cláusula
 - Exportación a PDF (imprimir / guardar), HTML y TXT
 
