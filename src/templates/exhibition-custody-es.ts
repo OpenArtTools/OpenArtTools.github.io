@@ -47,7 +47,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "insurance",
       title: "Seguros y valor",
-      blurb: "Responsabilidad civil, seguro de daños y valor declarado.",
+      blurb:
+        "Marca solo lo que aporta la Parte Solicitante. Si hay piezas individuales, desglosa el valor del sistema y el de las piezas generadas.",
     },
     {
       id: "options",
@@ -571,8 +572,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     // —— Insurance / value ——
     {
       id: "has_rc",
-      label: "Declarar cobertura de responsabilidad civil",
-      placeholder: "Activa si el solicitante de la obra declara RC del evento",
+      label: "La Parte Solicitante aporta cobertura de responsabilidad civil",
+      placeholder:
+        "Marca solo si el solicitante de la obra es quien proporciona la RC del evento; si no la aporta, déjalo sin marcar",
       emptyMarker: "",
       type: "toggle",
       path: "insurance.hasRc",
@@ -580,8 +582,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "has_nail",
-      label: "Seguro de daños clavo a clavo",
-      placeholder: "Activa si hay (o se exige) seguro de daños a todo riesgo",
+      label: "La Parte Solicitante aporta seguro de daños clavo a clavo",
+      placeholder:
+        "Marca solo si el solicitante de la obra es quien proporciona el seguro de daños a todo riesgo; si no lo aporta, déjalo sin marcar",
       emptyMarker: "",
       type: "toggle",
       path: "insurance.hasNailToNail",
@@ -589,9 +592,10 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "system_value",
-      label: "Valor del sistema técnico (€, sin IVA)",
-      placeholder: "Valor de la parte mecánica, eléctrica y/o electrónica",
-      emptyMarker: "[valor del sistema técnico]",
+      label: "Valor del sistema o instalación (€, sin IVA)",
+      placeholder:
+        "Valor del sistema / instalación (mecánico, eléctrico, electrónico o generador), sin contar las piezas individuales si las hay",
+      emptyMarker: "[valor del sistema o instalación]",
       type: "money",
       path: "insurance.systemValue",
       step: "insurance",
@@ -600,22 +604,27 @@ export const exhibitionCustodyEs: TemplateDoc = {
         "features.electrical",
         "features.electronics",
         "features.hasSystem",
+        "features.hasSculptures",
       ],
+      required: true,
     },
     {
       id: "piece_unit_value",
-      label: "Valor unitario de cada pieza (€, sin IVA)",
-      placeholder: "Escribe el valor de cada pieza individual",
-      emptyMarker: "[valor unitario de cada pieza]",
+      label: "Valor unitario de cada pieza generada (€, sin IVA)",
+      placeholder:
+        "Valor de cada pieza individual generada o tratada aparte (p. ej. cada escultura), sin incluir el sistema",
+      emptyMarker: "[valor unitario de cada pieza generada]",
       type: "money",
       path: "insurance.pieceUnitValue",
       step: "insurance",
       showIf: "features.hasSculptures",
+      required: true,
     },
     {
       id: "total_value",
       label: "Valor total declarado (€, sin IVA)",
-      placeholder: "Escribe el valor total declarado de la instalación",
+      placeholder:
+        "Suma del sistema y, si aplica, de todas las piezas generadas (u otro total acordado)",
       emptyMarker: "[valor total declarado]",
       type: "money",
       path: "insurance.totalValue",
@@ -1888,20 +1897,22 @@ export function enrichDerivedValues(
     Boolean(v["features.electrical"]) ||
     Boolean(v["features.electronics"]) ||
     Boolean(v["features.hasSystem"]);
-  if (hasTechSystem && v["insurance.systemValue"]) {
-    breakdown.push(
-      `— Sistema técnico (mecánico / eléctrico / electrónico): ${v["insurance.systemValue"]} € (IVA no incluido).`,
-    );
-  } else if (hasTechSystem) {
-    breakdown.push(
-      "— Sistema técnico (mecánico / eléctrico / electrónico): [valor del sistema técnico] € (IVA no incluido).",
-    );
+  const hasPieces = Boolean(v["features.hasSculptures"]);
+  const showSystemValue = hasTechSystem || hasPieces;
+  if (showSystemValue) {
+    const systemLabel = hasPieces
+      ? "Sistema / instalación generadora"
+      : "Sistema técnico (mecánico / eléctrico / electrónico)";
+    const systemVal =
+      v["insurance.systemValue"] || "[valor del sistema o instalación]";
+    breakdown.push(`— ${systemLabel}: ${systemVal} € (IVA no incluido).`);
   }
-  if (v["features.hasSculptures"]) {
+  if (hasPieces) {
     const n = v["features.sculptureCount"] || "[número]";
-    const unit = v["insurance.pieceUnitValue"] || "[valor unitario de cada pieza]";
+    const unit =
+      v["insurance.pieceUnitValue"] || "[valor unitario de cada pieza generada]";
     breakdown.push(
-      `— ${n} pieza(s) individual(es): ${unit} € cada una (IVA no incluido).`,
+      `— ${n} pieza(s) generada(s) o tratada(s) aparte: ${unit} € cada una (IVA no incluido).`,
     );
   }
   if (breakdown.length === 0) {
