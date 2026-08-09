@@ -452,7 +452,7 @@ function renderPlatformProfile(): HTMLElement {
   const specs: { key: keyof PersonalProfile; label: string; placeholder: string }[] = [
     { key: "name", label: "Nombre completo", placeholder: "Tu nombre y apellidos" },
     { key: "doc", label: "Documento", placeholder: "DNI, NIE u otro documento" },
-    { key: "role", label: "Rol o profesión", placeholder: "Por ejemplo: práctica artística" },
+    { key: "role", label: "Rol o profesión", placeholder: "p. ej. práctica artística o representante autorizado" },
     { key: "address", label: "Domicilio", placeholder: "Tu domicilio" },
     { key: "email", label: "Email", placeholder: "Tu email" },
     { key: "phone", label: "Teléfono", placeholder: "Tu teléfono" },
