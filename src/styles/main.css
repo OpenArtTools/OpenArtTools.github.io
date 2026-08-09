@@ -908,6 +908,12 @@ main > * {
   align-items: center;
 }
 
+.oat-review-toolbar-end {
+  margin-top: 1.75rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--color-border);
+}
+
 .oat-review-note {
   font-size: 0.9rem;
   color: var(--color-text-muted);
