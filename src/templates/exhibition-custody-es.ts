@@ -1139,7 +1139,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_repairs",
       label: "Incluir régimen de reparaciones",
       placeholder:
-        "Activa para fijar quién puede reparar, cómo y qué tipos de reparación están permitidas o prohibidas",
+        "Activa para fijar quién puede reparar, cómo, qué tipos están permitidas o prohibidas y quién cubre el coste",
       emptyMarker: "",
       type: "toggle",
       path: "options.repairs",
@@ -1193,6 +1193,19 @@ export const exhibitionCustodyEs: TemplateDoc = {
       emptyMarker: "[reparaciones no permitidas]",
       type: "textarea",
       path: "options.repairsForbidden",
+      step: "options",
+      group: "Reparaciones",
+      showIf: "options.repairs",
+      required: true,
+    },
+    {
+      id: "repairs_cost",
+      label: "Quién cubre el coste de las reparaciones",
+      placeholder:
+        "Ej.: a cargo de la Parte Solicitante; a cargo de la Parte Autora si el daño es por vicio propio; materiales a cargo de… y mano de obra a cargo de…",
+      emptyMarker: "[quién cubre el coste de las reparaciones]",
+      type: "textarea",
+      path: "options.repairsCost",
       step: "options",
       group: "Reparaciones",
       showIf: "options.repairs",
@@ -1559,6 +1572,7 @@ Cada parte asume únicamente los conceptos que le correspondan según ese detall
 — Procedimiento: {{options.repairsHow}}.
 — Reparaciones permitidas: {{options.repairsAllowed}}.
 — Reparaciones no permitidas: {{options.repairsForbidden}}.
+— Quién cubre el coste (materiales, mano de obra, transporte técnico u otros): {{options.repairsCost}}.
 Salvo autorización expresa de la Parte Autora, queda prohibida cualquier intervención no contemplada como permitida. Las reparaciones no eximen a la Parte Solicitante de su responsabilidad por daños ni de las obligaciones de seguro e indemnización de {{document.this}}.`,
       requireAll: ["options.repairs"],
     },

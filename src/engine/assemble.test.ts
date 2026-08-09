@@ -179,6 +179,7 @@ describe("assembleClauses", () => {
       "options.repairsHow": "aviso previo por escrito y materiales originales",
       "options.repairsAllowed": "ajustes menores y reposición de consumibles",
       "options.repairsForbidden": "abrir electrónica o alterar programación",
+      "options.repairsCost": "coste a cargo de la Parte Solicitante",
       "options.amendments": true,
       "options.amendmentTerms":
         "cambio de sala, iluminación o redistribución requiere autorización escrita",
@@ -236,6 +237,9 @@ describe("assembleClauses", () => {
     );
     expect(clauses.find((c) => c.id === "opt_repairs")?.body).toContain(
       "abrir electrónica",
+    );
+    expect(clauses.find((c) => c.id === "opt_repairs")?.body).toContain(
+      "coste a cargo de la Parte Solicitante",
     );
     expect(clauses.find((c) => c.id === "opt_amendments")?.body).toContain(
       "iluminación",
