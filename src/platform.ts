@@ -80,8 +80,8 @@ export const SUPPORT = {
 /** Always-visible transparency promise (short). */
 export const TRANSPARENCY = {
   strip:
-    "Código abierto · Sin nube ni almacenamiento local · Auditable",
-  stripShort: "Sin nube · Sin almacenamiento local",
+    "Código abierto · Sin nube ni localStorage · Auditable",
+  stripShort: "Sin nube · Sin localStorage",
   sessionClear:
     "Al cerrar esta pestaña se borran los datos de la plataforma.",
   sessionClearInTool:
@@ -104,7 +104,7 @@ export const TRANSPARENCY = {
     },
     {
       title: "Borrador del documento (dentro de cada herramienta)",
-      body: "El borrador de un acuerdo (formulario y cláusulas) se descarga y carga solo dentro de esa herramienta. Puedes hacerlo en cualquier momento mientras el documento esté en memoria.",
+      body: "El borrador de un acuerdo se descarga como HTML legible (se abre en cualquier navegador) y se puede volver a cargar en esa herramienta. La plataforma no lo guarda.",
     },
     {
       title: "Sin agendas de clientes",
@@ -130,7 +130,7 @@ export const TOOLS: OpenArtTool[] = [
     id: "exhibition-agreements",
     name: "Acuerdos de exhibición",
     blurb:
-      "Crea acuerdos para exhibir obra en festivales, galerías u otros espacios.",
+      "Exhibición, préstamo, custodia, seguro, imagen, venta, transporte, costes y más cláusulas opcionales.",
     status: "available",
     templateId: "exhibition-custody-es",
   },

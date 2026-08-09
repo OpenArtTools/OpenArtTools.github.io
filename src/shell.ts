@@ -104,7 +104,7 @@ export function renderSessionStrip(opts: {
       opts.onDownloadDraft,
     );
     download.title =
-      "Descarga el borrador de este acuerdo tal como está ahora. Solo existe dentro de esta herramienta.";
+      "Descarga el borrador en HTML legible (cualquier sistema). Solo existe en tu dispositivo.";
     strip.append(download);
   }
 

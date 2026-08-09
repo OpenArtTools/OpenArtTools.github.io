@@ -536,6 +536,85 @@ main {
   color: var(--color-text-muted);
 }
 
+.oat-options-tip {
+  max-width: var(--measure);
+  color: var(--color-text-muted);
+  margin: 0 0 1rem;
+}
+
+.oat-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.oat-preset-btn {
+  font-size: 0.86rem;
+  padding: 0.45rem 0.75rem;
+}
+
+.oat-preset-help {
+  max-width: var(--measure);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin: 0 0 1.35rem;
+  line-height: 1.4;
+}
+
+.oat-option-block {
+  max-width: var(--measure);
+  margin: 0 0 0.65rem;
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.oat-option-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  cursor: pointer;
+  list-style: none;
+  padding: 0.85rem 0.95rem;
+  font-size: 0.95rem;
+}
+
+.oat-option-summary::-webkit-details-marker {
+  display: none;
+}
+
+.oat-option-summary-title {
+  font-weight: 500;
+}
+
+.oat-option-summary-status {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.oat-option-summary-status[data-on="true"] {
+  color: var(--color-text);
+}
+
+.oat-option-body {
+  padding: 0 0.95rem 0.85rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.oat-scope-summary {
+  max-width: var(--measure);
+  margin: 0 0 1.25rem;
+  padding: 0.75rem 0.85rem;
+  border-left: 2px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
 .oat-field {
   margin-bottom: 1.15rem;
 }

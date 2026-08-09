@@ -26,6 +26,10 @@ Esa advertencia está siempre visible en una franja superior de la interfaz.
 
 Los gestores de contraseñas y las extensiones del navegador pueden leer o sugerir datos en formularios; eso lo controla el navegador o la extensión, no Open Art Tools.
 
+El **código de la plataforma no incluye analítica ni telemetría**. El hosting (p. ej. GitHub Pages) puede registrar peticiones web habituales (IP, URL, user-agent); eso no incluye el contenido de tus formularios, que no se envía a ningún servidor de la plataforma.
+
+Carga solo perfiles o borradores que **tú** hayas creado o en los que confíes.
+
 ---
 
 ## Qué significa “no almacena”
@@ -35,7 +39,7 @@ Los gestores de contraseñas y las extensiones del navegador pueden leer o suger
 | Rellenas un formulario | Queda en memoria de esa pestaña |
 | Cierras la pestaña | La plataforma ya no tiene esos datos |
 | Recargas la página | Empiezas de cero (salvo que cargues un archivo tuyo) |
-| Descargas un `.json` o un PDF | El archivo queda **donde tú lo guardes**; la plataforma no se queda una copia |
+| Descargas un perfil `.json`, un borrador `.html` o un PDF | El archivo queda **donde tú lo guardes**; la plataforma no se queda una copia |
 | Exportas PDF / HTML / TXT | Solo en tu dispositivo; la plataforma no lo sube a ningún servidor |
 
 ---
@@ -53,12 +57,14 @@ Hay **dos tipos**, con funciones distintas:
 - **Sirve para:** reutilizar esa identidad en esta herramienta y en futuras (p. ej. rellenar la titularidad de la obra)
 - **No es:** una lista de clientes, ni una agenda de terceros
 
-### 2. Borrador de documento — `openarttools.draft`
+### 2. Borrador de documento — HTML legible (`openarttools.draft`)
 
 - **Nivel:** dentro de una herramienta (p. ej. Acuerdos de exhibición)
-- **Contiene:** el estado de **ese** documento (valores del formulario, cláusulas, si editaste a mano, paso del asistente)
-- **Sirve para:** retomar el mismo acuerdo más tarde
+- **Formato:** archivo `.html` que puedes abrir en cualquier navegador / sistema
+- **Contiene:** vista legible del borrador + datos para recargarlo en la herramienta
+- **Sirve para:** leerlo fuera de la app y retomar el mismo acuerdo más tarde
 - **No es:** el perfil de autoría o posesión de la obra (ese es el otro tipo de archivo)
+- **Confianza:** carga en la herramienta solo borradores que hayas creado tú o en los que confíes (un `.html` manipulado podría intentar engañarte al abrirlo fuera de la app)
 
 **Responsabilidad:** cómo guardas, copias o compartes esos archivos es cosa tuya. La plataforma no puede proteger un archivo que sale de tu dispositivo.
 
@@ -66,7 +72,7 @@ Hay **dos tipos**, con funciones distintas:
 
 ## Qué sale de la plataforma (solo si tú lo decides)
 
-1. **Archivos `.json`** de perfil o borrador que descargas.
+1. **Archivos** de perfil (`.json`) o borrador (`.html`) que descargas.
 2. **Exportaciones** del documento: PDF (vía diálogo de impresión / guardar), HTML o TXT.
 3. Si usas el apartado de **apoyo voluntario** y hay un enlace de pago, sales a un **proveedor externo** (PayPal u otro). Ahí aplican sus condiciones; Open Art Tools no procesa el pago ni guarda datos de donación. Ver [SUPPORT.md](SUPPORT.md).
 

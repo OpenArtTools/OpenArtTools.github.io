@@ -12,12 +12,18 @@ export const exhibitionCustodyEs: TemplateDoc = {
   id: "exhibition-custody-es",
   name: "Acuerdo de exhibición, custodia, seguro y responsabilidad",
   description:
-    "Condiciones para exhibir una instalación u obra en un festival, galería u otro espacio: custodia, seguro y responsabilidad.",
+    "Condiciones para exhibir, prestar o ceder temporalmente una obra: custodia, seguro, uso de imagen, venta y responsabilidad.",
   steps: [
     {
-      id: "parties",
-      title: "Partes",
-      blurb: "Identifica a quien ostenta la titularidad de la obra y a la organización receptora.",
+      id: "titularidad",
+      title: "Titularidad de la obra",
+      blurb:
+        "Datos de quien ostenta la autoría o la posesión de la obra en este acuerdo.",
+    },
+    {
+      id: "solicitante",
+      title: "Solicitante de la obra",
+      blurb: "Datos de quien solicita la exhibición, el préstamo o la cesión de la obra y firma como parte receptora.",
     },
     {
       id: "project",
@@ -42,7 +48,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "options",
       title: "Cláusulas opcionales",
-      blurb: "Activa bloques extra según lo que necesites negociar.",
+      blurb:
+        "Solo activa lo que necesitéis. Lo desactivado no aparece en el documento.",
     },
   ],
   fields: [
@@ -55,8 +62,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "parties.author.name",
       required: true,
-      step: "parties",
-      group: "Titularidad de la obra",
+      step: "titularidad",
     },
     {
       id: "author_doc",
@@ -66,8 +72,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "parties.author.doc",
       required: true,
-      step: "parties",
-      group: "Titularidad de la obra",
+      step: "titularidad",
     },
     {
       id: "author_role",
@@ -77,8 +82,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "parties.author.role",
       required: true,
-      step: "parties",
-      group: "Titularidad de la obra",
+      step: "titularidad",
     },
     {
       id: "author_address",
@@ -87,8 +91,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       emptyMarker: "[domicilio — titularidad de la obra]",
       type: "text",
       path: "parties.author.address",
-      step: "parties",
-      group: "Titularidad de la obra",
+      step: "titularidad",
     },
     {
       id: "author_email",
@@ -97,8 +100,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       emptyMarker: "[email — titularidad de la obra]",
       type: "text",
       path: "parties.author.email",
-      step: "parties",
-      group: "Titularidad de la obra",
+      step: "titularidad",
     },
     {
       id: "author_phone",
@@ -107,41 +109,37 @@ export const exhibitionCustodyEs: TemplateDoc = {
       emptyMarker: "[teléfono — titularidad de la obra]",
       type: "text",
       path: "parties.author.phone",
-      step: "parties",
-      group: "Titularidad de la obra",
+      step: "titularidad",
     },
     {
       id: "org_name",
-      label: "Razón social de la organización",
-      placeholder: "Escribe la razón social completa de la organización",
-      emptyMarker: "[razón social de la organización]",
+      label: "Nombre o razón social — solicitante de la obra",
+      placeholder: "Escribe el nombre o razón social del solicitante de la obra",
+      emptyMarker: "[nombre o razón social — solicitante de la obra]",
       type: "text",
       path: "parties.org.name",
       required: true,
-      step: "parties",
-      group: "Organización / cliente",
+      step: "solicitante",
     },
     {
       id: "org_cif",
-      label: "CIF / NIF de la organización",
-      placeholder: "Escribe el CIF o NIF de la organización",
-      emptyMarker: "[CIF o NIF de la organización]",
+      label: "Documento — solicitante de la obra",
+      placeholder: "Escribe el CIF, NIF u otro documento del solicitante de la obra",
+      emptyMarker: "[documento — solicitante de la obra]",
       type: "text",
       path: "parties.org.cif",
       required: true,
-      step: "parties",
-      group: "Organización / cliente",
+      step: "solicitante",
     },
     {
       id: "org_rep_name",
       label: "Nombre del representante",
-      placeholder: "Escribe el nombre completo de quien firma por la organización",
+      placeholder: "Escribe el nombre completo de quien firma por el solicitante de la obra",
       emptyMarker: "[nombre del representante]",
       type: "text",
       path: "parties.org.repName",
       required: true,
-      step: "parties",
-      group: "Organización / cliente",
+      step: "solicitante",
     },
     {
       id: "org_rep_doc",
@@ -151,8 +149,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "parties.org.repDoc",
       required: true,
-      step: "parties",
-      group: "Organización / cliente",
+      step: "solicitante",
     },
     {
       id: "org_rep_role",
@@ -162,49 +159,44 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "parties.org.repRole",
       required: true,
-      step: "parties",
-      group: "Organización / cliente",
+      step: "solicitante",
     },
     {
       id: "org_role_desc",
-      label: "Rol de la organización en el evento",
-      placeholder: "Escribe el rol de la organización respecto al evento",
-      emptyMarker: "[rol de la organización]",
+      label: "Rol en el evento — solicitante de la obra",
+      placeholder: "Escribe el rol del solicitante de la obra respecto al evento",
+      emptyMarker: "[rol — solicitante de la obra]",
       type: "text",
       path: "parties.org.roleDesc",
       required: true,
-      step: "parties",
-      group: "Organización / cliente",
+      step: "solicitante",
     },
     {
       id: "org_address",
-      label: "Domicilio de la organización",
-      placeholder: "Escribe el domicilio social o de notificación",
-      emptyMarker: "[domicilio de la organización]",
+      label: "Domicilio — solicitante de la obra",
+      placeholder: "Escribe el domicilio del solicitante de la obra",
+      emptyMarker: "[domicilio — solicitante de la obra]",
       type: "text",
       path: "parties.org.address",
-      step: "parties",
-      group: "Organización / cliente",
+      step: "solicitante",
     },
     {
       id: "org_email",
-      label: "Email de la organización",
+      label: "Email — solicitante de la obra",
       placeholder: "Escribe el email de contacto",
-      emptyMarker: "[email de la organización]",
+      emptyMarker: "[email — solicitante de la obra]",
       type: "text",
       path: "parties.org.email",
-      step: "parties",
-      group: "Organización / cliente",
+      step: "solicitante",
     },
     {
       id: "org_phone",
-      label: "Teléfono de la organización",
+      label: "Teléfono — solicitante de la obra",
       placeholder: "Escribe el teléfono de contacto",
-      emptyMarker: "[teléfono de la organización]",
+      emptyMarker: "[teléfono — solicitante de la obra]",
       type: "text",
       path: "parties.org.phone",
-      step: "parties",
-      group: "Organización / cliente",
+      step: "solicitante",
     },
 
     // —— Project ——
@@ -465,7 +457,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "weather_protect",
       label: "Obligación de protección meteorológica",
-      placeholder: "Activa si la organización debe proteger frente a clima",
+      placeholder: "Activa si el solicitante de la obra debe proteger frente a clima",
       emptyMarker: "",
       type: "toggle",
       path: "custody.weatherProtect",
@@ -476,7 +468,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "has_rc",
       label: "Declarar cobertura de responsabilidad civil",
-      placeholder: "Activa si la organización declara RC del evento",
+      placeholder: "Activa si el solicitante de la obra declara RC del evento",
       emptyMarker: "",
       type: "toggle",
       path: "insurance.hasRc",
@@ -522,7 +514,576 @@ export const exhibitionCustodyEs: TemplateDoc = {
       step: "insurance",
     },
 
-    // —— Optional clauses toggles ——
+    // —— Optional: loan / image / sale + other clauses ——
+    {
+      id: "opt_loan",
+      label: "Incluir marco de préstamo o cesión temporal",
+      placeholder:
+        "Activa si la obra se presta o cede temporalmente sin transmitir la titularidad",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.loanFrame",
+      step: "options",
+      group: "Préstamo / cesión temporal",
+    },
+    {
+      id: "loan_purpose",
+      label: "Finalidad del préstamo o cesión",
+      placeholder:
+        "Escribe la finalidad (por ejemplo: exhibición temporal en el evento)",
+      emptyMarker: "[finalidad del préstamo o cesión]",
+      type: "text",
+      path: "options.loanPurpose",
+      step: "options",
+      group: "Préstamo / cesión temporal",
+      showIf: "options.loanFrame",
+      required: true,
+    },
+    {
+      id: "opt_image",
+      label: "Incluir autorización de uso de imagen y reproducción",
+      placeholder:
+        "Activa para autorizar fotos, vídeo o reproducción de la obra en ciertos medios",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.imageUse",
+      step: "options",
+      group: "Uso de imagen / reproducción",
+    },
+    {
+      id: "image_scope",
+      label: "Ámbito de la autorización",
+      placeholder:
+        "Describe qué se puede captar o reproducir (obra completa, detalles, montaje…)",
+      emptyMarker: "[ámbito de la autorización de imagen]",
+      type: "textarea",
+      path: "options.imageScope",
+      step: "options",
+      group: "Uso de imagen / reproducción",
+      showIf: "options.imageUse",
+      required: true,
+    },
+    {
+      id: "image_media",
+      label: "Medios autorizados",
+      placeholder:
+        "Escribe los medios (web, redes, catálogo, prensa, dossier…)",
+      emptyMarker: "[medios autorizados]",
+      type: "text",
+      path: "options.imageMedia",
+      step: "options",
+      group: "Uso de imagen / reproducción",
+      showIf: "options.imageUse",
+      required: true,
+    },
+    {
+      id: "image_duration",
+      label: "Duración de la autorización",
+      placeholder:
+        "Escribe el período (por ejemplo: durante el evento y seis meses después)",
+      emptyMarker: "[duración de la autorización]",
+      type: "text",
+      path: "options.imageDuration",
+      step: "options",
+      group: "Uso de imagen / reproducción",
+      showIf: "options.imageUse",
+      required: true,
+    },
+    {
+      id: "image_credit",
+      label: "Crédito obligatorio",
+      placeholder:
+        "Escribe cómo debe citarse la obra y a quien tiene la autoría o posesión",
+      emptyMarker: "[crédito obligatorio]",
+      type: "text",
+      path: "options.imageCredit",
+      step: "options",
+      group: "Uso de imagen / reproducción",
+      showIf: "options.imageUse",
+      required: true,
+    },
+    {
+      id: "image_commercial",
+      label: "Uso comercial autorizado",
+      placeholder:
+        "Activa solo si se permite uso con fines comerciales o publicitarios",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.imageCommercial",
+      step: "options",
+      group: "Uso de imagen / reproducción",
+      showIf: "options.imageUse",
+    },
+    {
+      id: "image_adapt",
+      label: "Permitir recortes o adaptaciones menores",
+      placeholder:
+        "Activa si se permiten recortes, reencuadres o adaptaciones técnicas menores",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.imageAdapt",
+      step: "options",
+      group: "Uso de imagen / reproducción",
+      showIf: "options.imageUse",
+    },
+    {
+      id: "opt_sale",
+      label: "Incluir condiciones de venta de la obra",
+      placeholder:
+        "Activa si este acuerdo también regula una posible venta de la obra",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.saleTerms",
+      step: "options",
+      group: "Condiciones de venta",
+    },
+    {
+      id: "sale_price",
+      label: "Precio de venta (€, impuestos aparte si aplica)",
+      placeholder: "Escribe el precio acordado o el precio de referencia",
+      emptyMarker: "[precio de venta]",
+      type: "money",
+      path: "options.salePrice",
+      step: "options",
+      group: "Condiciones de venta",
+      showIf: "options.saleTerms",
+      required: true,
+    },
+    {
+      id: "sale_reservation",
+      label: "Reserva o señal",
+      placeholder:
+        "Escribe si hay reserva, señal o condiciones para apartar la obra",
+      emptyMarker: "[condiciones de reserva o señal]",
+      type: "text",
+      path: "options.saleReservation",
+      step: "options",
+      group: "Condiciones de venta",
+      showIf: "options.saleTerms",
+    },
+    {
+      id: "sale_delivery",
+      label: "Entrega tras la venta",
+      placeholder:
+        "Escribe cuándo y cómo se entrega la obra tras la venta",
+      emptyMarker: "[condiciones de entrega tras la venta]",
+      type: "text",
+      path: "options.saleDelivery",
+      step: "options",
+      group: "Condiciones de venta",
+      showIf: "options.saleTerms",
+      required: true,
+    },
+    {
+      id: "sale_no_exclusivity",
+      label: "La venta no implica representación exclusiva",
+      placeholder:
+        "Activa para dejar claro que vender no otorga exclusividad de representación",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.saleNoExclusivity",
+      step: "options",
+      group: "Condiciones de venta",
+      showIf: "options.saleTerms",
+    },
+    {
+      id: "sale_notes",
+      label: "Otras condiciones de venta",
+      placeholder: "Escribe cualquier otra condición relevante de la venta",
+      emptyMarker: "[otras condiciones de venta]",
+      type: "textarea",
+      path: "options.saleNotes",
+      step: "options",
+      group: "Condiciones de venta",
+      showIf: "options.saleTerms",
+    },
+    {
+      id: "opt_transport",
+      label: "Incluir transporte (ida y vuelta)",
+      placeholder: "Activa para repartir quién organiza, quién paga y los puntos de recogida/entrega",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.transport",
+      step: "options",
+      group: "Transporte",
+    },
+    {
+      id: "transport_organizer",
+      label: "Quién organiza el transporte",
+      placeholder: "Escribe quién organiza la ida y la vuelta",
+      emptyMarker: "[quién organiza el transporte]",
+      type: "text",
+      path: "options.transportOrganizer",
+      step: "options",
+      group: "Transporte",
+      showIf: "options.transport",
+      required: true,
+    },
+    {
+      id: "transport_payer",
+      label: "Quién paga el transporte",
+      placeholder: "Escribe quién asume el coste del transporte",
+      emptyMarker: "[quién paga el transporte]",
+      type: "text",
+      path: "options.transportPayer",
+      step: "options",
+      group: "Transporte",
+      showIf: "options.transport",
+      required: true,
+    },
+    {
+      id: "transport_pickup",
+      label: "Punto de recogida (ida)",
+      placeholder: "Escribe dirección o lugar de recogida",
+      emptyMarker: "[punto de recogida]",
+      type: "text",
+      path: "options.transportPickup",
+      step: "options",
+      group: "Transporte",
+      showIf: "options.transport",
+      required: true,
+    },
+    {
+      id: "transport_return",
+      label: "Punto de entrega (vuelta)",
+      placeholder: "Escribe dirección o lugar de devolución",
+      emptyMarker: "[punto de entrega de vuelta]",
+      type: "text",
+      path: "options.transportReturn",
+      step: "options",
+      group: "Transporte",
+      showIf: "options.transport",
+      required: true,
+    },
+    {
+      id: "transport_notes",
+      label: "Notas de transporte / seguro en tránsito",
+      placeholder: "Escribe condiciones extra (embalaje, seguro en tránsito, horarios…)",
+      emptyMarker: "[notas de transporte]",
+      type: "textarea",
+      path: "options.transportNotes",
+      step: "options",
+      group: "Transporte",
+      showIf: "options.transport",
+    },
+    {
+      id: "opt_costs",
+      label: "Incluir costes y pagos",
+      placeholder: "Activa para repartir honorarios, producción, dietas u otros gastos",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.costs",
+      step: "options",
+      group: "Costes y pagos",
+    },
+    {
+      id: "costs_no_fee",
+      label: "Sin contraprestación económica por la exhibición",
+      placeholder: "Activa si no hay honorario ni pago por participar",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.costsNoFee",
+      step: "options",
+      group: "Costes y pagos",
+      showIf: "options.costs",
+    },
+    {
+      id: "costs_summary",
+      label: "Reparto de costes y pagos",
+      placeholder:
+        "Ej.: honorario —; producción a cargo de…; dietas a cargo de…; material de montaje a cargo de…",
+      emptyMarker: "[reparto de costes y pagos]",
+      type: "textarea",
+      path: "options.costsSummary",
+      step: "options",
+      group: "Costes y pagos",
+      showIf: "options.costs",
+      required: true,
+    },
+    {
+      id: "opt_cancellation",
+      label: "Incluir cancelación y retirada anticipada",
+      placeholder:
+        "Activa para regular cancelación del evento o retirada de la obra",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.cancellation",
+      step: "options",
+      group: "Cancelación / retirada",
+    },
+    {
+      id: "cancellation_terms",
+      label: "Cancelación del evento o del acuerdo",
+      placeholder:
+        "Describe qué ocurre si el evento o el acuerdo se cancelan",
+      emptyMarker: "[condiciones de cancelación]",
+      type: "textarea",
+      path: "options.cancellationTerms",
+      step: "options",
+      group: "Cancelación / retirada",
+      showIf: "options.cancellation",
+      required: true,
+    },
+    {
+      id: "withdrawal_terms",
+      label: "Retirada anticipada de la obra",
+      placeholder:
+        "Describe cuándo se puede retirar la obra (falta de seguros, condiciones incumplidas…)",
+      emptyMarker: "[condiciones de retirada anticipada]",
+      type: "textarea",
+      path: "options.withdrawalTerms",
+      step: "options",
+      group: "Cancelación / retirada",
+      showIf: "options.cancellation",
+      required: true,
+    },
+    {
+      id: "opt_contacts",
+      label: "Incluir contactos operativos",
+      placeholder:
+        "Activa para fijar personas de referencia durante montaje y exhibición",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.contacts",
+      step: "options",
+      group: "Contactos operativos",
+    },
+    {
+      id: "contact_titular_name",
+      label: "Contacto — titularidad de la obra (nombre)",
+      placeholder: "Nombre de la persona de referencia",
+      emptyMarker: "[contacto titularidad — nombre]",
+      type: "text",
+      path: "options.contactTitularName",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "contact_titular_phone",
+      label: "Contacto — titularidad de la obra (teléfono)",
+      placeholder: "Teléfono de contacto operativo",
+      emptyMarker: "[contacto titularidad — teléfono]",
+      type: "text",
+      path: "options.contactTitularPhone",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "contact_titular_email",
+      label: "Contacto — titularidad de la obra (email)",
+      placeholder: "Email de contacto operativo",
+      emptyMarker: "[contacto titularidad — email]",
+      type: "text",
+      path: "options.contactTitularEmail",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "contact_org_name",
+      label: "Contacto — solicitante de la obra (nombre)",
+      placeholder: "Nombre de la persona de referencia",
+      emptyMarker: "[contacto solicitante de la obra — nombre]",
+      type: "text",
+      path: "options.contactOrgName",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "contact_org_phone",
+      label: "Contacto — solicitante de la obra (teléfono)",
+      placeholder: "Teléfono de contacto operativo",
+      emptyMarker: "[contacto solicitante de la obra — teléfono]",
+      type: "text",
+      path: "options.contactOrgPhone",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "contact_org_email",
+      label: "Contacto — solicitante de la obra (email)",
+      placeholder: "Email de contacto operativo",
+      emptyMarker: "[contacto solicitante de la obra — email]",
+      type: "text",
+      path: "options.contactOrgEmail",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "opt_inventory",
+      label: "Incluir inventario de componentes",
+      placeholder:
+        "Activa para anexar la lista de piezas, cables, controladores, etc.",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.inventory",
+      step: "options",
+      group: "Inventario de componentes",
+    },
+    {
+      id: "inventory_list",
+      label: "Inventario",
+      placeholder:
+        "Lista cada componente (una línea por elemento: piezas, cables, controladores…)",
+      emptyMarker: "[inventario de componentes]",
+      type: "textarea",
+      path: "options.inventoryList",
+      step: "options",
+      group: "Inventario de componentes",
+      showIf: "options.inventory",
+      required: true,
+    },
+    {
+      id: "opt_space",
+      label: "Incluir espacio y accesos",
+      placeholder:
+        "Activa para fijar sala, horarios técnicos y quién aporta barreras o cartelas",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.spaceAccess",
+      step: "options",
+      group: "Espacio y accesos",
+    },
+    {
+      id: "space_description",
+      label: "Espacio de exhibición",
+      placeholder: "Sala, medidas mínimas u otras condiciones del espacio",
+      emptyMarker: "[espacio de exhibición]",
+      type: "text",
+      path: "options.spaceDescription",
+      step: "options",
+      group: "Espacio y accesos",
+      showIf: "options.spaceAccess",
+      required: true,
+    },
+    {
+      id: "space_hours",
+      label: "Horarios de acceso técnico",
+      placeholder: "Horarios para montaje, mantenimiento o acceso técnico",
+      emptyMarker: "[horarios de acceso técnico]",
+      type: "text",
+      path: "options.spaceHours",
+      step: "options",
+      group: "Espacio y accesos",
+      showIf: "options.spaceAccess",
+      required: true,
+    },
+    {
+      id: "space_equipment",
+      label: "Quién aporta barreras, cartelas, pedestales u otros",
+      placeholder: "Describe qué aporta cada parte (barreras, cartelas, pedestales…)",
+      emptyMarker: "[aporte de barreras, cartelas u otros]",
+      type: "textarea",
+      path: "options.spaceEquipment",
+      step: "options",
+      group: "Espacio y accesos",
+      showIf: "options.spaceAccess",
+      required: true,
+    },
+    {
+      id: "opt_subcontract",
+      label: "Incluir subcontratación / terceros",
+      placeholder:
+        "Activa si pueden intervenir montadores, seguridad u otros terceros",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.subcontract",
+      step: "options",
+      group: "Subcontratación",
+    },
+    {
+      id: "subcontract_terms",
+      label: "Condiciones de subcontratación",
+      placeholder:
+        "Ej.: seguridad del recinto y transporte interno; no el montaje artístico",
+      emptyMarker: "[condiciones de subcontratación]",
+      type: "textarea",
+      path: "options.subcontractTerms",
+      step: "options",
+      group: "Subcontratación",
+      showIf: "options.subcontract",
+      required: true,
+    },
+    {
+      id: "opt_ip",
+      label: "Incluir propiedad intelectual (más allá de imagen)",
+      placeholder:
+        "Activa para dejar claro que no hay cesión de derechos ni obras derivadas",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.ipRights",
+      step: "options",
+      group: "Propiedad intelectual",
+    },
+    {
+      id: "ip_name_use",
+      label: "Uso de nombre, crédito o marca",
+      placeholder:
+        "Describe cómo puede usarse el nombre o crédito de quien tiene la autoría o posesión",
+      emptyMarker: "[uso de nombre, crédito o marca]",
+      type: "text",
+      path: "options.ipNameUse",
+      step: "options",
+      group: "Propiedad intelectual",
+      showIf: "options.ipRights",
+      required: true,
+    },
+    {
+      id: "opt_amendments",
+      label: "Incluir que las modificaciones sean por escrito",
+      placeholder:
+        "Activa para exigir que cualquier cambio al anexo conste por escrito",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.amendments",
+      step: "options",
+      group: "Modificaciones y notificaciones",
+    },
+    {
+      id: "opt_notices",
+      label: "Incluir notificaciones formales",
+      placeholder: "Activa para fijar los emails válidos para avisos formales",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.notices",
+      step: "options",
+      group: "Modificaciones y notificaciones",
+    },
+    {
+      id: "notice_email_titular",
+      label: "Email para notificaciones — titularidad de la obra",
+      placeholder: "Escribe el email que vale para avisos formales",
+      emptyMarker: "[email de notificaciones — titularidad]",
+      type: "text",
+      path: "options.noticeEmailTitular",
+      step: "options",
+      group: "Modificaciones y notificaciones",
+      showIf: "options.notices",
+      required: true,
+    },
+    {
+      id: "notice_email_org",
+      label: "Email para notificaciones — solicitante de la obra",
+      placeholder: "Escribe el email que vale para avisos formales",
+      emptyMarker: "[email de notificaciones — solicitante de la obra]",
+      type: "text",
+      path: "options.noticeEmailOrg",
+      step: "options",
+      group: "Modificaciones y notificaciones",
+      showIf: "options.notices",
+      required: true,
+    },
     {
       id: "opt_delivery_act",
       label: "Incluir acta de entrega y devolución",
@@ -531,6 +1092,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.deliveryAct",
       step: "options",
+      group: "Otras cláusulas",
     },
     {
       id: "opt_policy_certs",
@@ -540,15 +1102,17 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.policyCerts",
       step: "options",
+      group: "Otras cláusulas",
     },
     {
       id: "opt_franchise",
-      label: "Franquicia a cargo de la organización",
+      label: "Franquicia a cargo del solicitante de la obra",
       placeholder: "Activa para dejar claro quién asume la franquicia",
       emptyMarker: "",
       type: "toggle",
       path: "options.franchise",
       step: "options",
+      group: "Otras cláusulas",
     },
     {
       id: "opt_jurisdiction",
@@ -558,6 +1122,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.jurisdiction",
       step: "options",
+      group: "Otras cláusulas",
     },
     {
       id: "law_text",
@@ -567,6 +1132,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.lawText",
       step: "options",
+      group: "Otras cláusulas",
       showIf: "options.jurisdiction",
       required: true,
     },
@@ -578,6 +1144,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.courtsText",
       step: "options",
+      group: "Otras cláusulas",
       showIf: "options.jurisdiction",
       required: true,
     },
@@ -589,6 +1156,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.independentExpert",
       step: "options",
+      group: "Otras cláusulas",
     },
     {
       id: "opt_force_majeure",
@@ -598,6 +1166,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.forceMajeure",
       step: "options",
+      group: "Otras cláusulas",
     },
   ],
   clauses: [
@@ -615,7 +1184,7 @@ En {{project.city}}, a {{project.signDate}}`,
 {{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, quien ostenta la titularidad de la obra («Parte Titular»).{{parties.author.extra}}
 
 Y de otra,
-{{parties.org.name}}, con CIF/NIF {{parties.org.cif}}, {{parties.org.roleDesc}} de {{project.eventName}}, representada en este acto por {{parties.org.repName}}, con documento {{parties.org.repDoc}}, en calidad de {{parties.org.repRole}}, en adelante, la Organización.{{parties.org.extra}}
+{{parties.org.name}}, con CIF/NIF {{parties.org.cif}}, {{parties.org.roleDesc}} de {{project.eventName}}, actuando en este acto a través de {{parties.org.repName}}, con documento {{parties.org.repDoc}}, en calidad de {{parties.org.repRole}}, en adelante, solicitante de la obra («Parte Solicitante»).{{parties.org.extra}}
 
 Ambas partes, reconociéndose capacidad legal suficiente para obligarse,`,
     },
@@ -629,73 +1198,73 @@ III. Que el presente Anexo constituye un acuerdo específico negociado y aceptad
     {
       id: "primera",
       title: "PRIMERA. Objeto",
-      body: `La Parte Titular cede temporalmente la instalación artística «{{project.workTitle}}» para su exhibición durante {{project.eventName}}, a solicitud de la Organización.{{project.exhibitPeriod}}`,
+      body: `La Parte Titular cede temporalmente la instalación artística «{{project.workTitle}}» para su exhibición durante {{project.eventName}}, a solicitud de la Parte Solicitante.{{project.exhibitPeriod}}`,
     },
     {
       id: "segunda",
       title: "SEGUNDA. Conocimiento y aceptación de la instalación",
-      body: `La Organización declara haber recibido con carácter previo a la firma del presente Anexo toda la información técnica necesaria relativa a la instalación, incluyendo su funcionamiento, necesidades eléctricas, características mecánicas, condiciones de seguridad, conservación, operación y exhibición.
+      body: `La Parte Solicitante declara haber recibido con carácter previo a la firma del presente Anexo toda la información técnica necesaria relativa a la instalación, incluyendo su funcionamiento, necesidades eléctricas, características mecánicas, condiciones de seguridad, conservación, operación y exhibición.
 Asimismo, declara haber recibido respuesta a todas las consultas técnicas formuladas durante la preparación del proyecto y manifiesta haber comprendido y aceptado expresamente todas las condiciones comunicadas por la Parte Titular.
-La Organización reconoce expresamente conocer que la instalación:
+La Parte Solicitante reconoce expresamente conocer que la instalación:
 {{features.list}}
-La Organización declara conocer plenamente estas características y acepta expresamente la exhibición pública de la instalación en dichas condiciones.`,
+La Parte Solicitante declara conocer plenamente estas características y acepta expresamente la exhibición pública de la instalación en dichas condiciones.`,
     },
     {
       id: "tercera",
       title: "TERCERA. Montaje y desmontaje",
-      body: `El montaje y el desmontaje de la instalación serán realizados exclusivamente por la Parte Titular. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Organización. Desde ese momento y hasta su devolución a la Parte Titular para proceder a su desmontaje, la Organización asumirá íntegramente su custodia.`,
+      body: `El montaje y el desmontaje de la instalación serán realizados exclusivamente por la Parte Titular. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Parte Solicitante. Desde ese momento y hasta su devolución a la Parte Titular para proceder a su desmontaje, la Parte Solicitante asumirá íntegramente su custodia.`,
       requireAll: ["custody.authorMounts"],
     },
     {
       id: "tercera_alt",
       title: "TERCERA. Montaje y desmontaje",
-      body: `El montaje y el desmontaje de la instalación se realizarán según lo acordado entre las partes. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Organización. Desde ese momento y hasta su devolución a la Parte Titular, la Organización asumirá íntegramente su custodia.`,
+      body: `El montaje y el desmontaje de la instalación se realizarán según lo acordado entre las partes. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Parte Solicitante. Desde ese momento y hasta su devolución a la Parte Titular, la Parte Solicitante asumirá íntegramente su custodia.`,
       excludeIf: ["custody.authorMounts"],
     },
     {
       id: "cuarta",
       title: "CUARTA. Custodia, vigilancia y protección",
-      body: `Desde la entrega de la instalación hasta su devolución a la Parte Titular, la Organización asumirá íntegramente su custodia, conservación, vigilancia y protección.
-En particular, la Organización se compromete a:
+      body: `Desde la entrega de la instalación hasta su devolución a la Parte Titular, la Parte Solicitante asumirá íntegramente su custodia, conservación, vigilancia y protección.
+En particular, la Parte Solicitante se compromete a:
 {{custody.duties}}
-La obligación de mantener vigilancia permanente constituye una condición esencial para la exhibición de la instalación y ha sido expresamente aceptada por la Organización, cuando resulte de aplicación conforme a las características de la obra.
-La ausencia de vigilancia o la falta de adopción de las medidas de protección necesarias se considerará un incumplimiento de las obligaciones de custodia asumidas por la Organización.`,
+La obligación de mantener vigilancia permanente constituye una condición esencial para la exhibición de la instalación y ha sido expresamente aceptada por la Parte Solicitante, cuando resulte de aplicación conforme a las características de la obra.
+La ausencia de vigilancia o la falta de adopción de las medidas de protección necesarias se considerará un incumplimiento de las obligaciones de custodia asumidas por la Parte Solicitante.`,
     },
     {
       id: "quinta",
       title: "QUINTA. Almacenamiento y manipulación de las piezas",
       body: `Con el fin de preservar la integridad de la obra, las {{features.sculptureCount}} piezas podrán ser retiradas diariamente de la instalación para su almacenamiento temporal fuera del horario de exhibición y repuestas nuevamente para su apertura al público.
-Las operaciones de retirada, almacenamiento, custodia, manipulación y posterior reposición serán realizadas bajo la exclusiva responsabilidad de la Organización.
-La Organización responderá de cualquier pérdida, robo, hurto, desaparición, desperfecto, deterioro o daño que pudiera producirse durante dichas operaciones, así como de cualquier daño al sistema mecánico, eléctrico y electrónico de la instalación durante todo el período de custodia.`,
+Las operaciones de retirada, almacenamiento, custodia, manipulación y posterior reposición serán realizadas bajo la exclusiva responsabilidad de la Parte Solicitante.
+La Parte Solicitante responderá de cualquier pérdida, robo, hurto, desaparición, desperfecto, deterioro o daño que pudiera producirse durante dichas operaciones, así como de cualquier daño al sistema mecánico, eléctrico y electrónico de la instalación durante todo el período de custodia.`,
       requireAll: ["features.hasSculptures", "custody.dailyRemove"],
     },
     {
       id: "sexta",
       title: "SEXTA. Responsabilidad civil",
-      body: `La Organización declara que la instalación artística objeto del presente Anexo se encuentra debidamente cubierta por la póliza de Responsabilidad Civil correspondiente a {{project.eventName}} durante todo el período en que permanezca bajo su custodia y exhibición.
-La Organización asume íntegramente la responsabilidad derivada de la exhibición pública de la instalación, de su funcionamiento, de la interacción del público con la misma y de todas las medidas de seguridad necesarias para garantizar la protección de las personas, de la propia obra y de las instalaciones durante todo el período en que la instalación permanezca bajo su custodia.
-La Organización declara que la decisión de exhibir públicamente la instalación ha sido adoptada libremente, tras haber recibido toda la información técnica y de seguridad facilitada por la Parte Titular, conocer las características y riesgos inherentes a la obra y aceptar expresamente las condiciones necesarias para su correcta exhibición.
-La existencia, alcance, validez o eficacia de la póliza de Responsabilidad Civil no limitará, en ningún caso, las obligaciones asumidas por la Organización mediante el presente Anexo.`,
+      body: `La Parte Solicitante declara que la instalación artística objeto del presente Anexo se encuentra debidamente cubierta por la póliza de Responsabilidad Civil correspondiente a {{project.eventName}} durante todo el período en que permanezca bajo su custodia y exhibición.
+La Parte Solicitante asume íntegramente la responsabilidad derivada de la exhibición pública de la instalación, de su funcionamiento, de la interacción del público con la misma y de todas las medidas de seguridad necesarias para garantizar la protección de las personas, de la propia obra y de las instalaciones durante todo el período en que la instalación permanezca bajo su custodia.
+La Parte Solicitante declara que la decisión de exhibir públicamente la instalación ha sido adoptada libremente, tras haber recibido toda la información técnica y de seguridad facilitada por la Parte Titular, conocer las características y riesgos inherentes a la obra y aceptar expresamente las condiciones necesarias para su correcta exhibición.
+La existencia, alcance, validez o eficacia de la póliza de Responsabilidad Civil no limitará, en ningún caso, las obligaciones asumidas por la Parte Solicitante mediante el presente Anexo.`,
       requireAll: ["insurance.hasRc"],
     },
     {
       id: "septima",
       title: "SÉPTIMA. Seguro de daños de la instalación",
-      body: `La Organización declara que la instalación artística objeto del presente Anexo se encuentra debidamente cubierta mediante una póliza de seguro de daños a todo riesgo («clavo a clavo»), plenamente vigente, que garantiza la integridad patrimonial de la obra durante todo el período de su participación en {{project.eventName}}.
+      body: `La Parte Solicitante declara que la instalación artística objeto del presente Anexo se encuentra debidamente cubierta mediante una póliza de seguro de daños a todo riesgo («clavo a clavo»), plenamente vigente, que garantiza la integridad patrimonial de la obra durante todo el período de su participación en {{project.eventName}}.
 Dicha cobertura comprenderá, como mínimo: el transporte de ida y vuelta; las operaciones de carga y descarga; el montaje y desmontaje; la permanencia en el recinto; la exhibición pública; el almacenamiento temporal de piezas y elementos; y la manipulación necesaria para su conservación y reposición.
 La cobertura incluirá, entre otros, los riesgos de pérdida, robo, hurto, desaparición, desperfecto, deterioro, vandalismo, incendio, agua, lluvia, viento, humedad, fenómenos meteorológicos, accidente, manipulación y cualquier otro daño accidental o fortuito.
 La cobertura de seguro comenzará en el momento en que la instalación abandone físicamente su lugar de almacenamiento y finalizará únicamente cuando, tras el transporte de retorno, haya sido descargada e introducida nuevamente en el interior de dicho lugar.
-La existencia, alcance o condiciones de la póliza de seguro de daños no limitarán, en ningún caso, las obligaciones de custodia, conservación, protección e indemnización asumidas por la Organización.
+La existencia, alcance o condiciones de la póliza de seguro de daños no limitarán, en ningún caso, las obligaciones de custodia, conservación, protección e indemnización asumidas por la Parte Solicitante.
 La suma asegurada será, como mínimo, igual al valor declarado de la instalación establecido en la cláusula de valor declarado del presente Anexo.`,
       requireAll: ["insurance.hasNailToNail"],
     },
     {
       id: "octava",
       title: "OCTAVA. Responsabilidad sobre la instalación",
-      body: `La Organización responderá frente a la Parte Titular por cualquier pérdida, robo, hurto, desaparición, destrucción, desperfecto o deterioro total o parcial que pueda sufrir la instalación o cualquiera de sus componentes desde el momento de su entrega por la Parte Titular tras el montaje y hasta su devolución a la Parte Titular para proceder a su desmontaje.
+      body: `La Parte Solicitante responderá frente a la Parte Titular por cualquier pérdida, robo, hurto, desaparición, destrucción, desperfecto o deterioro total o parcial que pueda sufrir la instalación o cualquiera de sus componentes desde el momento de su entrega por la Parte Titular tras el montaje y hasta su devolución a la Parte Titular para proceder a su desmontaje.
 Se considerarán expresamente incluidos, entre otros, los daños derivados de: robo; hurto; vandalismo; incendio; agua; lluvia; viento; humedad; fenómenos meteorológicos; manipulación por terceros; manipulación y almacenamiento de piezas; falta o insuficiencia de vigilancia; falta de protección; incumplimiento de las instrucciones técnicas de la Parte Titular; y cualquier actuación u omisión que implique una custodia insuficiente o inadecuada.
-En caso de pérdida total, destrucción o robo de la instalación, la Organización indemnizará a la Parte Titular por el valor declarado establecido en la cláusula de valor declarado.
-En caso de daños parciales, la Organización asumirá íntegramente los costes de reparación, restauración, sustitución de componentes, materiales, mano de obra especializada y cualquier otro gasto necesario para devolver la instalación al estado en que fue entregada.
+En caso de pérdida total, destrucción o robo de la instalación, la Parte Solicitante indemnizará a la Parte Titular por el valor declarado establecido en la cláusula de valor declarado.
+En caso de daños parciales, la Parte Solicitante asumirá íntegramente los costes de reparación, restauración, sustitución de componentes, materiales, mano de obra especializada y cualquier otro gasto necesario para devolver la instalación al estado en que fue entregada.
 En caso de que la reparación o restauración no resulte técnicamente posible o implique una pérdida irreversible de las características artísticas de la obra, se considerará pérdida total a los efectos del presente Anexo.`,
     },
     {
@@ -709,44 +1278,162 @@ Valor total declarado de la instalación: {{insurance.totalValue}} € (impuesto
     {
       id: "decima",
       title: "DÉCIMA. Vigencia",
-      body: `El presente Anexo entrará en vigor desde el momento de su firma y permanecerá vigente desde la entrega efectiva de la instalación a la Organización hasta su devolución a la Parte Titular para proceder a su desmontaje.
+      body: `El presente Anexo entrará en vigor desde el momento de su firma y permanecerá vigente desde la entrega efectiva de la instalación a la Parte Solicitante hasta su devolución a la Parte Titular para proceder a su desmontaje.
 Las partes manifiestan que el presente Anexo ha sido negociado y aceptado libremente, refleja los acuerdos específicos alcanzados para la exhibición de la instalación artística y forma parte integrante del Acuerdo de Participación, constituyendo ambos documentos una única unidad contractual y debiendo interpretarse conjuntamente.`,
     },
     {
       id: "opt_acta",
-      title: "UNDÉCIMA. Acta de entrega y devolución",
-      body: `La entrega y la devolución de la instalación se documentarán mediante acta firmada por ambas partes, que incluirá la fecha, el estado aparente de la instalación, un inventario de componentes y, cuando sea posible, registro fotográfico. La falta de acta no exime a la Organización de sus obligaciones de custodia.`,
+      title: "Acta de entrega y devolución",
+      body: `La entrega y la devolución de la instalación se documentarán mediante acta firmada por ambas partes, que incluirá la fecha, el estado aparente de la instalación, un inventario de componentes y, cuando sea posible, registro fotográfico. La falta de acta no exime a la Parte Solicitante de sus obligaciones de custodia.`,
       requireAll: ["options.deliveryAct"],
     },
     {
       id: "opt_certs",
-      title: "DUODÉCIMA. Acreditación de seguros",
-      body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Organización entregará a la Parte Titular certificado o extracto de las pólizas de Responsabilidad Civil y de daños que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará a la Parte Titular a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
+      title: "Acreditación de seguros",
+      body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Parte Solicitante entregará a la Parte Titular certificado o extracto de las pólizas de Responsabilidad Civil y de daños que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará a la Parte Titular a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
       requireAll: ["options.policyCerts"],
     },
     {
       id: "opt_franq",
-      title: "DECIMOTERCERA. Franquicia",
-      body: `Cualquier franquicia, deducible o importe no cubierto por las pólizas será asumido íntegramente por la Organización, sin que pueda trasladarse a la Parte Titular.`,
+      title: "Franquicia",
+      body: `Cualquier franquicia, deducible o importe no cubierto por las pólizas será asumido íntegramente por la Parte Solicitante, sin que pueda trasladarse a la Parte Titular.`,
       requireAll: ["options.franchise"],
     },
     {
       id: "opt_jur",
-      title: "DECIMOCUARTA. Ley aplicable y jurisdicción",
+      title: "Ley aplicable y jurisdicción",
       body: `El presente Anexo se rige por {{options.lawText}}. Para la resolución de cualquier controversia derivada del mismo, las partes se someten a los {{options.courtsText}}, con renuncia a cualquier otro fuero que pudiera corresponderles.`,
       requireAll: ["options.jurisdiction"],
     },
     {
       id: "opt_expert",
-      title: "DECIMOQUINTA. Valoración de pérdida artística",
+      title: "Valoración de pérdida artística",
       body: `La valoración sobre la afectación irreversible de las características artísticas de la obra podrá ser realizada por la Parte Titular y, a solicitud de cualquiera de las partes, contrastada por un perito independiente de común acuerdo. A falta de acuerdo sobre el perito en el plazo de quince (15) días, podrá designarse conforme a la práctica habitual de arbitraje pericial o por el colegio profesional competente.`,
       requireAll: ["options.independentExpert"],
     },
     {
       id: "opt_fm",
-      title: "DECIMOSEXTA. Fuerza mayor",
-      body: `Ninguna de las partes será responsable por el incumplimiento de obligaciones cuando dicho incumplimiento derive de causas de fuerza mayor debidamente acreditadas. Ello no exime a la Organización de sus deberes de protección razonable de la instalación ni de las coberturas de seguro comprometidas, en la medida en que resulten aplicables.`,
+      title: "Fuerza mayor",
+      body: `Ninguna de las partes será responsable por el incumplimiento de obligaciones cuando dicho incumplimiento derive de causas de fuerza mayor debidamente acreditadas. Ello no exime a la Parte Solicitante de sus deberes de protección razonable de la instalación ni de las coberturas de seguro comprometidas, en la medida en que resulten aplicables.`,
       requireAll: ["options.forceMajeure"],
+    },
+    {
+      id: "opt_loan",
+      title: "Préstamo o cesión temporal",
+      body: `Las partes acuerdan que la puesta a disposición de la obra o instalación «{{project.workTitle}}» tiene carácter de préstamo o cesión temporal con la siguiente finalidad: {{options.loanPurpose}}.
+Dicha puesta a disposición no transmite la titularidad de la obra ni ningún derecho de explotación distinto de los expresamente regulados en el presente Anexo. La Parte Solicitante recibe la obra en calidad de depositaria / cesionaria temporal a los solos efectos de su exhibición y custodia durante el período acordado, debiendo devolverla a la Parte Titular en los términos previstos en este Anexo.
+Cualquier uso, traslado o manipulación no contemplado requerirá autorización expresa de la Parte Titular.`,
+      requireAll: ["options.loanFrame"],
+    },
+    {
+      id: "opt_image",
+      title: "Uso de imagen y reproducción",
+      body: `La Parte Titular autoriza a la Parte Solicitante a captar, reproducir y difundir imágenes (fijas o en movimiento) de la obra «{{project.workTitle}}» en el siguiente ámbito: {{options.imageScope}}.
+Medios autorizados: {{options.imageMedia}}.
+Duración de la autorización: {{options.imageDuration}}.
+Crédito obligatorio en cada uso: {{options.imageCredit}}.
+{{options.imageCommercialText}}
+{{options.imageAdaptText}}
+Fuera de este ámbito, cualquier reproducción o uso de imagen requerirá autorización adicional y expresa de la Parte Titular. Esta autorización no implica cesión de derechos de autor ni de la titularidad de la obra.`,
+      requireAll: ["options.imageUse"],
+    },
+    {
+      id: "opt_sale",
+      title: "Condiciones de venta",
+      body: `Sin perjuicio de la exhibición y custodia reguladas en este Anexo, las partes dejan constancia de las siguientes condiciones para una eventual venta de la obra «{{project.workTitle}}»:
+Precio: {{options.salePrice}} € (impuestos aparte, si resultan aplicables).
+{{options.saleReservationText}}
+Entrega: {{options.saleDelivery}}.
+{{options.saleExclusivityText}}
+{{options.saleNotesText}}
+La venta, si se formaliza, se documentará de forma expresa. Mientras no conste acuerdo de venta perfeccionado, la obra permanece bajo la titularidad de la Parte Titular y sujeta a las obligaciones de custodia y devolución de este Anexo.`,
+      requireAll: ["options.saleTerms"],
+    },
+    {
+      id: "opt_transport",
+      title: "Transporte",
+      body: `El transporte de ida y vuelta de la obra o instalación «{{project.workTitle}}» se reparte así:
+— Quién organiza el transporte: {{options.transportOrganizer}}.
+— Asunción del coste: {{options.transportPayer}}.
+— Punto de recogida (ida): {{options.transportPickup}}.
+— Punto de entrega o devolución (vuelta): {{options.transportReturn}}.
+{{options.transportNotesText}}
+Quien organice el transporte cuidará un embalaje adecuado y la coordinación de horarios. El riesgo durante el tránsito se alineará con las coberturas de seguro y con las obligaciones de custodia de este Anexo, salvo pacto escrito distinto. La falta de coordinación del transporte no exime de las obligaciones de custodia, entrega y devolución aquí previstas.`,
+      requireAll: ["options.transport"],
+    },
+    {
+      id: "opt_costs",
+      title: "Costes y pagos",
+      body: `{{options.costsNoFeeText}}
+Reparto concreto de costes y pagos (honorarios, producción, dietas, material de montaje u otros): {{options.costsSummary}}.
+Cada parte asume únicamente los conceptos que le correspondan según ese reparto. Cualquier gasto adicional, extraordinario o no previsto requerirá acuerdo expreso previo. La existencia de un pago o reembolso no altera la titularidad de la obra ni las obligaciones de custodia, seguro y devolución de este Anexo.`,
+      requireAll: ["options.costs"],
+    },
+    {
+      id: "opt_cancellation",
+      title: "Cancelación y retirada anticipada",
+      body: `Si el evento, la exhibición o este Anexo se cancelan, se aplicará lo siguiente: {{options.cancellationTerms}}.
+Además, la Parte Titular podrá retirar anticipadamente la obra cuando concurra alguna de estas circunstancias o las que se detallen a continuación: falta o insuficiencia de seguros exigidos; incumplimiento grave de custodia, vigilancia o seguridad; o condiciones del espacio incompatibles con la integridad de la obra. Condiciones adicionales de retirada: {{options.withdrawalTerms}}.
+En caso de retirada anticipada justificada, la Parte Solicitante facilitará el acceso y la logística razonables para recuperar la obra y seguirá respondiendo de las obligaciones nacidas hasta ese momento, incluidos daños ya producidos.`,
+      requireAll: ["options.cancellation"],
+    },
+    {
+      id: "opt_contacts",
+      title: "Contactos operativos",
+      body: `Durante el montaje, la exhibición y la devolución, las personas de referencia serán:
+Por la Parte Titular: {{options.contactTitularName}}, teléfono {{options.contactTitularPhone}}, email {{options.contactTitularEmail}}.
+Por la Parte Solicitante: {{options.contactOrgName}}, teléfono {{options.contactOrgPhone}}, email {{options.contactOrgEmail}}.
+Estas personas servirán para coordinación operativa. Las notificaciones formales, si se pactan, se regirán por la cláusula de notificaciones.`,
+      requireAll: ["options.contacts"],
+    },
+    {
+      id: "opt_inventory",
+      title: "Inventario de componentes",
+      body: `Las partes dejan constancia del siguiente inventario de componentes de la obra o instalación «{{project.workTitle}}»:
+{{options.inventoryFormatted}}
+Este inventario es referencia vinculante para la entrega y la devolución. Si existe acta de entrega y devolución, el inventario se incorporará a dicha acta o se anexará a ella. Cualquier falta, sustitución, extravío o daño respecto del inventario se hará constar por escrito y se regirá por las obligaciones de custodia e indemnización de este Anexo.`,
+      requireAll: ["options.inventory"],
+    },
+    {
+      id: "opt_space",
+      title: "Espacio y accesos",
+      body: `La Parte Solicitante pondrá a disposición un espacio adecuado para la obra «{{project.workTitle}}» con estas condiciones:
+— Espacio de exhibición: {{options.spaceDescription}}.
+— Horarios de acceso técnico (montaje, mantenimiento, desmontaje): {{options.spaceHours}}.
+— Quién aporta barreras, cartelas, pedestales u otros elementos de presentación o protección: {{options.spaceEquipment}}.
+La Parte Solicitante garantiza que el espacio, los accesos y los medios aportados permitan un montaje, exhibición y desmontaje seguros, conformes a las instrucciones técnicas de la Parte Titular y compatibles con la integridad de la obra y la seguridad de las personas.`,
+      requireAll: ["options.spaceAccess"],
+    },
+    {
+      id: "opt_subcontract",
+      title: "Subcontratación",
+      body: `La Parte Solicitante podrá valerse de terceros para determinadas tareas solo en el siguiente marco: {{options.subcontractTerms}}.
+Aunque intervengan montadores, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Titular del cumplimiento de este Anexo (custodia, seguro, daños, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
+      requireAll: ["options.subcontract"],
+    },
+    {
+      id: "opt_ip",
+      title: "Propiedad intelectual",
+      body: `La exhibición o puesta a disposición temporal de la obra «{{project.workTitle}}» no implica cesión de derechos de autor, derechos conexos ni de la titularidad de la obra.
+Salvo lo expresamente autorizado en este Anexo (incluida, en su caso, la cláusula de uso de imagen y reproducción), queda prohibido reproducir, comunicar públicamente fuera del ámbito pactado, transformar, crear obras derivadas o explotar la obra o sus elementos distintivos.
+Uso autorizado del nombre, crédito o marca vinculados a la obra o a quien ostenta su titularidad: {{options.ipNameUse}}.
+Cualquier uso distinto requerirá autorización adicional y expresa de la Parte Titular.`,
+      requireAll: ["options.ipRights"],
+    },
+    {
+      id: "opt_amendments",
+      title: "Modificaciones",
+      body: `Cualquier modificación, ampliación o excepción a este Anexo deberá constar por escrito y ser aceptada por ambas partes. No tendrán validez los pactos verbales que contradigan lo aquí acordado.`,
+      requireAll: ["options.amendments"],
+    },
+    {
+      id: "opt_notices",
+      title: "Notificaciones",
+      body: `Las notificaciones formales entre las partes relacionadas con este Anexo se dirigirán a:
+Parte Titular: {{options.noticeEmailTitular}}.
+Parte Solicitante: {{options.noticeEmailOrg}}.
+Se entenderán recibidas cuando conste su envío a dichas direcciones, sin perjuicio de otros medios admitidos en derecho.`,
+      requireAll: ["options.notices"],
     },
     {
       id: "signatures",
@@ -838,6 +1525,65 @@ export function enrichDerivedValues(
     orgBits.push(`Teléfono: ${v["parties.org.phone"]}.`);
   }
   v["parties.org.extra"] = orgBits.length > 0 ? `\n${orgBits.join(" ")}` : "";
+
+  if (v["options.imageCommercial"]) {
+    v["options.imageCommercialText"] =
+      "Se autoriza el uso con fines comerciales o publicitarios dentro del ámbito y medios indicados.";
+  } else {
+    v["options.imageCommercialText"] =
+      "Queda excluido el uso con fines comerciales o publicitarios, salvo autorización adicional y expresa.";
+  }
+
+  if (v["options.imageAdapt"]) {
+    v["options.imageAdaptText"] =
+      "Se permiten recortes, reencuadres o adaptaciones técnicas menores que no alteren el sentido de la obra.";
+  } else {
+    v["options.imageAdaptText"] =
+      "No se permiten recortes, reencuadres ni adaptaciones sin autorización adicional y expresa.";
+  }
+
+  const reservation = String(v["options.saleReservation"] ?? "").trim();
+  v["options.saleReservationText"] = reservation
+    ? `Reserva o señal: ${reservation}.`
+    : "No se ha pactado en este Anexo una reserva o señal específica.";
+
+  if (v["options.saleNoExclusivity"]) {
+    v["options.saleExclusivityText"] =
+      "La eventual venta no otorga a la Parte Solicitante representación exclusiva ni mandato de venta en exclusiva.";
+  } else {
+    v["options.saleExclusivityText"] =
+      "Las partes no han regulado en este Anexo un régimen de exclusividad de representación o venta.";
+  }
+
+  const saleNotes = String(v["options.saleNotes"] ?? "").trim();
+  v["options.saleNotesText"] = saleNotes
+    ? `Otras condiciones: ${saleNotes}`
+    : "";
+
+  const transportNotes = String(v["options.transportNotes"] ?? "").trim();
+  v["options.transportNotesText"] = transportNotes
+    ? `Condiciones adicionales de transporte: ${transportNotes}`
+    : "";
+
+  if (v["options.costsNoFee"]) {
+    v["options.costsNoFeeText"] =
+      "Las partes dejan constancia de que la exhibición o puesta a disposición de la obra no lleva aparejada contraprestación económica por participación, salvo los costes expresamente repartidos a continuación.";
+  } else {
+    v["options.costsNoFeeText"] =
+      "Las partes regulan los costes y pagos asociados a la exhibición o puesta a disposición de la obra según lo siguiente.";
+  }
+
+  const inventoryRaw = String(v["options.inventoryList"] ?? "").trim();
+  if (inventoryRaw) {
+    v["options.inventoryFormatted"] = inventoryRaw
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => (line.startsWith("—") ? line : `— ${line}`))
+      .join("\n");
+  } else {
+    v["options.inventoryFormatted"] = "— [inventario de componentes]";
+  }
 
   const bullets: string[] = [];
 

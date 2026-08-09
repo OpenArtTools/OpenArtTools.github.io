@@ -8,11 +8,12 @@ import {
   DRAFT_FILE_KIND,
   DRAFT_FILE_VERSION,
   buildDraftFile,
+  draftToHtml,
   parseDraftFile,
 } from "./draft";
 
 describe("draft file", () => {
-  it("round-trips form values and clauses", () => {
+  it("round-trips form values and clauses via readable HTML", () => {
     const file = buildDraftFile({
       templateId: "exhibition-custody-es",
       values: {
@@ -23,7 +24,7 @@ describe("draft file", () => {
         {
           id: "c1",
           title: "Cláusula",
-          body: "Texto",
+          body: "Texto visible del borrador",
           enabled: true,
           source: "user",
         },
@@ -33,14 +34,21 @@ describe("draft file", () => {
     });
     expect(file.kind).toBe(DRAFT_FILE_KIND);
     expect(file.version).toBe(DRAFT_FILE_VERSION);
-    const again = parseDraftFile(JSON.stringify(file));
+
+    const html = draftToHtml(file);
+    expect(html).toContain("<!DOCTYPE html>");
+    expect(html).toContain("Texto visible del borrador");
+    expect(html).toContain("Nombre de prueba");
+    expect(html).toContain("openarttools-draft-data");
+
+    const again = parseDraftFile(html);
     expect(again.values["parties.author.name"]).toBe("Nombre de prueba");
     expect(again.clauses).toHaveLength(1);
     expect(again.manualOverride).toBe(true);
     expect(again.stepIndex).toBe(2);
   });
 
-  it("accepts legacy v1 drafts without clauses", () => {
+  it("accepts legacy JSON drafts", () => {
     const legacy = {
       kind: DRAFT_FILE_KIND,
       version: 1,
@@ -57,5 +65,45 @@ describe("draft file", () => {
     expect(() =>
       parseDraftFile(JSON.stringify({ kind: "openarttools.contacts" })),
     ).toThrow(/borrador/);
+  });
+
+  it("embeds a restrictive CSP in HTML drafts", () => {
+    const html = draftToHtml(
+      buildDraftFile({
+        templateId: "exhibition-custody-es",
+        values: {},
+        clauses: [],
+        manualOverride: false,
+        stepIndex: 0,
+      }),
+    );
+    expect(html).toContain('http-equiv="Content-Security-Policy"');
+    expect(html).toContain("default-src 'none'");
+  });
+
+  it("drops unsafe keys and non-scalar values when loading", () => {
+    const raw = `{
+      "kind": "${DRAFT_FILE_KIND}",
+      "version": 1,
+      "templateId": "exhibition-custody-es",
+      "values": {
+        "project.workTitle": "Obra",
+        "__proto__": { "polluted": true },
+        "nested": { "x": 1 }
+      },
+      "clauses": [
+        { "id": "ok", "title": "T", "body": "B", "enabled": true, "source": "user" },
+        { "id": "bad", "title": "T", "enabled": true },
+        null
+      ]
+    }`;
+    const again = parseDraftFile(raw);
+    expect(again.values["project.workTitle"]).toBe("Obra");
+    expect(Object.prototype.hasOwnProperty.call(again.values, "__proto__")).toBe(
+      false,
+    );
+    expect(again.values).not.toHaveProperty("nested");
+    expect(again.clauses).toHaveLength(1);
+    expect(again.clauses[0]?.body).toBe("B");
   });
 });

@@ -70,7 +70,7 @@ Si algo de lo anterior aparece donde no debería, es una señal para investigar.
 | `src/engine/` | Ensamblado de plantillas (lógica pura, con tests) |
 | `src/templates/` | Textos de los documentos |
 | `src/storage/profile.ts` | Perfil personal: descargar / cargar `.json` |
-| `src/storage/draft.ts` | Borrador de documento: descargar / cargar `.json` |
+| `src/storage/draft.ts` | Borrador de documento: descargar / cargar `.html` (legible; JSON embebido para recarga) |
 | `src/storage/jsonFile.ts` | Utilidades compartidas de lectura/escritura de JSON |
 | `src/export/` | Exportación PDF / HTML / TXT |
 | `PRIVACY.md` | Política de privacidad en lenguaje claro |
@@ -95,11 +95,29 @@ Si algo de lo anterior aparece donde no debería, es una señal para investigar.
 Campos personales del usuario de la plataforma (nombre, documento, rol, domicilio, email, teléfono).  
 Gestionado en la **página de inicio**.
 
-### Borrador — `kind: "openarttools.draft"`, `version: 2`
+### Borrador — archivo `.html` con `kind: "openarttools.draft"`, `version: 2`
 
+Descarga legible (abre en cualquier navegador). El estado va embebido en  
+`<script type="application/json" id="openarttools-draft-data">`.  
 Incluye `templateId`, `values`, `clauses`, `manualOverride`, `stepIndex`.  
-Compatible con borradores antiguos `version: 1` (sin cláusulas).  
+Compatible con borradores antiguos en `.json` `version: 1` o `2`.  
 Solo tiene sentido **dentro** de una herramienta.
+
+---
+
+## Endurecimiento (privacidad / XSS)
+
+Comprobaciones adicionales útiles:
+
+```bash
+# CSP solo en el HTML de producción (inyectada en build)
+rg "Content-Security-Policy" dist/index.html vite.config.ts
+
+# Preview e impresión en iframes con sandbox (sin allow-scripts)
+rg "sandbox" src/main.ts src/export/pdf.ts
+```
+
+El borrador `.html` generado también lleva una CSP restrictiva (`default-src 'none'`).
 
 ---
 

@@ -88,6 +88,7 @@ export function exportPdfViaPrint(clauses: Clause[], docTitle: string): void {
   const html = clausesToHtml(clauses, docTitle);
   const iframe = document.createElement("iframe");
   iframe.setAttribute("aria-hidden", "true");
+  iframe.setAttribute("sandbox", "allow-same-origin allow-modals");
   iframe.title = "Impresión";
   iframe.style.cssText =
     "position:fixed;right:0;bottom:0;width:0;height:0;border:0;opacity:0;pointer-events:none";

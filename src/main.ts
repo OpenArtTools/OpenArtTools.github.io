@@ -4,7 +4,7 @@
  *
  * Open Art Tools — web entry.
  * Flow: platform home → tool wizard → review → accept → export.
- * Nothing is stored by the platform. Optional draft/profile .json files stay on the user's device.
+ * Nothing is stored by the platform. Optional profile .json / draft .html files stay on the user's device.
  */
 
 import "./styles/main.css";
@@ -86,6 +86,23 @@ const DEFAULT_TOGGLES: AppValues = {
   "custody.weatherProtect": true,
   "insurance.hasRc": true,
   "insurance.hasNailToNail": true,
+  "options.loanFrame": false,
+  "options.imageUse": false,
+  "options.imageCommercial": false,
+  "options.imageAdapt": false,
+  "options.saleTerms": false,
+  "options.saleNoExclusivity": true,
+  "options.transport": false,
+  "options.costs": false,
+  "options.costsNoFee": false,
+  "options.cancellation": false,
+  "options.contacts": false,
+  "options.inventory": false,
+  "options.spaceAccess": false,
+  "options.subcontract": false,
+  "options.ipRights": false,
+  "options.amendments": true,
+  "options.notices": true,
   "options.deliveryAct": true,
   "options.policyCerts": true,
   "options.franchise": true,
@@ -121,9 +138,161 @@ function rebuildClauses(): void {
   );
 }
 
+/** Master toggles that decide if an options group is “included”. */
+const OPTION_GROUP_MASTERS: Record<string, string[]> = {
+  "Préstamo / cesión temporal": ["options.loanFrame"],
+  "Uso de imagen / reproducción": ["options.imageUse"],
+  "Condiciones de venta": ["options.saleTerms"],
+  Transporte: ["options.transport"],
+  "Costes y pagos": ["options.costs"],
+  "Cancelación / retirada": ["options.cancellation"],
+  "Contactos operativos": ["options.contacts"],
+  "Inventario de componentes": ["options.inventory"],
+  "Espacio y accesos": ["options.spaceAccess"],
+  Subcontratación: ["options.subcontract"],
+  "Propiedad intelectual": ["options.ipRights"],
+  "Modificaciones y notificaciones": ["options.amendments", "options.notices"],
+  "Otras cláusulas": [
+    "options.deliveryAct",
+    "options.policyCerts",
+    "options.franchise",
+    "options.jurisdiction",
+    "options.independentExpert",
+    "options.forceMajeure",
+  ],
+};
+
+const OPTIONAL_SCOPE_LABELS: { path: string; label: string }[] = [
+  { path: "options.loanFrame", label: "Préstamo / cesión" },
+  { path: "options.imageUse", label: "Uso de imagen" },
+  { path: "options.saleTerms", label: "Condiciones de venta" },
+  { path: "options.transport", label: "Transporte" },
+  { path: "options.costs", label: "Costes y pagos" },
+  { path: "options.cancellation", label: "Cancelación / retirada" },
+  { path: "options.contacts", label: "Contactos operativos" },
+  { path: "options.inventory", label: "Inventario" },
+  { path: "options.spaceAccess", label: "Espacio y accesos" },
+  { path: "options.subcontract", label: "Subcontratación" },
+  { path: "options.ipRights", label: "Propiedad intelectual" },
+  { path: "options.amendments", label: "Modificaciones" },
+  { path: "options.notices", label: "Notificaciones" },
+  { path: "options.deliveryAct", label: "Acta de entrega" },
+  { path: "options.policyCerts", label: "Certificados de póliza" },
+  { path: "options.franchise", label: "Franquicia" },
+  { path: "options.jurisdiction", label: "Ley y jurisdicción" },
+  { path: "options.independentExpert", label: "Perito independiente" },
+  { path: "options.forceMajeure", label: "Fuerza mayor" },
+];
+
+const ALL_OPTION_MASTERS = [
+  "options.loanFrame",
+  "options.imageUse",
+  "options.saleTerms",
+  "options.transport",
+  "options.costs",
+  "options.cancellation",
+  "options.contacts",
+  "options.inventory",
+  "options.spaceAccess",
+  "options.subcontract",
+  "options.ipRights",
+  "options.amendments",
+  "options.notices",
+  "options.deliveryAct",
+  "options.policyCerts",
+  "options.franchise",
+  "options.jurisdiction",
+  "options.independentExpert",
+  "options.forceMajeure",
+] as const;
+
+function isOn(path: string): boolean {
+  const v = state.values[path];
+  return v === true || v === "true";
+}
+
+function emptyPath(path: string): boolean {
+  return !String(state.values[path] ?? "").trim();
+}
+
+function autofillContactsFromParties(): void {
+  const map: [string, string][] = [
+    ["options.contactTitularName", "parties.author.name"],
+    ["options.contactTitularPhone", "parties.author.phone"],
+    ["options.contactTitularEmail", "parties.author.email"],
+    ["options.contactOrgName", "parties.org.repName"],
+    ["options.contactOrgPhone", "parties.org.phone"],
+    ["options.contactOrgEmail", "parties.org.email"],
+  ];
+  for (const [to, from] of map) {
+    if (emptyPath(to) && !emptyPath(from)) {
+      state.values[to] = state.values[from];
+    }
+  }
+}
+
+function autofillNoticesFromParties(): void {
+  if (emptyPath("options.noticeEmailTitular") && !emptyPath("parties.author.email")) {
+    state.values["options.noticeEmailTitular"] = state.values["parties.author.email"];
+  }
+  if (emptyPath("options.noticeEmailOrg") && !emptyPath("parties.org.email")) {
+    state.values["options.noticeEmailOrg"] = state.values["parties.org.email"];
+  }
+}
+
 function setValue(path: string, value: string | boolean | number): void {
   state.values = { ...state.values, [path]: value };
+  if (path === "options.contacts" && value === true) {
+    autofillContactsFromParties();
+  }
+  if (path === "options.notices" && value === true) {
+    autofillNoticesFromParties();
+  }
   if (!state.manualOverride) rebuildClauses();
+}
+
+function applyOptionsPreset(kind: "essential" | "full" | "all"): void {
+  const next: AppValues = { ...state.values };
+  for (const path of ALL_OPTION_MASTERS) next[path] = false;
+
+  const essential = [
+    "options.deliveryAct",
+    "options.policyCerts",
+    "options.franchise",
+    "options.independentExpert",
+    "options.amendments",
+    "options.notices",
+  ] as const;
+  for (const path of essential) next[path] = true;
+
+  if (kind === "full" || kind === "all") {
+    for (const path of [
+      "options.loanFrame",
+      "options.imageUse",
+      "options.transport",
+      "options.contacts",
+      "options.spaceAccess",
+      "options.ipRights",
+    ] as const) {
+      next[path] = true;
+    }
+  }
+
+  if (kind === "all") {
+    for (const path of ALL_OPTION_MASTERS) next[path] = true;
+  }
+
+  state.values = next;
+  if (isOn("options.contacts")) autofillContactsFromParties();
+  if (isOn("options.notices")) autofillNoticesFromParties();
+  if (!state.manualOverride) rebuildClauses();
+  render();
+}
+
+function activeOptionalScopeLabels(): string[] {
+  return OPTIONAL_SCOPE_LABELS.filter((item) => isOn(item.path)).map(
+    (item) => item.label,
+  );
 }
 
 function applyAuthorFromProfile(profile: PersonalProfile): void {
@@ -317,7 +486,7 @@ function renderToolDraftBar(): HTMLElement {
   title.textContent = "Borrador de este acuerdo";
   const note = el("p", "oat-review-note");
   note.textContent =
-    "Solo de esta herramienta. Instantánea del formulario, cláusulas y opciones. Descárgalo en cualquier momento desde la franja superior o aquí; cárgalo para retomar este documento.";
+    "Solo de esta herramienta. Se descarga como HTML legible (se abre en cualquier navegador) y se puede volver a cargar aquí para retomar el trabajo.";
   const actions = el("div", "oat-actions");
   actions.style.marginTop = "0";
   actions.append(
@@ -616,21 +785,25 @@ function renderWizard(): HTMLElement {
   blurb.textContent = step.blurb;
   wrap.append(h2, blurb);
 
-  if (step.id === "parties") {
+  if (step.id === "titularidad") {
     wrap.append(renderApplyPlatformProfile());
   }
 
-  let lastGroup = "";
-  for (const field of fieldsForStep(t, step.id).filter((f) =>
-    fieldVisible(f, state.values),
-  )) {
-    if (field.group && field.group !== lastGroup) {
-      lastGroup = field.group;
-      const g = el("div", "oat-group-label");
-      g.textContent = field.group;
-      wrap.append(g);
+  if (step.id === "options") {
+    wrap.append(renderOptionsStep(t));
+  } else {
+    let lastGroup = "";
+    for (const field of fieldsForStep(t, step.id).filter((f) =>
+      fieldVisible(f, state.values),
+    )) {
+      if (field.group && field.group !== lastGroup) {
+        lastGroup = field.group;
+        const g = el("div", "oat-group-label");
+        g.textContent = field.group;
+        wrap.append(g);
+      }
+      wrap.append(renderField(field));
     }
-    wrap.append(renderField(field));
   }
 
   const nav = el("div", "oat-step-nav");
@@ -741,6 +914,82 @@ function renderField(field: {
   return box;
 }
 
+function renderOptionsStep(t: ReturnType<typeof template>): HTMLElement {
+  if (isOn("options.contacts")) autofillContactsFromParties();
+  if (isOn("options.notices")) autofillNoticesFromParties();
+
+  const wrap = el("div", "oat-options-step");
+
+  const tip = el("p", "oat-options-tip");
+  tip.textContent =
+    "Solo activa lo que necesitéis. Lo desactivado no aparece en el documento. Puedes usar un preset y luego ajustar.";
+  wrap.append(tip);
+
+  const presets = el("div", "oat-presets");
+  presets.setAttribute("role", "group");
+  presets.setAttribute("aria-label", "Presets de cláusulas opcionales");
+  presets.append(
+    btn("Esencial", "oat-btn oat-btn-ghost oat-preset-btn", () =>
+      applyOptionsPreset("essential"),
+    ),
+    btn("Exhibición completa", "oat-btn oat-btn-ghost oat-preset-btn", () =>
+      applyOptionsPreset("full"),
+    ),
+    btn("Todo", "oat-btn oat-btn-ghost oat-preset-btn", () =>
+      applyOptionsPreset("all"),
+    ),
+  );
+  const presetHelp = el("p", "oat-preset-help");
+  presetHelp.textContent =
+    "Esencial: acta, seguros, franquicia, perito, modificaciones y notificaciones. Exhibición completa: esencial + préstamo, imagen, transporte, contactos, espacio y PI. Todo: todos los bloques.";
+  wrap.append(presets, presetHelp);
+
+  const fields = fieldsForStep(t, "options");
+  const groups: { name: string; fields: typeof fields }[] = [];
+  let current: { name: string; fields: typeof fields } | null = null;
+  for (const field of fields) {
+    const name = field.group || "Otros";
+    if (!current || current.name !== name) {
+      current = { name, fields: [] };
+      groups.push(current);
+    }
+    current.fields.push(field);
+  }
+
+  for (const group of groups) {
+    const masters = OPTION_GROUP_MASTERS[group.name] ?? [];
+    const included =
+      masters.length === 0 ? true : masters.some((path) => isOn(path));
+    const visibleFields = group.fields.filter((f) =>
+      fieldVisible(f, state.values),
+    );
+    if (!visibleFields.length) continue;
+
+    const details = document.createElement("details");
+    details.className = "oat-option-block";
+    details.open = included;
+
+    const summary = document.createElement("summary");
+    summary.className = "oat-option-summary";
+    const title = el("span", "oat-option-summary-title");
+    title.textContent = group.name;
+    const status = el("span", "oat-option-summary-status");
+    status.textContent = included ? "Incluido" : "No incluido";
+    status.dataset.on = String(included);
+    summary.append(title, status);
+    details.append(summary);
+
+    const body = el("div", "oat-option-body");
+    for (const field of visibleFields) {
+      body.append(renderField(field));
+    }
+    details.append(body);
+    wrap.append(details);
+  }
+
+  return wrap;
+}
+
 function renderReview(): HTMLElement {
   const t = template();
   state.clauses = ensurePlaceAtEnd(state.clauses, t);
@@ -754,6 +1003,13 @@ function renderReview(): HTMLElement {
   note.textContent =
     "Edita cualquier cláusula. Las firmas quedan siempre al final. Los huecos sin rellenar aparecen entre corchetes.";
   wrap.append(note);
+
+  const scope = el("p", "oat-scope-summary");
+  const active = activeOptionalScopeLabels();
+  scope.textContent = active.length
+    ? `Bloques opcionales activos: ${active.join(", ")}.`
+    : "Bloques opcionales activos: ninguno extra.";
+  wrap.append(scope);
 
   const missing = missingRequired(t, state.values);
   if (missing.length) {
@@ -900,6 +1156,7 @@ function renderAccept(): HTMLElement {
   const frame = document.createElement("iframe");
   frame.className = "oat-preview-frame";
   frame.title = "Previsualización del documento";
+  frame.setAttribute("sandbox", "allow-same-origin");
   frame.srcdoc = clausesToHtml(state.clauses, docTitle);
   wrap.append(previewLabel, frame);
   return wrap;

@@ -20,7 +20,7 @@ No es una sola utilidad. Es el paraguas: entras a la plataforma, eliges una herr
 | Plataforma web que aloja herramientas | Una app de escritorio descargable |
 | Gratis y open source (AGPL) | Un producto cerrado o de pago |
 | Datos solo en la memoria de tu pestaña | Una nube que guarda tus contratos |
-| Archivos `.json` que **tú** descargas y cargas | Una agenda de clientes o contactos de terceros |
+| Archivos que **tú** descargas y cargas (perfil `.json`, borrador `.html`) | Una agenda de clientes o contactos de terceros |
 | Plantillas orientativas para artistas | Asesoramiento legal profesional |
 | Autoría de Gerard Valls Montaño siempre visible | Quitar o ocultar el origen del proyecto |
 
@@ -42,18 +42,19 @@ No es una sola utilidad. Es el paraguas: entras a la plataforma, eliges una herr
 
 ### 1. Acuerdos de exhibición *(disponible)*
 
-Sirve para generar anexos / acuerdos de exhibición de obra en **festivales, galerías u otros espacios**.
+Sirve para generar anexos / acuerdos de obra en **festivales, galerías u otros espacios**.
 
 Incluye, entre otras cosas:
 
-- Identificación de partes (titularidad de la obra y organización)
+- Identificación de partes (titularidad de la obra y solicitante de la obra)
 - Datos del proyecto e instalación
 - Custodia, montaje y riesgos
 - Seguros y responsabilidad
+- Opcional: préstamo/cesión, imagen, venta, transporte, costes, cancelación, contactos, inventario, espacio, subcontratación, PI, modificaciones y notificaciones
 - Revisión cláusula a cláusula
 - Exportación a PDF (imprimir / guardar), HTML y TXT
 
-Los datos de la **otra parte** (organización / cliente) se escriben solo en el formulario de ese documento. **No hay lista de clientes** en la plataforma.
+Los datos de la **otra parte** (solicitante de la obra) se escriben solo en el formulario de ese documento. **No hay lista de clientes** en la plataforma.
 
 Más herramientas se irán sumando al mismo paraguas.
 
@@ -81,7 +82,7 @@ Si cargas ese perfil y abres una herramienta, puede rellenar la parte de titular
 |--|--|
 | **Dónde** | Solo dentro de la herramienta (asistente, revisión, aceptación) |
 | **Para qué** | Retomar **ese** acuerdo (formulario, cláusulas y estado de edición) |
-| **Formato** | `.json` con `kind: "openarttools.draft"` |
+| **Formato** | `.html` legible (abre en cualquier navegador); incluye datos para recargar |
 | **No es** | El perfil de autoría o posesión de la obra (reutilizable entre herramientas) |
 
 Puedes descargar el borrador **en cualquier momento** mientras el documento esté en memoria (también desde la franja superior).
@@ -165,7 +166,7 @@ src/
   templates/           textos de documentos
   storage/
     profile.ts         perfil autoría/posesión de la obra (.json)
-    draft.ts           borrador de documento (.json)
+    draft.ts           borrador de documento (.html)
     jsonFile.ts        descarga / lectura de JSON
   export/              PDF / HTML / TXT
 ```
