@@ -78,7 +78,7 @@ export function parseProfileFile(raw: string): ProfileFile {
   return buildProfileFile(data.profile as PersonalProfile);
 }
 
-export async function readProfileFile(file: File): Promise<ProfileFile> {
+async function readProfileFile(file: File): Promise<ProfileFile> {
   return parseProfileFile(await readTextFile(file));
 }
 

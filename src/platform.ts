@@ -21,12 +21,10 @@ export const PLATFORM = {
   version: "0.2.0",
   tagline: "Herramientas open source y gratuitas para artistas.",
   about:
-    "Open Art Tools es la plataforma. Aquí viven las herramientas: eliges una y la usas cuando quieras.",
+    "Open Art Tools es la plataforma. Aquí viven las herramientas: se elige una y se usa cuando haga falta.",
   author: "Gerard Valls Montaño",
   license: "AGPL-3.0-or-later",
   repoUrl: "https://github.com/OpenArtTools/OpenArtTools.github.io",
-  siteUrl: "https://openarttools.github.io/",
-  authorSiteUrl: "https://bygerardvisuals.com/",
 } as const;
 
 /**
@@ -71,7 +69,7 @@ export const SUPPORT = {
   ],
   privacyTitle: "Privacidad del aporte",
   privacy:
-    "Open Art Tools no procesa pagos ni guarda datos de donación. Si usas un enlace de aportación, saldrás a un proveedor externo (por ejemplo PayPal o similar). Ahí aplican sus condiciones y su privacidad, no las de esta plataforma.",
+    "Open Art Tools no procesa pagos ni guarda datos de donación. Si se usa un enlace de aportación, se sale a un proveedor externo (por ejemplo PayPal o similar). Ahí aplican sus condiciones y su privacidad, no las de esta plataforma.",
   thanks:
     "Si se aporta: gracias. Si no se puede o no se desea: también está bien. La plataforma está hecha para usarse.",
   footerLabel: "Apoyo voluntario",
@@ -85,10 +83,15 @@ export const TRANSPARENCY = {
   sessionClear:
     "Al cerrar esta pestaña se borran los datos de la plataforma.",
   sessionClearInTool:
-    "Al cerrar esta pestaña se borran los datos de la plataforma. Descarga el borrador de este acuerdo cuando quieras, esté como esté.",
+    "Al cerrar esta pestaña se borran los datos de la plataforma. Se puede descargar el borrador de este acuerdo en cualquier momento, esté como esté.",
   draftDownloadLabel: "Descargar borrador",
   legal:
     "Las plantillas no han sido revisadas por abogados ni por profesionales del derecho y no constituyen asesoramiento legal.",
+  /** Longer legal line shown on the document preview / PDF / text export. */
+  documentHint:
+    "Open Art Tools — plantilla orientativa. Este documento no ha sido revisado por abogados ni por ningún profesional del derecho y no constituye asesoramiento legal.",
+  printPdfNote:
+    "Usa el diálogo de impresión del navegador para guardar como PDF. Si el navegador ofrece numeración de páginas en el pie, activarla ahí.",
   points: [
     {
       title: "Código abierto",

@@ -9,7 +9,7 @@ function getPath(values: AppValues, path: string): string | boolean | number | u
   return values[path];
 }
 
-function isTruthy(values: AppValues, path: string): boolean {
+export function isTruthy(values: AppValues, path: string): boolean {
   const v = getPath(values, path);
   return v === true || v === "true" || v === 1;
 }
@@ -72,7 +72,7 @@ export function assembleClauses(
       id: ct.id,
       title,
       body,
-      enabled: prev ? prev.enabled : ct.defaultEnabled !== false,
+      enabled: prev ? prev.enabled : true,
       source: "template",
       placeAtEnd: ct.placeAtEnd,
     });
@@ -132,7 +132,7 @@ export function refreshFromValues(
           id: ct.id,
           title: fillPlaceholders(ct.title, values, template.fields),
           body: fillPlaceholders(ct.body, values, template.fields),
-          enabled: ct.defaultEnabled !== false,
+          enabled: true,
           source: "template",
           placeAtEnd: ct.placeAtEnd,
         });
@@ -151,7 +151,10 @@ export function refreshFromValues(
 export function documentText(clauses: Clause[]): string {
   return clauses
     .filter((c) => c.enabled)
-    .map((c) => `${c.title}\n\n${c.body}`)
+    .map((c) => {
+      const title = c.title.trim();
+      return title ? `${title}\n\n${c.body}` : c.body;
+    })
     .join("\n\n");
 }
 

@@ -6,9 +6,8 @@
 import { documentText } from "../engine/assemble";
 import type { Clause } from "../engine/types";
 import { escapeHtml } from "../dom";
-
-const LEGAL_HINT =
-  "Open Art Tools — plantilla orientativa. Este documento no ha sido revisado por abogados ni por ningún profesional del derecho y no constituye asesoramiento legal.";
+import { TRANSPARENCY } from "../platform";
+import { downloadBlob } from "../storage/jsonFile";
 
 function fileBaseName(docTitle: string): string {
   const cleaned = docTitle
@@ -20,12 +19,15 @@ function fileBaseName(docTitle: string): string {
   return cleaned || "documento-openarttools";
 }
 
-export function clausesToHtml(clauses: Clause[], docTitle: string): string {
+function clausesToHtml(clauses: Clause[], docTitle: string): string {
   const blocks = clauses
     .filter((c) => c.enabled)
     .map((c) => {
       const endAttr = c.placeAtEnd ? ' data-end="true"' : "";
-      return `<section class="pdf-clause"${endAttr}><h2>${escapeHtml(c.title)}</h2><pre class="pdf-body">${escapeHtml(c.body)}</pre></section>`;
+      const heading = c.title.trim()
+        ? `<h2>${escapeHtml(c.title)}</h2>`
+        : "";
+      return `<section class="pdf-clause"${endAttr}>${heading}<pre class="pdf-body">${escapeHtml(c.body)}</pre></section>`;
     })
     .join("\n");
 
@@ -75,10 +77,10 @@ export function clausesToHtml(clauses: Clause[], docTitle: string): string {
 </style>
 </head>
 <body>
-  <p class="hint">${escapeHtml(LEGAL_HINT)}</p>
+  <p class="hint">${escapeHtml(TRANSPARENCY.documentHint)}</p>
   <h1>${escapeHtml(docTitle)}</h1>
   ${blocks}
-  <p class="screen-page-note">Usa el diálogo de impresión del navegador para guardar como PDF. Si tu navegador ofrece numeración de páginas en el pie, actívala ahí.</p>
+  <p class="screen-page-note">${escapeHtml(TRANSPARENCY.printPdfNote)}</p>
 </body>
 </html>`;
 }
@@ -120,35 +122,27 @@ export function exportPdfViaPrint(clauses: Clause[], docTitle: string): void {
   }, 300);
 }
 
-function triggerDownload(blob: Blob, filename: string): void {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
 export function downloadHtml(clauses: Clause[], docTitle: string): void {
-  const html = clausesToHtml(clauses, docTitle);
-  triggerDownload(
-    new Blob([html], { type: "text/html;charset=utf-8" }),
+  downloadBlob(
     `${fileBaseName(docTitle)}.html`,
+    new Blob([clausesToHtml(clauses, docTitle)], {
+      type: "text/html;charset=utf-8",
+    }),
   );
 }
 
 export function downloadText(clauses: Clause[], docTitle: string): void {
-  const text = `${docTitle}\n\n${LEGAL_HINT}\n\n${documentText(clauses)}`;
-  triggerDownload(
-    new Blob([text], { type: "text/plain;charset=utf-8" }),
+  const text = `${docTitle}\n\n${TRANSPARENCY.documentHint}\n\n${documentText(clauses)}`;
+  downloadBlob(
     `${fileBaseName(docTitle)}.txt`,
+    new Blob([text], { type: "text/plain;charset=utf-8" }),
   );
 }
 
 export function copyText(clauses: Clause[], docTitle?: string): Promise<void> {
   const body = documentText(clauses);
   const text = docTitle
-    ? `${docTitle}\n\n${LEGAL_HINT}\n\n${body}`
+    ? `${docTitle}\n\n${TRANSPARENCY.documentHint}\n\n${body}`
     : body;
   return navigator.clipboard.writeText(text);
 }

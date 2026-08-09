@@ -34,7 +34,6 @@ export type ClauseTemplate = {
   requireAll?: string[];
   requireAny?: string[];
   excludeIf?: string[];
-  defaultEnabled?: boolean;
   placeAtEnd?: boolean;
 };
 

@@ -11,7 +11,7 @@
 
 import { escapeHtml } from "../dom";
 import type { AppValues, Clause } from "../engine/types";
-import { readTextFile } from "./jsonFile";
+import { pickFile, readTextFile, downloadBlob } from "./jsonFile";
 
 export const DRAFT_FILE_KIND = "openarttools.draft" as const;
 export const DRAFT_FILE_VERSION = 2 as const;
@@ -205,23 +205,12 @@ export function draftToHtml(draft: DraftFile): string {
 `;
 }
 
-function downloadText(filename: string, content: string, mime: string): void {
-  const blob = new Blob([content], { type: mime });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
 export function downloadDraftFile(draft: DraftFile): void {
   const payload = buildDraftFile(draft);
   const html = draftToHtml(payload);
-  downloadText(
+  downloadBlob(
     `open-art-tools-borrador-${payload.savedAt.slice(0, 10)}.html`,
-    html,
-    "text/html;charset=utf-8",
+    new Blob([html], { type: "text/html;charset=utf-8" }),
   );
 }
 
@@ -290,37 +279,15 @@ export function parseDraftFile(raw: string): DraftFile {
   });
 }
 
-export async function readDraftFile(file: File): Promise<DraftFile> {
+async function readDraftFile(file: File): Promise<DraftFile> {
   return parseDraftFile(await readTextFile(file));
 }
 
 /** Prefer HTML drafts; still accept legacy .json. */
-export function pickDraftFileDialog(): Promise<File | null> {
-  return new Promise((resolve) => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".html,.htm,text/html,application/json,.json";
-    let settled = false;
-    const finish = (file: File | null) => {
-      if (settled) return;
-      settled = true;
-      window.removeEventListener("focus", onFocus);
-      resolve(file);
-    };
-    const onFocus = () => {
-      setTimeout(() => finish(null), 400);
-    };
-    input.addEventListener("change", () => {
-      finish(input.files?.[0] ?? null);
-    });
-    input.addEventListener("cancel", () => finish(null));
-    window.addEventListener("focus", onFocus, { once: true });
-    input.click();
-  });
-}
-
 export async function pickAndReadDraftFile(): Promise<DraftFile | null> {
-  const file = await pickDraftFileDialog();
+  const file = await pickFile(
+    ".html,.htm,text/html,application/json,.json",
+  );
   if (!file) return null;
   return readDraftFile(file);
 }

@@ -12,6 +12,7 @@ import {
   ensurePlaceAtEnd,
   fieldVisible,
   fieldsForStep,
+  isTruthy,
   missingRequired,
   refreshFromValues,
 } from "./engine/assemble";
@@ -138,76 +139,37 @@ function rebuildClauses(): void {
   );
 }
 
-/** Master toggles that decide if an options group is “included”. */
-const OPTION_GROUP_MASTERS: Record<string, string[]> = {
-  "Espacio y accesos": ["options.spaceAccess"],
-  Inventario: ["options.inventory"],
-  "Acta de entrega y devolución": ["options.deliveryAct"],
-  "Certificados de póliza": ["options.policyCerts"],
-  "Franquicia del seguro": ["options.franchise"],
-  "Peritaje si hay pérdida artística": ["options.independentExpert"],
-  Transporte: ["options.transport"],
-  "Remuneración y gastos": ["options.costs"],
-  "Contactos del día a día": ["options.contacts"],
-  Subcontratación: ["options.subcontract"],
-  "Cambios de ubicación o instalación": ["options.amendments"],
-  Reparaciones: ["options.repairs"],
-  "Fotos, vídeo y reproducción": ["options.imageUse"],
-  "Propiedad intelectual": ["options.ipRights"],
-  "Si también se contempla vender la obra": ["options.saleTerms"],
-  "Cancelación o retirada anticipada": ["options.cancellation"],
-  "Emails para avisos formales": ["options.notices"],
-  "Fuerza mayor": ["options.forceMajeure"],
-  "Ley y tribunales": ["options.jurisdiction"],
+/** Master toggle path for each options form group. */
+const OPTION_GROUP_MASTER: Record<string, string> = {
+  "Espacio y accesos": "options.spaceAccess",
+  Inventario: "options.inventory",
+  "Acta de entrega y devolución": "options.deliveryAct",
+  "Certificados de póliza": "options.policyCerts",
+  "Franquicia del seguro": "options.franchise",
+  "Peritaje si hay pérdida artística": "options.independentExpert",
+  Transporte: "options.transport",
+  "Remuneración y gastos": "options.costs",
+  "Contactos del día a día": "options.contacts",
+  Subcontratación: "options.subcontract",
+  "Cambios de ubicación o instalación": "options.amendments",
+  Reparaciones: "options.repairs",
+  "Fotos, vídeo y reproducción": "options.imageUse",
+  "Propiedad intelectual": "options.ipRights",
+  "Si también se contempla vender la obra": "options.saleTerms",
+  "Cancelación o retirada anticipada": "options.cancellation",
+  "Emails para avisos formales": "options.notices",
+  "Fuerza mayor": "options.forceMajeure",
+  "Ley y tribunales": "options.jurisdiction",
 };
 
-const OPTIONAL_SCOPE_LABELS: { path: string; label: string }[] = [
-  { path: "options.spaceAccess", label: "Espacio y accesos" },
-  { path: "options.inventory", label: "Inventario" },
-  { path: "options.deliveryAct", label: "Acta de entrega" },
-  { path: "options.policyCerts", label: "Certificados de póliza" },
-  { path: "options.franchise", label: "Franquicia" },
-  { path: "options.independentExpert", label: "Peritaje" },
-  { path: "options.transport", label: "Transporte" },
-  { path: "options.costs", label: "Remuneración y gastos" },
-  { path: "options.contacts", label: "Contactos" },
-  { path: "options.subcontract", label: "Subcontratación" },
-  { path: "options.amendments", label: "Cambios en la instalación" },
-  { path: "options.repairs", label: "Reparaciones" },
-  { path: "options.imageUse", label: "Uso de imagen" },
-  { path: "options.ipRights", label: "Propiedad intelectual" },
-  { path: "options.saleTerms", label: "Venta" },
-  { path: "options.cancellation", label: "Cancelación / retirada" },
-  { path: "options.notices", label: "Avisos formales" },
-  { path: "options.forceMajeure", label: "Fuerza mayor" },
-  { path: "options.jurisdiction", label: "Ley y tribunales" },
-];
+const ALL_OPTION_MASTERS = Object.values(OPTION_GROUP_MASTER);
 
-const ALL_OPTION_MASTERS = [
-  "options.spaceAccess",
-  "options.inventory",
-  "options.deliveryAct",
-  "options.policyCerts",
-  "options.franchise",
-  "options.independentExpert",
-  "options.transport",
-  "options.costs",
-  "options.contacts",
-  "options.subcontract",
-  "options.amendments",
-  "options.repairs",
-  "options.imageUse",
-  "options.ipRights",
-  "options.saleTerms",
-  "options.cancellation",
-  "options.notices",
-  "options.forceMajeure",
-  "options.jurisdiction",
-] as const;
+const OPTIONAL_SCOPE_LABELS = Object.entries(OPTION_GROUP_MASTER).map(
+  ([label, path]) => ({ path, label }),
+);
 
 function isOn(path: string): boolean {
-  const v = state.values[path];
-  return v === true || v === "true";
+  return isTruthy(state.values, path);
 }
 
 function emptyPath(path: string): boolean {
@@ -766,7 +728,7 @@ function renderTransparency(): HTMLElement {
 
   const intro = el("p");
   intro.textContent =
-    "Open Art Tools promete transparencia total: código abierto, sin vigilancia y sin almacenar tus datos. Aquí va el resumen; el detalle está en el repositorio.";
+    "Open Art Tools promete transparencia total: código abierto, sin vigilancia y sin almacenar datos personales. Aquí va el resumen; el detalle está en el repositorio.";
   wrap.append(intro);
 
   for (const point of TRANSPARENCY.points) {
@@ -1000,7 +962,7 @@ function renderOptionsStep(t: ReturnType<typeof template>): HTMLElement {
 
   const tip = el("p", "oat-options-tip");
   tip.textContent =
-    "Cada bloque es opcional y aparece en el documento en este mismo orden. Abrir solo lo que haga falta; lo demás no se incluye.";
+    "Cada bloque es opcional. Abrir solo lo que haga falta; lo demás no se incluye. El orden del documento sigue la lógica contractual (custodia → seguros → valor → operación → cierre); algunos bloques del formulario se reordenan ahí.";
   wrap.append(tip);
 
   const presets = el("div", "oat-presets");
@@ -1035,9 +997,8 @@ function renderOptionsStep(t: ReturnType<typeof template>): HTMLElement {
   }
 
   for (const group of groups) {
-    const masters = OPTION_GROUP_MASTERS[group.name] ?? [];
-    const included =
-      masters.length === 0 ? true : masters.some((path) => isOn(path));
+    const master = OPTION_GROUP_MASTER[group.name];
+    const included = master ? isOn(master) : true;
     const visibleFields = group.fields.filter((f) =>
       fieldVisible(f, state.values),
     );
@@ -1286,8 +1247,7 @@ function renderEditablePreview(
   paper.setAttribute("aria-label", "Previsualización editable del documento");
 
   const hint = el("p", "oat-live-preview-hint");
-  hint.textContent =
-    "Open Art Tools — plantilla orientativa. Este documento no ha sido revisado por abogados ni por ningún profesional del derecho y no constituye asesoramiento legal.";
+  hint.textContent = TRANSPARENCY.documentHint;
 
   const title = document.createElement("h1");
   title.className = "oat-live-preview-title";
@@ -1306,6 +1266,9 @@ function renderEditablePreview(
     heading.spellcheck = true;
     heading.setAttribute("aria-label", "Título de la cláusula");
     heading.textContent = clause.title;
+    if (!clause.title.trim()) {
+      heading.hidden = true;
+    }
     heading.addEventListener("keydown", (ev) => {
       if (ev.key === "Enter") ev.preventDefault();
     });
@@ -1352,8 +1315,7 @@ function renderEditablePreview(
   }
 
   const foot = el("p", "oat-live-preview-foot");
-  foot.textContent =
-    "Usa el diálogo de impresión del navegador para guardar como PDF. Si tu navegador ofrece numeración de páginas en el pie, actívala ahí.";
+  foot.textContent = TRANSPARENCY.printPdfNote;
   paper.append(foot);
   return paper;
 }

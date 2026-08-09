@@ -19,13 +19,13 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "titularidad",
       title: "Autoría",
       blurb:
-        "Quién cede la obra: datos de quien ostenta la autoría. El representante es opcional.",
+        "Datos de quien tiene la autoría. Si firma alguien en representación de la Parte Autora, indícalo en ese bloque.",
     },
     {
       id: "solicitante",
       title: "Solicitante de la obra",
       blurb:
-        "Quién recibe la obra para exhibirla: organización o persona solicitante. El representante es opcional.",
+        "Datos de quien solicita la obra. Si firma alguien en representación de la Parte Solicitante, indícalo en ese bloque.",
     },
     {
       id: "project",
@@ -532,7 +532,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "feat_extra",
       label: "Añadir características adicionales en texto libre",
-      placeholder: "Incluir para incluir otras características que no estén en la lista",
+      placeholder: "Incluir para añadir otras características que no estén en la lista",
       emptyMarker: "",
       type: "toggle",
       path: "features.hasExtra",
@@ -577,7 +577,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "weather_protect",
       label: "Obligación de protección meteorológica",
-      placeholder: "Incluir cuando el solicitante de la obra debe proteger frente a clima",
+      placeholder:
+        "Incluir cuando el solicitante debe proteger frente a clima (si la obra es de exterior, esta obligación ya se incluye automáticamente)",
       emptyMarker: "",
       type: "toggle",
       path: "custody.weatherProtect",
@@ -588,7 +589,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "has_rc",
       label: "La Parte Solicitante aporta cobertura de responsabilidad civil",
       placeholder:
-        "Incluir solo cuando el solicitante de la obra es quien proporciona la RC del evento; si no la aporta, déjalo sin marcar",
+        "Incluir solo cuando el solicitante de la obra es quien proporciona la RC del evento; si no la aporta, dejar sin marcar",
       emptyMarker: "",
       type: "toggle",
       path: "insurance.hasRc",
@@ -599,7 +600,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "has_nail",
       label: "La Parte Solicitante aporta seguro de daños clavo a clavo",
       placeholder:
-        "Incluir solo cuando el solicitante de la obra es quien proporciona el seguro de daños a todo riesgo; si no lo aporta, déjalo sin marcar",
+        "Incluir solo cuando el solicitante de la obra es quien proporciona el seguro de daños a todo riesgo; si no lo aporta, dejar sin marcar",
       emptyMarker: "",
       type: "toggle",
       path: "insurance.hasNailToNail",
@@ -620,7 +621,6 @@ export const exhibitionCustodyEs: TemplateDoc = {
         "features.mechanical",
         "features.electrical",
         "features.electronics",
-        "features.hasSystem",
         "features.hasSculptures",
       ],
       required: true,
@@ -734,22 +734,26 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "opt_policy_certs",
       label: "Exigir certificados de póliza previos",
-      placeholder: "Incluir para exigir acreditación de seguros antes del transporte",
+      placeholder:
+        "Incluir para exigir acreditación de los seguros que aporta el solicitante antes del transporte (solo si hay RC o clavo a clavo)",
       emptyMarker: "",
       type: "toggle",
       path: "options.policyCerts",
       step: "options",
       group: "Certificados de póliza",
+      showIfAny: ["insurance.hasRc", "insurance.hasNailToNail"],
     },
     {
       id: "opt_franchise",
       label: "Franquicia a cargo del solicitante de la obra",
-      placeholder: "Incluir para dejar claro quién asume la franquicia",
+      placeholder:
+        "Incluir para dejar claro quién asume la franquicia (solo si hay RC o clavo a clavo)",
       emptyMarker: "",
       type: "toggle",
       path: "options.franchise",
       step: "options",
       group: "Franquicia del seguro",
+      showIfAny: ["insurance.hasRc", "insurance.hasNailToNail"],
     },
     {
       id: "opt_expert",
@@ -1376,7 +1380,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
   clauses: [
     {
       id: "header",
-      title: "{{document.title}}",
+      title: "",
       body: `{{document.headerKind}} DE LA INSTALACIÓN ARTÍSTICA «{{project.workTitle}}»
 
 En {{project.city}}, a {{project.signDate}}`,
@@ -1395,7 +1399,7 @@ Ambas partes, reconociéndose capacidad legal suficiente para obligarse,`,
     {
       id: "manifest",
       title: "MANIFIESTAN",
-      body: `I. Que ambas partes desean regular las condiciones de exhibición, custodia, conservación, seguro y responsabilidad de la instalación artística «{{project.workTitle}}» durante {{project.eventName}}.
+      body: `I. Que ambas partes desean regular las condiciones de {{document.manifestScope}} de la instalación artística «{{project.workTitle}}» durante {{project.eventName}}.
 II. Que, debido a las características técnicas y de funcionamiento de la instalación, ambas partes consideran conveniente formalizar expresamente dichas condiciones particulares.
 III. Que {{document.this}} constituye un acuerdo específico negociado y aceptado libremente por ambas partes.`,
       excludeIf: ["project.isAnnex"],
@@ -1404,7 +1408,7 @@ III. Que {{document.this}} constituye un acuerdo específico negociado y aceptad
       id: "manifest_annex",
       title: "MANIFIESTAN",
       body: `I. Que con fecha {{project.baseAgreementDate}} ambas partes suscribieron {{project.mainAgreementName}} correspondiente a la exhibición de la instalación artística de la Parte Autora durante {{project.eventName}}.
-II. Que, debido a las características técnicas y de funcionamiento de la instalación, ambas partes consideran conveniente regular expresamente las condiciones particulares de su exhibición, custodia, conservación y responsabilidad.
+II. Que, debido a las características técnicas y de funcionamiento de la instalación, ambas partes consideran conveniente regular expresamente las condiciones particulares de {{document.manifestScope}}.
 III. Que {{document.this}} constituye un anexo específico negociado y aceptado libremente por ambas partes, complementa {{project.mainAgreementName}} y, exclusivamente respecto de la instalación artística objeto del mismo, prevalecerá sobre cualquier cláusula del citado acuerdo principal que resulte incompatible con lo aquí establecido.`,
       requireAll: ["project.isAnnex"],
     },
@@ -1489,7 +1493,7 @@ La existencia, alcance, validez o eficacia de la póliza de Responsabilidad Civi
       id: "septima",
       title: "SÉPTIMA. Seguro de daños de la instalación",
       body: `La Parte Solicitante declara que la instalación artística objeto {{document.ofThis}} se encuentra debidamente cubierta mediante una póliza de seguro de daños a todo riesgo («clavo a clavo»), plenamente vigente, que garantiza la integridad patrimonial de la obra durante todo el período de su participación en {{project.eventName}}.
-Dicha cobertura comprenderá, como mínimo: el transporte de ida y vuelta; las operaciones de carga y descarga; el montaje y desmontaje; la permanencia en el recinto; la exhibición pública; el almacenamiento temporal de piezas y elementos; y la manipulación necesaria para su conservación y reposición.
+Dicha cobertura comprenderá, como mínimo: las operaciones de carga y descarga; el montaje y desmontaje; la permanencia en el recinto; la exhibición pública; el almacenamiento temporal de piezas y elementos; la manipulación necesaria para su conservación y reposición; y, cuando forme parte del periplo de la obra, el transporte de ida y vuelta.
 La cobertura incluirá, entre otros, los riesgos de pérdida, robo, hurto, desaparición, desperfecto, deterioro, vandalismo, incendio, agua, lluvia, viento, humedad, fenómenos meteorológicos, accidente, manipulación y cualquier otro daño accidental o fortuito.
 La cobertura de seguro comenzará en el momento en que la instalación abandone físicamente su lugar de almacenamiento y finalizará únicamente cuando, tras el transporte de retorno, haya sido descargada e introducida nuevamente en el interior de dicho lugar.
 La existencia, alcance o condiciones de la póliza de seguro de daños no limitarán, en ningún caso, las obligaciones de custodia, conservación, protección e indemnización asumidas por la Parte Solicitante.
@@ -1501,12 +1505,20 @@ La suma asegurada será, como mínimo, igual al valor declarado de la instalaci�
       title: "Acreditación de seguros",
       body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Parte Solicitante entregará a la Parte Autora certificado o extracto de {{options.policyCertsDetail}} que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará a la Parte Autora a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
       requireAll: ["options.policyCerts"],
+      requireAny: ["insurance.hasRc", "insurance.hasNailToNail"],
     },
     {
       id: "opt_franq",
       title: "Franquicia",
       body: `Cualquier franquicia, deducible o importe no cubierto por las pólizas será asumido íntegramente por la Parte Solicitante, sin que pueda trasladarse a la Parte Autora.`,
       requireAll: ["options.franchise"],
+      requireAny: ["insurance.hasRc", "insurance.hasNailToNail"],
+    },
+    {
+      id: "insurance_none",
+      title: "Seguro aportado por la Parte Solicitante",
+      body: `Las partes dejan constancia de que, {{document.inThis}}, la Parte Solicitante no aporta cobertura de responsabilidad civil ni seguro de daños a todo riesgo (clavo a clavo). Ello no limita ni sustituye las obligaciones de custodia, conservación, protección e indemnización asumidas por la Parte Solicitante.`,
+      excludeIf: ["insurance.hasRc", "insurance.hasNailToNail"],
     },
     {
       id: "octava",
@@ -1520,8 +1532,7 @@ En caso de que la reparación o restauración no resulte técnicamente posible o
     {
       id: "novena",
       title: "NOVENA. Valor declarado",
-      body: `Las partes acuerdan fijar el siguiente valor económico de la instalación, exclusivamente a efectos de responsabilidad patrimonial:
-{{insurance.valueBreakdown}}
+      body: `Las partes acuerdan fijar el siguiente valor económico de la instalación, exclusivamente a efectos de responsabilidad patrimonial:{{insurance.valueBreakdownBlock}}
 
 Valor total declarado de la instalación: {{insurance.totalValue}} € (impuestos no incluidos).`,
     },
@@ -1540,7 +1551,7 @@ Valor total declarado de la instalación: {{insurance.totalValue}} € (impuesto
 — Punto de recogida (ida): {{options.transportPickup}}.
 — Punto de entrega o devolución (vuelta): {{options.transportReturn}}.
 {{options.transportNotesText}}
-Quien organice el transporte cuidará un embalaje adecuado y la coordinación de horarios. El riesgo durante el tránsito se alineará con las coberturas de seguro y con las obligaciones de custodia de {{document.this}}, salvo pacto escrito distinto. La falta de coordinación del transporte no exime de las obligaciones de custodia, entrega y devolución aquí previstas.`,
+Quien organice el transporte cuidará un embalaje adecuado y la coordinación de horarios. El riesgo durante el tránsito se alineará con {{document.transportRiskAlign}} y con las obligaciones de custodia de {{document.this}}, salvo pacto escrito distinto. La falta de coordinación del transporte no exime de las obligaciones de custodia, entrega y devolución aquí previstas.`,
       requireAll: ["options.transport"],
     },
     {
@@ -1548,7 +1559,7 @@ Quien organice el transporte cuidará un embalaje adecuado y la coordinación de
       title: "Remuneración y gastos",
       body: `{{options.costsNoFeeText}}
 Detalle concreto de la remuneración (si la hay) y del reparto de gastos (honorarios, producción, dietas, material de montaje u otros): {{options.costsSummary}}.
-Cada parte asume únicamente los conceptos que le correspondan según ese detalle. Cualquier gasto adicional, extraordinario o no previsto requerirá acuerdo expreso previo. La existencia o no de remuneración no altera la autoría de la obra ni las obligaciones de custodia, seguro y devolución de {{document.this}}.`,
+Cada parte asume únicamente los conceptos que le correspondan según ese detalle. Cualquier gasto adicional, extraordinario o no previsto requerirá acuerdo expreso previo. La existencia o no de remuneración no altera la autoría de la obra ni las obligaciones de {{document.custodyDutiesScope}} de {{document.this}}.`,
       requireAll: ["options.costs"],
     },
     {
@@ -1564,7 +1575,7 @@ Estas personas servirán para coordinación operativa. Las notificaciones formal
       id: "opt_subcontract",
       title: "Subcontratación",
       body: `La Parte Solicitante podrá valerse de terceros para determinadas tareas solo en el siguiente marco: {{options.subcontractTerms}}.
-Aunque intervengan personal de montaje, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Autora del cumplimiento de {{document.this}} (custodia, seguro, daños, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
+Aunque intervengan personal de montaje, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Autora del cumplimiento de {{document.this}} ({{document.subcontractScope}}, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
       requireAll: ["options.subcontract"],
     },
     {
@@ -1584,7 +1595,7 @@ Los cambios no autorizados se considerarán incumplimiento de las obligaciones d
 — Reparaciones permitidas: {{options.repairsAllowed}}.
 — Reparaciones no permitidas: {{options.repairsForbidden}}.
 — Quién cubre el coste (materiales, mano de obra, transporte técnico u otros): {{options.repairsCost}}.
-Salvo autorización expresa de la Parte Autora, queda prohibida cualquier intervención no contemplada como permitida. Las reparaciones no eximen a la Parte Solicitante de su responsabilidad por daños ni de las obligaciones de seguro e indemnización de {{document.this}}.`,
+Salvo autorización expresa de la Parte Autora, queda prohibida cualquier intervención no contemplada como permitida. Las reparaciones no eximen a la Parte Solicitante de su responsabilidad por daños ni de las obligaciones de {{document.repairsDutiesScope}} de {{document.this}}.`,
       requireAll: ["options.repairs"],
     },
     {
@@ -1617,14 +1628,14 @@ Precio: {{options.salePrice}} € (impuestos aparte, si resultan aplicables).
 Entrega: {{options.saleDelivery}}.
 {{options.saleExclusivityText}}
 {{options.saleNotesText}}
-La venta, si se formaliza, se documentará de forma expresa. Mientras no conste acuerdo de venta perfeccionado, la obra permanece bajo la autoría de la Parte Autora y sujeta a las obligaciones de custodia y devolución de {{document.this}}.`,
+La venta, si se formaliza, se documentará de forma expresa. Mientras no conste acuerdo de venta perfeccionado, la obra permanece bajo la propiedad de la Parte Autora y sujeta a las obligaciones de custodia y devolución de {{document.this}}.`,
       requireAll: ["options.saleTerms"],
     },
     {
       id: "opt_cancellation",
       title: "Cancelación y retirada anticipada",
       body: `Si el evento, la exhibición o {{document.this}} se cancelan, se aplicará lo siguiente: {{options.cancellationTerms}}.
-Además, la Parte Autora podrá retirar anticipadamente la obra cuando concurra alguna de estas circunstancias o las que se detallen a continuación: falta o insuficiencia de seguros exigidos; incumplimiento grave de custodia, vigilancia o seguridad; o condiciones del espacio incompatibles con la integridad de la obra. Condiciones adicionales de retirada: {{options.withdrawalTerms}}.
+Además, la Parte Autora podrá retirar anticipadamente la obra cuando concurra alguna de estas circunstancias o las que se detallen a continuación: {{document.cancellationInsuranceBit}}incumplimiento grave de custodia, vigilancia o seguridad; o condiciones del espacio incompatibles con la integridad de la obra. Condiciones adicionales de retirada: {{options.withdrawalTerms}}.
 En caso de retirada anticipada justificada, la Parte Solicitante facilitará el acceso y la logística razonables para recuperar la obra y seguirá respondiendo de las obligaciones nacidas hasta ese momento, incluidos daños ya producidos.`,
       requireAll: ["options.cancellation"],
     },
@@ -1654,7 +1665,7 @@ Se entenderán recibidas cuando conste su envío a dichas direcciones, sin perju
     {
       id: "opt_fm",
       title: "Fuerza mayor",
-      body: `Ninguna de las partes será responsable por el incumplimiento de obligaciones cuando dicho incumplimiento derive de causas de fuerza mayor debidamente acreditadas. Ello no exime a la Parte Solicitante de sus deberes de protección razonable de la instalación ni de las coberturas de seguro comprometidas, en la medida en que resulten aplicables.`,
+      body: `Ninguna de las partes será responsable por el incumplimiento de obligaciones cuando dicho incumplimiento derive de causas de fuerza mayor debidamente acreditadas. Ello no exime a la Parte Solicitante de sus deberes de protección razonable de la instalación{{document.forceMajeureInsuranceBit}}, en la medida en que resulten aplicables.`,
       requireAll: ["options.forceMajeure"],
     },
     {
@@ -1689,7 +1700,6 @@ Sello (si procede)`,
   ],
 };
 
-/** Build dynamic list bullets and duty lists into values before assemble. */
 function formatSpanishDate(iso: string): string {
   const [y, m, d] = iso.split("-").map(Number);
   if (!y || !m || !d) return iso;
@@ -1710,6 +1720,34 @@ function formatSpanishDate(iso: string): string {
   return `${d} de ${months[m - 1]} de ${y}`;
 }
 
+function contactExtraLines(
+  ...bits: Array<string | false | 0 | "" | undefined | null>
+): string {
+  const parts = bits.filter(Boolean) as string[];
+  return parts.length > 0 ? `\n${parts.join(" ")}` : "";
+}
+
+function representativeBlocks(
+  partyLabel: string,
+  nameRaw: unknown,
+  docRaw: unknown,
+  roleRaw: unknown,
+): { repBlock: string; sigRep: string } {
+  const name = String(nameRaw ?? "").trim();
+  if (!name) return { repBlock: "", sigRep: "" };
+  const docBit =
+    String(docRaw ?? "").trim() ||
+    `[documento — representante de la ${partyLabel}]`;
+  const roleBit =
+    String(roleRaw ?? "").trim() ||
+    `[cargo — representante de la ${partyLabel}]`;
+  return {
+    repBlock: `\nActuando en este acto a través de ${name}, con documento ${docBit}, en calidad de ${roleBit} (representante de la ${partyLabel}).`,
+    sigRep: `Representante de la ${partyLabel}: ${name}\nDocumento: ${docBit}\nCargo: ${roleBit}\n`,
+  };
+}
+
+/** Fill derived clause placeholders from toggles and party fields. */
 export function enrichDerivedValues(
   values: Record<string, string | boolean | number>,
 ): Record<string, string | boolean | number> {
@@ -1719,31 +1757,61 @@ export function enrichDerivedValues(
     v["project.isAnnex"] === true || v["project.isAnnex"] === "true";
   const annexTitle = String(v["project.annexTitle"] ?? "").trim();
   const mainName = String(v["project.mainAgreementName"] ?? "").trim();
+  const hasRc = v["insurance.hasRc"] === true || v["insurance.hasRc"] === "true";
+  const hasNail =
+    v["insurance.hasNailToNail"] === true ||
+    v["insurance.hasNailToNail"] === "true";
+  const hasInsurance = hasRc || hasNail;
+
   if (isAnnex) {
     v["project.mainAgreementName"] = mainName || "el acuerdo principal";
     v["document.title"] = annexTitle || "ANEXO AL ACUERDO PRINCIPAL";
-    v["document.headerKind"] =
-      "ANEXO — CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD";
+    v["document.headerKind"] = hasInsurance
+      ? "ANEXO — CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD"
+      : "ANEXO — CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA Y RESPONSABILIDAD";
     v["document.this"] = "el presente Anexo";
     v["document.This"] = "El presente Anexo";
     v["document.ofThis"] = "del presente Anexo";
     v["document.inThis"] = "en este Anexo";
-    v["document.toThis"] = "a este Anexo";
-    v["document.withThis"] = "mediante el presente Anexo";
   } else {
-    v["document.title"] =
-      "ACUERDO DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD";
-    v["document.headerKind"] =
-      "CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD";
+    v["document.title"] = hasInsurance
+      ? "ACUERDO DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD"
+      : "ACUERDO DE EXHIBICIÓN, CUSTODIA Y RESPONSABILIDAD";
+    v["document.headerKind"] = hasInsurance
+      ? "CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD"
+      : "CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA Y RESPONSABILIDAD";
     v["document.this"] = "el presente Acuerdo";
     v["document.This"] = "El presente Acuerdo";
     v["document.ofThis"] = "del presente Acuerdo";
     v["document.inThis"] = "en este Acuerdo";
-    v["document.toThis"] = "a este Acuerdo";
-    v["document.withThis"] = "mediante el presente Acuerdo";
   }
-  // Keep legacy key for older drafts that still reference it.
-  v["document.annexTitle"] = String(v["document.title"]);
+  v["document.manifestScope"] = hasInsurance
+    ? "exhibición, custodia, conservación, seguro y responsabilidad"
+    : "exhibición, custodia, conservación y responsabilidad";
+  v["document.forceMajeureInsuranceBit"] = hasInsurance
+    ? " ni de las coberturas de seguro comprometidas"
+    : "";
+  v["document.transportRiskAlign"] = hasInsurance
+    ? "las coberturas de seguro"
+    : "las obligaciones de responsabilidad patrimonial";
+  v["document.custodyDutiesScope"] = hasInsurance
+    ? "custodia, seguro y devolución"
+    : "custodia y devolución";
+  v["document.subcontractScope"] = hasInsurance
+    ? "custodia, seguro, daños"
+    : "custodia, daños";
+  v["document.repairsDutiesScope"] = hasInsurance
+    ? "seguro e indemnización"
+    : "indemnización";
+  v["document.cancellationInsuranceBit"] = hasInsurance
+    ? "falta o insuficiencia de seguros exigidos; "
+    : "";
+
+  // Orphan insurance complements must not survive when no policies are provided.
+  if (!hasInsurance) {
+    v["options.policyCerts"] = false;
+    v["options.franchise"] = false;
+  }
 
   for (const path of [
     "project.signDate",
@@ -1756,123 +1824,71 @@ export function enrichDerivedValues(
     }
   }
 
-  const authorBits: string[] = [];
-  if (v["parties.author.address"]) {
-    authorBits.push(`Domicilio: ${v["parties.author.address"]}.`);
-  }
-  if (v["parties.author.email"]) {
-    authorBits.push(`Email: ${v["parties.author.email"]}.`);
-  }
-  if (v["parties.author.phone"]) {
-    authorBits.push(`Teléfono: ${v["parties.author.phone"]}.`);
-  }
-  v["parties.author.extra"] =
-    authorBits.length > 0 ? `\n${authorBits.join(" ")}` : "";
+  v["parties.author.extra"] = contactExtraLines(
+    v["parties.author.address"] && `Domicilio: ${v["parties.author.address"]}.`,
+    v["parties.author.email"] && `Email: ${v["parties.author.email"]}.`,
+    v["parties.author.phone"] && `Teléfono: ${v["parties.author.phone"]}.`,
+  );
+  const authorRep = representativeBlocks(
+    "Parte Autora",
+    v["parties.author.repName"],
+    v["parties.author.repDoc"],
+    v["parties.author.repRole"],
+  );
+  v["parties.author.repBlock"] = authorRep.repBlock;
+  v["parties.author.sigRep"] = authorRep.sigRep;
 
-  const repName = String(v["parties.author.repName"] ?? "").trim();
-  const repDoc = String(v["parties.author.repDoc"] ?? "").trim();
-  const repRole = String(v["parties.author.repRole"] ?? "").trim();
-  if (repName) {
-    const docBit = repDoc || "[documento — representante de la Parte Autora]";
-    const roleBit = repRole || "[cargo — representante de la Parte Autora]";
-    v["parties.author.repBlock"] =
-      `\nActuando en este acto a través de ${repName}, con documento ${docBit}, en calidad de ${roleBit} (representante de la Parte Autora).`;
-    v["parties.author.sigRep"] =
-      `Representante de la Parte Autora: ${repName}\nDocumento: ${docBit}\nCargo: ${roleBit}\n`;
-  } else {
-    v["parties.author.repBlock"] = "";
-    v["parties.author.sigRep"] = "";
-  }
+  v["parties.org.extra"] = contactExtraLines(
+    v["parties.org.address"] && `Domicilio: ${v["parties.org.address"]}.`,
+    v["parties.org.email"] && `Email: ${v["parties.org.email"]}.`,
+    v["parties.org.phone"] && `Teléfono: ${v["parties.org.phone"]}.`,
+    v["parties.org.web"] && `Web: ${v["parties.org.web"]}.`,
+  );
+  const orgRep = representativeBlocks(
+    "Parte Solicitante",
+    v["parties.org.repName"],
+    v["parties.org.repDoc"],
+    v["parties.org.repRole"],
+  );
+  v["parties.org.repBlock"] = orgRep.repBlock;
+  v["parties.org.sigRep"] = orgRep.sigRep;
 
-  const orgBits: string[] = [];
-  if (v["parties.org.address"]) {
-    orgBits.push(`Domicilio: ${v["parties.org.address"]}.`);
-  }
-  if (v["parties.org.email"]) {
-    orgBits.push(`Email: ${v["parties.org.email"]}.`);
-  }
-  if (v["parties.org.phone"]) {
-    orgBits.push(`Teléfono: ${v["parties.org.phone"]}.`);
-  }
-  if (v["parties.org.web"]) {
-    orgBits.push(`Web: ${v["parties.org.web"]}.`);
-  }
-  v["parties.org.extra"] = orgBits.length > 0 ? `\n${orgBits.join(" ")}` : "";
-
-  const orgRepName = String(v["parties.org.repName"] ?? "").trim();
-  const orgRepDoc = String(v["parties.org.repDoc"] ?? "").trim();
-  const orgRepRole = String(v["parties.org.repRole"] ?? "").trim();
-  if (orgRepName) {
-    const docBit = orgRepDoc || "[documento — representante de la Parte Solicitante]";
-    const roleBit = orgRepRole || "[cargo — representante de la Parte Solicitante]";
-    v["parties.org.repBlock"] =
-      `\nActuando en este acto a través de ${orgRepName}, con documento ${docBit}, en calidad de ${roleBit} (representante de la Parte Solicitante).`;
-    v["parties.org.sigRep"] =
-      `Representante de la Parte Solicitante: ${orgRepName}\nDocumento: ${docBit}\nCargo: ${roleBit}\n`;
-  } else {
-    v["parties.org.repBlock"] = "";
-    v["parties.org.sigRep"] = "";
-  }
-
-  if (v["options.imageCommercial"]) {
-    v["options.imageCommercialText"] =
-      "Se autoriza el uso con fines comerciales o publicitarios dentro del ámbito y medios indicados.";
-  } else {
-    v["options.imageCommercialText"] =
-      "Queda excluido el uso con fines comerciales o publicitarios, salvo autorización adicional y expresa.";
-  }
-
-  if (v["options.imageAdapt"]) {
-    v["options.imageAdaptText"] =
-      "Se permiten recortes, reencuadres o adaptaciones técnicas menores que no alteren el sentido de la obra.";
-  } else {
-    v["options.imageAdaptText"] =
-      "No se permiten recortes, reencuadres ni adaptaciones sin autorización adicional y expresa.";
-  }
+  v["options.imageCommercialText"] = v["options.imageCommercial"]
+    ? "Se autoriza el uso con fines comerciales o publicitarios dentro del ámbito y medios indicados."
+    : "Queda excluido el uso con fines comerciales o publicitarios, salvo autorización adicional y expresa.";
+  v["options.imageAdaptText"] = v["options.imageAdapt"]
+    ? "Se permiten recortes, reencuadres o adaptaciones técnicas menores que no alteren el sentido de la obra."
+    : "No se permiten recortes, reencuadres ni adaptaciones sin autorización adicional y expresa.";
 
   const inThisDoc = String(v["document.inThis"]);
   const reservation = String(v["options.saleReservation"] ?? "").trim();
   v["options.saleReservationText"] = reservation
     ? `Reserva o señal: ${reservation}.`
     : `No se ha pactado ${inThisDoc} una reserva o señal específica.`;
-
-  if (v["options.saleNoExclusivity"]) {
-    v["options.saleExclusivityText"] =
-      "La eventual venta no otorga a la Parte Solicitante representación exclusiva ni mandato de venta en exclusiva.";
-  } else {
-    v["options.saleExclusivityText"] =
-      `Las partes no han regulado ${inThisDoc} un régimen de exclusividad de representación o venta.`;
-  }
-
+  v["options.saleExclusivityText"] = v["options.saleNoExclusivity"]
+    ? "La eventual venta no otorga a la Parte Solicitante representación exclusiva ni mandato de venta en exclusiva."
+    : `Las partes no han regulado ${inThisDoc} un régimen de exclusividad de representación o venta.`;
   const saleNotes = String(v["options.saleNotes"] ?? "").trim();
   v["options.saleNotesText"] = saleNotes
     ? `Otras condiciones: ${saleNotes}`
     : "";
-
   const transportNotes = String(v["options.transportNotes"] ?? "").trim();
   v["options.transportNotesText"] = transportNotes
     ? `Condiciones adicionales de transporte: ${transportNotes}`
     : "";
-
-  if (v["options.costsNoFee"]) {
-    v["options.costsNoFeeText"] =
-      "Las partes dejan constancia de que no hay remuneración económica a la Parte Autora por la cesión temporal de la obra para su exhibición, sin perjuicio del reparto de gastos que se detalla a continuación.";
-  } else {
-    v["options.costsNoFeeText"] =
-      "Las partes regulan la remuneración (si la hay) y el reparto de gastos asociados a la cesión temporal y exhibición de la obra según lo siguiente.";
-  }
+  v["options.costsNoFeeText"] = v["options.costsNoFee"]
+    ? "Las partes dejan constancia de que no hay remuneración económica a la Parte Autora por la cesión temporal de la obra para su exhibición, sin perjuicio del reparto de gastos que se detalla a continuación."
+    : "Las partes regulan la remuneración (si la hay) y el reparto de gastos asociados a la cesión temporal y exhibición de la obra según lo siguiente.";
 
   const inventoryRaw = String(v["options.inventoryList"] ?? "").trim();
-  if (inventoryRaw) {
-    v["options.inventoryFormatted"] = inventoryRaw
-      .split(/\n+/)
-      .map((line) => line.trim())
-      .filter(Boolean)
-      .map((line) => (line.startsWith("—") ? line : `— ${line}`))
-      .join("\n");
-  } else {
-    v["options.inventoryFormatted"] = "— [inventario de componentes]";
-  }
+  v["options.inventoryFormatted"] = inventoryRaw
+    ? inventoryRaw
+        .split(/\n+/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => (line.startsWith("—") ? line : `— ${line}`))
+        .join("\n")
+    : "— [inventario de componentes]";
 
   // Daily removal only applies when there are individual pieces.
   if (!v["features.hasSculptures"]) {
@@ -1890,9 +1906,10 @@ export function enrichDerivedValues(
   if (v["features.hasSculptures"]) {
     const n = v["features.sculptureCount"] || "[número de piezas individuales]";
     bullets.push(
-      `— Incorpora un sistema generador o conjunto de ${n} pieza(s) individual(es) que requieren trato aparte respecto del resto de la instalación.`,
+      `— Incorpora un conjunto de ${n} pieza(s) individual(es) que requieren trato aparte respecto del resto de la instalación.`,
     );
   }
+  // Legacy drafts may still carry features.hasSystem; treat it as mechanical.
   if (v["features.mechanical"] || v["features.hasSystem"]) {
     bullets.push("— Incorpora elementos mecánicos diseñados para la obra.");
   }
@@ -1970,7 +1987,7 @@ export function enrichDerivedValues(
     );
   }
   duties.push("— Impedir cualquier manipulación no autorizada.");
-  if (v["custody.weatherProtect"]) {
+  if (v["custody.weatherProtect"] || v["features.outdoor"]) {
     duties.push(
       "— Adoptar todas las medidas necesarias para proteger la instalación frente a lluvia, viento, humedad, polvo, radiación solar, fenómenos meteorológicos y cualquier otra circunstancia que pueda afectar a su funcionamiento o integridad.",
     );
@@ -1999,13 +2016,12 @@ export function enrichDerivedValues(
       : "";
 
   const certParts: string[] = [];
-  if (v["insurance.hasRc"]) certParts.push("Responsabilidad Civil");
-  if (v["insurance.hasNailToNail"]) {
+  if (hasRc) certParts.push("Responsabilidad Civil");
+  if (hasNail) {
     certParts.push("seguro de daños a todo riesgo (clavo a clavo)");
   }
   if (certParts.length === 0) {
-    v["options.policyCertsDetail"] =
-      `las pólizas de seguro exigidas ${v["document.inThis"]}`;
+    v["options.policyCertsDetail"] = "";
   } else if (certParts.length === 1) {
     v["options.policyCertsDetail"] = `la póliza de ${certParts[0]}`;
   } else {
@@ -2036,12 +2052,8 @@ export function enrichDerivedValues(
       `— ${n} pieza(s) individual(es): ${unit} € cada una (IVA no incluido).`,
     );
   }
-  if (breakdown.length === 0) {
-    breakdown.push(
-      "— [desglose del valor declarado según componentes de la instalación]",
-    );
-  }
-  v["insurance.valueBreakdown"] = breakdown.join("\n");
+  v["insurance.valueBreakdownBlock"] =
+    breakdown.length > 0 ? `\n${breakdown.join("\n")}` : "";
 
   const from = v["project.exhibitFrom"];
   const to = v["project.exhibitTo"];
@@ -2063,7 +2075,7 @@ export function enrichDerivedValues(
   return v;
 }
 
-export const TEMPLATES: TemplateDoc[] = [exhibitionCustodyEs];
+const TEMPLATES: TemplateDoc[] = [exhibitionCustodyEs];
 
 export function getTemplate(id: string): TemplateDoc | undefined {
   return TEMPLATES.find((t) => t.id === id);

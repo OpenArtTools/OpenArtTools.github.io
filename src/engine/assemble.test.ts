@@ -95,7 +95,11 @@ describe("assembleClauses", () => {
       "insurance.hasNailToNail": true,
     });
     const alone = assembleClauses(exhibitionCustodyEs, standalone);
-    expect(alone.find((c) => c.id === "header")?.title).toContain("ACUERDO");
+    expect(String(standalone["document.title"])).toContain("ACUERDO");
+    expect(alone.find((c) => c.id === "header")?.title).toBe("");
+    expect(alone.find((c) => c.id === "header")?.body).toContain(
+      "CONDICIONES ESPECÍFICAS",
+    );
     expect(alone.some((c) => c.id === "manifest")).toBe(true);
     expect(alone.some((c) => c.id === "manifest_annex")).toBe(false);
     expect(alone.find((c) => c.id === "decima")?.body).toContain(
@@ -112,7 +116,8 @@ describe("assembleClauses", () => {
       "insurance.hasNailToNail": true,
     });
     const annexed = assembleClauses(exhibitionCustodyEs, annex);
-    expect(annexed.find((c) => c.id === "header")?.title).toBe("ANEXO I");
+    expect(String(annex["document.title"])).toBe("ANEXO I");
+    expect(annexed.find((c) => c.id === "header")?.title).toBe("");
     expect(annexed.some((c) => c.id === "manifest_annex")).toBe(true);
     expect(annexed.some((c) => c.id === "manifest")).toBe(false);
     expect(annexed.find((c) => c.id === "decima_annex")?.body).toContain(
@@ -148,7 +153,8 @@ describe("assembleClauses", () => {
     expect(offClauses.find((c) => c.id === "sexta")?.body).not.toContain(
       "interacción del público",
     );
-    expect(String(off["custody.duties"])).not.toContain("lluvia, viento");
+    // Exterior implies weather protection duties even without the climate toggle.
+    expect(String(off["custody.duties"])).toContain("lluvia, viento");
     expect(offClauses.find((c) => c.id === "opt_certs")?.body).toContain(
       "Responsabilidad Civil",
     );
@@ -174,6 +180,53 @@ describe("assembleClauses", () => {
     expect(onClauses.find((c) => c.id === "opt_certs")?.body).toContain(
       "clavo a clavo",
     );
+  });
+
+  it("drops orphan certs/franchise and scopes header when no insurance is provided", () => {
+    const values = enrichDerivedValues({
+      "custody.authorMounts": true,
+      "insurance.hasRc": false,
+      "insurance.hasNailToNail": false,
+      "options.policyCerts": true,
+      "options.franchise": true,
+      "insurance.totalValue": "5000",
+    });
+    expect(values["options.policyCerts"]).toBe(false);
+    expect(values["options.franchise"]).toBe(false);
+    expect(String(values["document.title"])).not.toContain("SEGURO");
+    expect(String(values["document.manifestScope"])).not.toContain("seguro");
+    expect(String(values["insurance.valueBreakdownBlock"])).toBe("");
+
+    const clauses = assembleClauses(exhibitionCustodyEs, values);
+    const ids = clauses.map((c) => c.id);
+    expect(ids).not.toContain("sexta");
+    expect(ids).not.toContain("septima");
+    expect(ids).not.toContain("opt_certs");
+    expect(ids).not.toContain("opt_franq");
+    expect(ids).toContain("insurance_none");
+    expect(clauses.find((c) => c.id === "manifest")?.body).not.toContain(
+      "seguro y responsabilidad",
+    );
+    expect(clauses.find((c) => c.id === "novena")?.body).not.toContain(
+      "[desglose del valor declarado",
+    );
+    expect(clauses.find((c) => c.id === "header")?.title).toBe("");
+  });
+
+  it("keeps sale wording on ownership, not authorship", () => {
+    const values = enrichDerivedValues({
+      "custody.authorMounts": true,
+      "insurance.hasRc": true,
+      "insurance.hasNailToNail": true,
+      "options.saleTerms": true,
+      "options.salePrice": "12000",
+      "options.saleDelivery": "tras el cierre",
+    });
+    const sale = assembleClauses(exhibitionCustodyEs, values).find(
+      (c) => c.id === "opt_sale",
+    );
+    expect(sale?.body).toContain("bajo la propiedad de la Parte Autora");
+    expect(sale?.body).not.toContain("bajo la autoría de la Parte Autora");
   });
 
   it("includes image and sale optional clauses when enabled", () => {
