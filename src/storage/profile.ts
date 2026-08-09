@@ -66,7 +66,7 @@ export function parseProfileFile(raw: string): ProfileFile {
   const data = JSON.parse(raw) as Partial<ProfileFile>;
   if (data.kind !== PROFILE_FILE_KIND) {
     throw new Error(
-      "El archivo no es un perfil de datos personales de Open Art Tools.",
+      "El archivo no es un perfil de autoría o posesión de la obra de Open Art Tools.",
     );
   }
   if (data.version !== PROFILE_FILE_VERSION) {

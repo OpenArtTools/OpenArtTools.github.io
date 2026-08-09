@@ -46,11 +46,11 @@ Si quieres reutilizar información más adelante, **tú** descargas un archivo y
 
 Hay **dos tipos**, con funciones distintas:
 
-### 1. Perfil personal — `openarttools.profile`
+### 1. Perfil — autoría o posesión de la obra — `openarttools.profile`
 
 - **Nivel:** plataforma (página de inicio)
-- **Contiene:** tus datos (nombre, documento, domicilio, email, teléfono, rol…)
-- **Sirve para:** reutilizar **tu** identidad en esta herramienta y en futuras
+- **Contiene:** datos de quien tiene la **autoría o la posesión de la obra** (nombre, documento, domicilio, email, teléfono, rol…)
+- **Sirve para:** reutilizar esa identidad en esta herramienta y en futuras (p. ej. rellenar la titularidad de la obra)
 - **No es:** una lista de clientes, ni una agenda de terceros
 
 ### 2. Borrador de documento — `openarttools.draft`
@@ -58,7 +58,7 @@ Hay **dos tipos**, con funciones distintas:
 - **Nivel:** dentro de una herramienta (p. ej. Acuerdos de exhibición)
 - **Contiene:** el estado de **ese** documento (valores del formulario, cláusulas, si editaste a mano, paso del asistente)
 - **Sirve para:** retomar el mismo acuerdo más tarde
-- **No es:** tu perfil personal multi-herramienta
+- **No es:** el perfil de autoría o posesión de la obra (ese es el otro tipo de archivo)
 
 **Responsabilidad:** cómo guardas, copias o compartes esos archivos es cosa tuya. La plataforma no puede proteger un archivo que sale de tu dispositivo.
 

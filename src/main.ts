@@ -147,7 +147,7 @@ function downloadCurrentProfile(): void {
   const profile = state.personalProfile;
   if (!profile || !profileHasData(profile)) {
     alert(
-      "No hay datos personales que guardar. Rellénalos abajo o carga un archivo primero.",
+      "No hay datos de autoría o posesión de la obra que guardar. Rellénalos abajo o carga un archivo primero.",
     );
     return;
   }
@@ -246,7 +246,7 @@ function renderPlatformProfile(): HTMLElement {
   const summary = document.createElement("summary");
   summary.className = "oat-disclosure-summary";
   const title = el("span", "oat-disclosure-title");
-  title.textContent = "Mis datos personales";
+  title.textContent = "Datos personales — autoría o posesión de la obra";
   const hint = el("span", "oat-disclosure-hint");
   hint.textContent = profileHasData(state.personalProfile)
     ? profileLabel(state.personalProfile!)
@@ -256,7 +256,7 @@ function renderPlatformProfile(): HTMLElement {
   const body = el("div", "oat-disclosure-body");
   const note = el("p", "lede");
   note.textContent =
-    "Datos tuyos para usarlos en cualquier herramienta de la plataforma. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
+    "Son los datos de quien tiene la autoría o la posesión de la obra (nombre, documento, domicilio…). Sirven para rellenar esa parte en las herramientas. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
 
   const status = el("p", "oat-file-status");
   status.textContent = profileHasData(state.personalProfile)
@@ -265,10 +265,10 @@ function renderPlatformProfile(): HTMLElement {
 
   const actions = el("div", "oat-actions");
   actions.append(
-    btn("Cargar mis datos (.json)", "oat-btn oat-btn-ghost", () => {
+    btn("Cargar datos (.json)", "oat-btn oat-btn-ghost", () => {
       void pickProfileFile();
     }),
-    btn("Descargar mis datos (.json)", "oat-btn oat-btn-ghost", downloadCurrentProfile),
+    btn("Descargar datos (.json)", "oat-btn oat-btn-ghost", downloadCurrentProfile),
   );
 
   const fields = el("div", "oat-profile-fields");
@@ -335,19 +335,23 @@ function renderApplyPlatformProfile(): HTMLElement {
   const box = el("aside", "oat-apply-profile");
   const note = el("p", "oat-review-note");
   if (profileHasData(state.personalProfile)) {
-    note.textContent = `Datos de la plataforma en memoria: ${profileLabel(state.personalProfile!)}. Se usan para rellenar tu parte (titularidad de la obra), no la de clientes.`;
+    note.textContent = `Datos en memoria (autoría o posesión de la obra): ${profileLabel(state.personalProfile!)}. Se usan para rellenar la titularidad de la obra, no la de clientes.`;
     const actions = el("div", "oat-actions");
     actions.style.marginTop = "0";
     actions.append(
-      btn("Rellenar titularidad de la obra con mis datos", "oat-btn oat-btn-ghost", () => {
-        applyAuthorFromProfile(state.personalProfile!);
-        render();
-      }),
+      btn(
+        "Rellenar titularidad de la obra con esos datos",
+        "oat-btn oat-btn-ghost",
+        () => {
+          applyAuthorFromProfile(state.personalProfile!);
+          render();
+        },
+      ),
     );
     box.append(note, actions);
   } else {
     note.textContent =
-      "Puedes cargar tus datos personales en la página de la plataforma (sirven para cualquier herramienta). Aquí solo se rellena la titularidad de la obra de este documento.";
+      "En la página de la plataforma puedes cargar los datos de quien tiene la autoría o la posesión de la obra. Aquí solo rellenan la titularidad de la obra de este documento.";
     box.append(note);
   }
   return box;

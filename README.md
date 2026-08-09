@@ -29,7 +29,7 @@ No es una sola utilidad. Es el paraguas: entras a la plataforma, eliges una herr
 ## Cómo se usa, en 30 segundos
 
 1. Abre la [plataforma](https://openarttools.github.io/).
-2. (Opcional) En **Mis datos personales**, rellena o carga tu perfil y descárgalo para reutilizarlo después.
+2. (Opcional) En **Datos personales — autoría o posesión de la obra**, rellena o carga ese perfil y descárgalo para reutilizarlo después.
 3. Elige una herramienta (hoy: **Acuerdos de exhibición**).
 4. Completa el asistente, revisa, acepta y exporta (PDF / HTML / TXT).
 5. Si quieres retomar el trabajo más tarde, **descarga el borrador** dentro de la herramienta antes de cerrar la pestaña.
@@ -63,17 +63,17 @@ Más herramientas se irán sumando al mismo paraguas.
 
 La plataforma **no guarda nada**. Si quieres reutilizar datos, descargas un archivo a tu dispositivo.
 
-### A) Mis datos personales — nivel plataforma
+### A) Datos personales — autoría o posesión de la obra (nivel plataforma)
 
 | | |
 |--|--|
 | **Dónde** | Página de inicio de la plataforma |
-| **Para qué** | Tu identidad (nombre, documento, domicilio, email, teléfono…) |
+| **Para qué** | Identidad de quien tiene la **autoría o la posesión de la obra** (nombre, documento, domicilio, email, teléfono…) |
 | **Reutilizable** | En esta herramienta y en futuras |
 | **Formato** | `.json` con `kind: "openarttools.profile"` |
 | **No es** | Una agenda de clientes ni contactos de terceros |
 
-Si cargas el perfil y abres una herramienta, puede rellenar tu parte (p. ej. la titularidad de la obra).
+Si cargas ese perfil y abres una herramienta, puede rellenar la parte de titularidad de la obra.
 
 ### B) Borrador del documento — dentro de cada herramienta
 
@@ -82,7 +82,7 @@ Si cargas el perfil y abres una herramienta, puede rellenar tu parte (p. ej. la 
 | **Dónde** | Solo dentro de la herramienta (asistente, revisión, aceptación) |
 | **Para qué** | Retomar **ese** acuerdo (formulario, cláusulas y estado de edición) |
 | **Formato** | `.json` con `kind: "openarttools.draft"` |
-| **No es** | Tu perfil personal reutilizable entre herramientas |
+| **No es** | El perfil de autoría o posesión de la obra (reutilizable entre herramientas) |
 
 Puedes descargar el borrador **en cualquier momento** mientras el documento esté en memoria (también desde la franja superior).
 
@@ -164,7 +164,7 @@ src/
   engine/              ensamblado de plantillas (testeado)
   templates/           textos de documentos
   storage/
-    profile.ts         perfil personal (.json)
+    profile.ts         perfil autoría/posesión de la obra (.json)
     draft.ts           borrador de documento (.json)
     jsonFile.ts        descarga / lectura de JSON
   export/              PDF / HTML / TXT
