@@ -81,11 +81,13 @@ export function renderTransparencyStrip(
 
 /**
  * Always visible: tab-close clears data.
- * Draft download only inside a document tool (not on the platform home).
+ * Draft download and full reset only inside a document tool.
  */
 export function renderSessionStrip(opts: {
   showDraftDownload: boolean;
   onDownloadDraft?: () => void;
+  showResetForm?: boolean;
+  onResetForm?: () => void;
 }): HTMLElement {
   const strip = el("div", "oat-session-strip");
   strip.setAttribute("role", "status");
@@ -97,6 +99,7 @@ export function renderSessionStrip(opts: {
 
   strip.append(text);
 
+  const actions = el("div", "oat-session-strip-actions");
   if (opts.showDraftDownload && opts.onDownloadDraft) {
     const download = btn(
       TRANSPARENCY.draftDownloadLabel,
@@ -105,8 +108,19 @@ export function renderSessionStrip(opts: {
     );
     download.title =
       "Descarga el borrador en HTML legible (cualquier sistema). Solo existe en tu dispositivo.";
-    strip.append(download);
+    actions.append(download);
   }
+  if (opts.showResetForm && opts.onResetForm) {
+    const reset = btn(
+      "Restablecer todo",
+      "oat-btn oat-btn-ghost oat-session-reset-btn",
+      opts.onResetForm,
+    );
+    reset.title =
+      "Borra todos los campos de este acuerdo y vuelve al inicio del asistente. No afecta a los datos de autoría en memoria de la plataforma.";
+    actions.append(reset);
+  }
+  if (actions.childElementCount > 0) strip.append(actions);
 
   return strip;
 }

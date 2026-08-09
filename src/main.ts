@@ -378,6 +378,46 @@ async function pickProfileFile(): Promise<void> {
   }
 }
 
+function emptyValueForField(type: string, path: string): string | boolean {
+  if (Object.prototype.hasOwnProperty.call(DEFAULT_TOGGLES, path)) {
+    return DEFAULT_TOGGLES[path] as boolean;
+  }
+  if (type === "toggle") return false;
+  return "";
+}
+
+function resetEntireForm(): void {
+  const ok = confirm(
+    "¿Restablecer todo el acuerdo a cero?\n\nSe borran todos los campos, cláusulas editadas y la aceptación. Volverás al primer paso. Los datos de autoría en memoria de la plataforma no se tocan.",
+  );
+  if (!ok) return;
+  const profile = state.personalProfile;
+  const templateId = state.templateId;
+  state = createEmptySession(templateId, DEFAULT_TOGGLES, profile);
+  state.phase = "wizard";
+  state.stepIndex = 0;
+  rebuildClauses();
+  render();
+}
+
+function resetCurrentStep(): void {
+  const t = template();
+  const step = t.steps[state.stepIndex];
+  if (!step) return;
+  const ok = confirm(
+    `¿Restablecer a cero la sección «${step.title}»?\n\nSolo se vacían los campos de esta sección.`,
+  );
+  if (!ok) return;
+  const next: AppValues = { ...state.values };
+  for (const field of fieldsForStep(t, step.id)) {
+    next[field.path] = emptyValueForField(field.type, field.path);
+  }
+  state.values = next;
+  state.acceptedFinal = false;
+  if (!state.manualOverride) rebuildClauses();
+  render();
+}
+
 function startFreshTool(templateId: string, profile: PersonalProfile | null): void {
   state = createEmptySession(templateId, DEFAULT_TOGGLES, profile);
   state.phase = "wizard";
@@ -560,6 +600,8 @@ function render(): void {
     renderSessionStrip({
       showDraftDownload: showDraftDownload(),
       onDownloadDraft: downloadCurrentDraft,
+      showResetForm: isToolPhase(state.phase),
+      onResetForm: resetEntireForm,
     }),
   );
   app.replaceChildren(chrome, renderMain(), renderFooter(() => go("support")));
@@ -795,11 +837,21 @@ function renderWizard(): HTMLElement {
   });
   wrap.append(progress);
 
+  const heading = el("div", "oat-step-heading");
+  const headingText = el("div", "oat-step-heading-text");
   const h2 = el("h2");
   h2.textContent = step.title;
   const blurb = el("p", "blurb");
   blurb.textContent = step.blurb;
-  wrap.append(h2, blurb);
+  headingText.append(h2, blurb);
+  const resetStep = btn(
+    "Restablecer sección",
+    "oat-btn oat-btn-ghost oat-step-reset-btn",
+    resetCurrentStep,
+  );
+  resetStep.title = `Vacía solo los campos de «${step.title}»`;
+  heading.append(headingText, resetStep);
+  wrap.append(heading);
 
   if (step.id === "titularidad") {
     wrap.append(renderApplyPlatformProfile());
