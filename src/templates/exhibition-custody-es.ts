@@ -19,13 +19,13 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "titularidad",
       title: "Autoría",
       blurb:
-        "Datos de quien tiene la autoría. Si firma un representante de la Parte Autora, indícalo en ese bloque.",
+        "Datos de quien tiene la autoría. Si firma un representante de la Parte Autora, se indica en ese bloque.",
     },
     {
       id: "solicitante",
       title: "Solicitante de la obra",
       blurb:
-        "Datos completos de quien solicita la exhibición o la puesta a disposición temporal de la obra. El representante de la Parte Solicitante es opcional.",
+        "Datos completos de quien solicita la cesión temporal de la obra para su exhibición. El representante de la Parte Solicitante es opcional.",
     },
     {
       id: "project",
@@ -58,7 +58,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
   ],
   fields: [
-    // —— Parties ——
+    // —— Autoría ——
     {
       id: "author_name",
       label: "Nombre completo — autoría",
@@ -146,6 +146,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       step: "titularidad",
       group: "Representante de la Parte Autora (opcional)",
     },
+    // —— Solicitante ——
     {
       id: "org_name",
       label: "Nombre o razón social — solicitante",
@@ -255,72 +256,16 @@ export const exhibitionCustodyEs: TemplateDoc = {
       step: "solicitante",
       group: "Representante de la Parte Solicitante (opcional)",
     },
-
-    // —— Project ——
+    // —— Proyecto y obra ——
     {
-      id: "is_annex",
-      label: "Este documento es un anexo a un acuerdo principal",
-      placeholder:
-        "Incluir solo cuando este texto complementa un acuerdo principal ya firmado (p. ej. un acuerdo de participación)",
-      emptyMarker: "",
-      type: "toggle",
-      path: "project.isAnnex",
-      step: "project",
-    },
-    {
-      id: "city",
-      label: "Ciudad de firma",
-      placeholder: "Ciudad",
-      emptyMarker: "[ciudad de firma]",
+      id: "work_title",
+      label: "Título de la obra o instalación",
+      placeholder: "Título exacto de la obra",
+      emptyMarker: "[título de la obra o instalación]",
       type: "text",
-      path: "project.city",
+      path: "project.workTitle",
       required: true,
       step: "project",
-    },
-    {
-      id: "sign_date",
-      label: "Fecha de firma",
-      placeholder: "Fecha de firma del documento",
-      emptyMarker: "[fecha de firma]",
-      type: "date",
-      path: "project.signDate",
-      required: true,
-      step: "project",
-    },
-    {
-      id: "main_agreement_name",
-      label: "Nombre del acuerdo principal",
-      placeholder: "p. ej. Acuerdo de participación",
-      emptyMarker: "[nombre del acuerdo principal]",
-      type: "text",
-      path: "project.mainAgreementName",
-      required: true,
-      step: "project",
-      showIf: "project.isAnnex",
-      group: "Anexo a un acuerdo principal",
-    },
-    {
-      id: "base_agreement_date",
-      label: "Fecha del acuerdo principal",
-      placeholder: "Fecha del acuerdo principal al que se anexa",
-      emptyMarker: "[fecha del acuerdo principal]",
-      type: "date",
-      path: "project.baseAgreementDate",
-      required: true,
-      step: "project",
-      showIf: "project.isAnnex",
-      group: "Anexo a un acuerdo principal",
-    },
-    {
-      id: "annex_title",
-      label: "Título del anexo",
-      placeholder: "p. ej. ANEXO I AL ACUERDO DE PARTICIPACIÓN",
-      emptyMarker: "[título del anexo]",
-      type: "text",
-      path: "project.annexTitle",
-      step: "project",
-      showIf: "project.isAnnex",
-      group: "Anexo a un acuerdo principal",
     },
     {
       id: "event_name",
@@ -329,16 +274,6 @@ export const exhibitionCustodyEs: TemplateDoc = {
       emptyMarker: "[nombre del evento]",
       type: "text",
       path: "project.eventName",
-      required: true,
-      step: "project",
-    },
-    {
-      id: "work_title",
-      label: "Título de la obra o instalación",
-      placeholder: "Título exacto de la obra",
-      emptyMarker: "[título de la obra o instalación]",
-      type: "text",
-      path: "project.workTitle",
       required: true,
       step: "project",
     },
@@ -369,8 +304,72 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "project.exhibitTo",
       step: "project",
     },
-
-    // —— Features (toggles) ——
+    {
+      id: "city",
+      label: "Ciudad de firma",
+      placeholder: "Ciudad",
+      emptyMarker: "[ciudad de firma]",
+      type: "text",
+      path: "project.city",
+      required: true,
+      step: "project",
+    },
+    {
+      id: "sign_date",
+      label: "Fecha de firma",
+      placeholder: "Fecha de firma del documento",
+      emptyMarker: "[fecha de firma]",
+      type: "date",
+      path: "project.signDate",
+      required: true,
+      step: "project",
+    },
+    {
+      id: "is_annex",
+      label: "Este documento es un anexo a un acuerdo principal",
+      placeholder:
+        "Incluir solo cuando este texto complementa un acuerdo principal ya firmado (p. ej. un acuerdo de participación)",
+      emptyMarker: "",
+      type: "toggle",
+      path: "project.isAnnex",
+      step: "project",
+    },
+    {
+      id: "main_agreement_name",
+      label: "Nombre del acuerdo principal",
+      placeholder: "p. ej. Acuerdo de participación",
+      emptyMarker: "[nombre del acuerdo principal]",
+      type: "text",
+      path: "project.mainAgreementName",
+      required: true,
+      step: "project",
+      group: "Anexo a un acuerdo principal",
+      showIf: "project.isAnnex",
+    },
+    {
+      id: "base_agreement_date",
+      label: "Fecha del acuerdo principal",
+      placeholder: "Fecha del acuerdo principal al que se anexa",
+      emptyMarker: "[fecha del acuerdo principal]",
+      type: "date",
+      path: "project.baseAgreementDate",
+      required: true,
+      step: "project",
+      group: "Anexo a un acuerdo principal",
+      showIf: "project.isAnnex",
+    },
+    {
+      id: "annex_title",
+      label: "Título del anexo",
+      placeholder: "p. ej. ANEXO I AL ACUERDO DE PARTICIPACIÓN",
+      emptyMarker: "[título del anexo]",
+      type: "text",
+      path: "project.annexTitle",
+      step: "project",
+      group: "Anexo a un acuerdo principal",
+      showIf: "project.isAnnex",
+    },
+    // —— Características ——
     {
       id: "feat_interactive",
       label: "El público puede interactuar con la obra",
@@ -447,6 +446,16 @@ export const exhibitionCustodyEs: TemplateDoc = {
       group: "Sistemas técnicos",
     },
     {
+      id: "feat_power",
+      label: "Requiere alimentación eléctrica",
+      placeholder: "Incluir cuando necesita corriente de red (o equivalente) para funcionar",
+      emptyMarker: "",
+      type: "toggle",
+      path: "features.needsPower",
+      step: "features",
+      group: "Sistemas técnicos",
+    },
+    {
       id: "feat_special_risk",
       label: "Condiciones especiales de seguridad o riesgo",
       placeholder:
@@ -455,6 +464,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.specialRisk",
       step: "features",
+      group: "Seguridad y acceso",
     },
     {
       id: "special_risk_desc",
@@ -465,17 +475,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "textarea",
       path: "features.specialRiskDesc",
       step: "features",
+      group: "Seguridad y acceso",
       showIf: "features.specialRisk",
       required: true,
-    },
-    {
-      id: "feat_power",
-      label: "Requiere alimentación eléctrica",
-      placeholder: "Incluir cuando necesita corriente de red (o equivalente) para funcionar",
-      emptyMarker: "",
-      type: "toggle",
-      path: "features.needsPower",
-      step: "features",
     },
     {
       id: "feat_access_off",
@@ -486,6 +488,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.accessibleWhenOff",
       step: "features",
+      group: "Seguridad y acceso",
     },
     {
       id: "feat_watch",
@@ -496,6 +499,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.needsWatch",
       step: "features",
+      group: "Seguridad y acceso",
     },
     {
       id: "feat_signage",
@@ -506,6 +510,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.needsSecurityPerimeter",
       step: "features",
+      group: "Seguridad y acceso",
     },
     {
       id: "feat_outdoor",
@@ -515,6 +520,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.outdoor",
       step: "features",
+      group: "Seguridad y acceso",
     },
     {
       id: "feat_extra",
@@ -537,8 +543,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       showIf: "features.hasExtra",
       required: true,
     },
-
-    // —— Custody ——
+    // —— Montaje y custodia ——
     {
       id: "author_mounts",
       label: "Montaje y desmontaje solo por la Parte Autora",
@@ -568,8 +573,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "custody.weatherProtect",
       step: "custody",
     },
-
-    // —— Insurance / value ——
+    // —— Seguros y valor ——
     {
       id: "has_rc",
       label: "La Parte Solicitante aporta cobertura de responsabilidad civil",
@@ -631,8 +635,429 @@ export const exhibitionCustodyEs: TemplateDoc = {
       required: true,
       step: "insurance",
     },
-
-    // —— Optional: image / sale + other clauses ——
+    // —— Opcionales: operativa ——
+    {
+      id: "opt_space",
+      label: "Incluir espacio y accesos",
+      placeholder:
+        "Incluir para fijar sala, horarios técnicos y quién aporta barreras o cartelas",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.spaceAccess",
+      step: "options",
+      group: "Espacio y accesos",
+    },
+    {
+      id: "space_description",
+      label: "Espacio de exhibición",
+      placeholder: "Sala, medidas mínimas u otras condiciones del espacio",
+      emptyMarker: "[espacio de exhibición]",
+      type: "text",
+      path: "options.spaceDescription",
+      step: "options",
+      group: "Espacio y accesos",
+      showIf: "options.spaceAccess",
+      required: true,
+    },
+    {
+      id: "space_hours",
+      label: "Horarios de acceso técnico",
+      placeholder: "Horarios para montaje, mantenimiento o acceso técnico",
+      emptyMarker: "[horarios de acceso técnico]",
+      type: "text",
+      path: "options.spaceHours",
+      step: "options",
+      group: "Espacio y accesos",
+      showIf: "options.spaceAccess",
+      required: true,
+    },
+    {
+      id: "space_equipment",
+      label: "Quién aporta barreras, cartelas, pedestales u otros",
+      placeholder: "Describir qué aporta cada parte (barreras, cartelas, pedestales…)",
+      emptyMarker: "[aporte de barreras, cartelas u otros]",
+      type: "textarea",
+      path: "options.spaceEquipment",
+      step: "options",
+      group: "Espacio y accesos",
+      showIf: "options.spaceAccess",
+      required: true,
+    },
+    {
+      id: "opt_inventory",
+      label: "Incluir inventario de componentes",
+      placeholder:
+        "Incluir para listar piezas, cables, controladores, etc. en el inventario del documento",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.inventory",
+      step: "options",
+      group: "Inventario de componentes",
+    },
+    {
+      id: "inventory_list",
+      label: "Inventario",
+      placeholder:
+        "Listar cada componente (una línea por elemento: piezas, cables, controladores…)",
+      emptyMarker: "[inventario de componentes]",
+      type: "textarea",
+      path: "options.inventoryList",
+      step: "options",
+      group: "Inventario de componentes",
+      showIf: "options.inventory",
+      required: true,
+    },
+    {
+      id: "opt_contacts",
+      label: "Incluir contactos operativos",
+      placeholder:
+        "Incluir para fijar personas de referencia durante montaje y exhibición",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.contacts",
+      step: "options",
+      group: "Contactos operativos",
+    },
+    {
+      id: "contact_titular_name",
+      label: "Contacto — autoría (nombre)",
+      placeholder: "Nombre de la persona de referencia",
+      emptyMarker: "[contacto autoría — nombre]",
+      type: "text",
+      path: "options.contactTitularName",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "contact_titular_phone",
+      label: "Contacto — autoría (teléfono)",
+      placeholder: "Teléfono de contacto operativo",
+      emptyMarker: "[contacto autoría — teléfono]",
+      type: "text",
+      path: "options.contactTitularPhone",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "contact_titular_email",
+      label: "Contacto — autoría (email)",
+      placeholder: "Email de contacto operativo",
+      emptyMarker: "[contacto autoría — email]",
+      type: "text",
+      path: "options.contactTitularEmail",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "contact_org_name",
+      label: "Contacto — solicitante de la obra (nombre)",
+      placeholder: "Nombre de la persona de referencia",
+      emptyMarker: "[contacto solicitante de la obra — nombre]",
+      type: "text",
+      path: "options.contactOrgName",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "contact_org_phone",
+      label: "Contacto — solicitante de la obra (teléfono)",
+      placeholder: "Teléfono de contacto operativo",
+      emptyMarker: "[contacto solicitante de la obra — teléfono]",
+      type: "text",
+      path: "options.contactOrgPhone",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "contact_org_email",
+      label: "Contacto — solicitante de la obra (email)",
+      placeholder: "Email de contacto operativo",
+      emptyMarker: "[contacto solicitante de la obra — email]",
+      type: "text",
+      path: "options.contactOrgEmail",
+      step: "options",
+      group: "Contactos operativos",
+      showIf: "options.contacts",
+      required: true,
+    },
+    {
+      id: "opt_subcontract",
+      label: "Incluir subcontratación / terceros",
+      placeholder:
+        "Incluir cuando pueden intervenir personal de montaje, seguridad u otros terceros",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.subcontract",
+      step: "options",
+      group: "Subcontratación",
+    },
+    {
+      id: "subcontract_terms",
+      label: "Condiciones de subcontratación",
+      placeholder:
+        "Ej.: seguridad del recinto y transporte interno; no el montaje artístico",
+      emptyMarker: "[condiciones de subcontratación]",
+      type: "textarea",
+      path: "options.subcontractTerms",
+      step: "options",
+      group: "Subcontratación",
+      showIf: "options.subcontract",
+      required: true,
+    },
+    {
+      id: "opt_install_changes",
+      label: "Incluir cambios de ubicación, iluminación o configuración",
+      placeholder:
+        "Incluir para exigir autorización si se mueve la obra, se cambia la iluminación, se redistribuye el espacio o se altera la configuración",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.amendments",
+      step: "options",
+      group: "Cambios en la instalación",
+    },
+    {
+      id: "install_changes_terms",
+      label: "Qué cambios requieren autorización y cómo se piden",
+      placeholder:
+        "Ej.: cambio de sala o ubicación; modificar iluminación; redistribuir piezas o perímetro; alterar programación. Indica si hace falta aviso escrito y plazo",
+      emptyMarker: "[régimen de cambios en la instalación]",
+      type: "textarea",
+      path: "options.amendmentTerms",
+      step: "options",
+      group: "Cambios en la instalación",
+      showIf: "options.amendments",
+      required: true,
+    },
+    {
+      id: "opt_repairs",
+      label: "Incluir régimen de reparaciones",
+      placeholder:
+        "Incluir para fijar quién puede reparar, cómo, qué tipos están permitidas o prohibidas y quién cubre el coste",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.repairs",
+      step: "options",
+      group: "Reparaciones",
+    },
+    {
+      id: "repairs_who",
+      label: "Quién puede realizar reparaciones",
+      placeholder:
+        "Ej.: solo la Parte Autora; la Parte Solicitante con autorización previa; personal técnico designado por…",
+      emptyMarker: "[quién puede realizar reparaciones]",
+      type: "text",
+      path: "options.repairsWho",
+      step: "options",
+      group: "Reparaciones",
+      showIf: "options.repairs",
+      required: true,
+    },
+    {
+      id: "repairs_how",
+      label: "Cómo deben hacerse",
+      placeholder:
+        "Describir el procedimiento (aviso previo, autorización escrita, materiales, plazos, supervisión…)",
+      emptyMarker: "[procedimiento de reparaciones]",
+      type: "textarea",
+      path: "options.repairsHow",
+      step: "options",
+      group: "Reparaciones",
+      showIf: "options.repairs",
+      required: true,
+    },
+    {
+      id: "repairs_allowed",
+      label: "Reparaciones permitidas",
+      placeholder:
+        "Ej.: reposición de consumibles, ajustes menores de funcionamiento, limpieza superficial…",
+      emptyMarker: "[reparaciones permitidas]",
+      type: "textarea",
+      path: "options.repairsAllowed",
+      step: "options",
+      group: "Reparaciones",
+      showIf: "options.repairs",
+      required: true,
+    },
+    {
+      id: "repairs_forbidden",
+      label: "Reparaciones no permitidas",
+      placeholder:
+        "Ej.: abrir el sistema electrónico, soldar, sustituir piezas originales, alterar la programación…",
+      emptyMarker: "[reparaciones no permitidas]",
+      type: "textarea",
+      path: "options.repairsForbidden",
+      step: "options",
+      group: "Reparaciones",
+      showIf: "options.repairs",
+      required: true,
+    },
+    {
+      id: "repairs_cost",
+      label: "Quién cubre el coste de las reparaciones",
+      placeholder:
+        "Ej.: a cargo de la Parte Solicitante; a cargo de la Parte Autora si el daño es por vicio propio; materiales a cargo de… y mano de obra a cargo de…",
+      emptyMarker: "[quién cubre el coste de las reparaciones]",
+      type: "textarea",
+      path: "options.repairsCost",
+      step: "options",
+      group: "Reparaciones",
+      showIf: "options.repairs",
+      required: true,
+    },
+    // —— Opcionales: logística y economía ——
+    {
+      id: "opt_transport",
+      label: "Incluir transporte (ida y vuelta)",
+      placeholder: "Incluir para repartir quién organiza, quién paga y los puntos de recogida/entrega",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.transport",
+      step: "options",
+      group: "Transporte",
+    },
+    {
+      id: "transport_organizer",
+      label: "Quién organiza el transporte",
+      placeholder: "Indicar quién organiza la ida y la vuelta",
+      emptyMarker: "[quién organiza el transporte]",
+      type: "text",
+      path: "options.transportOrganizer",
+      step: "options",
+      group: "Transporte",
+      showIf: "options.transport",
+      required: true,
+    },
+    {
+      id: "transport_payer",
+      label: "Quién paga el transporte",
+      placeholder: "Indicar quién asume el coste del transporte",
+      emptyMarker: "[quién paga el transporte]",
+      type: "text",
+      path: "options.transportPayer",
+      step: "options",
+      group: "Transporte",
+      showIf: "options.transport",
+      required: true,
+    },
+    {
+      id: "transport_pickup",
+      label: "Punto de recogida (ida)",
+      placeholder: "Indicar dirección o lugar de recogida",
+      emptyMarker: "[punto de recogida]",
+      type: "text",
+      path: "options.transportPickup",
+      step: "options",
+      group: "Transporte",
+      showIf: "options.transport",
+      required: true,
+    },
+    {
+      id: "transport_return",
+      label: "Punto de entrega (vuelta)",
+      placeholder: "Indicar dirección o lugar de devolución",
+      emptyMarker: "[punto de entrega de vuelta]",
+      type: "text",
+      path: "options.transportReturn",
+      step: "options",
+      group: "Transporte",
+      showIf: "options.transport",
+      required: true,
+    },
+    {
+      id: "transport_notes",
+      label: "Notas de transporte / seguro en tránsito",
+      placeholder: "Indicar condiciones extra (embalaje, seguro en tránsito, horarios…)",
+      emptyMarker: "[notas de transporte]",
+      type: "textarea",
+      path: "options.transportNotes",
+      step: "options",
+      group: "Transporte",
+      showIf: "options.transport",
+    },
+    {
+      id: "opt_costs",
+      label: "Incluir si hay o no remuneración y el reparto de gastos",
+      placeholder:
+        "Incluir para dejar claro si la Parte Autora cobra por la exhibición y quién asume honorarios, producción, dietas u otros gastos",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.costs",
+      step: "options",
+      group: "Remuneración y gastos",
+    },
+    {
+      id: "costs_no_fee",
+      label: "Sin remuneración por la exhibición",
+      placeholder:
+        "Incluir cuando no hay honorario ni pago a la Parte Autora por la cesión temporal de la obra para su exhibición",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.costsNoFee",
+      step: "options",
+      group: "Remuneración y gastos",
+      showIf: "options.costs",
+    },
+    {
+      id: "costs_summary",
+      label: "Detalle de remuneración y gastos",
+      placeholder:
+        "Ej.: honorario sí/no y importe; producción a cargo de…; dietas a cargo de…; material de montaje a cargo de…",
+      emptyMarker: "[detalle de remuneración y gastos]",
+      type: "textarea",
+      path: "options.costsSummary",
+      step: "options",
+      group: "Remuneración y gastos",
+      showIf: "options.costs",
+      required: true,
+    },
+    {
+      id: "opt_cancellation",
+      label: "Incluir cancelación y retirada anticipada",
+      placeholder:
+        "Incluir para regular cancelación del evento o retirada de la obra",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.cancellation",
+      step: "options",
+      group: "Cancelación / retirada",
+    },
+    {
+      id: "cancellation_terms",
+      label: "Cancelación del evento o del acuerdo",
+      placeholder:
+        "Describir qué ocurre si el evento o el acuerdo se cancelan",
+      emptyMarker: "[condiciones de cancelación]",
+      type: "textarea",
+      path: "options.cancellationTerms",
+      step: "options",
+      group: "Cancelación / retirada",
+      showIf: "options.cancellation",
+      required: true,
+    },
+    {
+      id: "withdrawal_terms",
+      label: "Retirada anticipada de la obra",
+      placeholder:
+        "Describir cuándo se puede retirar la obra (falta de seguros, condiciones incumplidas…)",
+      emptyMarker: "[condiciones de retirada anticipada]",
+      type: "textarea",
+      path: "options.withdrawalTerms",
+      step: "options",
+      group: "Cancelación / retirada",
+      showIf: "options.cancellation",
+      required: true,
+    },
+    // —— Opcionales: imagen, PI y venta ——
     {
       id: "opt_image",
       label: "Incluir autorización de uso de imagen y reproducción",
@@ -721,6 +1146,30 @@ export const exhibitionCustodyEs: TemplateDoc = {
       showIf: "options.imageUse",
     },
     {
+      id: "opt_ip",
+      label: "Incluir propiedad intelectual (más allá de imagen)",
+      placeholder:
+        "Incluir para dejar claro que no hay cesión de derechos ni obras derivadas",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.ipRights",
+      step: "options",
+      group: "Propiedad intelectual",
+    },
+    {
+      id: "ip_name_use",
+      label: "Uso de nombre, crédito o marca",
+      placeholder:
+        "Describir cómo puede usarse el nombre o crédito de quien tiene la autoría",
+      emptyMarker: "[uso de nombre, crédito o marca]",
+      type: "text",
+      path: "options.ipNameUse",
+      step: "options",
+      group: "Propiedad intelectual",
+      showIf: "options.ipRights",
+      required: true,
+    },
+    {
       id: "opt_sale",
       label: "Incluir condiciones de venta de la obra",
       placeholder:
@@ -791,450 +1240,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       group: "Condiciones de venta",
       showIf: "options.saleTerms",
     },
-    {
-      id: "opt_transport",
-      label: "Incluir transporte (ida y vuelta)",
-      placeholder: "Incluir para repartir quién organiza, quién paga y los puntos de recogida/entrega",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.transport",
-      step: "options",
-      group: "Transporte",
-    },
-    {
-      id: "transport_organizer",
-      label: "Quién organiza el transporte",
-      placeholder: "Indicar quién organiza la ida y la vuelta",
-      emptyMarker: "[quién organiza el transporte]",
-      type: "text",
-      path: "options.transportOrganizer",
-      step: "options",
-      group: "Transporte",
-      showIf: "options.transport",
-      required: true,
-    },
-    {
-      id: "transport_payer",
-      label: "Quién paga el transporte",
-      placeholder: "Indicar quién asume el coste del transporte",
-      emptyMarker: "[quién paga el transporte]",
-      type: "text",
-      path: "options.transportPayer",
-      step: "options",
-      group: "Transporte",
-      showIf: "options.transport",
-      required: true,
-    },
-    {
-      id: "transport_pickup",
-      label: "Punto de recogida (ida)",
-      placeholder: "Indicar dirección o lugar de recogida",
-      emptyMarker: "[punto de recogida]",
-      type: "text",
-      path: "options.transportPickup",
-      step: "options",
-      group: "Transporte",
-      showIf: "options.transport",
-      required: true,
-    },
-    {
-      id: "transport_return",
-      label: "Punto de entrega (vuelta)",
-      placeholder: "Indicar dirección o lugar de devolución",
-      emptyMarker: "[punto de entrega de vuelta]",
-      type: "text",
-      path: "options.transportReturn",
-      step: "options",
-      group: "Transporte",
-      showIf: "options.transport",
-      required: true,
-    },
-    {
-      id: "transport_notes",
-      label: "Notas de transporte / seguro en tránsito",
-      placeholder: "Indicar condiciones extra (embalaje, seguro en tránsito, horarios…)",
-      emptyMarker: "[notas de transporte]",
-      type: "textarea",
-      path: "options.transportNotes",
-      step: "options",
-      group: "Transporte",
-      showIf: "options.transport",
-    },
-    {
-      id: "opt_costs",
-      label: "Incluir si hay o no remuneración y el reparto de gastos",
-      placeholder:
-        "Incluir para dejar claro si la Parte Autora cobra por la exhibición y quién asume honorarios, producción, dietas u otros gastos",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.costs",
-      step: "options",
-      group: "Remuneración y gastos",
-    },
-    {
-      id: "costs_no_fee",
-      label: "Sin remuneración por la exhibición",
-      placeholder:
-        "Incluir cuando no hay honorario ni pago a la Parte Autora por participar o poner la obra a disposición temporal",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.costsNoFee",
-      step: "options",
-      group: "Remuneración y gastos",
-      showIf: "options.costs",
-    },
-    {
-      id: "costs_summary",
-      label: "Detalle de remuneración y gastos",
-      placeholder:
-        "Ej.: honorario sí/no y importe; producción a cargo de…; dietas a cargo de…; material de montaje a cargo de…",
-      emptyMarker: "[detalle de remuneración y gastos]",
-      type: "textarea",
-      path: "options.costsSummary",
-      step: "options",
-      group: "Remuneración y gastos",
-      showIf: "options.costs",
-      required: true,
-    },
-    {
-      id: "opt_cancellation",
-      label: "Incluir cancelación y retirada anticipada",
-      placeholder:
-        "Incluir para regular cancelación del evento o retirada de la obra",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.cancellation",
-      step: "options",
-      group: "Cancelación / retirada",
-    },
-    {
-      id: "cancellation_terms",
-      label: "Cancelación del evento o del acuerdo",
-      placeholder:
-        "Describir qué ocurre si el evento o el acuerdo se cancelan",
-      emptyMarker: "[condiciones de cancelación]",
-      type: "textarea",
-      path: "options.cancellationTerms",
-      step: "options",
-      group: "Cancelación / retirada",
-      showIf: "options.cancellation",
-      required: true,
-    },
-    {
-      id: "withdrawal_terms",
-      label: "Retirada anticipada de la obra",
-      placeholder:
-        "Describir cuándo se puede retirar la obra (falta de seguros, condiciones incumplidas…)",
-      emptyMarker: "[condiciones de retirada anticipada]",
-      type: "textarea",
-      path: "options.withdrawalTerms",
-      step: "options",
-      group: "Cancelación / retirada",
-      showIf: "options.cancellation",
-      required: true,
-    },
-    {
-      id: "opt_contacts",
-      label: "Incluir contactos operativos",
-      placeholder:
-        "Incluir para fijar personas de referencia durante montaje y exhibición",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.contacts",
-      step: "options",
-      group: "Contactos operativos",
-    },
-    {
-      id: "contact_titular_name",
-      label: "Contacto — autoría (nombre)",
-      placeholder: "Nombre de la persona de referencia",
-      emptyMarker: "[contacto autoría — nombre]",
-      type: "text",
-      path: "options.contactTitularName",
-      step: "options",
-      group: "Contactos operativos",
-      showIf: "options.contacts",
-      required: true,
-    },
-    {
-      id: "contact_titular_phone",
-      label: "Contacto — autoría (teléfono)",
-      placeholder: "Teléfono de contacto operativo",
-      emptyMarker: "[contacto autoría — teléfono]",
-      type: "text",
-      path: "options.contactTitularPhone",
-      step: "options",
-      group: "Contactos operativos",
-      showIf: "options.contacts",
-      required: true,
-    },
-    {
-      id: "contact_titular_email",
-      label: "Contacto — autoría (email)",
-      placeholder: "Email de contacto operativo",
-      emptyMarker: "[contacto autoría — email]",
-      type: "text",
-      path: "options.contactTitularEmail",
-      step: "options",
-      group: "Contactos operativos",
-      showIf: "options.contacts",
-      required: true,
-    },
-    {
-      id: "contact_org_name",
-      label: "Contacto — solicitante de la obra (nombre)",
-      placeholder: "Nombre de la persona de referencia",
-      emptyMarker: "[contacto solicitante de la obra — nombre]",
-      type: "text",
-      path: "options.contactOrgName",
-      step: "options",
-      group: "Contactos operativos",
-      showIf: "options.contacts",
-      required: true,
-    },
-    {
-      id: "contact_org_phone",
-      label: "Contacto — solicitante de la obra (teléfono)",
-      placeholder: "Teléfono de contacto operativo",
-      emptyMarker: "[contacto solicitante de la obra — teléfono]",
-      type: "text",
-      path: "options.contactOrgPhone",
-      step: "options",
-      group: "Contactos operativos",
-      showIf: "options.contacts",
-      required: true,
-    },
-    {
-      id: "contact_org_email",
-      label: "Contacto — solicitante de la obra (email)",
-      placeholder: "Email de contacto operativo",
-      emptyMarker: "[contacto solicitante de la obra — email]",
-      type: "text",
-      path: "options.contactOrgEmail",
-      step: "options",
-      group: "Contactos operativos",
-      showIf: "options.contacts",
-      required: true,
-    },
-    {
-      id: "opt_inventory",
-      label: "Incluir inventario de componentes",
-      placeholder:
-        "Incluir para listar piezas, cables, controladores, etc. en el inventario del documento",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.inventory",
-      step: "options",
-      group: "Inventario de componentes",
-    },
-    {
-      id: "inventory_list",
-      label: "Inventario",
-      placeholder:
-        "Listar cada componente (una línea por elemento: piezas, cables, controladores…)",
-      emptyMarker: "[inventario de componentes]",
-      type: "textarea",
-      path: "options.inventoryList",
-      step: "options",
-      group: "Inventario de componentes",
-      showIf: "options.inventory",
-      required: true,
-    },
-    {
-      id: "opt_space",
-      label: "Incluir espacio y accesos",
-      placeholder:
-        "Incluir para fijar sala, horarios técnicos y quién aporta barreras o cartelas",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.spaceAccess",
-      step: "options",
-      group: "Espacio y accesos",
-    },
-    {
-      id: "space_description",
-      label: "Espacio de exhibición",
-      placeholder: "Sala, medidas mínimas u otras condiciones del espacio",
-      emptyMarker: "[espacio de exhibición]",
-      type: "text",
-      path: "options.spaceDescription",
-      step: "options",
-      group: "Espacio y accesos",
-      showIf: "options.spaceAccess",
-      required: true,
-    },
-    {
-      id: "space_hours",
-      label: "Horarios de acceso técnico",
-      placeholder: "Horarios para montaje, mantenimiento o acceso técnico",
-      emptyMarker: "[horarios de acceso técnico]",
-      type: "text",
-      path: "options.spaceHours",
-      step: "options",
-      group: "Espacio y accesos",
-      showIf: "options.spaceAccess",
-      required: true,
-    },
-    {
-      id: "space_equipment",
-      label: "Quién aporta barreras, cartelas, pedestales u otros",
-      placeholder: "Describir qué aporta cada parte (barreras, cartelas, pedestales…)",
-      emptyMarker: "[aporte de barreras, cartelas u otros]",
-      type: "textarea",
-      path: "options.spaceEquipment",
-      step: "options",
-      group: "Espacio y accesos",
-      showIf: "options.spaceAccess",
-      required: true,
-    },
-    {
-      id: "opt_subcontract",
-      label: "Incluir subcontratación / terceros",
-      placeholder:
-        "Incluir cuando pueden intervenir personal de montaje, seguridad u otros terceros",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.subcontract",
-      step: "options",
-      group: "Subcontratación",
-    },
-    {
-      id: "subcontract_terms",
-      label: "Condiciones de subcontratación",
-      placeholder:
-        "Ej.: seguridad del recinto y transporte interno; no el montaje artístico",
-      emptyMarker: "[condiciones de subcontratación]",
-      type: "textarea",
-      path: "options.subcontractTerms",
-      step: "options",
-      group: "Subcontratación",
-      showIf: "options.subcontract",
-      required: true,
-    },
-    {
-      id: "opt_ip",
-      label: "Incluir propiedad intelectual (más allá de imagen)",
-      placeholder:
-        "Incluir para dejar claro que no hay cesión de derechos ni obras derivadas",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.ipRights",
-      step: "options",
-      group: "Propiedad intelectual",
-    },
-    {
-      id: "ip_name_use",
-      label: "Uso de nombre, crédito o marca",
-      placeholder:
-        "Describir cómo puede usarse el nombre o crédito de quien tiene la autoría",
-      emptyMarker: "[uso de nombre, crédito o marca]",
-      type: "text",
-      path: "options.ipNameUse",
-      step: "options",
-      group: "Propiedad intelectual",
-      showIf: "options.ipRights",
-      required: true,
-    },
-    {
-      id: "opt_repairs",
-      label: "Incluir régimen de reparaciones",
-      placeholder:
-        "Incluir para fijar quién puede reparar, cómo, qué tipos están permitidas o prohibidas y quién cubre el coste",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.repairs",
-      step: "options",
-      group: "Reparaciones",
-    },
-    {
-      id: "repairs_who",
-      label: "Quién puede realizar reparaciones",
-      placeholder:
-        "Ej.: solo la Parte Autora; la Parte Solicitante con autorización previa; personal técnico designado por…",
-      emptyMarker: "[quién puede realizar reparaciones]",
-      type: "text",
-      path: "options.repairsWho",
-      step: "options",
-      group: "Reparaciones",
-      showIf: "options.repairs",
-      required: true,
-    },
-    {
-      id: "repairs_how",
-      label: "Cómo deben hacerse",
-      placeholder:
-        "Describir el procedimiento (aviso previo, autorización escrita, materiales, plazos, supervisión…)",
-      emptyMarker: "[procedimiento de reparaciones]",
-      type: "textarea",
-      path: "options.repairsHow",
-      step: "options",
-      group: "Reparaciones",
-      showIf: "options.repairs",
-      required: true,
-    },
-    {
-      id: "repairs_allowed",
-      label: "Reparaciones permitidas",
-      placeholder:
-        "Ej.: reposición de consumibles, ajustes menores de funcionamiento, limpieza superficial…",
-      emptyMarker: "[reparaciones permitidas]",
-      type: "textarea",
-      path: "options.repairsAllowed",
-      step: "options",
-      group: "Reparaciones",
-      showIf: "options.repairs",
-      required: true,
-    },
-    {
-      id: "repairs_forbidden",
-      label: "Reparaciones no permitidas",
-      placeholder:
-        "Ej.: abrir el sistema electrónico, soldar, sustituir piezas originales, alterar la programación…",
-      emptyMarker: "[reparaciones no permitidas]",
-      type: "textarea",
-      path: "options.repairsForbidden",
-      step: "options",
-      group: "Reparaciones",
-      showIf: "options.repairs",
-      required: true,
-    },
-    {
-      id: "repairs_cost",
-      label: "Quién cubre el coste de las reparaciones",
-      placeholder:
-        "Ej.: a cargo de la Parte Solicitante; a cargo de la Parte Autora si el daño es por vicio propio; materiales a cargo de… y mano de obra a cargo de…",
-      emptyMarker: "[quién cubre el coste de las reparaciones]",
-      type: "textarea",
-      path: "options.repairsCost",
-      step: "options",
-      group: "Reparaciones",
-      showIf: "options.repairs",
-      required: true,
-    },
-    {
-      id: "opt_install_changes",
-      label: "Incluir cambios de ubicación, iluminación o configuración",
-      placeholder:
-        "Incluir para exigir autorización si se mueve la obra, se cambia la iluminación, se redistribuye el espacio o se altera la configuración",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.amendments",
-      step: "options",
-      group: "Cambios en la instalación",
-    },
-    {
-      id: "install_changes_terms",
-      label: "Qué cambios requieren autorización y cómo se piden",
-      placeholder:
-        "Ej.: cambio de sala o ubicación; modificar iluminación; redistribuir piezas o perímetro; alterar programación. Indica si hace falta aviso escrito y plazo",
-      emptyMarker: "[régimen de cambios en la instalación]",
-      type: "textarea",
-      path: "options.amendmentTerms",
-      step: "options",
-      group: "Cambios en la instalación",
-      showIf: "options.amendments",
-      required: true,
-    },
+    // —— Opcionales: avisos y cierre ——
     {
       id: "opt_notices",
       label: "Incluir emails para avisos formales",
@@ -1278,7 +1284,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.deliveryAct",
       step: "options",
-      group: "Otras cláusulas",
+      group: "Cierre documental y seguros",
     },
     {
       id: "opt_policy_certs",
@@ -1288,7 +1294,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.policyCerts",
       step: "options",
-      group: "Otras cláusulas",
+      group: "Cierre documental y seguros",
     },
     {
       id: "opt_franchise",
@@ -1298,7 +1304,27 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.franchise",
       step: "options",
-      group: "Otras cláusulas",
+      group: "Cierre documental y seguros",
+    },
+    {
+      id: "opt_expert",
+      label: "Peritaje independiente para pérdida artística",
+      placeholder: "Incluir para no dejar la calificación solo a la Parte Autora",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.independentExpert",
+      step: "options",
+      group: "Cierre documental y seguros",
+    },
+    {
+      id: "opt_force_majeure",
+      label: "Cláusula de fuerza mayor",
+      placeholder: "Incluir para regular eventos de fuerza mayor",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.forceMajeure",
+      step: "options",
+      group: "Cierre documental y seguros",
     },
     {
       id: "opt_jurisdiction",
@@ -1308,7 +1334,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.jurisdiction",
       step: "options",
-      group: "Otras cláusulas",
+      group: "Ley y jurisdicción",
     },
     {
       id: "law_text",
@@ -1318,7 +1344,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.lawText",
       step: "options",
-      group: "Otras cláusulas",
+      group: "Ley y jurisdicción",
       showIf: "options.jurisdiction",
       required: true,
     },
@@ -1330,30 +1356,11 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.courtsText",
       step: "options",
-      group: "Otras cláusulas",
+      group: "Ley y jurisdicción",
       showIf: "options.jurisdiction",
       required: true,
     },
-    {
-      id: "opt_expert",
-      label: "Peritaje independiente para pérdida artística",
-      placeholder: "Incluir para no dejar la calificación solo a la Parte Autora",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.independentExpert",
-      step: "options",
-      group: "Otras cláusulas",
-    },
-    {
-      id: "opt_force_majeure",
-      label: "Cláusula de fuerza mayor",
-      placeholder: "Incluir para regular eventos de fuerza mayor",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.forceMajeure",
-      step: "options",
-      group: "Otras cláusulas",
-    },
+
   ],
   clauses: [
     {
@@ -1393,7 +1400,8 @@ III. Que {{document.this}} constituye un anexo específico negociado y aceptado 
     {
       id: "primera",
       title: "PRIMERA. Objeto",
-      body: `La Parte Autora pone a disposición temporal de la Parte Solicitante la instalación artística «{{project.workTitle}}» para su exhibición durante {{project.eventName}}.{{project.exhibitPeriod}}`,
+      body: `La Parte Autora cede temporalmente a la Parte Solicitante la posesión y el uso de la instalación artística «{{project.workTitle}}» a los solos efectos de su exhibición pública durante {{project.eventName}}.{{project.exhibitPeriod}}
+Dicha cesión temporal no transmite la autoría, la propiedad de la obra ni ningún derecho de explotación distinto de los expresamente regulados {{document.inThis}}. La Parte Solicitante recibe la instalación en calidad de cesionaria temporal para su exhibición y custodia durante el período acordado, debiendo devolverla a la Parte Autora en los términos previstos {{document.inThis}}.`,
     },
     {
       id: "segunda",
@@ -1485,64 +1493,58 @@ Las partes manifiestan que {{document.this}} ha sido negociado y aceptado librem
       requireAll: ["project.isAnnex"],
     },
     {
-      id: "opt_acta",
-      title: "Acta de entrega y devolución",
-      body: `La entrega y la devolución de la instalación se documentarán mediante acta firmada por ambas partes, que incluirá la fecha, el estado aparente de la instalación, un inventario de componentes y, cuando sea posible, registro fotográfico. La falta de acta no exime a la Parte Solicitante de sus obligaciones de custodia.`,
-      requireAll: ["options.deliveryAct"],
+      id: "opt_space",
+      title: "Espacio y accesos",
+      body: `La Parte Solicitante pondrá a disposición un espacio adecuado para la obra «{{project.workTitle}}» con estas condiciones:
+— Espacio de exhibición: {{options.spaceDescription}}.
+— Horarios de acceso técnico (montaje, mantenimiento, desmontaje): {{options.spaceHours}}.
+— Quién aporta barreras, cartelas, pedestales u otros elementos de presentación o protección: {{options.spaceEquipment}}.
+La Parte Solicitante garantiza que el espacio, los accesos y los medios aportados permitan un montaje, exhibición y desmontaje seguros, conformes a las instrucciones técnicas de la Parte Autora y compatibles con la integridad de la obra y la seguridad de las personas.`,
+      requireAll: ["options.spaceAccess"],
     },
     {
-      id: "opt_certs",
-      title: "Acreditación de seguros",
-      body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Parte Solicitante entregará a la Parte Autora certificado o extracto de {{options.policyCertsDetail}} que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará a la Parte Autora a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
-      requireAll: ["options.policyCerts"],
+      id: "opt_inventory",
+      title: "Inventario de componentes",
+      body: `Las partes dejan constancia del siguiente inventario de componentes de la obra o instalación «{{project.workTitle}}»:
+{{options.inventoryFormatted}}
+Este inventario es referencia vinculante para la entrega y la devolución. Si existe acta de entrega y devolución, el inventario se incorporará a dicha acta o se anexará a ella. Cualquier falta, sustitución, extravío o daño respecto del inventario se hará constar por escrito y se regirá por las obligaciones de custodia e indemnización de {{document.this}}.`,
+      requireAll: ["options.inventory"],
     },
     {
-      id: "opt_franq",
-      title: "Franquicia",
-      body: `Cualquier franquicia, deducible o importe no cubierto por las pólizas será asumido íntegramente por la Parte Solicitante, sin que pueda trasladarse a la Parte Autora.`,
-      requireAll: ["options.franchise"],
+      id: "opt_contacts",
+      title: "Contactos operativos",
+      body: `Durante el montaje, la exhibición y la devolución, las personas de referencia serán:
+Por la Parte Autora: {{options.contactTitularName}}, teléfono {{options.contactTitularPhone}}, email {{options.contactTitularEmail}}.
+Por la Parte Solicitante: {{options.contactOrgName}}, teléfono {{options.contactOrgPhone}}, email {{options.contactOrgEmail}}.
+Estas personas servirán para coordinación operativa. Las notificaciones formales, si se pactan, se regirán por la cláusula de notificaciones.`,
+      requireAll: ["options.contacts"],
     },
     {
-      id: "opt_jur",
-      title: "Ley aplicable y jurisdicción",
-      body: `{{document.This}} se rige por {{options.lawText}}. Para la resolución de cualquier controversia derivada del mismo, las partes se someten a los {{options.courtsText}}, con renuncia a cualquier otro fuero que pudiera corresponderles.`,
-      requireAll: ["options.jurisdiction"],
+      id: "opt_subcontract",
+      title: "Subcontratación",
+      body: `La Parte Solicitante podrá valerse de terceros para determinadas tareas solo en el siguiente marco: {{options.subcontractTerms}}.
+Aunque intervengan personal de montaje, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Autora del cumplimiento de {{document.this}} (custodia, seguro, daños, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
+      requireAll: ["options.subcontract"],
     },
     {
-      id: "opt_expert",
-      title: "Valoración de pérdida artística",
-      body: `La valoración sobre la afectación irreversible de las características artísticas de la obra podrá ser realizada por la Parte Autora y, a solicitud de cualquiera de las partes, contrastada por una persona perita independiente de común acuerdo. A falta de acuerdo sobre esa persona perita en el plazo de quince (15) días, podrá designarse conforme a la práctica habitual de arbitraje pericial o por el colegio profesional competente.`,
-      requireAll: ["options.independentExpert"],
+      id: "opt_amendments",
+      title: "Cambios en la instalación",
+      body: `Cualquier cambio de ubicación, iluminación, redistribución espacial, perímetro de protección, configuración, programación u otra condición de exhibición de la obra «{{project.workTitle}}» requerirá autorización previa y expresa de la Parte Autora, preferentemente por escrito.
+Régimen concreto de estos cambios: {{options.amendmentTerms}}.
+Los cambios no autorizados se considerarán incumplimiento de las obligaciones de custodia. Esta cláusula no sustituye la necesidad de acuerdo escrito para modificar el resto de pactos de {{document.this}}.`,
+      requireAll: ["options.amendments"],
     },
     {
-      id: "opt_fm",
-      title: "Fuerza mayor",
-      body: `Ninguna de las partes será responsable por el incumplimiento de obligaciones cuando dicho incumplimiento derive de causas de fuerza mayor debidamente acreditadas. Ello no exime a la Parte Solicitante de sus deberes de protección razonable de la instalación ni de las coberturas de seguro comprometidas, en la medida en que resulten aplicables.`,
-      requireAll: ["options.forceMajeure"],
-    },
-    {
-      id: "opt_image",
-      title: "Uso de imagen y reproducción",
-      body: `La Parte Autora autoriza a la Parte Solicitante a captar, reproducir y difundir imágenes (fijas o en movimiento) de la obra «{{project.workTitle}}» en el siguiente ámbito: {{options.imageScope}}.
-Medios autorizados: {{options.imageMedia}}.
-Duración de la autorización: {{options.imageDuration}}.
-Crédito obligatorio en cada uso: {{options.imageCredit}}.
-{{options.imageCommercialText}}
-{{options.imageAdaptText}}
-Fuera de este ámbito, cualquier reproducción o uso de imagen requerirá autorización adicional y expresa de la Parte Autora. Esta autorización no implica cesión de derechos de autor ni de la autoría de la obra.`,
-      requireAll: ["options.imageUse"],
-    },
-    {
-      id: "opt_sale",
-      title: "Condiciones de venta",
-      body: `Sin perjuicio de la exhibición y custodia reguladas {{document.inThis}}, las partes dejan constancia de las siguientes condiciones para una eventual venta de la obra «{{project.workTitle}}»:
-Precio: {{options.salePrice}} € (impuestos aparte, si resultan aplicables).
-{{options.saleReservationText}}
-Entrega: {{options.saleDelivery}}.
-{{options.saleExclusivityText}}
-{{options.saleNotesText}}
-La venta, si se formaliza, se documentará de forma expresa. Mientras no conste acuerdo de venta perfeccionado, la obra permanece bajo la autoría de la Parte Autora y sujeta a las obligaciones de custodia y devolución de {{document.this}}.`,
-      requireAll: ["options.saleTerms"],
+      id: "opt_repairs",
+      title: "Reparaciones",
+      body: `Las reparaciones de la obra o instalación «{{project.workTitle}}» durante el período de custodia se regirán por lo siguiente:
+— Quién puede realizarlas: {{options.repairsWho}}.
+— Procedimiento: {{options.repairsHow}}.
+— Reparaciones permitidas: {{options.repairsAllowed}}.
+— Reparaciones no permitidas: {{options.repairsForbidden}}.
+— Quién cubre el coste (materiales, mano de obra, transporte técnico u otros): {{options.repairsCost}}.
+Salvo autorización expresa de la Parte Autora, queda prohibida cualquier intervención no contemplada como permitida. Las reparaciones no eximen a la Parte Solicitante de su responsabilidad por daños ni de las obligaciones de seguro e indemnización de {{document.this}}.`,
+      requireAll: ["options.repairs"],
     },
     {
       id: "opt_transport",
@@ -1565,18 +1567,6 @@ Cada parte asume únicamente los conceptos que le correspondan según ese detall
       requireAll: ["options.costs"],
     },
     {
-      id: "opt_repairs",
-      title: "Reparaciones",
-      body: `Las reparaciones de la obra o instalación «{{project.workTitle}}» durante el período de custodia se regirán por lo siguiente:
-— Quién puede realizarlas: {{options.repairsWho}}.
-— Procedimiento: {{options.repairsHow}}.
-— Reparaciones permitidas: {{options.repairsAllowed}}.
-— Reparaciones no permitidas: {{options.repairsForbidden}}.
-— Quién cubre el coste (materiales, mano de obra, transporte técnico u otros): {{options.repairsCost}}.
-Salvo autorización expresa de la Parte Autora, queda prohibida cualquier intervención no contemplada como permitida. Las reparaciones no eximen a la Parte Solicitante de su responsabilidad por daños ni de las obligaciones de seguro e indemnización de {{document.this}}.`,
-      requireAll: ["options.repairs"],
-    },
-    {
       id: "opt_cancellation",
       title: "Cancelación y retirada anticipada",
       body: `Si el evento, la exhibición o {{document.this}} se cancelan, se aplicará lo siguiente: {{options.cancellationTerms}}.
@@ -1585,55 +1575,67 @@ En caso de retirada anticipada justificada, la Parte Solicitante facilitará el 
       requireAll: ["options.cancellation"],
     },
     {
-      id: "opt_contacts",
-      title: "Contactos operativos",
-      body: `Durante el montaje, la exhibición y la devolución, las personas de referencia serán:
-Por la Parte Autora: {{options.contactTitularName}}, teléfono {{options.contactTitularPhone}}, email {{options.contactTitularEmail}}.
-Por la Parte Solicitante: {{options.contactOrgName}}, teléfono {{options.contactOrgPhone}}, email {{options.contactOrgEmail}}.
-Estas personas servirán para coordinación operativa. Las notificaciones formales, si se pactan, se regirán por la cláusula de notificaciones.`,
-      requireAll: ["options.contacts"],
-    },
-    {
-      id: "opt_inventory",
-      title: "Inventario de componentes",
-      body: `Las partes dejan constancia del siguiente inventario de componentes de la obra o instalación «{{project.workTitle}}»:
-{{options.inventoryFormatted}}
-Este inventario es referencia vinculante para la entrega y la devolución. Si existe acta de entrega y devolución, el inventario se incorporará a dicha acta o se anexará a ella. Cualquier falta, sustitución, extravío o daño respecto del inventario se hará constar por escrito y se regirá por las obligaciones de custodia e indemnización de {{document.this}}.`,
-      requireAll: ["options.inventory"],
-    },
-    {
-      id: "opt_space",
-      title: "Espacio y accesos",
-      body: `La Parte Solicitante pondrá a disposición un espacio adecuado para la obra «{{project.workTitle}}» con estas condiciones:
-— Espacio de exhibición: {{options.spaceDescription}}.
-— Horarios de acceso técnico (montaje, mantenimiento, desmontaje): {{options.spaceHours}}.
-— Quién aporta barreras, cartelas, pedestales u otros elementos de presentación o protección: {{options.spaceEquipment}}.
-La Parte Solicitante garantiza que el espacio, los accesos y los medios aportados permitan un montaje, exhibición y desmontaje seguros, conformes a las instrucciones técnicas de la Parte Autora y compatibles con la integridad de la obra y la seguridad de las personas.`,
-      requireAll: ["options.spaceAccess"],
-    },
-    {
-      id: "opt_subcontract",
-      title: "Subcontratación",
-      body: `La Parte Solicitante podrá valerse de terceros para determinadas tareas solo en el siguiente marco: {{options.subcontractTerms}}.
-Aunque intervengan personal de montaje, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Autora del cumplimiento de {{document.this}} (custodia, seguro, daños, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
-      requireAll: ["options.subcontract"],
+      id: "opt_image",
+      title: "Uso de imagen y reproducción",
+      body: `La Parte Autora autoriza a la Parte Solicitante a captar, reproducir y difundir imágenes (fijas o en movimiento) de la obra «{{project.workTitle}}» en el siguiente ámbito: {{options.imageScope}}.
+Medios autorizados: {{options.imageMedia}}.
+Duración de la autorización: {{options.imageDuration}}.
+Crédito obligatorio en cada uso: {{options.imageCredit}}.
+{{options.imageCommercialText}}
+{{options.imageAdaptText}}
+Fuera de este ámbito, cualquier reproducción o uso de imagen requerirá autorización adicional y expresa de la Parte Autora. Esta autorización no implica cesión de derechos de autor ni de la autoría de la obra.`,
+      requireAll: ["options.imageUse"],
     },
     {
       id: "opt_ip",
       title: "Propiedad intelectual",
-      body: `La exhibición o puesta a disposición temporal de la obra «{{project.workTitle}}» no implica cesión de derechos de autor, derechos conexos ni de la autoría de la obra.
+      body: `La cesión temporal de la posesión y uso de la obra «{{project.workTitle}}» para su exhibición no implica cesión de derechos de autor, derechos conexos ni de la autoría de la obra.
 Salvo lo expresamente autorizado {{document.inThis}} (incluida, en su caso, la cláusula de uso de imagen y reproducción), queda prohibido reproducir, comunicar públicamente fuera del ámbito pactado, transformar, crear obras derivadas o explotar la obra o sus elementos distintivos.
 Uso autorizado del nombre, crédito o marca vinculados a la obra o a quien ostenta la autoría: {{options.ipNameUse}}.
 Cualquier uso distinto requerirá autorización adicional y expresa de la Parte Autora.`,
       requireAll: ["options.ipRights"],
     },
     {
-      id: "opt_amendments",
-      title: "Cambios en la instalación",
-      body: `Cualquier cambio de ubicación, iluminación, redistribución espacial, perímetro de protección, configuración, programación u otra condición de exhibición de la obra «{{project.workTitle}}» requerirá autorización previa y expresa de la Parte Autora, preferentemente por escrito.
-Régimen concreto de estos cambios: {{options.amendmentTerms}}.
-Los cambios no autorizados se considerarán incumplimiento de las obligaciones de custodia. Esta cláusula no sustituye la necesidad de acuerdo escrito para modificar el resto de pactos de {{document.this}}.`,
-      requireAll: ["options.amendments"],
+      id: "opt_sale",
+      title: "Condiciones de venta",
+      body: `Sin perjuicio de la exhibición y custodia reguladas {{document.inThis}}, las partes dejan constancia de las siguientes condiciones para una eventual venta de la obra «{{project.workTitle}}»:
+Precio: {{options.salePrice}} € (impuestos aparte, si resultan aplicables).
+{{options.saleReservationText}}
+Entrega: {{options.saleDelivery}}.
+{{options.saleExclusivityText}}
+{{options.saleNotesText}}
+La venta, si se formaliza, se documentará de forma expresa. Mientras no conste acuerdo de venta perfeccionado, la obra permanece bajo la autoría de la Parte Autora y sujeta a las obligaciones de custodia y devolución de {{document.this}}.`,
+      requireAll: ["options.saleTerms"],
+    },
+    {
+      id: "opt_acta",
+      title: "Acta de entrega y devolución",
+      body: `La entrega y la devolución de la instalación se documentarán mediante acta firmada por ambas partes, que incluirá la fecha, el estado aparente de la instalación, un inventario de componentes y, cuando sea posible, registro fotográfico. La falta de acta no exime a la Parte Solicitante de sus obligaciones de custodia.`,
+      requireAll: ["options.deliveryAct"],
+    },
+    {
+      id: "opt_certs",
+      title: "Acreditación de seguros",
+      body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Parte Solicitante entregará a la Parte Autora certificado o extracto de {{options.policyCertsDetail}} que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará a la Parte Autora a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
+      requireAll: ["options.policyCerts"],
+    },
+    {
+      id: "opt_franq",
+      title: "Franquicia",
+      body: `Cualquier franquicia, deducible o importe no cubierto por las pólizas será asumido íntegramente por la Parte Solicitante, sin que pueda trasladarse a la Parte Autora.`,
+      requireAll: ["options.franchise"],
+    },
+    {
+      id: "opt_expert",
+      title: "Valoración de pérdida artística",
+      body: `La valoración sobre la afectación irreversible de las características artísticas de la obra podrá ser realizada por la Parte Autora y, a solicitud de cualquiera de las partes, contrastada por una persona perita independiente de común acuerdo. A falta de acuerdo sobre esa persona perita en el plazo de quince (15) días, podrá designarse conforme a la práctica habitual de arbitraje pericial o por el colegio profesional competente.`,
+      requireAll: ["options.independentExpert"],
+    },
+    {
+      id: "opt_fm",
+      title: "Fuerza mayor",
+      body: `Ninguna de las partes será responsable por el incumplimiento de obligaciones cuando dicho incumplimiento derive de causas de fuerza mayor debidamente acreditadas. Ello no exime a la Parte Solicitante de sus deberes de protección razonable de la instalación ni de las coberturas de seguro comprometidas, en la medida en que resulten aplicables.`,
+      requireAll: ["options.forceMajeure"],
     },
     {
       id: "opt_notices",
@@ -1643,6 +1645,12 @@ Parte Autora: {{options.noticeEmailTitular}}.
 Parte Solicitante: {{options.noticeEmailOrg}}.
 Se entenderán recibidas cuando conste su envío a dichas direcciones, sin perjuicio de otros medios admitidos en derecho.`,
       requireAll: ["options.notices"],
+    },
+    {
+      id: "opt_jur",
+      title: "Ley aplicable y jurisdicción",
+      body: `{{document.This}} se rige por {{options.lawText}}. Para la resolución de cualquier controversia derivada del mismo, las partes se someten a los {{options.courtsText}}, con renuncia a cualquier otro fuero que pudiera corresponderles.`,
+      requireAll: ["options.jurisdiction"],
     },
     {
       id: "signatures",
@@ -1666,6 +1674,7 @@ Documento: {{parties.org.cif}}
 Sello (si procede)`,
       placeAtEnd: true,
     },
+
   ],
 };
 
@@ -1836,10 +1845,10 @@ export function enrichDerivedValues(
 
   if (v["options.costsNoFee"]) {
     v["options.costsNoFeeText"] =
-      "Las partes dejan constancia de que no hay remuneración económica a la Parte Autora por la exhibición o puesta a disposición temporal de la obra, sin perjuicio del reparto de gastos que se detalla a continuación.";
+      "Las partes dejan constancia de que no hay remuneración económica a la Parte Autora por la cesión temporal de la obra para su exhibición, sin perjuicio del reparto de gastos que se detalla a continuación.";
   } else {
     v["options.costsNoFeeText"] =
-      "Las partes regulan la remuneración (si la hay) y el reparto de gastos asociados a la exhibición o puesta a disposición de la obra según lo siguiente.";
+      "Las partes regulan la remuneración (si la hay) y el reparto de gastos asociados a la cesión temporal y exhibición de la obra según lo siguiente.";
   }
 
   const inventoryRaw = String(v["options.inventoryList"] ?? "").trim();

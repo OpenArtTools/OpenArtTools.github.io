@@ -129,10 +129,13 @@ describe("assembleClauses", () => {
     const off = enrichDerivedValues(base);
     const offClauses = assembleClauses(exhibitionCustodyEs, off);
     expect(offClauses.find((c) => c.id === "primera")?.body).toContain(
-      "pone a disposición temporal",
-    );
-    expect(offClauses.find((c) => c.id === "primera")?.body).not.toContain(
       "cede temporalmente",
+    );
+    expect(offClauses.find((c) => c.id === "primera")?.body).toContain(
+      "posesión y el uso",
+    );
+    expect(offClauses.find((c) => c.id === "primera")?.body).toContain(
+      "no transmite la autoría",
     );
     expect(offClauses.find((c) => c.id === "sexta")?.body).not.toContain(
       "interacción del público",
