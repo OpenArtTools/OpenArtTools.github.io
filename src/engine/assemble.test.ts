@@ -76,7 +76,7 @@ describe("assembleClauses", () => {
       "AUTORÍA",
     );
     expect(clauses.find((c) => c.id === "signatures")?.body).toContain(
-      "Representante del solicitante",
+      "PARTE SOLICITANTE",
     );
   });
 

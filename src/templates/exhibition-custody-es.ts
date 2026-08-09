@@ -23,7 +23,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "solicitante",
       title: "Solicitante de la obra",
-      blurb: "Datos de quien solicita la exhibición, el préstamo o la cesión de la obra y firma como parte receptora.",
+      blurb:
+        "Datos completos de quien solicita la exhibición, el préstamo o la cesión. El representante del solicitante es opcional.",
     },
     {
       id: "project",
@@ -143,9 +144,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "org_name",
-      label: "Nombre o razón social — solicitante de la obra",
-      placeholder: "Nombre o razón social",
-      emptyMarker: "[nombre o razón social — solicitante de la obra]",
+      label: "Nombre o razón social — solicitante",
+      placeholder: "Nombre completo o razón social",
+      emptyMarker: "[nombre o razón social — solicitante]",
       type: "text",
       path: "parties.org.name",
       required: true,
@@ -153,12 +154,71 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "org_cif",
-      label: "Documento — solicitante de la obra",
-      placeholder: "CIF, NIF u otro documento",
-      emptyMarker: "[documento — solicitante de la obra]",
+      label: "Documento — solicitante",
+      placeholder: "CIF, NIF, DNI, NIE u otro documento",
+      emptyMarker: "[documento — solicitante]",
       type: "text",
       path: "parties.org.cif",
       required: true,
+      step: "solicitante",
+    },
+    {
+      id: "org_quality",
+      label: "Calidad en el documento — solicitante",
+      placeholder: "p. ej. persona física, asociación, empresa o entidad",
+      emptyMarker: "[calidad — solicitante]",
+      type: "text",
+      path: "parties.org.quality",
+      required: true,
+      step: "solicitante",
+    },
+    {
+      id: "org_role_desc",
+      label: "Rol en el evento — solicitante",
+      placeholder: "p. ej. organización del evento, galería o espacio",
+      emptyMarker: "[rol — solicitante]",
+      type: "text",
+      path: "parties.org.roleDesc",
+      required: true,
+      step: "solicitante",
+    },
+    {
+      id: "org_address",
+      label: "Domicilio — solicitante",
+      placeholder: "Calle, número, ciudad, código postal",
+      emptyMarker: "[domicilio — solicitante]",
+      type: "text",
+      path: "parties.org.address",
+      required: true,
+      step: "solicitante",
+    },
+    {
+      id: "org_email",
+      label: "Email — solicitante",
+      placeholder: "email@ejemplo.com",
+      emptyMarker: "[email — solicitante]",
+      type: "text",
+      path: "parties.org.email",
+      required: true,
+      step: "solicitante",
+    },
+    {
+      id: "org_phone",
+      label: "Teléfono — solicitante",
+      placeholder: "Con prefijo si aplica",
+      emptyMarker: "[teléfono — solicitante]",
+      type: "text",
+      path: "parties.org.phone",
+      required: true,
+      step: "solicitante",
+    },
+    {
+      id: "org_web",
+      label: "Web — solicitante (opcional)",
+      placeholder: "https://…",
+      emptyMarker: "[web — solicitante]",
+      type: "text",
+      path: "parties.org.web",
       step: "solicitante",
     },
     {
@@ -168,20 +228,18 @@ export const exhibitionCustodyEs: TemplateDoc = {
       emptyMarker: "[nombre — representante del solicitante]",
       type: "text",
       path: "parties.org.repName",
-      required: true,
       step: "solicitante",
-      group: "Representante del solicitante",
+      group: "Representante del solicitante (opcional)",
     },
     {
       id: "org_rep_doc",
       label: "Documento — representante del solicitante",
-      placeholder: "DNI o NIE",
+      placeholder: "DNI, NIE u otro documento",
       emptyMarker: "[documento — representante del solicitante]",
       type: "text",
       path: "parties.org.repDoc",
-      required: true,
       step: "solicitante",
-      group: "Representante del solicitante",
+      group: "Representante del solicitante (opcional)",
     },
     {
       id: "org_rep_role",
@@ -190,46 +248,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
       emptyMarker: "[cargo — representante del solicitante]",
       type: "text",
       path: "parties.org.repRole",
-      required: true,
       step: "solicitante",
-      group: "Representante del solicitante",
-    },
-    {
-      id: "org_role_desc",
-      label: "Rol en el evento — solicitante de la obra",
-      placeholder: "p. ej. organización del evento",
-      emptyMarker: "[rol — solicitante de la obra]",
-      type: "text",
-      path: "parties.org.roleDesc",
-      required: true,
-      step: "solicitante",
-    },
-    {
-      id: "org_address",
-      label: "Domicilio — solicitante de la obra",
-      placeholder: "Calle, número, ciudad",
-      emptyMarker: "[domicilio — solicitante de la obra]",
-      type: "text",
-      path: "parties.org.address",
-      step: "solicitante",
-    },
-    {
-      id: "org_email",
-      label: "Email — solicitante de la obra",
-      placeholder: "email@ejemplo.com",
-      emptyMarker: "[email — solicitante de la obra]",
-      type: "text",
-      path: "parties.org.email",
-      step: "solicitante",
-    },
-    {
-      id: "org_phone",
-      label: "Teléfono — solicitante de la obra",
-      placeholder: "Con prefijo si aplica",
-      emptyMarker: "[teléfono — solicitante de la obra]",
-      type: "text",
-      path: "parties.org.phone",
-      step: "solicitante",
+      group: "Representante del solicitante (opcional)",
     },
 
     // —— Project ——
@@ -1217,7 +1237,7 @@ En {{project.city}}, a {{project.signDate}}`,
 {{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, quien ostenta la autoría («Parte Autora»).{{parties.author.repBlock}}{{parties.author.extra}}
 
 Y de otra,
-{{parties.org.name}}, con CIF/NIF {{parties.org.cif}}, {{parties.org.roleDesc}} de {{project.eventName}}, actuando en este acto a través de {{parties.org.repName}}, con documento {{parties.org.repDoc}}, en calidad de {{parties.org.repRole}} (representante del solicitante), en adelante, solicitante de la obra («Parte Solicitante»).{{parties.org.extra}}
+{{parties.org.name}}, con documento {{parties.org.cif}}, {{parties.org.quality}}, {{parties.org.roleDesc}} de {{project.eventName}}, en adelante, solicitante de la obra («Parte Solicitante»).{{parties.org.repBlock}}{{parties.org.extra}}
 
 Ambas partes, reconociéndose capacidad legal suficiente para obligarse,`,
     },
@@ -1483,12 +1503,11 @@ Documento: {{parties.author.doc}}
 
 
 
-POR {{parties.org.name}}
-Representante del solicitante: {{parties.org.repName}}
-Documento: {{parties.org.repDoc}}
-Cargo: {{parties.org.repRole}}
-Firma:
-Sello de la empresa`,
+POR LA PARTE SOLICITANTE
+{{parties.org.name}}
+Documento: {{parties.org.cif}}
+{{parties.org.sigRep}}Firma:
+Sello (si procede)`,
       placeAtEnd: true,
     },
   ],
@@ -1572,7 +1591,25 @@ export function enrichDerivedValues(
   if (v["parties.org.phone"]) {
     orgBits.push(`Teléfono: ${v["parties.org.phone"]}.`);
   }
+  if (v["parties.org.web"]) {
+    orgBits.push(`Web: ${v["parties.org.web"]}.`);
+  }
   v["parties.org.extra"] = orgBits.length > 0 ? `\n${orgBits.join(" ")}` : "";
+
+  const orgRepName = String(v["parties.org.repName"] ?? "").trim();
+  const orgRepDoc = String(v["parties.org.repDoc"] ?? "").trim();
+  const orgRepRole = String(v["parties.org.repRole"] ?? "").trim();
+  if (orgRepName) {
+    const docBit = orgRepDoc || "[documento — representante del solicitante]";
+    const roleBit = orgRepRole || "[cargo — representante del solicitante]";
+    v["parties.org.repBlock"] =
+      `\nActuando en este acto a través de ${orgRepName}, con documento ${docBit}, en calidad de ${roleBit} (representante del solicitante).`;
+    v["parties.org.sigRep"] =
+      `Representante del solicitante: ${orgRepName}\nDocumento: ${docBit}\nCargo: ${roleBit}\n`;
+  } else {
+    v["parties.org.repBlock"] = "";
+    v["parties.org.sigRep"] = "";
+  }
 
   if (v["options.imageCommercial"]) {
     v["options.imageCommercialText"] =

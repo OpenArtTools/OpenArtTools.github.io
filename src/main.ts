@@ -215,11 +215,14 @@ function emptyPath(path: string): boolean {
 }
 
 function autofillContactsFromParties(): void {
+  const orgContactName = !emptyPath("parties.org.repName")
+    ? "parties.org.repName"
+    : "parties.org.name";
   const map: [string, string][] = [
     ["options.contactTitularName", "parties.author.name"],
     ["options.contactTitularPhone", "parties.author.phone"],
     ["options.contactTitularEmail", "parties.author.email"],
-    ["options.contactOrgName", "parties.org.repName"],
+    ["options.contactOrgName", orgContactName],
     ["options.contactOrgPhone", "parties.org.phone"],
     ["options.contactOrgEmail", "parties.org.email"],
   ];
