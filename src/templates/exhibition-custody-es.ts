@@ -90,15 +90,6 @@ export const exhibitionCustodyEs: TemplateDoc = {
       step: "titularidad",
     },
     {
-      id: "author_address",
-      label: "Domicilio — autoría",
-      placeholder: "Calle, número, ciudad",
-      emptyMarker: "[domicilio — autoría]",
-      type: "text",
-      path: "parties.author.address",
-      step: "titularidad",
-    },
-    {
       id: "author_email",
       label: "Email — autoría",
       placeholder: "email@ejemplo.com",
@@ -114,6 +105,15 @@ export const exhibitionCustodyEs: TemplateDoc = {
       emptyMarker: "[teléfono — autoría]",
       type: "text",
       path: "parties.author.phone",
+      step: "titularidad",
+    },
+    {
+      id: "author_address",
+      label: "Domicilio — autoría",
+      placeholder: "Calle, número, ciudad",
+      emptyMarker: "[domicilio — autoría]",
+      type: "text",
+      path: "parties.author.address",
       step: "titularidad",
     },
     {
@@ -188,16 +188,6 @@ export const exhibitionCustodyEs: TemplateDoc = {
       step: "solicitante",
     },
     {
-      id: "org_address",
-      label: "Domicilio — solicitante",
-      placeholder: "Calle, número, ciudad, código postal",
-      emptyMarker: "[domicilio — solicitante]",
-      type: "text",
-      path: "parties.org.address",
-      required: true,
-      step: "solicitante",
-    },
-    {
       id: "org_email",
       label: "Email — solicitante",
       placeholder: "email@ejemplo.com",
@@ -214,6 +204,16 @@ export const exhibitionCustodyEs: TemplateDoc = {
       emptyMarker: "[teléfono — solicitante]",
       type: "text",
       path: "parties.org.phone",
+      required: true,
+      step: "solicitante",
+    },
+    {
+      id: "org_address",
+      label: "Domicilio — solicitante",
+      placeholder: "Calle, número, ciudad, código postal",
+      emptyMarker: "[domicilio — solicitante]",
+      type: "text",
+      path: "parties.org.address",
       required: true,
       step: "solicitante",
     },
@@ -266,6 +266,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "project.workTitle",
       required: true,
       step: "project",
+      group: "Obra y evento",
     },
     {
       id: "event_name",
@@ -276,6 +277,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "project.eventName",
       required: true,
       step: "project",
+      group: "Obra y evento",
     },
     {
       id: "venue",
@@ -285,6 +287,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "project.venue",
       step: "project",
+      group: "Obra y evento",
     },
     {
       id: "exhibit_from",
@@ -294,6 +297,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "date",
       path: "project.exhibitFrom",
       step: "project",
+      group: "Período de exhibición",
     },
     {
       id: "exhibit_to",
@@ -303,6 +307,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "date",
       path: "project.exhibitTo",
       step: "project",
+      group: "Período de exhibición",
     },
     {
       id: "city",
@@ -313,6 +318,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "project.city",
       required: true,
       step: "project",
+      group: "Firma del documento",
     },
     {
       id: "sign_date",
@@ -323,6 +329,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "project.signDate",
       required: true,
       step: "project",
+      group: "Firma del documento",
     },
     {
       id: "is_annex",
@@ -333,6 +340,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "project.isAnnex",
       step: "project",
+      group: "Anexo a un acuerdo principal",
     },
     {
       id: "main_agreement_name",
@@ -379,6 +387,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.interactive",
       step: "features",
+      group: "Naturaleza de la obra",
     },
     {
       id: "feat_sculptures",
@@ -389,6 +398,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.hasSculptures",
       step: "features",
+      group: "Naturaleza de la obra",
     },
     {
       id: "sculpture_count",
@@ -398,6 +408,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "number",
       path: "features.sculptureCount",
       step: "features",
+      group: "Naturaleza de la obra",
       showIf: "features.hasSculptures",
       required: true,
     },
@@ -464,7 +475,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.specialRisk",
       step: "features",
-      group: "Seguridad y acceso",
+      group: "Entorno y riesgos",
     },
     {
       id: "special_risk_desc",
@@ -475,9 +486,19 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "textarea",
       path: "features.specialRiskDesc",
       step: "features",
-      group: "Seguridad y acceso",
+      group: "Entorno y riesgos",
       showIf: "features.specialRisk",
       required: true,
+    },
+    {
+      id: "feat_outdoor",
+      label: "Exhibición en exterior o a la intemperie",
+      placeholder: "Incluir cuando puede estar a la intemperie o sin protección fija",
+      emptyMarker: "",
+      type: "toggle",
+      path: "features.outdoor",
+      step: "features",
+      group: "Entorno y riesgos",
     },
     {
       id: "feat_access_off",
@@ -488,7 +509,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.accessibleWhenOff",
       step: "features",
-      group: "Seguridad y acceso",
+      group: "Acceso público y vigilancia",
     },
     {
       id: "feat_watch",
@@ -499,7 +520,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.needsWatch",
       step: "features",
-      group: "Seguridad y acceso",
+      group: "Acceso público y vigilancia",
     },
     {
       id: "feat_signage",
@@ -510,17 +531,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "features.needsSecurityPerimeter",
       step: "features",
-      group: "Seguridad y acceso",
-    },
-    {
-      id: "feat_outdoor",
-      label: "Exhibición en exterior o a la intemperie",
-      placeholder: "Incluir cuando puede estar a la intemperie o sin protección fija",
-      emptyMarker: "",
-      type: "toggle",
-      path: "features.outdoor",
-      step: "features",
-      group: "Seguridad y acceso",
+      group: "Acceso público y vigilancia",
     },
     {
       id: "feat_extra",
@@ -552,6 +563,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "custody.authorMounts",
       step: "custody",
+      group: "Montaje y piezas",
     },
     {
       id: "daily_remove",
@@ -562,6 +574,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "custody.dailyRemove",
       step: "custody",
+      group: "Montaje y piezas",
       showIf: "features.hasSculptures",
     },
     {
@@ -572,6 +585,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "custody.weatherProtect",
       step: "custody",
+      group: "Protección climática",
     },
     // —— Seguros y valor ——
     {
@@ -583,6 +597,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "insurance.hasRc",
       step: "insurance",
+      group: "Coberturas de la Parte Solicitante",
     },
     {
       id: "has_nail",
@@ -593,6 +608,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "insurance.hasNailToNail",
       step: "insurance",
+      group: "Coberturas de la Parte Solicitante",
     },
     {
       id: "system_value",
@@ -603,6 +619,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "money",
       path: "insurance.systemValue",
       step: "insurance",
+      group: "Valor declarado",
       showIfAny: [
         "features.mechanical",
         "features.electrical",
@@ -621,6 +638,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "money",
       path: "insurance.pieceUnitValue",
       step: "insurance",
+      group: "Valor declarado",
       showIf: "features.hasSculptures",
       required: true,
     },
@@ -634,8 +652,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
       path: "insurance.totalValue",
       required: true,
       step: "insurance",
+      group: "Valor declarado",
     },
-    // —— Opcionales: operativa ——
+    // —— Opcionales: espacio e inventario ——
     {
       id: "opt_space",
       label: "Incluir espacio y accesos",
@@ -707,6 +726,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       showIf: "options.inventory",
       required: true,
     },
+    // —— Opcionales: contactos y avisos ——
     {
       id: "opt_contacts",
       label: "Incluir contactos operativos",
@@ -716,7 +736,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.contacts",
       step: "options",
-      group: "Contactos operativos",
+      group: "Contactos y avisos",
     },
     {
       id: "contact_titular_name",
@@ -726,7 +746,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.contactTitularName",
       step: "options",
-      group: "Contactos operativos",
+      group: "Contactos y avisos",
       showIf: "options.contacts",
       required: true,
     },
@@ -738,7 +758,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.contactTitularPhone",
       step: "options",
-      group: "Contactos operativos",
+      group: "Contactos y avisos",
       showIf: "options.contacts",
       required: true,
     },
@@ -750,7 +770,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.contactTitularEmail",
       step: "options",
-      group: "Contactos operativos",
+      group: "Contactos y avisos",
       showIf: "options.contacts",
       required: true,
     },
@@ -762,7 +782,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.contactOrgName",
       step: "options",
-      group: "Contactos operativos",
+      group: "Contactos y avisos",
       showIf: "options.contacts",
       required: true,
     },
@@ -774,7 +794,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.contactOrgPhone",
       step: "options",
-      group: "Contactos operativos",
+      group: "Contactos y avisos",
       showIf: "options.contacts",
       required: true,
     },
@@ -786,10 +806,46 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.contactOrgEmail",
       step: "options",
-      group: "Contactos operativos",
+      group: "Contactos y avisos",
       showIf: "options.contacts",
       required: true,
     },
+    {
+      id: "opt_notices",
+      label: "Incluir emails para avisos formales",
+      placeholder:
+        "Incluir para fijar a qué correos deben enviarse las notificaciones formales entre las partes (no son los contactos operativos del día a día)",
+      emptyMarker: "",
+      type: "toggle",
+      path: "options.notices",
+      step: "options",
+      group: "Contactos y avisos",
+    },
+    {
+      id: "notice_email_titular",
+      label: "Email para notificaciones — autoría",
+      placeholder: "Email válido para avisos formales a la Parte Autora",
+      emptyMarker: "[email de notificaciones — autoría]",
+      type: "text",
+      path: "options.noticeEmailTitular",
+      step: "options",
+      group: "Contactos y avisos",
+      showIf: "options.notices",
+      required: true,
+    },
+    {
+      id: "notice_email_org",
+      label: "Email para notificaciones — solicitante de la obra",
+      placeholder: "Email válido para avisos formales a la Parte Solicitante",
+      emptyMarker: "[email de notificaciones — solicitante de la obra]",
+      type: "text",
+      path: "options.noticeEmailOrg",
+      step: "options",
+      group: "Contactos y avisos",
+      showIf: "options.notices",
+      required: true,
+    },
+    // —— Opcionales: operación en sala ——
     {
       id: "opt_subcontract",
       label: "Incluir subcontratación / terceros",
@@ -1240,42 +1296,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       group: "Condiciones de venta",
       showIf: "options.saleTerms",
     },
-    // —— Opcionales: avisos y cierre ——
-    {
-      id: "opt_notices",
-      label: "Incluir emails para avisos formales",
-      placeholder:
-        "Incluir para fijar a qué correos deben enviarse las notificaciones formales entre las partes (no son los contactos operativos del día a día)",
-      emptyMarker: "",
-      type: "toggle",
-      path: "options.notices",
-      step: "options",
-      group: "Notificaciones formales",
-    },
-    {
-      id: "notice_email_titular",
-      label: "Email para notificaciones — autoría",
-      placeholder: "Email válido para avisos formales a la Parte Autora",
-      emptyMarker: "[email de notificaciones — autoría]",
-      type: "text",
-      path: "options.noticeEmailTitular",
-      step: "options",
-      group: "Notificaciones formales",
-      showIf: "options.notices",
-      required: true,
-    },
-    {
-      id: "notice_email_org",
-      label: "Email para notificaciones — solicitante de la obra",
-      placeholder: "Email válido para avisos formales a la Parte Solicitante",
-      emptyMarker: "[email de notificaciones — solicitante de la obra]",
-      type: "text",
-      path: "options.noticeEmailOrg",
-      step: "options",
-      group: "Notificaciones formales",
-      showIf: "options.notices",
-      required: true,
-    },
+    // —— Opcionales: cierre y marco legal ——
     {
       id: "opt_delivery_act",
       label: "Incluir acta de entrega y devolución",
@@ -1324,7 +1345,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.forceMajeure",
       step: "options",
-      group: "Cierre documental y seguros",
+      group: "Marco legal",
     },
     {
       id: "opt_jurisdiction",
@@ -1334,7 +1355,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "toggle",
       path: "options.jurisdiction",
       step: "options",
-      group: "Ley y jurisdicción",
+      group: "Marco legal",
     },
     {
       id: "law_text",
@@ -1344,7 +1365,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.lawText",
       step: "options",
-      group: "Ley y jurisdicción",
+      group: "Marco legal",
       showIf: "options.jurisdiction",
       required: true,
     },
@@ -1356,7 +1377,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       type: "text",
       path: "options.courtsText",
       step: "options",
-      group: "Ley y jurisdicción",
+      group: "Marco legal",
       showIf: "options.jurisdiction",
       required: true,
     },
@@ -1520,6 +1541,15 @@ Estas personas servirán para coordinación operativa. Las notificaciones formal
       requireAll: ["options.contacts"],
     },
     {
+      id: "opt_notices",
+      title: "Notificaciones formales",
+      body: `Las notificaciones formales entre las partes relacionadas con {{document.this}} (avisos jurídicos o contractuales, no la coordinación operativa cotidiana) se dirigirán a:
+Parte Autora: {{options.noticeEmailTitular}}.
+Parte Solicitante: {{options.noticeEmailOrg}}.
+Se entenderán recibidas cuando conste su envío a dichas direcciones, sin perjuicio de otros medios admitidos en derecho.`,
+      requireAll: ["options.notices"],
+    },
+    {
       id: "opt_subcontract",
       title: "Subcontratación",
       body: `La Parte Solicitante podrá valerse de terceros para determinadas tareas solo en el siguiente marco: {{options.subcontractTerms}}.
@@ -1636,15 +1666,6 @@ La venta, si se formaliza, se documentará de forma expresa. Mientras no conste 
       title: "Fuerza mayor",
       body: `Ninguna de las partes será responsable por el incumplimiento de obligaciones cuando dicho incumplimiento derive de causas de fuerza mayor debidamente acreditadas. Ello no exime a la Parte Solicitante de sus deberes de protección razonable de la instalación ni de las coberturas de seguro comprometidas, en la medida en que resulten aplicables.`,
       requireAll: ["options.forceMajeure"],
-    },
-    {
-      id: "opt_notices",
-      title: "Notificaciones formales",
-      body: `Las notificaciones formales entre las partes relacionadas con {{document.this}} (avisos jurídicos o contractuales, no la coordinación operativa cotidiana) se dirigirán a:
-Parte Autora: {{options.noticeEmailTitular}}.
-Parte Solicitante: {{options.noticeEmailOrg}}.
-Se entenderán recibidas cuando conste su envío a dichas direcciones, sin perjuicio de otros medios admitidos en derecho.`,
-      requireAll: ["options.notices"],
     },
     {
       id: "opt_jur",

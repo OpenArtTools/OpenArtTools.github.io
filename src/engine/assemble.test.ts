@@ -262,6 +262,11 @@ describe("assembleClauses", () => {
       expect(ids).toContain(id);
     }
     expect(ids[ids.length - 1]).toBe("signatures");
+    expect(ids.indexOf("opt_space")).toBeLessThan(ids.indexOf("opt_inventory"));
+    expect(ids.indexOf("opt_contacts")).toBeLessThan(ids.indexOf("opt_notices"));
+    expect(ids.indexOf("opt_notices")).toBeLessThan(ids.indexOf("opt_subcontract"));
+    expect(ids.indexOf("opt_repairs")).toBeLessThan(ids.indexOf("opt_transport"));
+    expect(ids.indexOf("opt_cancellation")).toBeLessThan(ids.indexOf("opt_ip"));
     expect(clauses.find((c) => c.id === "opt_inventory")?.body).toContain(
       "— pieza 1",
     );
