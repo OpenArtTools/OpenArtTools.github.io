@@ -793,16 +793,28 @@ function renderWizard(): HTMLElement {
     wrap.append(renderOptionsStep(t));
   } else {
     let lastGroup = "";
+    let grid: HTMLElement | null = null;
     for (const field of fieldsForStep(t, step.id).filter((f) =>
       fieldVisible(f, state.values),
     )) {
       if (field.group && field.group !== lastGroup) {
         lastGroup = field.group;
+        grid = null;
         const g = el("div", "oat-group-label");
         g.textContent = field.group;
         wrap.append(g);
       }
-      wrap.append(renderField(field));
+      const node = renderField(field);
+      if (node.classList.contains("oat-toggle")) {
+        grid = null;
+        wrap.append(node);
+        continue;
+      }
+      if (!grid) {
+        grid = el("div", "oat-fields");
+        wrap.append(grid);
+      }
+      grid.append(node);
     }
   }
 
@@ -980,8 +992,19 @@ function renderOptionsStep(t: ReturnType<typeof template>): HTMLElement {
     details.append(summary);
 
     const body = el("div", "oat-option-body");
+    let grid: HTMLElement | null = null;
     for (const field of visibleFields) {
-      body.append(renderField(field));
+      const node = renderField(field);
+      if (node.classList.contains("oat-toggle")) {
+        grid = null;
+        body.append(node);
+        continue;
+      }
+      if (!grid) {
+        grid = el("div", "oat-fields");
+        body.append(grid);
+      }
+      grid.append(node);
     }
     details.append(body);
     wrap.append(details);
