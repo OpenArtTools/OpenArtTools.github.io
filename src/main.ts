@@ -403,10 +403,19 @@ function openTool(templateId: string): void {
 
 let profilePanelOpen = false;
 
-/** Platform-level: personal data for any tool (collapsible). */
+/** Platform-level: personal data for any tool (intro always visible; form collapsible). */
 function renderPlatformProfile(): HTMLElement {
+  const section = el("section", "oat-files-shelf oat-platform-profile");
+
+  const heading = el("h2");
+  heading.textContent = "Datos personales — autoría o posesión de la obra";
+
+  const note = el("p", "lede");
+  note.textContent =
+    "Son los datos de quien tiene la autoría o la posesión de la obra (nombre, documento, domicilio…). Sirven para rellenar esa parte en las herramientas. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
+
   const box = document.createElement("details");
-  box.className = "oat-files-shelf oat-platform-profile";
+  box.className = "oat-platform-profile-form";
   box.open = profilePanelOpen;
   box.addEventListener("toggle", () => {
     profilePanelOpen = box.open;
@@ -415,17 +424,14 @@ function renderPlatformProfile(): HTMLElement {
   const summary = document.createElement("summary");
   summary.className = "oat-disclosure-summary";
   const title = el("span", "oat-disclosure-title");
-  title.textContent = "Datos personales — autoría o posesión de la obra";
+  title.textContent = "Introducir o cargar datos";
   const hint = el("span", "oat-disclosure-hint");
   hint.textContent = profileHasData(state.personalProfile)
     ? profileLabel(state.personalProfile!)
-    : "Cerrado · opcional";
+    : "Opcional";
   summary.append(title, hint);
 
   const body = el("div", "oat-disclosure-body");
-  const note = el("p", "lede");
-  note.textContent =
-    "Son los datos de quien tiene la autoría o la posesión de la obra (nombre, documento, domicilio…). Sirven para rellenar esa parte en las herramientas. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
 
   const status = el("p", "oat-file-status");
   status.textContent = profileHasData(state.personalProfile)
@@ -464,7 +470,7 @@ function renderPlatformProfile(): HTMLElement {
       setProfileField(spec.key, input.value);
       hint.textContent = profileHasData(state.personalProfile)
         ? profileLabel(state.personalProfile!)
-        : "Cerrado · opcional";
+        : "Opcional";
       status.textContent = profileHasData(state.personalProfile)
         ? `En memoria ahora: ${profileLabel(state.personalProfile!)} (se borran al cerrar la pestaña).`
         : "Ningún dato en memoria. Rellena el formulario o carga un archivo.";
@@ -473,9 +479,10 @@ function renderPlatformProfile(): HTMLElement {
     fields.append(field);
   }
 
-  body.append(note, status, actions, fields);
+  body.append(status, actions, fields);
   box.append(summary, body);
-  return box;
+  section.append(heading, note, box);
+  return section;
 }
 
 /** Tool-level: draft for the current exhibition agreement. */

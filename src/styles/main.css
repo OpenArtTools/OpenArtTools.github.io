@@ -759,6 +759,21 @@ main > * {
   max-width: none;
 }
 
+.oat-platform-profile > h2 {
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.55rem;
+}
+
+.oat-platform-profile > .lede {
+  margin-bottom: 1.15rem;
+}
+
+.oat-platform-profile-form {
+  width: 100%;
+}
+
 .oat-disclosure-summary {
   display: flex;
   flex-wrap: wrap;
@@ -783,13 +798,13 @@ main > * {
   transition: transform 0.15s var(--ease);
 }
 
-.oat-platform-profile[open] > .oat-disclosure-summary::before {
+.oat-platform-profile-form[open] > .oat-disclosure-summary::before {
   transform: rotate(90deg);
 }
 
 .oat-disclosure-title {
-  font-size: 1.35rem;
-  font-weight: 400;
+  font-size: 1.05rem;
+  font-weight: 500;
   letter-spacing: -0.01em;
 }
 
