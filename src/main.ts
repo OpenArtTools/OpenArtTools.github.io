@@ -140,34 +140,25 @@ function rebuildClauses(): void {
 
 /** Master toggles that decide if an options group is “included”. */
 const OPTION_GROUP_MASTERS: Record<string, string[]> = {
-  "I. Entrega, espacio e inventario": [
-    "options.spaceAccess",
-    "options.inventory",
-    "options.deliveryAct",
-  ],
-  "II. Seguros complementarios": [
-    "options.policyCerts",
-    "options.franchise",
-    "options.independentExpert",
-  ],
-  "III. Logística y economía": ["options.transport", "options.costs"],
-  "IV. Operación durante la exhibición": [
-    "options.contacts",
-    "options.subcontract",
-    "options.amendments",
-    "options.repairs",
-  ],
-  "V. Derechos de imagen, PI y venta": [
-    "options.imageUse",
-    "options.ipRights",
-    "options.saleTerms",
-  ],
-  "VI. Extinción, avisos y marco legal": [
-    "options.cancellation",
-    "options.notices",
-    "options.forceMajeure",
-    "options.jurisdiction",
-  ],
+  "Espacio y accesos": ["options.spaceAccess"],
+  Inventario: ["options.inventory"],
+  "Acta de entrega y devolución": ["options.deliveryAct"],
+  "Certificados de póliza": ["options.policyCerts"],
+  "Franquicia del seguro": ["options.franchise"],
+  "Peritaje si hay pérdida artística": ["options.independentExpert"],
+  Transporte: ["options.transport"],
+  "Remuneración y gastos": ["options.costs"],
+  "Contactos del día a día": ["options.contacts"],
+  Subcontratación: ["options.subcontract"],
+  "Cambios de ubicación o instalación": ["options.amendments"],
+  Reparaciones: ["options.repairs"],
+  "Fotos, vídeo y reproducción": ["options.imageUse"],
+  "Propiedad intelectual": ["options.ipRights"],
+  "Si también se contempla vender la obra": ["options.saleTerms"],
+  "Cancelación o retirada anticipada": ["options.cancellation"],
+  "Emails para avisos formales": ["options.notices"],
+  "Fuerza mayor": ["options.forceMajeure"],
+  "Ley y tribunales": ["options.jurisdiction"],
 };
 
 const OPTIONAL_SCOPE_LABELS: { path: string; label: string }[] = [
@@ -176,20 +167,20 @@ const OPTIONAL_SCOPE_LABELS: { path: string; label: string }[] = [
   { path: "options.deliveryAct", label: "Acta de entrega" },
   { path: "options.policyCerts", label: "Certificados de póliza" },
   { path: "options.franchise", label: "Franquicia" },
-  { path: "options.independentExpert", label: "Peritaje independiente" },
+  { path: "options.independentExpert", label: "Peritaje" },
   { path: "options.transport", label: "Transporte" },
   { path: "options.costs", label: "Remuneración y gastos" },
-  { path: "options.contacts", label: "Contactos operativos" },
+  { path: "options.contacts", label: "Contactos" },
   { path: "options.subcontract", label: "Subcontratación" },
   { path: "options.amendments", label: "Cambios en la instalación" },
   { path: "options.repairs", label: "Reparaciones" },
   { path: "options.imageUse", label: "Uso de imagen" },
   { path: "options.ipRights", label: "Propiedad intelectual" },
-  { path: "options.saleTerms", label: "Condiciones de venta" },
+  { path: "options.saleTerms", label: "Venta" },
   { path: "options.cancellation", label: "Cancelación / retirada" },
-  { path: "options.notices", label: "Notificaciones formales" },
+  { path: "options.notices", label: "Avisos formales" },
   { path: "options.forceMajeure", label: "Fuerza mayor" },
-  { path: "options.jurisdiction", label: "Ley y jurisdicción" },
+  { path: "options.jurisdiction", label: "Ley y tribunales" },
 ];
 
 const ALL_OPTION_MASTERS = [
@@ -1009,7 +1000,7 @@ function renderOptionsStep(t: ReturnType<typeof template>): HTMLElement {
 
   const tip = el("p", "oat-options-tip");
   tip.textContent =
-    "Incluir solo lo necesario. Lo desactivado no aparece en el documento. Se puede usar un preset y luego ajustar.";
+    "Cada bloque es opcional y aparece en el documento en este mismo orden. Abrir solo lo que haga falta; lo demás no se incluye.";
   wrap.append(tip);
 
   const presets = el("div", "oat-presets");
@@ -1028,7 +1019,7 @@ function renderOptionsStep(t: ReturnType<typeof template>): HTMLElement {
   );
   const presetHelp = el("p", "oat-preset-help");
   presetHelp.textContent =
-    "Esencial: acta, certificados, franquicia, peritaje, cambios en instalación y notificaciones. Exhibición completa: esencial + espacio, transporte, contactos, imagen, PI y reparaciones. Todo: todos los bloques.";
+    "Atajos: Esencial (acta, certificados, franquicia, peritaje, cambios y avisos). Exhibición completa (+ espacio, transporte, contactos, imagen, PI y reparaciones). Todo (todos los bloques).";
   wrap.append(presets, presetHelp);
 
   const fields = fieldsForStep(t, "options");
