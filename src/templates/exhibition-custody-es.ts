@@ -41,7 +41,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "custody",
       title: "Montaje y custodia",
-      blurb: "Quién monta, vigilancia, protección y manipulación de piezas.",
+      blurb:
+        "Quién monta y qué obligaciones de protección aplican. La retirada diaria de piezas solo aparece si en Características marcaste piezas individuales.",
     },
     {
       id: "insurance",
@@ -383,7 +384,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_sculptures",
       label: "Piezas individuales que requieren trato aparte",
       placeholder:
-        "Activa si hay un sistema generador u obras compuestas por piezas individuales que hay que mover, reponer, retirar o almacenar por separado (p. ej. al final de la jornada por seguridad)",
+        "Activa si hay un sistema generador u un conjunto de piezas físicas individuales que, por su naturaleza, no forman un bloque fijo con la instalación y pueden moverse, reponerse o almacenarse de forma separada",
       emptyMarker: "",
       type: "toggle",
       path: "features.hasSculptures",
@@ -548,13 +549,14 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "daily_remove",
-      label: "Retirada diaria de piezas fuera de horario",
+      label: "Retirada y reposición diaria fuera del horario de exhibición",
       placeholder:
-        "Activa si las piezas individuales se retiran y reponen cada día (p. ej. al cerrar por seguridad)",
+        "Activa solo si, además de existir piezas individuales, se acuerda retirarlas al cerrar cada jornada y reponerlas al abrir (régimen diario de almacenamiento temporal)",
       emptyMarker: "",
       type: "toggle",
       path: "custody.dailyRemove",
       step: "custody",
+      showIf: "features.hasSculptures",
     },
     {
       id: "weather_protect",
@@ -1765,6 +1767,11 @@ export function enrichDerivedValues(
     v["options.inventoryFormatted"] = "— [inventario de componentes]";
   }
 
+  // Daily removal only applies when there are individual pieces.
+  if (!v["features.hasSculptures"]) {
+    v["custody.dailyRemove"] = false;
+  }
+
   const bullets: string[] = [];
 
   // Legacy drafts may still have publicInteraction; treat it as interactive.
@@ -1776,7 +1783,7 @@ export function enrichDerivedValues(
   if (v["features.hasSculptures"]) {
     const n = v["features.sculptureCount"] || "[número de piezas individuales]";
     bullets.push(
-      `— Incorpora un sistema generador o conjunto de ${n} pieza(s) individual(es) que requieren trato aparte (movimiento, reposición, retirada o almacenamiento separado).`,
+      `— Incorpora un sistema generador o conjunto de ${n} pieza(s) individual(es) que requieren trato aparte respecto del resto de la instalación.`,
     );
   }
   if (v["features.mechanical"] || v["features.hasSystem"]) {
