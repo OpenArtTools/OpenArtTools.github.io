@@ -45,6 +45,12 @@ import {
   findToolByTemplateId,
 } from "./platform";
 import {
+  findToolById,
+  parsePath,
+  pathForPhase,
+  syncBrowserUrl,
+} from "./routing";
+import {
   buildDraftFile,
   downloadDraftFile,
   pickAndReadDraftFile,
@@ -126,7 +132,58 @@ function go(phase: AppPhase): void {
     state.lastToolPhase = state.phase;
   }
   state.phase = phase;
+  syncUrlForState("push");
   render();
+}
+
+function currentToolId(): string | undefined {
+  return findToolByTemplateId(state.templateId)?.id;
+}
+
+function syncUrlForState(mode: "push" | "replace"): void {
+  syncBrowserUrl(pathForPhase(state.phase, currentToolId()), mode);
+}
+
+/** Apply the current browser path to session phase (no history write unless normalizing). */
+function applyRouteFromLocation(normalizeAliases = true): void {
+  const route = parsePath(location.pathname);
+
+  if (route.kind === "unknown") {
+    if (isToolPhase(state.phase)) state.lastToolPhase = state.phase;
+    state.phase = "home";
+    syncBrowserUrl(pathForPhase("home"), "replace");
+    return;
+  }
+
+  if (route.kind === "home") {
+    if (isToolPhase(state.phase)) state.lastToolPhase = state.phase;
+    state.phase = "home";
+  } else if (route.kind === "privacy") {
+    if (isToolPhase(state.phase)) state.lastToolPhase = state.phase;
+    state.phase = "privacy";
+  } else if (route.kind === "support") {
+    if (isToolPhase(state.phase)) state.lastToolPhase = state.phase;
+    state.phase = "support";
+  } else if (route.kind === "tool") {
+    const tool = findToolById(route.toolId);
+    if (!tool?.templateId) {
+      state.phase = "home";
+      syncBrowserUrl(pathForPhase("home"), "replace");
+      return;
+    }
+    if (state.templateId !== tool.templateId) {
+      const profile = state.personalProfile;
+      state = createEmptySession(tool.templateId, DEFAULT_TOGGLES, profile);
+      state.phase = "wizard";
+      if (profileHasData(profile)) applyAuthorFromProfile(profile!);
+      else rebuildClauses();
+    } else if (!isToolPhase(state.phase)) {
+      state.phase = state.lastToolPhase ?? "wizard";
+    }
+    if (normalizeAliases) {
+      syncBrowserUrl(pathForPhase(state.phase, tool.id), "replace");
+    }
+  }
 }
 
 function rebuildClauses(): void {
@@ -320,6 +377,7 @@ async function pickDraftFile(): Promise<void> {
     state.acceptedFinal = false;
     if (!state.manualOverride) rebuildClauses();
     else state.clauses = ensurePlaceAtEnd(state.clauses, known);
+    syncUrlForState("push");
     render();
   } catch (err) {
     alert(err instanceof Error ? err.message : "No se pudo cargar el borrador.");
@@ -384,6 +442,7 @@ function startFreshTool(templateId: string, profile: PersonalProfile | null): vo
   state.stepIndex = 0;
   if (profileHasData(profile)) applyAuthorFromProfile(profile!);
   else rebuildClauses();
+  syncUrlForState("push");
   render();
 }
 
@@ -396,6 +455,7 @@ function openTool(templateId: string): void {
     if (resume) {
       const phase: ToolPhase = state.lastToolPhase ?? "wizard";
       state.phase = phase;
+      syncUrlForState("push");
       render();
       return;
     }
@@ -1425,4 +1485,10 @@ window.addEventListener("beforeunload", (event) => {
   }
 });
 
+window.addEventListener("popstate", () => {
+  applyRouteFromLocation(false);
+  render();
+});
+
+applyRouteFromLocation();
 render();

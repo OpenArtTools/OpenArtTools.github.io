@@ -130,7 +130,7 @@ export const TRANSPARENCY = {
 
 export const TOOLS: OpenArtTool[] = [
   {
-    id: "exhibition-agreements",
+    id: "acuerdos-de-exhibicion",
     name: "Acuerdos de exhibición",
     blurb:
       "Exhibición, custodia, seguro, imagen, venta, transporte, remuneración, reparaciones y más cláusulas opcionales.",

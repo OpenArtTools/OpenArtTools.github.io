@@ -1,4 +1,6 @@
 import { defineConfig } from "vite";
+import { copyFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 // GitHub Pages org site: https://openarttools.github.io/
 const base = process.env.VITE_BASE ?? "/";
@@ -37,6 +39,14 @@ export default defineConfig({
           const meta = `    <meta http-equiv="Content-Security-Policy" content="${PRODUCTION_CSP}" />\n`;
           return html.replace("<title>", `${meta}    <title>`);
         },
+      },
+    },
+    {
+      // SPA fallback for GitHub Pages: unknown paths serve the app shell.
+      name: "openarttools-spa-fallback",
+      closeBundle() {
+        const outDir = resolve(__dirname, "dist");
+        copyFileSync(resolve(outDir, "index.html"), resolve(outDir, "404.html"));
       },
     },
   ],
