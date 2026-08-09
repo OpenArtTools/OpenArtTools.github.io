@@ -974,6 +974,74 @@ main > * {
   margin: 0.35rem 0 1.5rem;
 }
 
+.oat-live-preview {
+  width: 100%;
+  margin: 0.35rem 0 1.75rem;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  border: 1px solid var(--color-border);
+  background: #fff;
+  color: #111;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.oat-live-preview-hint,
+.oat-live-preview-foot {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 0.82rem;
+  color: #666;
+  margin: 0 0 1.35rem;
+}
+
+.oat-live-preview-foot {
+  margin: 2rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid #ddd;
+}
+
+.oat-live-preview-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 1.25rem;
+}
+
+.oat-live-clause {
+  margin: 1.35rem 0 0;
+}
+
+.oat-live-clause[data-end="true"] {
+  margin-top: 2rem;
+}
+
+.oat-live-clause h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 0.55rem;
+  outline: none;
+  border-radius: 2px;
+}
+
+.oat-live-clause-body {
+  white-space: pre-wrap;
+  margin: 0;
+  outline: none;
+  border-radius: 2px;
+  min-height: 1.5em;
+}
+
+.oat-live-clause h2:hover,
+.oat-live-clause-body:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.oat-live-clause h2:focus,
+.oat-live-clause-body:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.35);
+  outline-offset: 2px;
+  background: rgba(0, 0, 0, 0.02);
+}
+
 .oat-clause {
   border-top: 1px solid var(--color-border);
   background: transparent;

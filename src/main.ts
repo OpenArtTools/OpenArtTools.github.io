@@ -17,7 +17,6 @@ import {
 } from "./engine/assemble";
 import type { AppValues, Clause } from "./engine/types";
 import {
-  clausesToHtml,
   copyText,
   downloadHtml,
   downloadText,
@@ -1113,7 +1112,7 @@ function renderAccept(): HTMLElement {
 
   const note = el("p", "oat-review-note");
   note.textContent =
-    "Revisa el documento final. Si está correcto, confírmalo y exporta. Para PDF usa el diálogo de impresión del navegador (puedes activar numeración de páginas ahí si está disponible).";
+    "Edita el documento directamente en la previsualización. Cuando esté listo, confírmalo debajo y exporta. Para PDF usa el diálogo de impresión del navegador.";
   wrap.append(note, legalDisclaimer());
 
   const gaps = missingRequired(t, state.values);
@@ -1125,6 +1124,40 @@ function renderAccept(): HTMLElement {
 
   const docTitle =
     String(state.values["project.workTitle"] || "").trim() || t.name;
+
+  const previewLabel = el("div", "oat-group-label");
+  previewLabel.textContent = "Previsualización editable";
+  const previewHelp = el("p", "oat-review-note");
+  previewHelp.textContent =
+    "Haz clic en títulos o textos para editarlos. Los cambios se guardan en este documento (solo en esta pestaña).";
+
+  const buttons: HTMLButtonElement[] = [];
+  const hint = el("p", "oat-review-note");
+  hint.textContent =
+    "Marca la casilla de aceptación para habilitar la exportación.";
+  hint.hidden = Boolean(state.acceptedFinal);
+
+  const acceptBox = el("label", "oat-accept-box");
+  const cb = document.createElement("input");
+  cb.type = "checkbox";
+  cb.checked = Boolean(state.acceptedFinal);
+
+  const syncAcceptUi = () => {
+    for (const b of buttons) b.disabled = !state.acceptedFinal;
+    hint.hidden = Boolean(state.acceptedFinal);
+    cb.checked = Boolean(state.acceptedFinal);
+  };
+
+  const markEdited = () => {
+    state.manualOverride = true;
+    if (state.acceptedFinal) {
+      state.acceptedFinal = false;
+      syncAcceptUi();
+    }
+  };
+
+  const paper = renderEditablePreview(docTitle, markEdited);
+  wrap.append(previewLabel, previewHelp, paper);
 
   const runExport = (fn: () => void) => {
     if (!state.acceptedFinal) return;
@@ -1139,7 +1172,7 @@ function renderAccept(): HTMLElement {
   };
 
   const exports = el("div", "oat-review-toolbar");
-  const buttons = [
+  buttons.push(
     btn("Exportar PDF", "oat-btn", () =>
       runExport(() => exportPdfViaPrint(state.clauses, docTitle)),
     ),
@@ -1158,31 +1191,20 @@ function renderAccept(): HTMLElement {
           );
       }),
     ),
-  ];
+  );
   for (const b of buttons) {
     b.disabled = !state.acceptedFinal;
     exports.append(b);
   }
 
-  const hint = el("p", "oat-review-note");
-  hint.textContent =
-    "Marca la casilla de aceptación para habilitar la exportación.";
-  hint.hidden = Boolean(state.acceptedFinal);
-
-  const acceptBox = el("label", "oat-accept-box");
-  const cb = document.createElement("input");
-  cb.type = "checkbox";
-  cb.checked = Boolean(state.acceptedFinal);
   cb.addEventListener("change", () => {
     state.acceptedFinal = cb.checked;
-    for (const b of buttons) b.disabled = !cb.checked;
-    hint.hidden = cb.checked;
+    syncAcceptUi();
   });
   const span = el("span");
   span.textContent =
     "Acepto el documento tal como está mostrado en la previsualización.";
   acceptBox.append(cb, span);
-  wrap.append(acceptBox, hint);
 
   const toolbar = el("div", "oat-review-toolbar");
   toolbar.append(
@@ -1193,18 +1215,90 @@ function renderAccept(): HTMLElement {
     }),
   );
 
-  wrap.append(toolbar, exports);
-  wrap.append(renderToolDraftBar());
-
-  const previewLabel = el("div", "oat-group-label");
-  previewLabel.textContent = "Previsualización";
-  const frame = document.createElement("iframe");
-  frame.className = "oat-preview-frame";
-  frame.title = "Previsualización del documento";
-  frame.setAttribute("sandbox", "allow-same-origin");
-  frame.srcdoc = clausesToHtml(state.clauses, docTitle);
-  wrap.append(previewLabel, frame);
+  wrap.append(acceptBox, hint, toolbar, exports, renderToolDraftBar());
   return wrap;
+}
+
+/** White paper preview: edit titles/bodies in place; syncs to state.clauses. */
+function renderEditablePreview(
+  docTitle: string,
+  onEdit: () => void,
+): HTMLElement {
+  const paper = el("div", "oat-live-preview");
+  paper.setAttribute("role", "region");
+  paper.setAttribute("aria-label", "Previsualización editable del documento");
+
+  const hint = el("p", "oat-live-preview-hint");
+  hint.textContent =
+    "Open Art Tools — plantilla orientativa. Este documento no ha sido revisado por abogados ni por ningún profesional del derecho y no constituye asesoramiento legal.";
+
+  const title = document.createElement("h1");
+  title.className = "oat-live-preview-title";
+  title.textContent = docTitle;
+
+  paper.append(hint, title);
+
+  for (const clause of state.clauses) {
+    if (!clause.enabled) continue;
+    const section = el("section", "oat-live-clause");
+    if (clause.placeAtEnd) section.dataset.end = "true";
+    section.dataset.clauseId = clause.id;
+
+    const heading = document.createElement("h2");
+    heading.contentEditable = "true";
+    heading.spellcheck = true;
+    heading.setAttribute("aria-label", "Título de la cláusula");
+    heading.textContent = clause.title;
+    heading.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter") ev.preventDefault();
+    });
+    heading.addEventListener("paste", (ev) => {
+      ev.preventDefault();
+      const text = ev.clipboardData?.getData("text/plain") ?? "";
+      document.execCommand("insertText", false, text.replace(/\s+/g, " ").trim());
+    });
+    heading.addEventListener("input", () => {
+      const idx = state.clauses.findIndex((c) => c.id === clause.id);
+      if (idx < 0) return;
+      state.clauses[idx] = {
+        ...state.clauses[idx],
+        title: heading.textContent ?? "",
+        source: "user",
+      };
+      onEdit();
+    });
+
+    const body = document.createElement("div");
+    body.className = "oat-live-clause-body";
+    body.contentEditable = "true";
+    body.spellcheck = true;
+    body.setAttribute("aria-label", "Texto de la cláusula");
+    body.textContent = clause.body;
+    body.addEventListener("paste", (ev) => {
+      ev.preventDefault();
+      const text = ev.clipboardData?.getData("text/plain") ?? "";
+      document.execCommand("insertText", false, text);
+    });
+    body.addEventListener("input", () => {
+      const idx = state.clauses.findIndex((c) => c.id === clause.id);
+      if (idx < 0) return;
+      state.clauses[idx] = {
+        ...state.clauses[idx],
+        body: body.innerText.replace(/\u00a0/g, " "),
+        source: "user",
+      };
+      onEdit();
+    });
+
+    section.append(heading, body);
+    paper.append(section);
+  }
+
+  const foot = el("p", "oat-live-preview-foot");
+  foot.textContent =
+    "Usa el diálogo de impresión del navegador para guardar como PDF. Si tu navegador ofrece numeración de páginas en el pie, actívala ahí.";
+  paper.append(foot);
+  return paper;
 }
 
 function renderClauseEditor(clause: Clause, index: number): HTMLElement {
