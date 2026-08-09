@@ -411,7 +411,7 @@ function renderPlatformProfile(): HTMLElement {
 
   const note = el("p", "lede");
   note.textContent =
-    "Datos de quien tiene la autoría (nombre, documento, domicilio…). Pensada para artistas y creadores; también puede actuar un representante con autorización previa del artista. Sirven para rellenar esa parte en las herramientas. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
+    "Datos de quien tiene la autoría (nombre, documento, domicilio…). Pensada para artistas y creadores; también puede actuar un representante del autor. Sirven para rellenar esa parte en las herramientas. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
 
   const box = document.createElement("details");
   box.className = "oat-platform-profile-form";
@@ -452,7 +452,7 @@ function renderPlatformProfile(): HTMLElement {
   const specs: { key: keyof PersonalProfile; label: string; placeholder: string }[] = [
     { key: "name", label: "Nombre completo", placeholder: "Tu nombre y apellidos" },
     { key: "doc", label: "Documento", placeholder: "DNI, NIE u otro documento" },
-    { key: "role", label: "Rol o profesión", placeholder: "p. ej. práctica artística o representante autorizado" },
+    { key: "role", label: "Rol o profesión", placeholder: "p. ej. práctica artística o representante del autor" },
     { key: "address", label: "Domicilio", placeholder: "Tu domicilio" },
     { key: "email", label: "Email", placeholder: "Tu email" },
     { key: "phone", label: "Teléfono", placeholder: "Tu teléfono" },

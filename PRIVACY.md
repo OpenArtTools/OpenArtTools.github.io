@@ -53,7 +53,7 @@ Hay **dos tipos**, con funciones distintas:
 ### 1. Perfil — Autoría — `openarttools.profile`
 
 - **Nivel:** plataforma (página de inicio)
-- **Contiene:** datos de quien tiene la **autoría** (nombre, documento, domicilio, email, teléfono, rol…). Pensada para artistas y creadores; también puede actuar un **representante con autorización previa del artista**.
+- **Contiene:** datos de quien tiene la **autoría** (nombre, documento, domicilio, email, teléfono, rol…). Pensada para artistas y creadores; también puede actuar un **representante del autor**.
 - **Sirve para:** reutilizar esa identidad en esta herramienta y en futuras (p. ej. rellenar la autoría)
 - **No es:** una lista de clientes, ni una agenda de terceros, ni un perfil de compradores o poseedores de la obra
 

@@ -100,7 +100,7 @@ export const TRANSPARENCY = {
     },
     {
       title: "Datos personales — Autoría",
-      body: "En el inicio puedes guardar un .json con los datos de autoría (nombre, documento, domicilio…). Pensada para artistas y creadores; también puede actuar un representante con autorización previa del artista. Sirven para rellenar esa parte en las herramientas. No es una agenda de clientes. Detalle: PRIVACY.md.",
+      body: "En el inicio puedes guardar un .json con los datos de autoría (nombre, documento, domicilio…). Pensada para artistas y creadores; también puede actuar un representante del autor. Sirven para rellenar esa parte en las herramientas. No es una agenda de clientes. Detalle: PRIVACY.md.",
     },
     {
       title: "Borrador del documento (dentro de cada herramienta)",

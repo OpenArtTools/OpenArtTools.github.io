@@ -69,7 +69,7 @@ La plataforma **no guarda nada**. Si quieres reutilizar datos, descargas un arch
 | | |
 |--|--|
 | **Dónde** | Página de inicio de la plataforma |
-| **Para qué** | Identidad de quien tiene la **autoría** (artistas y creadores; también representante con autorización previa del artista) |
+| **Para qué** | Identidad de quien tiene la **autoría** (artistas y creadores; también representante del autor) |
 | **Reutilizable** | En esta herramienta y en futuras |
 | **Formato** | `.json` con `kind: "openarttools.profile"` |
 | **No es** | Una agenda de clientes, compradores ni poseedores de la obra |
