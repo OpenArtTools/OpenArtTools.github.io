@@ -18,13 +18,11 @@ describe("fillPlaceholders", () => {
   it("uses empty markers, never invented names", () => {
     const fields = exhibitionCustodyEs.fields;
     const out = fillPlaceholders(
-      "Titularidad de la obra: {{parties.author.name}}",
+      "Autoría: {{parties.author.name}}",
       {},
       fields,
     );
-    expect(out).toBe(
-      "Titularidad de la obra: [nombre completo — titularidad de la obra]",
-    );
+    expect(out).toBe("Autoría: [nombre completo — autoría]");
     expect(out.toLowerCase()).not.toContain("gerard");
   });
 

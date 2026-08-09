@@ -16,9 +16,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
   steps: [
     {
       id: "titularidad",
-      title: "Titularidad de la obra",
+      title: "Autoría",
       blurb:
-        "Datos de quien ostenta la autoría o la posesión de la obra en este acuerdo.",
+        "Datos de quien tiene la autoría de la obra en este acuerdo.",
     },
     {
       id: "solicitante",
@@ -56,9 +56,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     // —— Parties ——
     {
       id: "author_name",
-      label: "Nombre completo — titularidad de la obra",
+      label: "Nombre completo — autoría",
       placeholder: "Nombre y apellidos",
-      emptyMarker: "[nombre completo — titularidad de la obra]",
+      emptyMarker: "[nombre completo — autoría]",
       type: "text",
       path: "parties.author.name",
       required: true,
@@ -66,9 +66,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "author_doc",
-      label: "Documento de identidad — titularidad de la obra",
+      label: "Documento de identidad — autoría",
       placeholder: "DNI, NIE u otro documento",
-      emptyMarker: "[documento de identidad — titularidad de la obra]",
+      emptyMarker: "[documento de identidad — autoría]",
       type: "text",
       path: "parties.author.doc",
       required: true,
@@ -76,9 +76,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "author_role",
-      label: "Calidad en el documento — titularidad de la obra",
+      label: "Calidad en el documento — autoría",
       placeholder: "p. ej. práctica artística",
-      emptyMarker: "[calidad — titularidad de la obra]",
+      emptyMarker: "[calidad — autoría]",
       type: "text",
       path: "parties.author.role",
       required: true,
@@ -86,27 +86,27 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "author_address",
-      label: "Domicilio — titularidad de la obra",
+      label: "Domicilio — autoría",
       placeholder: "Calle, número, ciudad",
-      emptyMarker: "[domicilio — titularidad de la obra]",
+      emptyMarker: "[domicilio — autoría]",
       type: "text",
       path: "parties.author.address",
       step: "titularidad",
     },
     {
       id: "author_email",
-      label: "Email — titularidad de la obra",
+      label: "Email — autoría",
       placeholder: "email@ejemplo.com",
-      emptyMarker: "[email — titularidad de la obra]",
+      emptyMarker: "[email — autoría]",
       type: "text",
       path: "parties.author.email",
       step: "titularidad",
     },
     {
       id: "author_phone",
-      label: "Teléfono — titularidad de la obra",
+      label: "Teléfono — autoría",
       placeholder: "Con prefijo si aplica",
-      emptyMarker: "[teléfono — titularidad de la obra]",
+      emptyMarker: "[teléfono — autoría]",
       type: "text",
       path: "parties.author.phone",
       step: "titularidad",
@@ -438,8 +438,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     // —— Custody ——
     {
       id: "author_mounts",
-      label: "Montaje y desmontaje solo por la parte con titularidad de la obra",
-      placeholder: "Activa si solo monta y desmonta quien ostenta la titularidad de la obra",
+      label: "Montaje y desmontaje solo por la Parte Autora",
+      placeholder: "Activa si solo monta y desmonta la Parte Autora",
       emptyMarker: "",
       type: "toggle",
       path: "custody.authorMounts",
@@ -519,7 +519,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_loan",
       label: "Incluir marco de préstamo o cesión temporal",
       placeholder:
-        "Activa si la obra se presta o cede temporalmente sin transmitir la titularidad",
+        "Activa si la obra se presta o cede temporalmente sin transmitir la autoría",
       emptyMarker: "",
       type: "toggle",
       path: "options.loanFrame",
@@ -593,7 +593,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "image_credit",
       label: "Crédito obligatorio",
       placeholder:
-        "Escribe cómo debe citarse la obra y a quien tiene la autoría o posesión",
+        "Escribe cómo debe citarse la obra y a quien tiene la autoría",
       emptyMarker: "[crédito obligatorio]",
       type: "text",
       path: "options.imageCredit",
@@ -850,9 +850,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "contact_titular_name",
-      label: "Contacto — titularidad de la obra (nombre)",
+      label: "Contacto — autoría (nombre)",
       placeholder: "Nombre de la persona de referencia",
-      emptyMarker: "[contacto titularidad — nombre]",
+      emptyMarker: "[contacto autoría — nombre]",
       type: "text",
       path: "options.contactTitularName",
       step: "options",
@@ -862,9 +862,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "contact_titular_phone",
-      label: "Contacto — titularidad de la obra (teléfono)",
+      label: "Contacto — autoría (teléfono)",
       placeholder: "Teléfono de contacto operativo",
-      emptyMarker: "[contacto titularidad — teléfono]",
+      emptyMarker: "[contacto autoría — teléfono]",
       type: "text",
       path: "options.contactTitularPhone",
       step: "options",
@@ -874,9 +874,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "contact_titular_email",
-      label: "Contacto — titularidad de la obra (email)",
+      label: "Contacto — autoría (email)",
       placeholder: "Email de contacto operativo",
-      emptyMarker: "[contacto titularidad — email]",
+      emptyMarker: "[contacto autoría — email]",
       type: "text",
       path: "options.contactTitularEmail",
       step: "options",
@@ -1030,7 +1030,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "ip_name_use",
       label: "Uso de nombre, crédito o marca",
       placeholder:
-        "Describe cómo puede usarse el nombre o crédito de quien tiene la autoría o posesión",
+        "Describe cómo puede usarse el nombre o crédito de quien tiene la autoría",
       emptyMarker: "[uso de nombre, crédito o marca]",
       type: "text",
       path: "options.ipNameUse",
@@ -1062,9 +1062,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "notice_email_titular",
-      label: "Email para notificaciones — titularidad de la obra",
+      label: "Email para notificaciones — autoría",
       placeholder: "Escribe el email que vale para avisos formales",
-      emptyMarker: "[email de notificaciones — titularidad]",
+      emptyMarker: "[email de notificaciones — autoría]",
       type: "text",
       path: "options.noticeEmailTitular",
       step: "options",
@@ -1151,7 +1151,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "opt_expert",
       label: "Perito independiente para pérdida artística",
-      placeholder: "Activa para no dejar la calificación solo a quien ostenta la titularidad de la obra",
+      placeholder: "Activa para no dejar la calificación solo a la Parte Autora",
       emptyMarker: "",
       type: "toggle",
       path: "options.independentExpert",
@@ -1181,7 +1181,7 @@ En {{project.city}}, a {{project.signDate}}`,
       id: "reunidos",
       title: "REUNIDOS",
       body: `De una parte
-{{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, quien ostenta la titularidad de la obra («Parte Titular»).{{parties.author.extra}}
+{{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, quien ostenta la autoría («Parte Autora»).{{parties.author.extra}}
 
 Y de otra,
 {{parties.org.name}}, con CIF/NIF {{parties.org.cif}}, {{parties.org.roleDesc}} de {{project.eventName}}, actuando en este acto a través de {{parties.org.repName}}, con documento {{parties.org.repDoc}}, en calidad de {{parties.org.repRole}}, en adelante, solicitante de la obra («Parte Solicitante»).{{parties.org.extra}}
@@ -1191,20 +1191,20 @@ Ambas partes, reconociéndose capacidad legal suficiente para obligarse,`,
     {
       id: "manifest",
       title: "MANIFIESTAN",
-      body: `I. Que con fecha {{project.baseAgreementDate}} ambas partes suscribieron el Acuerdo de Participación correspondiente a la exhibición de la instalación artística de la Parte Titular durante {{project.eventName}}.
+      body: `I. Que con fecha {{project.baseAgreementDate}} ambas partes suscribieron el Acuerdo de Participación correspondiente a la exhibición de la instalación artística de la Parte Autora durante {{project.eventName}}.
 II. Que, debido a las características técnicas y de funcionamiento de la instalación, ambas partes consideran conveniente regular expresamente las condiciones particulares de su exhibición, custodia, conservación y responsabilidad.
 III. Que el presente Anexo constituye un acuerdo específico negociado y aceptado libremente por ambas partes, complementa el Acuerdo de Participación y, exclusivamente respecto de la instalación artística objeto del mismo, prevalecerá sobre cualquier cláusula del citado Acuerdo que resulte incompatible con lo aquí establecido.`,
     },
     {
       id: "primera",
       title: "PRIMERA. Objeto",
-      body: `La Parte Titular cede temporalmente la instalación artística «{{project.workTitle}}» para su exhibición durante {{project.eventName}}, a solicitud de la Parte Solicitante.{{project.exhibitPeriod}}`,
+      body: `La Parte Autora cede temporalmente la instalación artística «{{project.workTitle}}» para su exhibición durante {{project.eventName}}, a solicitud de la Parte Solicitante.{{project.exhibitPeriod}}`,
     },
     {
       id: "segunda",
       title: "SEGUNDA. Conocimiento y aceptación de la instalación",
       body: `La Parte Solicitante declara haber recibido con carácter previo a la firma del presente Anexo toda la información técnica necesaria relativa a la instalación, incluyendo su funcionamiento, necesidades eléctricas, características mecánicas, condiciones de seguridad, conservación, operación y exhibición.
-Asimismo, declara haber recibido respuesta a todas las consultas técnicas formuladas durante la preparación del proyecto y manifiesta haber comprendido y aceptado expresamente todas las condiciones comunicadas por la Parte Titular.
+Asimismo, declara haber recibido respuesta a todas las consultas técnicas formuladas durante la preparación del proyecto y manifiesta haber comprendido y aceptado expresamente todas las condiciones comunicadas por la Parte Autora.
 La Parte Solicitante reconoce expresamente conocer que la instalación:
 {{features.list}}
 La Parte Solicitante declara conocer plenamente estas características y acepta expresamente la exhibición pública de la instalación en dichas condiciones.`,
@@ -1212,19 +1212,19 @@ La Parte Solicitante declara conocer plenamente estas características y acepta 
     {
       id: "tercera",
       title: "TERCERA. Montaje y desmontaje",
-      body: `El montaje y el desmontaje de la instalación serán realizados exclusivamente por la Parte Titular. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Parte Solicitante. Desde ese momento y hasta su devolución a la Parte Titular para proceder a su desmontaje, la Parte Solicitante asumirá íntegramente su custodia.`,
+      body: `El montaje y el desmontaje de la instalación serán realizados exclusivamente por la Parte Autora. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Parte Solicitante. Desde ese momento y hasta su devolución a la Parte Autora para proceder a su desmontaje, la Parte Solicitante asumirá íntegramente su custodia.`,
       requireAll: ["custody.authorMounts"],
     },
     {
       id: "tercera_alt",
       title: "TERCERA. Montaje y desmontaje",
-      body: `El montaje y el desmontaje de la instalación se realizarán según lo acordado entre las partes. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Parte Solicitante. Desde ese momento y hasta su devolución a la Parte Titular, la Parte Solicitante asumirá íntegramente su custodia.`,
+      body: `El montaje y el desmontaje de la instalación se realizarán según lo acordado entre las partes. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Parte Solicitante. Desde ese momento y hasta su devolución a la Parte Autora, la Parte Solicitante asumirá íntegramente su custodia.`,
       excludeIf: ["custody.authorMounts"],
     },
     {
       id: "cuarta",
       title: "CUARTA. Custodia, vigilancia y protección",
-      body: `Desde la entrega de la instalación hasta su devolución a la Parte Titular, la Parte Solicitante asumirá íntegramente su custodia, conservación, vigilancia y protección.
+      body: `Desde la entrega de la instalación hasta su devolución a la Parte Autora, la Parte Solicitante asumirá íntegramente su custodia, conservación, vigilancia y protección.
 En particular, la Parte Solicitante se compromete a:
 {{custody.duties}}
 La obligación de mantener vigilancia permanente constituye una condición esencial para la exhibición de la instalación y ha sido expresamente aceptada por la Parte Solicitante, cuando resulte de aplicación conforme a las características de la obra.
@@ -1243,7 +1243,7 @@ La Parte Solicitante responderá de cualquier pérdida, robo, hurto, desaparici�
       title: "SEXTA. Responsabilidad civil",
       body: `La Parte Solicitante declara que la instalación artística objeto del presente Anexo se encuentra debidamente cubierta por la póliza de Responsabilidad Civil correspondiente a {{project.eventName}} durante todo el período en que permanezca bajo su custodia y exhibición.
 La Parte Solicitante asume íntegramente la responsabilidad derivada de la exhibición pública de la instalación, de su funcionamiento, de la interacción del público con la misma y de todas las medidas de seguridad necesarias para garantizar la protección de las personas, de la propia obra y de las instalaciones durante todo el período en que la instalación permanezca bajo su custodia.
-La Parte Solicitante declara que la decisión de exhibir públicamente la instalación ha sido adoptada libremente, tras haber recibido toda la información técnica y de seguridad facilitada por la Parte Titular, conocer las características y riesgos inherentes a la obra y aceptar expresamente las condiciones necesarias para su correcta exhibición.
+La Parte Solicitante declara que la decisión de exhibir públicamente la instalación ha sido adoptada libremente, tras haber recibido toda la información técnica y de seguridad facilitada por la Parte Autora, conocer las características y riesgos inherentes a la obra y aceptar expresamente las condiciones necesarias para su correcta exhibición.
 La existencia, alcance, validez o eficacia de la póliza de Responsabilidad Civil no limitará, en ningún caso, las obligaciones asumidas por la Parte Solicitante mediante el presente Anexo.`,
       requireAll: ["insurance.hasRc"],
     },
@@ -1261,9 +1261,9 @@ La suma asegurada será, como mínimo, igual al valor declarado de la instalaci�
     {
       id: "octava",
       title: "OCTAVA. Responsabilidad sobre la instalación",
-      body: `La Parte Solicitante responderá frente a la Parte Titular por cualquier pérdida, robo, hurto, desaparición, destrucción, desperfecto o deterioro total o parcial que pueda sufrir la instalación o cualquiera de sus componentes desde el momento de su entrega por la Parte Titular tras el montaje y hasta su devolución a la Parte Titular para proceder a su desmontaje.
-Se considerarán expresamente incluidos, entre otros, los daños derivados de: robo; hurto; vandalismo; incendio; agua; lluvia; viento; humedad; fenómenos meteorológicos; manipulación por terceros; manipulación y almacenamiento de piezas; falta o insuficiencia de vigilancia; falta de protección; incumplimiento de las instrucciones técnicas de la Parte Titular; y cualquier actuación u omisión que implique una custodia insuficiente o inadecuada.
-En caso de pérdida total, destrucción o robo de la instalación, la Parte Solicitante indemnizará a la Parte Titular por el valor declarado establecido en la cláusula de valor declarado.
+      body: `La Parte Solicitante responderá frente a la Parte Autora por cualquier pérdida, robo, hurto, desaparición, destrucción, desperfecto o deterioro total o parcial que pueda sufrir la instalación o cualquiera de sus componentes desde el momento de su entrega por la Parte Autora tras el montaje y hasta su devolución a la Parte Autora para proceder a su desmontaje.
+Se considerarán expresamente incluidos, entre otros, los daños derivados de: robo; hurto; vandalismo; incendio; agua; lluvia; viento; humedad; fenómenos meteorológicos; manipulación por terceros; manipulación y almacenamiento de piezas; falta o insuficiencia de vigilancia; falta de protección; incumplimiento de las instrucciones técnicas de la Parte Autora; y cualquier actuación u omisión que implique una custodia insuficiente o inadecuada.
+En caso de pérdida total, destrucción o robo de la instalación, la Parte Solicitante indemnizará a la Parte Autora por el valor declarado establecido en la cláusula de valor declarado.
 En caso de daños parciales, la Parte Solicitante asumirá íntegramente los costes de reparación, restauración, sustitución de componentes, materiales, mano de obra especializada y cualquier otro gasto necesario para devolver la instalación al estado en que fue entregada.
 En caso de que la reparación o restauración no resulte técnicamente posible o implique una pérdida irreversible de las características artísticas de la obra, se considerará pérdida total a los efectos del presente Anexo.`,
     },
@@ -1278,7 +1278,7 @@ Valor total declarado de la instalación: {{insurance.totalValue}} € (impuesto
     {
       id: "decima",
       title: "DÉCIMA. Vigencia",
-      body: `El presente Anexo entrará en vigor desde el momento de su firma y permanecerá vigente desde la entrega efectiva de la instalación a la Parte Solicitante hasta su devolución a la Parte Titular para proceder a su desmontaje.
+      body: `El presente Anexo entrará en vigor desde el momento de su firma y permanecerá vigente desde la entrega efectiva de la instalación a la Parte Solicitante hasta su devolución a la Parte Autora para proceder a su desmontaje.
 Las partes manifiestan que el presente Anexo ha sido negociado y aceptado libremente, refleja los acuerdos específicos alcanzados para la exhibición de la instalación artística y forma parte integrante del Acuerdo de Participación, constituyendo ambos documentos una única unidad contractual y debiendo interpretarse conjuntamente.`,
     },
     {
@@ -1290,13 +1290,13 @@ Las partes manifiestan que el presente Anexo ha sido negociado y aceptado librem
     {
       id: "opt_certs",
       title: "Acreditación de seguros",
-      body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Parte Solicitante entregará a la Parte Titular certificado o extracto de las pólizas de Responsabilidad Civil y de daños que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará a la Parte Titular a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
+      body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Parte Solicitante entregará a la Parte Autora certificado o extracto de las pólizas de Responsabilidad Civil y de daños que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará a la Parte Autora a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
       requireAll: ["options.policyCerts"],
     },
     {
       id: "opt_franq",
       title: "Franquicia",
-      body: `Cualquier franquicia, deducible o importe no cubierto por las pólizas será asumido íntegramente por la Parte Solicitante, sin que pueda trasladarse a la Parte Titular.`,
+      body: `Cualquier franquicia, deducible o importe no cubierto por las pólizas será asumido íntegramente por la Parte Solicitante, sin que pueda trasladarse a la Parte Autora.`,
       requireAll: ["options.franchise"],
     },
     {
@@ -1308,7 +1308,7 @@ Las partes manifiestan que el presente Anexo ha sido negociado y aceptado librem
     {
       id: "opt_expert",
       title: "Valoración de pérdida artística",
-      body: `La valoración sobre la afectación irreversible de las características artísticas de la obra podrá ser realizada por la Parte Titular y, a solicitud de cualquiera de las partes, contrastada por un perito independiente de común acuerdo. A falta de acuerdo sobre el perito en el plazo de quince (15) días, podrá designarse conforme a la práctica habitual de arbitraje pericial o por el colegio profesional competente.`,
+      body: `La valoración sobre la afectación irreversible de las características artísticas de la obra podrá ser realizada por la Parte Autora y, a solicitud de cualquiera de las partes, contrastada por un perito independiente de común acuerdo. A falta de acuerdo sobre el perito en el plazo de quince (15) días, podrá designarse conforme a la práctica habitual de arbitraje pericial o por el colegio profesional competente.`,
       requireAll: ["options.independentExpert"],
     },
     {
@@ -1321,20 +1321,20 @@ Las partes manifiestan que el presente Anexo ha sido negociado y aceptado librem
       id: "opt_loan",
       title: "Préstamo o cesión temporal",
       body: `Las partes acuerdan que la puesta a disposición de la obra o instalación «{{project.workTitle}}» tiene carácter de préstamo o cesión temporal con la siguiente finalidad: {{options.loanPurpose}}.
-Dicha puesta a disposición no transmite la titularidad de la obra ni ningún derecho de explotación distinto de los expresamente regulados en el presente Anexo. La Parte Solicitante recibe la obra en calidad de depositaria / cesionaria temporal a los solos efectos de su exhibición y custodia durante el período acordado, debiendo devolverla a la Parte Titular en los términos previstos en este Anexo.
-Cualquier uso, traslado o manipulación no contemplado requerirá autorización expresa de la Parte Titular.`,
+Dicha puesta a disposición no transmite la autoría ni la propiedad de la obra ni ningún derecho de explotación distinto de los expresamente regulados en el presente Anexo. La Parte Solicitante recibe la obra en calidad de depositaria / cesionaria temporal a los solos efectos de su exhibición y custodia durante el período acordado, debiendo devolverla a la Parte Autora en los términos previstos en este Anexo.
+Cualquier uso, traslado o manipulación no contemplado requerirá autorización expresa de la Parte Autora.`,
       requireAll: ["options.loanFrame"],
     },
     {
       id: "opt_image",
       title: "Uso de imagen y reproducción",
-      body: `La Parte Titular autoriza a la Parte Solicitante a captar, reproducir y difundir imágenes (fijas o en movimiento) de la obra «{{project.workTitle}}» en el siguiente ámbito: {{options.imageScope}}.
+      body: `La Parte Autora autoriza a la Parte Solicitante a captar, reproducir y difundir imágenes (fijas o en movimiento) de la obra «{{project.workTitle}}» en el siguiente ámbito: {{options.imageScope}}.
 Medios autorizados: {{options.imageMedia}}.
 Duración de la autorización: {{options.imageDuration}}.
 Crédito obligatorio en cada uso: {{options.imageCredit}}.
 {{options.imageCommercialText}}
 {{options.imageAdaptText}}
-Fuera de este ámbito, cualquier reproducción o uso de imagen requerirá autorización adicional y expresa de la Parte Titular. Esta autorización no implica cesión de derechos de autor ni de la titularidad de la obra.`,
+Fuera de este ámbito, cualquier reproducción o uso de imagen requerirá autorización adicional y expresa de la Parte Autora. Esta autorización no implica cesión de derechos de autor ni de la autoría de la obra.`,
       requireAll: ["options.imageUse"],
     },
     {
@@ -1346,7 +1346,7 @@ Precio: {{options.salePrice}} € (impuestos aparte, si resultan aplicables).
 Entrega: {{options.saleDelivery}}.
 {{options.saleExclusivityText}}
 {{options.saleNotesText}}
-La venta, si se formaliza, se documentará de forma expresa. Mientras no conste acuerdo de venta perfeccionado, la obra permanece bajo la titularidad de la Parte Titular y sujeta a las obligaciones de custodia y devolución de este Anexo.`,
+La venta, si se formaliza, se documentará de forma expresa. Mientras no conste acuerdo de venta perfeccionado, la obra permanece bajo la autoría de la Parte Autora y sujeta a las obligaciones de custodia y devolución de este Anexo.`,
       requireAll: ["options.saleTerms"],
     },
     {
@@ -1366,14 +1366,14 @@ Quien organice el transporte cuidará un embalaje adecuado y la coordinación de
       title: "Costes y pagos",
       body: `{{options.costsNoFeeText}}
 Reparto concreto de costes y pagos (honorarios, producción, dietas, material de montaje u otros): {{options.costsSummary}}.
-Cada parte asume únicamente los conceptos que le correspondan según ese reparto. Cualquier gasto adicional, extraordinario o no previsto requerirá acuerdo expreso previo. La existencia de un pago o reembolso no altera la titularidad de la obra ni las obligaciones de custodia, seguro y devolución de este Anexo.`,
+Cada parte asume únicamente los conceptos que le correspondan según ese reparto. Cualquier gasto adicional, extraordinario o no previsto requerirá acuerdo expreso previo. La existencia de un pago o reembolso no altera la autoría de la obra ni las obligaciones de custodia, seguro y devolución de este Anexo.`,
       requireAll: ["options.costs"],
     },
     {
       id: "opt_cancellation",
       title: "Cancelación y retirada anticipada",
       body: `Si el evento, la exhibición o este Anexo se cancelan, se aplicará lo siguiente: {{options.cancellationTerms}}.
-Además, la Parte Titular podrá retirar anticipadamente la obra cuando concurra alguna de estas circunstancias o las que se detallen a continuación: falta o insuficiencia de seguros exigidos; incumplimiento grave de custodia, vigilancia o seguridad; o condiciones del espacio incompatibles con la integridad de la obra. Condiciones adicionales de retirada: {{options.withdrawalTerms}}.
+Además, la Parte Autora podrá retirar anticipadamente la obra cuando concurra alguna de estas circunstancias o las que se detallen a continuación: falta o insuficiencia de seguros exigidos; incumplimiento grave de custodia, vigilancia o seguridad; o condiciones del espacio incompatibles con la integridad de la obra. Condiciones adicionales de retirada: {{options.withdrawalTerms}}.
 En caso de retirada anticipada justificada, la Parte Solicitante facilitará el acceso y la logística razonables para recuperar la obra y seguirá respondiendo de las obligaciones nacidas hasta ese momento, incluidos daños ya producidos.`,
       requireAll: ["options.cancellation"],
     },
@@ -1381,7 +1381,7 @@ En caso de retirada anticipada justificada, la Parte Solicitante facilitará el 
       id: "opt_contacts",
       title: "Contactos operativos",
       body: `Durante el montaje, la exhibición y la devolución, las personas de referencia serán:
-Por la Parte Titular: {{options.contactTitularName}}, teléfono {{options.contactTitularPhone}}, email {{options.contactTitularEmail}}.
+Por la Parte Autora: {{options.contactTitularName}}, teléfono {{options.contactTitularPhone}}, email {{options.contactTitularEmail}}.
 Por la Parte Solicitante: {{options.contactOrgName}}, teléfono {{options.contactOrgPhone}}, email {{options.contactOrgEmail}}.
 Estas personas servirán para coordinación operativa. Las notificaciones formales, si se pactan, se regirán por la cláusula de notificaciones.`,
       requireAll: ["options.contacts"],
@@ -1401,23 +1401,23 @@ Este inventario es referencia vinculante para la entrega y la devolución. Si ex
 — Espacio de exhibición: {{options.spaceDescription}}.
 — Horarios de acceso técnico (montaje, mantenimiento, desmontaje): {{options.spaceHours}}.
 — Quién aporta barreras, cartelas, pedestales u otros elementos de presentación o protección: {{options.spaceEquipment}}.
-La Parte Solicitante garantiza que el espacio, los accesos y los medios aportados permitan un montaje, exhibición y desmontaje seguros, conformes a las instrucciones técnicas de la Parte Titular y compatibles con la integridad de la obra y la seguridad de las personas.`,
+La Parte Solicitante garantiza que el espacio, los accesos y los medios aportados permitan un montaje, exhibición y desmontaje seguros, conformes a las instrucciones técnicas de la Parte Autora y compatibles con la integridad de la obra y la seguridad de las personas.`,
       requireAll: ["options.spaceAccess"],
     },
     {
       id: "opt_subcontract",
       title: "Subcontratación",
       body: `La Parte Solicitante podrá valerse de terceros para determinadas tareas solo en el siguiente marco: {{options.subcontractTerms}}.
-Aunque intervengan montadores, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Titular del cumplimiento de este Anexo (custodia, seguro, daños, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
+Aunque intervengan montadores, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Autora del cumplimiento de este Anexo (custodia, seguro, daños, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
       requireAll: ["options.subcontract"],
     },
     {
       id: "opt_ip",
       title: "Propiedad intelectual",
-      body: `La exhibición o puesta a disposición temporal de la obra «{{project.workTitle}}» no implica cesión de derechos de autor, derechos conexos ni de la titularidad de la obra.
+      body: `La exhibición o puesta a disposición temporal de la obra «{{project.workTitle}}» no implica cesión de derechos de autor, derechos conexos ni de la autoría de la obra.
 Salvo lo expresamente autorizado en este Anexo (incluida, en su caso, la cláusula de uso de imagen y reproducción), queda prohibido reproducir, comunicar públicamente fuera del ámbito pactado, transformar, crear obras derivadas o explotar la obra o sus elementos distintivos.
-Uso autorizado del nombre, crédito o marca vinculados a la obra o a quien ostenta su titularidad: {{options.ipNameUse}}.
-Cualquier uso distinto requerirá autorización adicional y expresa de la Parte Titular.`,
+Uso autorizado del nombre, crédito o marca vinculados a la obra o a quien ostenta la autoría: {{options.ipNameUse}}.
+Cualquier uso distinto requerirá autorización adicional y expresa de la Parte Autora.`,
       requireAll: ["options.ipRights"],
     },
     {
@@ -1430,7 +1430,7 @@ Cualquier uso distinto requerirá autorización adicional y expresa de la Parte 
       id: "opt_notices",
       title: "Notificaciones",
       body: `Las notificaciones formales entre las partes relacionadas con este Anexo se dirigirán a:
-Parte Titular: {{options.noticeEmailTitular}}.
+Parte Autora: {{options.noticeEmailTitular}}.
 Parte Solicitante: {{options.noticeEmailOrg}}.
 Se entenderán recibidas cuando conste su envío a dichas direcciones, sin perjuicio de otros medios admitidos en derecho.`,
       requireAll: ["options.notices"],
@@ -1673,12 +1673,12 @@ export function enrichDerivedValues(
   }
   if (v["features.specialRisk"]) {
     duties.push(
-      "— Adoptar todas las medidas de seguridad necesarias derivadas de las condiciones especiales de riesgo declaradas y de las instrucciones técnicas facilitadas por la Parte Titular.",
+      "— Adoptar todas las medidas de seguridad necesarias derivadas de las condiciones especiales de riesgo declaradas y de las instrucciones técnicas facilitadas por la Parte Autora.",
     );
   }
-  duties.push("— Cumplir en todo momento las instrucciones técnicas facilitadas por la Parte Titular.");
+  duties.push("— Cumplir en todo momento las instrucciones técnicas facilitadas por la Parte Autora.");
   duties.push(
-    "— No modificar la configuración, programación, cableado, componentes o condiciones de funcionamiento de la instalación sin autorización expresa de la Parte Titular.",
+    "— No modificar la configuración, programación, cableado, componentes o condiciones de funcionamiento de la instalación sin autorización expresa de la Parte Autora.",
   );
   v["custody.duties"] = duties.join("\n");
 

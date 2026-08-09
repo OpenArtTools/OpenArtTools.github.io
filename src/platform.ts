@@ -99,8 +99,8 @@ export const TRANSPARENCY = {
       body: "No hay nube, cuentas ni localStorage para tus datos. Lo que escribes vive solo en la memoria de la pestaña. Al cerrarla, desaparece de la plataforma.",
     },
     {
-      title: "Datos personales — autoría o posesión de la obra",
-      body: "En el inicio puedes guardar un .json con los datos de quien tiene la autoría o la posesión de la obra (nombre, documento, domicilio…). Sirven para rellenar esa parte en las herramientas. No es una agenda de clientes. Detalle: PRIVACY.md.",
+      title: "Datos personales — Autoría",
+      body: "En el inicio puedes guardar un .json con los datos de autoría (nombre, documento, domicilio…). Open Art Tools está pensada para autores y creadores. Sirven para rellenar esa parte en las herramientas. No es una agenda de clientes. Detalle: PRIVACY.md.",
     },
     {
       title: "Borrador del documento (dentro de cada herramienta)",

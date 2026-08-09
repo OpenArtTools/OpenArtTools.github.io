@@ -29,7 +29,7 @@ No es una sola utilidad. Es el paraguas: entras a la plataforma, eliges una herr
 ## Cómo se usa, en 30 segundos
 
 1. Abre la [plataforma](https://openarttools.github.io/).
-2. (Opcional) En **Datos personales — autoría o posesión de la obra**, rellena o carga ese perfil y descárgalo para reutilizarlo después.
+2. (Opcional) En **Datos personales — Autoría**, rellena o carga ese perfil y descárgalo para reutilizarlo después.
 3. Elige una herramienta (hoy: **Acuerdos de exhibición**).
 4. Completa el asistente, revisa, acepta y exporta (PDF / HTML / TXT).
 5. Si quieres retomar el trabajo más tarde, **descarga el borrador** dentro de la herramienta antes de cerrar la pestaña.
@@ -46,7 +46,7 @@ Sirve para generar anexos / acuerdos de obra en **festivales, galerías u otros 
 
 Incluye, entre otras cosas:
 
-- Identificación de partes (titularidad de la obra y solicitante de la obra)
+- Identificación de partes (autoría y solicitante de la obra)
 - Datos del proyecto e instalación
 - Custodia, montaje y riesgos
 - Seguros y responsabilidad
@@ -64,17 +64,17 @@ Más herramientas se irán sumando al mismo paraguas.
 
 La plataforma **no guarda nada**. Si quieres reutilizar datos, descargas un archivo a tu dispositivo.
 
-### A) Datos personales — autoría o posesión de la obra (nivel plataforma)
+### A) Datos personales — Autoría (nivel plataforma)
 
 | | |
 |--|--|
 | **Dónde** | Página de inicio de la plataforma |
-| **Para qué** | Identidad de quien tiene la **autoría o la posesión de la obra** (nombre, documento, domicilio, email, teléfono…) |
+| **Para qué** | Identidad de quien tiene la **autoría** (autores y creadores: nombre, documento, domicilio, email, teléfono…) |
 | **Reutilizable** | En esta herramienta y en futuras |
 | **Formato** | `.json` con `kind: "openarttools.profile"` |
-| **No es** | Una agenda de clientes ni contactos de terceros |
+| **No es** | Una agenda de clientes, compradores ni poseedores de la obra |
 
-Si cargas ese perfil y abres una herramienta, puede rellenar la parte de titularidad de la obra.
+Si cargas ese perfil y abres una herramienta, puede rellenar la parte de autoría.
 
 ### B) Borrador del documento — dentro de cada herramienta
 
@@ -83,7 +83,7 @@ Si cargas ese perfil y abres una herramienta, puede rellenar la parte de titular
 | **Dónde** | Solo dentro de la herramienta (asistente, revisión, aceptación) |
 | **Para qué** | Retomar **ese** acuerdo (formulario, cláusulas y estado de edición) |
 | **Formato** | `.html` legible (abre en cualquier navegador); incluye datos para recargar |
-| **No es** | El perfil de autoría o posesión de la obra (reutilizable entre herramientas) |
+| **No es** | El perfil de autoría (reutilizable entre herramientas) |
 
 Puedes descargar el borrador **en cualquier momento** mientras el documento esté en memoria (también desde la franja superior).
 
@@ -165,7 +165,7 @@ src/
   engine/              ensamblado de plantillas (testeado)
   templates/           textos de documentos
   storage/
-    profile.ts         perfil autoría/posesión de la obra (.json)
+    profile.ts         perfil de autoría (.json)
     draft.ts           borrador de documento (.html)
     jsonFile.ts        descarga / lectura de JSON
   export/              PDF / HTML / TXT

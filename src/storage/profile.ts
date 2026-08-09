@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * Personal profile file (openarttools.profile).
- * YOUR identity only — platform home, reusable across tools.
+ * YOUR identity only — authorship (authors/creators), platform home, reusable across tools.
  * Not a client agenda. Not browser storage. Not uploaded by the platform.
  * See README.md and PRIVACY.md.
  */
@@ -66,7 +66,7 @@ export function parseProfileFile(raw: string): ProfileFile {
   const data = JSON.parse(raw) as Partial<ProfileFile>;
   if (data.kind !== PROFILE_FILE_KIND) {
     throw new Error(
-      "El archivo no es un perfil de autoría o posesión de la obra de Open Art Tools.",
+      "El archivo no es un perfil de autoría de Open Art Tools.",
     );
   }
   if (data.version !== PROFILE_FILE_VERSION) {

@@ -50,12 +50,12 @@ Si quieres reutilizar información más adelante, **tú** descargas un archivo y
 
 Hay **dos tipos**, con funciones distintas:
 
-### 1. Perfil — autoría o posesión de la obra — `openarttools.profile`
+### 1. Perfil — Autoría — `openarttools.profile`
 
 - **Nivel:** plataforma (página de inicio)
-- **Contiene:** datos de quien tiene la **autoría o la posesión de la obra** (nombre, documento, domicilio, email, teléfono, rol…)
-- **Sirve para:** reutilizar esa identidad en esta herramienta y en futuras (p. ej. rellenar la titularidad de la obra)
-- **No es:** una lista de clientes, ni una agenda de terceros
+- **Contiene:** datos de quien tiene la **autoría** (nombre, documento, domicilio, email, teléfono, rol…). Open Art Tools está pensada para autores y creadores.
+- **Sirve para:** reutilizar esa identidad en esta herramienta y en futuras (p. ej. rellenar la autoría)
+- **No es:** una lista de clientes, ni una agenda de terceros, ni un perfil de compradores o poseedores de la obra
 
 ### 2. Borrador de documento — HTML legible (`openarttools.draft`)
 
@@ -63,7 +63,7 @@ Hay **dos tipos**, con funciones distintas:
 - **Formato:** archivo `.html` que puedes abrir en cualquier navegador / sistema
 - **Contiene:** vista legible del borrador + datos para recargarlo en la herramienta
 - **Sirve para:** leerlo fuera de la app y retomar el mismo acuerdo más tarde
-- **No es:** el perfil de autoría o posesión de la obra (ese es el otro tipo de archivo)
+- **No es:** el perfil de autoría (ese es el otro tipo de archivo)
 - **Confianza:** carga en la herramienta solo borradores que hayas creado tú o en los que confíes (un `.html` manipulado podría intentar engañarte al abrirlo fuera de la app)
 
 **Responsabilidad:** cómo guardas, copias o compartes esos archivos es cosa tuya. La plataforma no puede proteger un archivo que sale de tu dispositivo.

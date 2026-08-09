@@ -315,7 +315,7 @@ function downloadCurrentProfile(): void {
   const profile = state.personalProfile;
   if (!profile || !profileHasData(profile)) {
     alert(
-      "No hay datos de autoría o posesión de la obra que guardar. Rellénalos abajo o carga un archivo primero.",
+      "No hay datos de autoría que guardar. Rellénalos abajo o carga un archivo primero.",
     );
     return;
   }
@@ -407,12 +407,11 @@ function renderPlatformProfile(): HTMLElement {
   const section = el("section", "oat-files-shelf oat-platform-profile");
 
   const heading = el("h2");
-  heading.textContent =
-    "Datos personales — autoría o posesión de la obra · Opcional";
+  heading.textContent = "Datos personales — Autoría · Opcional";
 
   const note = el("p", "lede");
   note.textContent =
-    "Son los datos de quien tiene la autoría o la posesión de la obra (nombre, documento, domicilio…). Sirven para rellenar esa parte en las herramientas. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
+    "Son los datos de quien tiene la autoría (nombre, documento, domicilio…). Open Art Tools está pensada para autores y creadores. Sirven para rellenar esa parte en las herramientas. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
 
   const box = document.createElement("details");
   box.className = "oat-platform-profile-form";
@@ -516,12 +515,12 @@ function renderApplyPlatformProfile(): HTMLElement {
   const box = el("aside", "oat-apply-profile");
   const note = el("p", "oat-review-note");
   if (profileHasData(state.personalProfile)) {
-    note.textContent = `Datos en memoria (autoría o posesión de la obra): ${profileLabel(state.personalProfile!)}. Se usan para rellenar la titularidad de la obra, no la de clientes.`;
+    note.textContent = `Datos en memoria (autoría): ${profileLabel(state.personalProfile!)}. Se usan para rellenar la autoría en este documento, no datos de clientes.`;
     const actions = el("div", "oat-actions");
     actions.style.marginTop = "0";
     actions.append(
       btn(
-        "Rellenar titularidad de la obra con esos datos",
+        "Rellenar autoría con esos datos",
         "oat-btn oat-btn-ghost",
         () => {
           applyAuthorFromProfile(state.personalProfile!);
@@ -532,7 +531,7 @@ function renderApplyPlatformProfile(): HTMLElement {
     box.append(note, actions);
   } else {
     note.textContent =
-      "En la página de la plataforma puedes cargar los datos de quien tiene la autoría o la posesión de la obra. Aquí solo rellenan la titularidad de la obra de este documento.";
+      "En la página de la plataforma puedes cargar los datos de autoría. Aquí solo rellenan la autoría de este documento.";
     box.append(note);
   }
   return box;
