@@ -73,10 +73,10 @@ describe("assembleClauses", () => {
       "AUTORÍA",
     );
     expect(clauses.find((c) => c.id === "signatures")?.body).toContain(
-      "AUTORÍA",
+      "POR LA PARTE AUTORA",
     );
     expect(clauses.find((c) => c.id === "signatures")?.body).toContain(
-      "PARTE SOLICITANTE",
+      "POR LA PARTE SOLICITANTE",
     );
   });
 
@@ -109,6 +109,59 @@ describe("assembleClauses", () => {
     expect(annexed.some((c) => c.id === "manifest")).toBe(false);
     expect(annexed.find((c) => c.id === "decima_annex")?.body).toContain(
       "Acuerdo de participación",
+    );
+    expect(annexed.find((c) => c.id === "header")?.body).toContain("ANEXO —");
+    expect(annexed.find((c) => c.id === "manifest_annex")?.body).toContain(
+      "anexo específico",
+    );
+  });
+
+  it("keeps object, RC interaction, weather and certs congruent with toggles", () => {
+    const base = {
+      "custody.authorMounts": true,
+      "insurance.hasRc": true,
+      "insurance.hasNailToNail": false,
+      "features.interactive": false,
+      "features.outdoor": true,
+      "custody.weatherProtect": false,
+      "options.policyCerts": true,
+    };
+    const off = enrichDerivedValues(base);
+    const offClauses = assembleClauses(exhibitionCustodyEs, off);
+    expect(offClauses.find((c) => c.id === "primera")?.body).toContain(
+      "pone a disposición temporal",
+    );
+    expect(offClauses.find((c) => c.id === "primera")?.body).not.toContain(
+      "cede temporalmente",
+    );
+    expect(offClauses.find((c) => c.id === "sexta")?.body).not.toContain(
+      "interacción del público",
+    );
+    expect(String(off["custody.duties"])).not.toContain("lluvia, viento");
+    expect(offClauses.find((c) => c.id === "opt_certs")?.body).toContain(
+      "Responsabilidad Civil",
+    );
+    expect(offClauses.find((c) => c.id === "opt_certs")?.body).not.toContain(
+      "clavo a clavo",
+    );
+
+    const on = enrichDerivedValues({
+      ...base,
+      "features.interactive": true,
+      "custody.weatherProtect": true,
+      "insurance.hasNailToNail": true,
+      "features.needsWatch": true,
+    });
+    const onClauses = assembleClauses(exhibitionCustodyEs, on);
+    expect(onClauses.find((c) => c.id === "sexta")?.body).toContain(
+      "interacción del público",
+    );
+    expect(String(on["custody.duties"])).toContain("lluvia, viento");
+    expect(String(on["custody.watchEssentialText"])).toContain(
+      "vigilancia permanente",
+    );
+    expect(onClauses.find((c) => c.id === "opt_certs")?.body).toContain(
+      "clavo a clavo",
     );
   });
 
@@ -175,7 +228,8 @@ describe("assembleClauses", () => {
       "options.ipRights": true,
       "options.ipNameUse": "crédito obligatorio en cartela",
       "options.repairs": true,
-      "options.repairsWho": "solo la Parte Autora o técnico autorizado por ella",
+      "options.repairsWho":
+        "solo la Parte Autora o personal técnico autorizado por la Parte Autora",
       "options.repairsHow": "aviso previo por escrito y materiales originales",
       "options.repairsAllowed": "ajustes menores y reposición de consumibles",
       "options.repairsForbidden": "abrir electrónica o alterar programación",

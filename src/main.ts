@@ -83,7 +83,7 @@ const DEFAULT_TOGGLES: AppValues = {
   "features.outdoor": false,
   "custody.authorMounts": true,
   "custody.dailyRemove": false,
-  "custody.weatherProtect": true,
+  "custody.weatherProtect": false,
   "insurance.hasRc": true,
   "insurance.hasNailToNail": true,
   "options.imageUse": false,
@@ -181,7 +181,7 @@ const OPTIONAL_SCOPE_LABELS: { path: string; label: string }[] = [
   { path: "options.policyCerts", label: "Certificados de póliza" },
   { path: "options.franchise", label: "Franquicia" },
   { path: "options.jurisdiction", label: "Ley y jurisdicción" },
-  { path: "options.independentExpert", label: "Perito independiente" },
+  { path: "options.independentExpert", label: "Peritaje independiente" },
   { path: "options.forceMajeure", label: "Fuerza mayor" },
 ];
 
@@ -320,7 +320,7 @@ function downloadCurrentProfile(): void {
   const profile = state.personalProfile;
   if (!profile || !profileHasData(profile)) {
     alert(
-      "No hay datos de autoría que guardar. Rellénalos abajo o carga un archivo primero.",
+      "No hay datos de autoría que guardar. Completar el formulario abajo o cargar un archivo primero.",
     );
     return;
   }
@@ -388,7 +388,7 @@ function emptyValueForField(type: string, path: string): string | boolean {
 
 function resetEntireForm(): void {
   const ok = confirm(
-    "¿Restablecer todo el acuerdo a cero?\n\nSe borran todos los campos, cláusulas editadas y la aceptación. Volverás al primer paso. Los datos de autoría en memoria de la plataforma no se tocan.",
+    "¿Restablecer todo el acuerdo a cero?\n\nSe borran todos los campos, cláusulas editadas y la aceptación. Se vuelve al primer paso. Los datos de autoría en memoria de la plataforma no se tocan.",
   );
   if (!ok) return;
   const profile = state.personalProfile;
@@ -456,7 +456,7 @@ function renderPlatformProfile(): HTMLElement {
 
   const note = el("p", "lede");
   note.textContent =
-    "Datos de quien tiene la autoría (nombre, documento, domicilio…). Pensada para artistas y creadores; el representante del autor se indica en el paso Autoría del acuerdo. Sirven para rellenar esa parte en las herramientas. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
+    "Datos de quien ostenta la autoría (nombre, documento, domicilio…). Destinado a artistas y creadores; el representante de la Parte Autora se indica en el paso Autoría del acuerdo. Sirven para rellenar esa parte en las herramientas. Viven en un .json que se descarga y se carga. La plataforma no los almacena. No es una agenda de clientes.";
 
   const box = document.createElement("details");
   box.className = "oat-platform-profile-form";
@@ -495,12 +495,12 @@ function renderPlatformProfile(): HTMLElement {
   const fields = el("div", "oat-profile-fields");
   const profile = state.personalProfile ?? {};
   const specs: { key: keyof PersonalProfile; label: string; placeholder: string }[] = [
-    { key: "name", label: "Nombre completo", placeholder: "Tu nombre y apellidos" },
+    { key: "name", label: "Nombre completo", placeholder: "Nombre y apellidos" },
     { key: "doc", label: "Documento", placeholder: "DNI, NIE u otro documento" },
     { key: "role", label: "Rol o profesión", placeholder: "p. ej. práctica artística" },
-    { key: "address", label: "Domicilio", placeholder: "Tu domicilio" },
-    { key: "email", label: "Email", placeholder: "Tu email" },
-    { key: "phone", label: "Teléfono", placeholder: "Tu teléfono" },
+    { key: "address", label: "Domicilio", placeholder: "Domicilio" },
+    { key: "email", label: "Email", placeholder: "Email" },
+    { key: "phone", label: "Teléfono", placeholder: "Teléfono" },
   ];
   for (const spec of specs) {
     const field = el("div", "oat-field");
@@ -576,7 +576,7 @@ function renderApplyPlatformProfile(): HTMLElement {
     box.append(note, actions);
   } else {
     note.textContent =
-      "En la página de la plataforma puedes cargar los datos de autoría. Aquí solo rellenan la autoría de este documento.";
+      "En la página de la plataforma se pueden cargar los datos de autoría. Aquí solo rellenan la autoría de este documento.";
     box.append(note);
   }
   return box;
@@ -718,12 +718,12 @@ function renderSupport(): HTMLElement {
 
     const note = el("p", "oat-review-note");
     note.textContent =
-      "Se abre fuera de Open Art Tools. La cantidad la eliges tú. Puedes cancelar en cualquier momento antes de confirmar en el proveedor.";
+      "Se abre fuera de Open Art Tools. La cantidad se elige en el proveedor. Se puede cancelar en cualquier momento antes de confirmar allí.";
     actions.append(note);
   } else {
     const pending = el("p", "oat-support-pending");
     pending.textContent =
-      "Todavía no hay un enlace de pago público configurado. Si quieres aportar, puedes contactar con quien desarrolla el proyecto y te indicará cómo hacerlo con total claridad.";
+      "Todavía no hay un enlace de pago público configurado. Si se desea aportar, se puede contactar con quien desarrolla el proyecto para indicar cómo hacerlo con total claridad.";
     actions.append(pending);
 
     const contact = document.createElement("a");
@@ -1002,7 +1002,7 @@ function renderOptionsStep(t: ReturnType<typeof template>): HTMLElement {
 
   const tip = el("p", "oat-options-tip");
   tip.textContent =
-    "Solo activa lo que necesitéis. Lo desactivado no aparece en el documento. Puedes usar un preset y luego ajustar.";
+    "Incluir solo lo necesario. Lo desactivado no aparece en el documento. Se puede usar un preset y luego ajustar.";
   wrap.append(tip);
 
   const presets = el("div", "oat-presets");
@@ -1021,7 +1021,7 @@ function renderOptionsStep(t: ReturnType<typeof template>): HTMLElement {
   );
   const presetHelp = el("p", "oat-preset-help");
   presetHelp.textContent =
-    "Esencial: acta, seguros, franquicia, perito, cambios en la instalación y notificaciones formales. Exhibición completa: esencial + imagen, transporte, contactos, espacio, PI y reparaciones. Todo: todos los bloques.";
+    "Esencial: acta, certificados de póliza, franquicia, peritaje, cambios en la instalación y notificaciones formales. Exhibición completa: esencial + imagen, transporte, contactos, espacio, PI y reparaciones. Todo: todos los bloques.";
   wrap.append(presets, presetHelp);
 
   const fields = fieldsForStep(t, "options");
@@ -1092,7 +1092,7 @@ function renderReview(): HTMLElement {
 
   const note = el("p", "oat-review-note");
   note.textContent =
-    "Edita cualquier cláusula. Las firmas quedan siempre al final. Los huecos sin rellenar aparecen entre corchetes.";
+    "Se puede editar cualquier cláusula. Las firmas quedan siempre al final. Los huecos sin rellenar aparecen entre corchetes.";
   wrap.append(note);
 
   const scope = el("p", "oat-scope-summary");
@@ -1125,7 +1125,7 @@ function renderReview(): HTMLElement {
     const clause: Clause = {
       id: `user-${crypto.randomUUID().slice(0, 8)}`,
       title: "Nueva cláusula",
-      body: "Escribe aquí el texto de la cláusula.",
+      body: "Indicar aquí el texto de la cláusula.",
       enabled: true,
       source: "user",
     };
@@ -1168,7 +1168,7 @@ function renderAccept(): HTMLElement {
 
   const note = el("p", "oat-review-note");
   note.textContent =
-    "Edita el documento directamente en la previsualización. Cuando esté listo, confírmalo debajo y exporta. Para PDF usa el diálogo de impresión del navegador.";
+    "El documento se puede editar directamente en la previsualización. Cuando esté listo, se confirma debajo y se exporta. Para PDF se usa el diálogo de impresión del navegador.";
   wrap.append(note, legalDisclaimer());
 
   const gaps = missingRequired(t, state.values);
@@ -1178,19 +1178,22 @@ function renderAccept(): HTMLElement {
     wrap.append(warn);
   }
 
+  const enriched = enrichDerivedValues(state.values);
   const docTitle =
-    String(state.values["project.workTitle"] || "").trim() || t.name;
+    String(enriched["document.title"] || "").trim() ||
+    String(state.values["project.workTitle"] || "").trim() ||
+    t.name;
 
   const previewLabel = el("div", "oat-group-label");
   previewLabel.textContent = "Previsualización editable";
   const previewHelp = el("p", "oat-review-note");
   previewHelp.textContent =
-    "Haz clic en títulos o textos para editarlos. Los cambios se guardan en este documento (solo en esta pestaña).";
+    "Se pueden editar títulos o textos haciendo clic. Los cambios se guardan en este documento (solo en esta pestaña).";
 
   const buttons: HTMLButtonElement[] = [];
   const hint = el("p", "oat-review-note");
   hint.textContent =
-    "Marca la casilla de aceptación para habilitar la exportación.";
+    "Marcar la casilla de aceptación para habilitar la exportación.";
   hint.hidden = Boolean(state.acceptedFinal);
 
   const acceptBox = el("label", "oat-accept-box");
@@ -1259,7 +1262,7 @@ function renderAccept(): HTMLElement {
   });
   const span = el("span");
   span.textContent =
-    "Acepto el documento tal como está mostrado en la previsualización.";
+    "Se acepta el documento tal como está mostrado en la previsualización.";
   acceptBox.append(cb, span);
 
   const toolbar = el("div", "oat-review-toolbar");

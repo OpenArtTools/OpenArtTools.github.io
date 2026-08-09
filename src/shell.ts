@@ -107,7 +107,7 @@ export function renderSessionStrip(opts: {
       opts.onDownloadDraft,
     );
     download.title =
-      "Descarga el borrador en HTML legible (cualquier sistema). Solo existe en tu dispositivo.";
+      "Descarga el borrador en HTML legible (cualquier sistema). Solo existe en el dispositivo.";
     actions.append(download);
   }
   if (opts.showResetForm && opts.onResetForm) {

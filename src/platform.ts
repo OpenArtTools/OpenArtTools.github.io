@@ -54,7 +54,7 @@ export const SUPPORT = {
   intro:
     "Open Art Tools es y seguirá siendo gratuito y de código abierto. Lo desarrollo de forma voluntaria, sin cobros, sin suscripciones y sin ánimo comercial. Usar la plataforma no exige aportar nada.",
   voluntary:
-    "Si te resulta útil y quieres ayudar a que pueda dedicarle más tiempo al proyecto —mantenimiento, nuevas herramientas y mejoras—, puedes hacer una aportación voluntaria. No es necesario. No hay presión. No cambia lo que puedes usar.",
+    "Si la plataforma resulta útil y se desea ayudar a que pueda dedicarse más tiempo al proyecto —mantenimiento, nuevas herramientas y mejoras—, se puede hacer una aportación voluntaria. No es necesario. No hay presión. No cambia lo que se puede usar.",
   whatForTitle: "Para qué sirve, si aportas",
   whatFor: [
     "Más tiempo para desarrollar y mejorar herramientas",
@@ -73,7 +73,7 @@ export const SUPPORT = {
   privacy:
     "Open Art Tools no procesa pagos ni guarda datos de donación. Si usas un enlace de aportación, saldrás a un proveedor externo (por ejemplo PayPal o similar). Ahí aplican sus condiciones y su privacidad, no las de esta plataforma.",
   thanks:
-    "Si aportas: gracias de verdad. Si no puedes o no quieres: también está bien. La plataforma está hecha para usarse.",
+    "Si se aporta: gracias. Si no se puede o no se desea: también está bien. La plataforma está hecha para usarse.",
   footerLabel: "Apoyo voluntario",
 } as const;
 
@@ -92,15 +92,15 @@ export const TRANSPARENCY = {
   points: [
     {
       title: "Código abierto",
-      body: "Todo el código es público bajo AGPL-3.0-or-later: puedes usarlo y mejorarlo, pero debes mantener la autoría, mencionar el origen y compartir el código (también si publicas una versión modificada en la web). Ver LICENSE y NOTICE.",
+      body: "Todo el código es público bajo AGPL-3.0-or-later: se puede usar y mejorar, manteniendo la autoría, mencionando el origen y compartiendo el código (también si se publica una versión modificada en la web). Ver LICENSE y NOTICE.",
     },
     {
       title: "Cero almacenamiento en la plataforma",
-      body: "No hay nube, cuentas ni localStorage para tus datos. Lo que escribes vive solo en la memoria de la pestaña. Al cerrarla, desaparece de la plataforma.",
+      body: "No hay nube, cuentas ni localStorage para los datos. Lo que se escribe vive solo en la memoria de la pestaña. Al cerrarla, desaparece de la plataforma.",
     },
     {
       title: "Datos personales — Autoría",
-      body: "En el inicio puedes guardar un .json con los datos de autoría (nombre, documento, domicilio…). Pensada para artistas y creadores; también puede actuar un representante del autor. Sirven para rellenar esa parte en las herramientas. No es una agenda de clientes. Detalle: PRIVACY.md.",
+      body: "En el inicio se puede guardar un .json con los datos de autoría (nombre, documento, domicilio…). Destinado a artistas y creadores; también puede actuar un representante de la Parte Autora. Sirven para rellenar esa parte en las herramientas. No es una agenda de clientes. Detalle: PRIVACY.md.",
     },
     {
       title: "Borrador del documento (dentro de cada herramienta)",
@@ -108,11 +108,11 @@ export const TRANSPARENCY = {
     },
     {
       title: "Sin agendas de clientes",
-      body: "No hay listas de clientes de terceros. Los datos de la otra parte se escriben en el formulario de ese documento (o van en el borrador si tú lo descargas).",
+      body: "No hay listas de clientes de terceros. Los datos de la otra parte se escriben en el formulario de ese documento (o van en el borrador si se descarga).",
     },
     {
       title: "Auditable",
-      body: "Puedes comprobar en el código que no hay telemetría ni almacenamiento oculto. Guía: AUDITABILITY.md.",
+      body: "Se puede comprobar en el código que no hay telemetría ni almacenamiento oculto. Guía: AUDITABILITY.md.",
     },
     {
       title: "Gratis, con apoyo voluntario",

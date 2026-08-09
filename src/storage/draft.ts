@@ -131,7 +131,7 @@ function valuesPreviewHtml(values: AppValues): string {
 function clausesPreviewHtml(clauses: Clause[]): string {
   const enabled = clauses.filter((c) => c.enabled);
   if (!enabled.length) {
-    return "<p>Aún no hay cláusulas ensambladas (o están desactivadas). Puedes seguir editando al cargar este borrador en Open Art Tools.</p>";
+    return "<p>Aún no hay cláusulas ensambladas (o están desactivadas). Se puede seguir editando al cargar este borrador en Open Art Tools.</p>";
   }
   return enabled
     .map(
@@ -191,7 +191,7 @@ export function draftToHtml(draft: DraftFile): string {
 <body>
   <h1>${escapeHtml(title)}</h1>
   <p class="meta">Guardado: ${escapeHtml(saved)} · Herramienta: ${escapeHtml(payload.templateId)}</p>
-  <p class="hint">Este archivo es un borrador visible. Puedes abrirlo en cualquier navegador. Para seguir editándolo, cárgalo en Open Art Tools (Cargar borrador). Carga solo borradores que hayas creado tú o en los que confíes.</p>
+  <p class="hint">Este archivo es un borrador visible. Se puede abrir en cualquier navegador. Para seguir editándolo, cargarlo en Open Art Tools (Cargar borrador). Cargar solo borradores propios o de confianza.</p>
 
   <h2>Cláusulas</h2>
   ${clausesPreviewHtml(payload.clauses)}

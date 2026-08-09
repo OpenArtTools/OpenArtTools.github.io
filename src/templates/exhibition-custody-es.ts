@@ -13,48 +13,48 @@ export const exhibitionCustodyEs: TemplateDoc = {
   id: "exhibition-custody-es",
   name: "Acuerdo de exhibición, custodia, seguro y responsabilidad",
   description:
-    "Acuerdo (o anexo a un contrato principal) para exhibir temporalmente una obra: custodia, seguro, uso de imagen, venta y responsabilidad.",
+    "Acuerdo (o anexo a un acuerdo principal) para exhibir temporalmente una obra: custodia, seguro, uso de imagen, venta y responsabilidad.",
   steps: [
     {
       id: "titularidad",
       title: "Autoría",
       blurb:
-        "Datos de quien tiene la autoría. Si firma un representante del autor, indícalo en ese bloque.",
+        "Datos de quien tiene la autoría. Si firma un representante de la Parte Autora, indícalo en ese bloque.",
     },
     {
       id: "solicitante",
       title: "Solicitante de la obra",
       blurb:
-        "Datos completos de quien solicita la exhibición o la puesta a disposición temporal de la obra. El representante del solicitante es opcional.",
+        "Datos completos de quien solicita la exhibición o la puesta a disposición temporal de la obra. El representante de la Parte Solicitante es opcional.",
     },
     {
       id: "project",
       title: "Proyecto y obra",
       blurb:
-        "Datos del evento, la obra y la firma. Por defecto es un acuerdo autónomo; márcalo como anexo solo si complementa un contrato principal.",
+        "Datos del evento, la obra y la firma. Por defecto es un acuerdo autónomo; se marca como anexo solo si complementa un acuerdo principal.",
     },
     {
       id: "features",
       title: "Características",
-      blurb: "Marca qué aplica a la instalación. Cada opción debe ser distinta: lee la descripción antes de activarla.",
+      blurb: "Indicar qué aplica a la instalación. Cada opción debe ser distinta: conviene leer la descripción antes de incluirla.",
     },
     {
       id: "custody",
       title: "Montaje y custodia",
       blurb:
-        "Quién monta y qué obligaciones de protección aplican. La retirada diaria de piezas solo aparece si en Características marcaste piezas individuales.",
+        "Quién monta y qué obligaciones de protección aplican. La retirada diaria de piezas solo aparece si en Características se han marcado piezas individuales.",
     },
     {
       id: "insurance",
       title: "Seguros y valor",
       blurb:
-        "Marca solo lo que aporta la Parte Solicitante. Si hay piezas individuales, desglosa el valor del sistema y el de las piezas generadas.",
+        "Incluir solo lo que aporta la Parte Solicitante. Si hay piezas individuales, desglosar el valor del sistema técnico o instalación y el de las piezas individuales.",
     },
     {
       id: "options",
       title: "Cláusulas opcionales",
       blurb:
-        "Solo activa lo que necesitéis. Lo desactivado no aparece en el documento.",
+        "Incluir solo lo necesario. Lo desactivado no aparece en el documento.",
     },
   ],
   fields: [
@@ -118,33 +118,33 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "author_rep_name",
-      label: "Nombre — representante del autor",
+      label: "Nombre — representante de la Parte Autora",
       placeholder: "Nombre y apellidos de quien firma",
-      emptyMarker: "[nombre — representante del autor]",
+      emptyMarker: "[nombre — representante de la Parte Autora]",
       type: "text",
       path: "parties.author.repName",
       step: "titularidad",
-      group: "Representante del autor (opcional)",
+      group: "Representante de la Parte Autora (opcional)",
     },
     {
       id: "author_rep_doc",
-      label: "Documento — representante del autor",
+      label: "Documento — representante de la Parte Autora",
       placeholder: "DNI, NIE u otro documento",
-      emptyMarker: "[documento — representante del autor]",
+      emptyMarker: "[documento — representante de la Parte Autora]",
       type: "text",
       path: "parties.author.repDoc",
       step: "titularidad",
-      group: "Representante del autor (opcional)",
+      group: "Representante de la Parte Autora (opcional)",
     },
     {
       id: "author_rep_role",
-      label: "Cargo — representante del autor",
+      label: "Cargo — representante de la Parte Autora",
       placeholder: "Cargo con el que firma",
-      emptyMarker: "[cargo — representante del autor]",
+      emptyMarker: "[cargo — representante de la Parte Autora]",
       type: "text",
       path: "parties.author.repRole",
       step: "titularidad",
-      group: "Representante del autor (opcional)",
+      group: "Representante de la Parte Autora (opcional)",
     },
     {
       id: "org_name",
@@ -227,33 +227,33 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "org_rep_name",
-      label: "Nombre — representante del solicitante",
+      label: "Nombre — representante de la Parte Solicitante",
       placeholder: "Nombre y apellidos de quien firma",
-      emptyMarker: "[nombre — representante del solicitante]",
+      emptyMarker: "[nombre — representante de la Parte Solicitante]",
       type: "text",
       path: "parties.org.repName",
       step: "solicitante",
-      group: "Representante del solicitante (opcional)",
+      group: "Representante de la Parte Solicitante (opcional)",
     },
     {
       id: "org_rep_doc",
-      label: "Documento — representante del solicitante",
+      label: "Documento — representante de la Parte Solicitante",
       placeholder: "DNI, NIE u otro documento",
-      emptyMarker: "[documento — representante del solicitante]",
+      emptyMarker: "[documento — representante de la Parte Solicitante]",
       type: "text",
       path: "parties.org.repDoc",
       step: "solicitante",
-      group: "Representante del solicitante (opcional)",
+      group: "Representante de la Parte Solicitante (opcional)",
     },
     {
       id: "org_rep_role",
-      label: "Cargo — representante del solicitante",
+      label: "Cargo — representante de la Parte Solicitante",
       placeholder: "Cargo con el que firma",
-      emptyMarker: "[cargo — representante del solicitante]",
+      emptyMarker: "[cargo — representante de la Parte Solicitante]",
       type: "text",
       path: "parties.org.repRole",
       step: "solicitante",
-      group: "Representante del solicitante (opcional)",
+      group: "Representante de la Parte Solicitante (opcional)",
     },
 
     // —— Project ——
@@ -261,7 +261,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "is_annex",
       label: "Este documento es un anexo a un acuerdo principal",
       placeholder:
-        "Activa solo si este texto complementa un contrato principal ya firmado (p. ej. un acuerdo de participación)",
+        "Incluir solo cuando este texto complementa un acuerdo principal ya firmado (p. ej. un acuerdo de participación)",
       emptyMarker: "",
       type: "toggle",
       path: "project.isAnnex",
@@ -302,7 +302,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "base_agreement_date",
       label: "Fecha del acuerdo principal",
-      placeholder: "Fecha del contrato al que se anexa",
+      placeholder: "Fecha del acuerdo principal al que se anexa",
       emptyMarker: "[fecha del acuerdo principal]",
       type: "date",
       path: "project.baseAgreementDate",
@@ -325,7 +325,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "event_name",
       label: "Nombre del evento",
-      placeholder: "Festival, exposición o evento",
+      placeholder: "Festival, exhibición o evento",
       emptyMarker: "[nombre del evento]",
       type: "text",
       path: "project.eventName",
@@ -354,7 +354,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "exhibit_from",
       label: "Inicio del período de exhibición (opcional)",
-      placeholder: "Escribe o selecciona la fecha de inicio",
+      placeholder: "Indicar o seleccionar la fecha de inicio",
       emptyMarker: "[fecha de inicio de exhibición]",
       type: "date",
       path: "project.exhibitFrom",
@@ -363,7 +363,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "exhibit_to",
       label: "Fin del período de exhibición (opcional)",
-      placeholder: "Escribe o selecciona la fecha de fin",
+      placeholder: "Indicar o seleccionar la fecha de fin",
       emptyMarker: "[fecha de fin de exhibición]",
       type: "date",
       path: "project.exhibitTo",
@@ -375,7 +375,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_interactive",
       label: "El público puede interactuar con la obra",
       placeholder:
-        "Activa si la instalación está pensada para que el público la toque, active, use o participe en ella",
+        "Incluir cuando la instalación está pensada para que el público la toque, active, use o participe en ella",
       emptyMarker: "",
       type: "toggle",
       path: "features.interactive",
@@ -385,7 +385,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_sculptures",
       label: "Piezas individuales que requieren trato aparte",
       placeholder:
-        "Activa si hay un sistema generador u un conjunto de piezas físicas individuales que, por su naturaleza, no forman un bloque fijo con la instalación y pueden moverse, reponerse o almacenarse de forma separada",
+        "Incluir cuando hay un sistema generador u un conjunto de piezas físicas individuales que, por su naturaleza, no forman un bloque fijo con la instalación y pueden moverse, reponerse o almacenarse de forma separada",
       emptyMarker: "",
       type: "toggle",
       path: "features.hasSculptures",
@@ -394,7 +394,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "sculpture_count",
       label: "Número de piezas individuales",
-      placeholder: "Escribe el número de piezas",
+      placeholder: "Indicar el número de piezas",
       emptyMarker: "[número de piezas individuales]",
       type: "number",
       path: "features.sculptureCount",
@@ -406,7 +406,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_mechanical",
       label: "Elementos mecánicos",
       placeholder:
-        "Activa si hay mecanismos físicos: motores, engranajes, estructuras motorizadas, automatismos, etc.",
+        "Incluir cuando hay mecanismos físicos: motores, engranajes, estructuras motorizadas, automatismos, etc.",
       emptyMarker: "",
       type: "toggle",
       path: "features.mechanical",
@@ -417,7 +417,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_electrical",
       label: "Elementos eléctricos",
       placeholder:
-        "Activa si hay instalación eléctrica: cableado de potencia, tomas, iluminación eléctrica, etc. (no confundir con electrónica de control)",
+        "Incluir cuando hay instalación eléctrica: cableado de potencia, tomas, iluminación eléctrica, etc. (no confundir con electrónica de control)",
       emptyMarker: "",
       type: "toggle",
       path: "features.electrical",
@@ -428,7 +428,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_electronics",
       label: "Elementos electrónicos",
       placeholder:
-        "Activa si hay electrónica de control o señal: placas, sensores, pantallas, audio digital, programación, etc.",
+        "Incluir cuando hay electrónica de control o señal: placas, sensores, pantallas, audio digital, programación, etc.",
       emptyMarker: "",
       type: "toggle",
       path: "features.electronics",
@@ -439,7 +439,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_moving",
       label: "Elementos móviles",
       placeholder:
-        "Activa si hay partes que se desplazan, giran, suben, bajan o cambian de posición durante el funcionamiento",
+        "Incluir cuando hay partes que se desplazan, giran, suben, bajan o cambian de posición durante el funcionamiento",
       emptyMarker: "",
       type: "toggle",
       path: "features.moving",
@@ -450,7 +450,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_special_risk",
       label: "Condiciones especiales de seguridad o riesgo",
       placeholder:
-        "Activa si la obra implica riesgos o condiciones especiales que deban declararse (calor, frío, líquidos, cortes, altura, láser, etc.)",
+        "Incluir cuando la obra implica riesgos o condiciones especiales que deban declararse (calor, frío, líquidos, cortes, altura, láser, etc.)",
       emptyMarker: "",
       type: "toggle",
       path: "features.specialRisk",
@@ -460,7 +460,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "special_risk_desc",
       label: "Descripción de las condiciones especiales",
       placeholder:
-        "Describe con precisión las condiciones o riesgos especiales de la instalación",
+        "Describir con precisión las condiciones o riesgos especiales de la instalación",
       emptyMarker: "[descripción de las condiciones especiales de seguridad o riesgo]",
       type: "textarea",
       path: "features.specialRiskDesc",
@@ -471,7 +471,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "feat_power",
       label: "Requiere alimentación eléctrica",
-      placeholder: "Activa si necesita corriente de red (o equivalente) para funcionar",
+      placeholder: "Incluir cuando necesita corriente de red (o equivalente) para funcionar",
       emptyMarker: "",
       type: "toggle",
       path: "features.needsPower",
@@ -481,7 +481,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_access_off",
       label: "Accesible también cuando está apagada o inactiva",
       placeholder:
-        "Activa si el público puede seguir acercándose o acceder al espacio de la obra aunque esté apagada, en pausa o fuera de funcionamiento (la custodia sigue aplicando)",
+        "Incluir cuando el público puede seguir acercándose o acceder al espacio de la obra aunque esté apagada, en pausa o fuera de funcionamiento (la custodia sigue aplicando)",
       emptyMarker: "",
       type: "toggle",
       path: "features.accessibleWhenOff",
@@ -491,7 +491,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_watch",
       label: "Requiere vigilancia presencial permanente",
       placeholder:
-        "Activa si hace falta una persona vigilando mientras la obra esté accesible al público",
+        "Incluir cuando hace falta una persona vigilando mientras la obra esté accesible al público",
       emptyMarker: "",
       type: "toggle",
       path: "features.needsWatch",
@@ -501,7 +501,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "feat_signage",
       label: "Requiere carteles de seguridad o perímetro de protección",
       placeholder:
-        "Activa si deben mostrarse carteles indicativos de seguridad y/o perimetrar toda la instalación o una zona concreta por seguridad",
+        "Incluir cuando deben mostrarse carteles indicativos de seguridad y/o perimetrar toda la instalación o una zona concreta por seguridad",
       emptyMarker: "",
       type: "toggle",
       path: "features.needsSecurityPerimeter",
@@ -509,8 +509,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "feat_outdoor",
-      label: "Exposición en exterior o a la intemperie",
-      placeholder: "Activa si puede estar a la intemperie o sin protección fija",
+      label: "Exhibición en exterior o a la intemperie",
+      placeholder: "Incluir cuando puede estar a la intemperie o sin protección fija",
       emptyMarker: "",
       type: "toggle",
       path: "features.outdoor",
@@ -519,7 +519,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "feat_extra",
       label: "Añadir características adicionales en texto libre",
-      placeholder: "Activa para incluir otras características que no estén en la lista",
+      placeholder: "Incluir para incluir otras características que no estén en la lista",
       emptyMarker: "",
       type: "toggle",
       path: "features.hasExtra",
@@ -529,7 +529,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "extra_chars",
       label: "Características adicionales",
       placeholder:
-        "Escribe otras características relevantes de la instalación, una por línea si es posible",
+        "Indicar otras características relevantes de la instalación, una por línea si es posible",
       emptyMarker: "[características adicionales de la instalación]",
       type: "textarea",
       path: "features.extraText",
@@ -542,7 +542,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "author_mounts",
       label: "Montaje y desmontaje solo por la Parte Autora",
-      placeholder: "Activa si solo monta y desmonta la Parte Autora",
+      placeholder: "Incluir cuando solo monta y desmonta la Parte Autora",
       emptyMarker: "",
       type: "toggle",
       path: "custody.authorMounts",
@@ -552,7 +552,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "daily_remove",
       label: "Retirada y reposición diaria fuera del horario de exhibición",
       placeholder:
-        "Activa solo si, además de existir piezas individuales, se acuerda retirarlas al cerrar cada jornada y reponerlas al abrir (régimen diario de almacenamiento temporal)",
+        "Incluir solo cuando, además de existir piezas individuales, se acuerda retirarlas al cerrar cada jornada y reponerlas al abrir (régimen diario de almacenamiento temporal)",
       emptyMarker: "",
       type: "toggle",
       path: "custody.dailyRemove",
@@ -562,7 +562,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "weather_protect",
       label: "Obligación de protección meteorológica",
-      placeholder: "Activa si el solicitante de la obra debe proteger frente a clima",
+      placeholder: "Incluir cuando el solicitante de la obra debe proteger frente a clima",
       emptyMarker: "",
       type: "toggle",
       path: "custody.weatherProtect",
@@ -574,7 +574,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "has_rc",
       label: "La Parte Solicitante aporta cobertura de responsabilidad civil",
       placeholder:
-        "Marca solo si el solicitante de la obra es quien proporciona la RC del evento; si no la aporta, déjalo sin marcar",
+        "Incluir solo cuando el solicitante de la obra es quien proporciona la RC del evento; si no la aporta, déjalo sin marcar",
       emptyMarker: "",
       type: "toggle",
       path: "insurance.hasRc",
@@ -584,7 +584,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "has_nail",
       label: "La Parte Solicitante aporta seguro de daños clavo a clavo",
       placeholder:
-        "Marca solo si el solicitante de la obra es quien proporciona el seguro de daños a todo riesgo; si no lo aporta, déjalo sin marcar",
+        "Incluir solo cuando el solicitante de la obra es quien proporciona el seguro de daños a todo riesgo; si no lo aporta, déjalo sin marcar",
       emptyMarker: "",
       type: "toggle",
       path: "insurance.hasNailToNail",
@@ -610,10 +610,10 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "piece_unit_value",
-      label: "Valor unitario de cada pieza generada (€, sin IVA)",
+      label: "Valor unitario de cada pieza individual (€, sin IVA)",
       placeholder:
-        "Valor de cada pieza individual generada o tratada aparte (p. ej. cada escultura), sin incluir el sistema",
-      emptyMarker: "[valor unitario de cada pieza generada]",
+        "Valor de cada pieza individual tratada aparte (sin incluir el sistema técnico o instalación)",
+      emptyMarker: "[valor unitario de cada pieza individual]",
       type: "money",
       path: "insurance.pieceUnitValue",
       step: "insurance",
@@ -624,7 +624,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "total_value",
       label: "Valor total declarado (€, sin IVA)",
       placeholder:
-        "Suma del sistema y, si aplica, de todas las piezas generadas (u otro total acordado)",
+        "Suma del sistema técnico o instalación y, si aplica, de todas las piezas individuales (u otro total acordado)",
       emptyMarker: "[valor total declarado]",
       type: "money",
       path: "insurance.totalValue",
@@ -637,7 +637,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_image",
       label: "Incluir autorización de uso de imagen y reproducción",
       placeholder:
-        "Activa para autorizar fotos, vídeo o reproducción de la obra en ciertos medios",
+        "Incluir para autorizar fotos, vídeo o reproducción de la obra en ciertos medios",
       emptyMarker: "",
       type: "toggle",
       path: "options.imageUse",
@@ -648,7 +648,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "image_scope",
       label: "Ámbito de la autorización",
       placeholder:
-        "Describe qué se puede captar o reproducir (obra completa, detalles, montaje…)",
+        "Describir qué se puede captar o reproducir (obra completa, detalles, montaje…)",
       emptyMarker: "[ámbito de la autorización de imagen]",
       type: "textarea",
       path: "options.imageScope",
@@ -661,7 +661,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "image_media",
       label: "Medios autorizados",
       placeholder:
-        "Escribe los medios (web, redes, catálogo, prensa, dossier…)",
+        "Indicar los medios (web, redes, catálogo, prensa, dossier…)",
       emptyMarker: "[medios autorizados]",
       type: "text",
       path: "options.imageMedia",
@@ -674,7 +674,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "image_duration",
       label: "Duración de la autorización",
       placeholder:
-        "Escribe el período (por ejemplo: durante el evento y seis meses después)",
+        "Indicar el período (por ejemplo: durante el evento y seis meses después)",
       emptyMarker: "[duración de la autorización]",
       type: "text",
       path: "options.imageDuration",
@@ -687,7 +687,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "image_credit",
       label: "Crédito obligatorio",
       placeholder:
-        "Escribe cómo debe citarse la obra y a quien tiene la autoría",
+        "Indicar cómo debe citarse la obra y a quien tiene la autoría",
       emptyMarker: "[crédito obligatorio]",
       type: "text",
       path: "options.imageCredit",
@@ -700,7 +700,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "image_commercial",
       label: "Uso comercial autorizado",
       placeholder:
-        "Activa solo si se permite uso con fines comerciales o publicitarios",
+        "Incluir solo cuando se permite uso con fines comerciales o publicitarios",
       emptyMarker: "",
       type: "toggle",
       path: "options.imageCommercial",
@@ -712,7 +712,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "image_adapt",
       label: "Permitir recortes o adaptaciones menores",
       placeholder:
-        "Activa si se permiten recortes, reencuadres o adaptaciones técnicas menores",
+        "Incluir cuando se permiten recortes, reencuadres o adaptaciones técnicas menores",
       emptyMarker: "",
       type: "toggle",
       path: "options.imageAdapt",
@@ -724,7 +724,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_sale",
       label: "Incluir condiciones de venta de la obra",
       placeholder:
-        "Activa si este acuerdo también regula una posible venta de la obra",
+        "Incluir cuando este acuerdo también regula una posible venta de la obra",
       emptyMarker: "",
       type: "toggle",
       path: "options.saleTerms",
@@ -734,7 +734,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "sale_price",
       label: "Precio de venta (€, impuestos aparte si aplica)",
-      placeholder: "Escribe el precio acordado o el precio de referencia",
+      placeholder: "Indicar el precio acordado o el precio de referencia",
       emptyMarker: "[precio de venta]",
       type: "money",
       path: "options.salePrice",
@@ -747,7 +747,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "sale_reservation",
       label: "Reserva o señal",
       placeholder:
-        "Escribe si hay reserva, señal o condiciones para apartar la obra",
+        "Indicar si hay reserva, señal o condiciones para apartar la obra",
       emptyMarker: "[condiciones de reserva o señal]",
       type: "text",
       path: "options.saleReservation",
@@ -759,7 +759,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "sale_delivery",
       label: "Entrega tras la venta",
       placeholder:
-        "Escribe cuándo y cómo se entrega la obra tras la venta",
+        "Indicar cuándo y cómo se entrega la obra tras la venta",
       emptyMarker: "[condiciones de entrega tras la venta]",
       type: "text",
       path: "options.saleDelivery",
@@ -772,7 +772,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "sale_no_exclusivity",
       label: "La venta no implica representación exclusiva",
       placeholder:
-        "Activa para dejar claro que vender no otorga exclusividad de representación",
+        "Incluir para dejar claro que vender no otorga exclusividad de representación",
       emptyMarker: "",
       type: "toggle",
       path: "options.saleNoExclusivity",
@@ -783,7 +783,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "sale_notes",
       label: "Otras condiciones de venta",
-      placeholder: "Escribe cualquier otra condición relevante de la venta",
+      placeholder: "Indicar cualquier otra condición relevante de la venta",
       emptyMarker: "[otras condiciones de venta]",
       type: "textarea",
       path: "options.saleNotes",
@@ -794,7 +794,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "opt_transport",
       label: "Incluir transporte (ida y vuelta)",
-      placeholder: "Activa para repartir quién organiza, quién paga y los puntos de recogida/entrega",
+      placeholder: "Incluir para repartir quién organiza, quién paga y los puntos de recogida/entrega",
       emptyMarker: "",
       type: "toggle",
       path: "options.transport",
@@ -804,7 +804,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "transport_organizer",
       label: "Quién organiza el transporte",
-      placeholder: "Escribe quién organiza la ida y la vuelta",
+      placeholder: "Indicar quién organiza la ida y la vuelta",
       emptyMarker: "[quién organiza el transporte]",
       type: "text",
       path: "options.transportOrganizer",
@@ -816,7 +816,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "transport_payer",
       label: "Quién paga el transporte",
-      placeholder: "Escribe quién asume el coste del transporte",
+      placeholder: "Indicar quién asume el coste del transporte",
       emptyMarker: "[quién paga el transporte]",
       type: "text",
       path: "options.transportPayer",
@@ -828,7 +828,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "transport_pickup",
       label: "Punto de recogida (ida)",
-      placeholder: "Escribe dirección o lugar de recogida",
+      placeholder: "Indicar dirección o lugar de recogida",
       emptyMarker: "[punto de recogida]",
       type: "text",
       path: "options.transportPickup",
@@ -840,7 +840,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "transport_return",
       label: "Punto de entrega (vuelta)",
-      placeholder: "Escribe dirección o lugar de devolución",
+      placeholder: "Indicar dirección o lugar de devolución",
       emptyMarker: "[punto de entrega de vuelta]",
       type: "text",
       path: "options.transportReturn",
@@ -852,7 +852,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "transport_notes",
       label: "Notas de transporte / seguro en tránsito",
-      placeholder: "Escribe condiciones extra (embalaje, seguro en tránsito, horarios…)",
+      placeholder: "Indicar condiciones extra (embalaje, seguro en tránsito, horarios…)",
       emptyMarker: "[notas de transporte]",
       type: "textarea",
       path: "options.transportNotes",
@@ -864,7 +864,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_costs",
       label: "Incluir si hay o no remuneración y el reparto de gastos",
       placeholder:
-        "Activa para dejar claro si la Parte Autora cobra por la exhibición y quién asume honorarios, producción, dietas u otros gastos",
+        "Incluir para dejar claro si la Parte Autora cobra por la exhibición y quién asume honorarios, producción, dietas u otros gastos",
       emptyMarker: "",
       type: "toggle",
       path: "options.costs",
@@ -875,7 +875,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "costs_no_fee",
       label: "Sin remuneración por la exhibición",
       placeholder:
-        "Marca si no hay honorario ni pago a la Parte Autora por participar o ceder la obra temporalmente",
+        "Incluir cuando no hay honorario ni pago a la Parte Autora por participar o poner la obra a disposición temporal",
       emptyMarker: "",
       type: "toggle",
       path: "options.costsNoFee",
@@ -900,7 +900,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_cancellation",
       label: "Incluir cancelación y retirada anticipada",
       placeholder:
-        "Activa para regular cancelación del evento o retirada de la obra",
+        "Incluir para regular cancelación del evento o retirada de la obra",
       emptyMarker: "",
       type: "toggle",
       path: "options.cancellation",
@@ -911,7 +911,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "cancellation_terms",
       label: "Cancelación del evento o del acuerdo",
       placeholder:
-        "Describe qué ocurre si el evento o el acuerdo se cancelan",
+        "Describir qué ocurre si el evento o el acuerdo se cancelan",
       emptyMarker: "[condiciones de cancelación]",
       type: "textarea",
       path: "options.cancellationTerms",
@@ -924,7 +924,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "withdrawal_terms",
       label: "Retirada anticipada de la obra",
       placeholder:
-        "Describe cuándo se puede retirar la obra (falta de seguros, condiciones incumplidas…)",
+        "Describir cuándo se puede retirar la obra (falta de seguros, condiciones incumplidas…)",
       emptyMarker: "[condiciones de retirada anticipada]",
       type: "textarea",
       path: "options.withdrawalTerms",
@@ -937,7 +937,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_contacts",
       label: "Incluir contactos operativos",
       placeholder:
-        "Activa para fijar personas de referencia durante montaje y exhibición",
+        "Incluir para fijar personas de referencia durante montaje y exhibición",
       emptyMarker: "",
       type: "toggle",
       path: "options.contacts",
@@ -1020,7 +1020,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_inventory",
       label: "Incluir inventario de componentes",
       placeholder:
-        "Activa para anexar la lista de piezas, cables, controladores, etc.",
+        "Incluir para listar piezas, cables, controladores, etc. en el inventario del documento",
       emptyMarker: "",
       type: "toggle",
       path: "options.inventory",
@@ -1031,7 +1031,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "inventory_list",
       label: "Inventario",
       placeholder:
-        "Lista cada componente (una línea por elemento: piezas, cables, controladores…)",
+        "Listar cada componente (una línea por elemento: piezas, cables, controladores…)",
       emptyMarker: "[inventario de componentes]",
       type: "textarea",
       path: "options.inventoryList",
@@ -1044,7 +1044,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_space",
       label: "Incluir espacio y accesos",
       placeholder:
-        "Activa para fijar sala, horarios técnicos y quién aporta barreras o cartelas",
+        "Incluir para fijar sala, horarios técnicos y quién aporta barreras o cartelas",
       emptyMarker: "",
       type: "toggle",
       path: "options.spaceAccess",
@@ -1078,7 +1078,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "space_equipment",
       label: "Quién aporta barreras, cartelas, pedestales u otros",
-      placeholder: "Describe qué aporta cada parte (barreras, cartelas, pedestales…)",
+      placeholder: "Describir qué aporta cada parte (barreras, cartelas, pedestales…)",
       emptyMarker: "[aporte de barreras, cartelas u otros]",
       type: "textarea",
       path: "options.spaceEquipment",
@@ -1091,7 +1091,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_subcontract",
       label: "Incluir subcontratación / terceros",
       placeholder:
-        "Activa si pueden intervenir montadores, seguridad u otros terceros",
+        "Incluir cuando pueden intervenir personal de montaje, seguridad u otros terceros",
       emptyMarker: "",
       type: "toggle",
       path: "options.subcontract",
@@ -1115,7 +1115,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_ip",
       label: "Incluir propiedad intelectual (más allá de imagen)",
       placeholder:
-        "Activa para dejar claro que no hay cesión de derechos ni obras derivadas",
+        "Incluir para dejar claro que no hay cesión de derechos ni obras derivadas",
       emptyMarker: "",
       type: "toggle",
       path: "options.ipRights",
@@ -1126,7 +1126,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "ip_name_use",
       label: "Uso de nombre, crédito o marca",
       placeholder:
-        "Describe cómo puede usarse el nombre o crédito de quien tiene la autoría",
+        "Describir cómo puede usarse el nombre o crédito de quien tiene la autoría",
       emptyMarker: "[uso de nombre, crédito o marca]",
       type: "text",
       path: "options.ipNameUse",
@@ -1139,7 +1139,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_repairs",
       label: "Incluir régimen de reparaciones",
       placeholder:
-        "Activa para fijar quién puede reparar, cómo, qué tipos están permitidas o prohibidas y quién cubre el coste",
+        "Incluir para fijar quién puede reparar, cómo, qué tipos están permitidas o prohibidas y quién cubre el coste",
       emptyMarker: "",
       type: "toggle",
       path: "options.repairs",
@@ -1150,7 +1150,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "repairs_who",
       label: "Quién puede realizar reparaciones",
       placeholder:
-        "Ej.: solo la Parte Autora; la Parte Solicitante con autorización previa; técnico designado por…",
+        "Ej.: solo la Parte Autora; la Parte Solicitante con autorización previa; personal técnico designado por…",
       emptyMarker: "[quién puede realizar reparaciones]",
       type: "text",
       path: "options.repairsWho",
@@ -1163,7 +1163,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "repairs_how",
       label: "Cómo deben hacerse",
       placeholder:
-        "Describe el procedimiento (aviso previo, autorización escrita, materiales, plazos, supervisión…)",
+        "Describir el procedimiento (aviso previo, autorización escrita, materiales, plazos, supervisión…)",
       emptyMarker: "[procedimiento de reparaciones]",
       type: "textarea",
       path: "options.repairsHow",
@@ -1215,7 +1215,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_install_changes",
       label: "Incluir cambios de ubicación, iluminación o configuración",
       placeholder:
-        "Activa para exigir autorización si se mueve la obra, se cambia la iluminación, se redistribuye el espacio o se altera la configuración",
+        "Incluir para exigir autorización si se mueve la obra, se cambia la iluminación, se redistribuye el espacio o se altera la configuración",
       emptyMarker: "",
       type: "toggle",
       path: "options.amendments",
@@ -1239,7 +1239,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_notices",
       label: "Incluir emails para avisos formales",
       placeholder:
-        "Activa para fijar a qué correos deben enviarse las notificaciones formales entre las partes (no son los contactos operativos del día a día)",
+        "Incluir para fijar a qué correos deben enviarse las notificaciones formales entre las partes (no son los contactos operativos del día a día)",
       emptyMarker: "",
       type: "toggle",
       path: "options.notices",
@@ -1273,7 +1273,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "opt_delivery_act",
       label: "Incluir acta de entrega y devolución",
-      placeholder: "Activa para exigir acta con estado de la obra",
+      placeholder: "Incluir para exigir acta con estado de la obra",
       emptyMarker: "",
       type: "toggle",
       path: "options.deliveryAct",
@@ -1283,7 +1283,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "opt_policy_certs",
       label: "Exigir certificados de póliza previos",
-      placeholder: "Activa para exigir acreditación de seguros antes del transporte",
+      placeholder: "Incluir para exigir acreditación de seguros antes del transporte",
       emptyMarker: "",
       type: "toggle",
       path: "options.policyCerts",
@@ -1293,7 +1293,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "opt_franchise",
       label: "Franquicia a cargo del solicitante de la obra",
-      placeholder: "Activa para dejar claro quién asume la franquicia",
+      placeholder: "Incluir para dejar claro quién asume la franquicia",
       emptyMarker: "",
       type: "toggle",
       path: "options.franchise",
@@ -1303,7 +1303,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "opt_jurisdiction",
       label: "Incluir ley aplicable y jurisdicción",
-      placeholder: "Activa para fijar ley y tribunales",
+      placeholder: "Incluir para fijar ley y tribunales",
       emptyMarker: "",
       type: "toggle",
       path: "options.jurisdiction",
@@ -1313,7 +1313,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "law_text",
       label: "Ley aplicable",
-      placeholder: "Escribe la ley aplicable (ej.: legislación española)",
+      placeholder: "Indicar la ley aplicable (ej.: legislación española)",
       emptyMarker: "[ley aplicable]",
       type: "text",
       path: "options.lawText",
@@ -1325,7 +1325,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "courts_text",
       label: "Tribunales / jurisdicción",
-      placeholder: "Escribe los juzgados o tribunales competentes",
+      placeholder: "Indicar los juzgados o tribunales competentes",
       emptyMarker: "[tribunales competentes]",
       type: "text",
       path: "options.courtsText",
@@ -1336,8 +1336,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "opt_expert",
-      label: "Perito independiente para pérdida artística",
-      placeholder: "Activa para no dejar la calificación solo a la Parte Autora",
+      label: "Peritaje independiente para pérdida artística",
+      placeholder: "Incluir para no dejar la calificación solo a la Parte Autora",
       emptyMarker: "",
       type: "toggle",
       path: "options.independentExpert",
@@ -1347,7 +1347,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "opt_force_majeure",
       label: "Cláusula de fuerza mayor",
-      placeholder: "Activa para regular eventos de fuerza mayor",
+      placeholder: "Incluir para regular eventos de fuerza mayor",
       emptyMarker: "",
       type: "toggle",
       path: "options.forceMajeure",
@@ -1359,7 +1359,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "header",
       title: "{{document.title}}",
-      body: `CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD DE LA INSTALACIÓN ARTÍSTICA «{{project.workTitle}}»
+      body: `{{document.headerKind}} DE LA INSTALACIÓN ARTÍSTICA «{{project.workTitle}}»
 
 En {{project.city}}, a {{project.signDate}}`,
     },
@@ -1387,13 +1387,13 @@ III. Que {{document.this}} constituye un acuerdo específico negociado y aceptad
       title: "MANIFIESTAN",
       body: `I. Que con fecha {{project.baseAgreementDate}} ambas partes suscribieron {{project.mainAgreementName}} correspondiente a la exhibición de la instalación artística de la Parte Autora durante {{project.eventName}}.
 II. Que, debido a las características técnicas y de funcionamiento de la instalación, ambas partes consideran conveniente regular expresamente las condiciones particulares de su exhibición, custodia, conservación y responsabilidad.
-III. Que {{document.this}} constituye un acuerdo específico negociado y aceptado libremente por ambas partes, complementa {{project.mainAgreementName}} y, exclusivamente respecto de la instalación artística objeto del mismo, prevalecerá sobre cualquier cláusula del citado acuerdo principal que resulte incompatible con lo aquí establecido.`,
+III. Que {{document.this}} constituye un anexo específico negociado y aceptado libremente por ambas partes, complementa {{project.mainAgreementName}} y, exclusivamente respecto de la instalación artística objeto del mismo, prevalecerá sobre cualquier cláusula del citado acuerdo principal que resulte incompatible con lo aquí establecido.`,
       requireAll: ["project.isAnnex"],
     },
     {
       id: "primera",
       title: "PRIMERA. Objeto",
-      body: `La Parte Autora cede temporalmente la instalación artística «{{project.workTitle}}» para su exhibición durante {{project.eventName}}, a solicitud de la Parte Solicitante.{{project.exhibitPeriod}}`,
+      body: `La Parte Autora pone a disposición temporal de la Parte Solicitante la instalación artística «{{project.workTitle}}» para su exhibición durante {{project.eventName}}.{{project.exhibitPeriod}}`,
     },
     {
       id: "segunda",
@@ -1422,22 +1422,22 @@ La Parte Solicitante declara conocer plenamente estas características y acepta 
       body: `Desde la entrega de la instalación hasta su devolución a la Parte Autora, la Parte Solicitante asumirá íntegramente su custodia, conservación, vigilancia y protección.
 En particular, la Parte Solicitante se compromete a:
 {{custody.duties}}
-La obligación de mantener vigilancia permanente constituye una condición esencial para la exhibición de la instalación y ha sido expresamente aceptada por la Parte Solicitante, cuando resulte de aplicación conforme a las características de la obra.
+{{custody.watchEssentialText}}
 La ausencia de vigilancia o la falta de adopción de las medidas de protección necesarias se considerará un incumplimiento de las obligaciones de custodia asumidas por la Parte Solicitante.`,
     },
     {
       id: "quinta",
       title: "QUINTA. Almacenamiento y manipulación de las piezas",
-      body: `Con el fin de preservar la integridad de la obra, las {{features.sculptureCount}} piezas podrán ser retiradas diariamente de la instalación para su almacenamiento temporal fuera del horario de exhibición y repuestas nuevamente para su apertura al público.
+      body: `Con el fin de preservar la integridad de la obra, las {{features.sculptureCount}} piezas individuales podrán ser retiradas diariamente de la instalación para su almacenamiento temporal fuera del horario de exhibición y repuestas nuevamente para su apertura al público.
 Las operaciones de retirada, almacenamiento, custodia, manipulación y posterior reposición serán realizadas bajo la exclusiva responsabilidad de la Parte Solicitante.
-La Parte Solicitante responderá de cualquier pérdida, robo, hurto, desaparición, desperfecto, deterioro o daño que pudiera producirse durante dichas operaciones, así como de cualquier daño al sistema mecánico, eléctrico y electrónico de la instalación durante todo el período de custodia.`,
+La Parte Solicitante responderá de cualquier pérdida, robo, hurto, desaparición, desperfecto, deterioro o daño que pudiera producirse durante dichas operaciones, así como de cualquier daño a la instalación o a sus componentes durante todo el período de custodia.`,
       requireAll: ["features.hasSculptures", "custody.dailyRemove"],
     },
     {
       id: "sexta",
       title: "SEXTA. Responsabilidad civil",
       body: `La Parte Solicitante declara que la instalación artística objeto {{document.ofThis}} se encuentra debidamente cubierta por la póliza de Responsabilidad Civil correspondiente a {{project.eventName}} durante todo el período en que permanezca bajo su custodia y exhibición.
-La Parte Solicitante asume íntegramente la responsabilidad derivada de la exhibición pública de la instalación, de su funcionamiento, de la interacción del público con la misma y de todas las medidas de seguridad necesarias para garantizar la protección de las personas, de la propia obra y de las instalaciones durante todo el período en que la instalación permanezca bajo su custodia.
+La Parte Solicitante asume íntegramente la responsabilidad derivada de la exhibición pública de la instalación, de su funcionamiento{{insurance.rcInteractionBit}} y de todas las medidas de seguridad necesarias para garantizar la protección de las personas, de la propia obra y de las instalaciones durante todo el período en que la instalación permanezca bajo su custodia.
 La Parte Solicitante declara que la decisión de exhibir públicamente la instalación ha sido adoptada libremente, tras haber recibido toda la información técnica y de seguridad facilitada por la Parte Autora, conocer las características y riesgos inherentes a la obra y aceptar expresamente las condiciones necesarias para su correcta exhibición.
 La existencia, alcance, validez o eficacia de la póliza de Responsabilidad Civil no limitará, en ningún caso, las obligaciones asumidas por la Parte Solicitante mediante {{document.this}}.`,
       requireAll: ["insurance.hasRc"],
@@ -1493,7 +1493,7 @@ Las partes manifiestan que {{document.this}} ha sido negociado y aceptado librem
     {
       id: "opt_certs",
       title: "Acreditación de seguros",
-      body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Parte Solicitante entregará a la Parte Autora certificado o extracto de las pólizas de Responsabilidad Civil y de daños que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará a la Parte Autora a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
+      body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Parte Solicitante entregará a la Parte Autora certificado o extracto de {{options.policyCertsDetail}} que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará a la Parte Autora a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
       requireAll: ["options.policyCerts"],
     },
     {
@@ -1511,7 +1511,7 @@ Las partes manifiestan que {{document.this}} ha sido negociado y aceptado librem
     {
       id: "opt_expert",
       title: "Valoración de pérdida artística",
-      body: `La valoración sobre la afectación irreversible de las características artísticas de la obra podrá ser realizada por la Parte Autora y, a solicitud de cualquiera de las partes, contrastada por un perito independiente de común acuerdo. A falta de acuerdo sobre el perito en el plazo de quince (15) días, podrá designarse conforme a la práctica habitual de arbitraje pericial o por el colegio profesional competente.`,
+      body: `La valoración sobre la afectación irreversible de las características artísticas de la obra podrá ser realizada por la Parte Autora y, a solicitud de cualquiera de las partes, contrastada por una persona perita independiente de común acuerdo. A falta de acuerdo sobre esa persona perita en el plazo de quince (15) días, podrá designarse conforme a la práctica habitual de arbitraje pericial o por el colegio profesional competente.`,
       requireAll: ["options.independentExpert"],
     },
     {
@@ -1615,7 +1615,7 @@ La Parte Solicitante garantiza que el espacio, los accesos y los medios aportado
       id: "opt_subcontract",
       title: "Subcontratación",
       body: `La Parte Solicitante podrá valerse de terceros para determinadas tareas solo en el siguiente marco: {{options.subcontractTerms}}.
-Aunque intervengan montadores, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Autora del cumplimiento de {{document.this}} (custodia, seguro, daños, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
+Aunque intervengan personal de montaje, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Autora del cumplimiento de {{document.this}} (custodia, seguro, daños, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
       requireAll: ["options.subcontract"],
     },
     {
@@ -1647,11 +1647,11 @@ Se entenderán recibidas cuando conste su envío a dichas direcciones, sin perju
     {
       id: "signatures",
       title: "Firmas",
-      body: `Y para que así conste, ambas partes firman el presente documento por duplicado y a un solo efecto.
+      body: `Y para que así conste, ambas partes firman {{document.this}} por duplicado y a un solo efecto.
 
 En {{project.city}}, a {{project.signDate}}.
 
-AUTORÍA
+POR LA PARTE AUTORA
 {{parties.author.name}}
 Documento: {{parties.author.doc}}
 {{parties.author.sigRep}}Firma:
@@ -1702,6 +1702,8 @@ export function enrichDerivedValues(
   if (isAnnex) {
     v["project.mainAgreementName"] = mainName || "el acuerdo principal";
     v["document.title"] = annexTitle || "ANEXO AL ACUERDO PRINCIPAL";
+    v["document.headerKind"] =
+      "ANEXO — CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD";
     v["document.this"] = "el presente Anexo";
     v["document.This"] = "El presente Anexo";
     v["document.ofThis"] = "del presente Anexo";
@@ -1711,6 +1713,8 @@ export function enrichDerivedValues(
   } else {
     v["document.title"] =
       "ACUERDO DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD";
+    v["document.headerKind"] =
+      "CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD";
     v["document.this"] = "el presente Acuerdo";
     v["document.This"] = "El presente Acuerdo";
     v["document.ofThis"] = "del presente Acuerdo";
@@ -1749,12 +1753,12 @@ export function enrichDerivedValues(
   const repDoc = String(v["parties.author.repDoc"] ?? "").trim();
   const repRole = String(v["parties.author.repRole"] ?? "").trim();
   if (repName) {
-    const docBit = repDoc || "[documento — representante del autor]";
-    const roleBit = repRole || "[cargo — representante del autor]";
+    const docBit = repDoc || "[documento — representante de la Parte Autora]";
+    const roleBit = repRole || "[cargo — representante de la Parte Autora]";
     v["parties.author.repBlock"] =
-      `\nActuando en este acto a través de ${repName}, con documento ${docBit}, en calidad de ${roleBit} (representante del autor).`;
+      `\nActuando en este acto a través de ${repName}, con documento ${docBit}, en calidad de ${roleBit} (representante de la Parte Autora).`;
     v["parties.author.sigRep"] =
-      `Representante del autor: ${repName}\nDocumento: ${docBit}\nCargo: ${roleBit}\n`;
+      `Representante de la Parte Autora: ${repName}\nDocumento: ${docBit}\nCargo: ${roleBit}\n`;
   } else {
     v["parties.author.repBlock"] = "";
     v["parties.author.sigRep"] = "";
@@ -1779,12 +1783,12 @@ export function enrichDerivedValues(
   const orgRepDoc = String(v["parties.org.repDoc"] ?? "").trim();
   const orgRepRole = String(v["parties.org.repRole"] ?? "").trim();
   if (orgRepName) {
-    const docBit = orgRepDoc || "[documento — representante del solicitante]";
-    const roleBit = orgRepRole || "[cargo — representante del solicitante]";
+    const docBit = orgRepDoc || "[documento — representante de la Parte Solicitante]";
+    const roleBit = orgRepRole || "[cargo — representante de la Parte Solicitante]";
     v["parties.org.repBlock"] =
-      `\nActuando en este acto a través de ${orgRepName}, con documento ${docBit}, en calidad de ${roleBit} (representante del solicitante).`;
+      `\nActuando en este acto a través de ${orgRepName}, con documento ${docBit}, en calidad de ${roleBit} (representante de la Parte Solicitante).`;
     v["parties.org.sigRep"] =
-      `Representante del solicitante: ${orgRepName}\nDocumento: ${docBit}\nCargo: ${roleBit}\n`;
+      `Representante de la Parte Solicitante: ${orgRepName}\nDocumento: ${docBit}\nCargo: ${roleBit}\n`;
   } else {
     v["parties.org.repBlock"] = "";
     v["parties.org.sigRep"] = "";
@@ -1860,7 +1864,7 @@ export function enrichDerivedValues(
   // Legacy drafts may still have publicInteraction; treat it as interactive.
   if (v["features.interactive"] || v["features.publicInteraction"]) {
     bullets.push(
-      "— Está pensada para la interacción del público con la obra.",
+      "— Se destina a la interacción del público con la obra.",
     );
   }
   if (v["features.hasSculptures"]) {
@@ -1927,7 +1931,7 @@ export function enrichDerivedValues(
   v["features.list"] =
     bullets.length > 0
       ? bullets.join("\n")
-      : "— [completa las características de la instalación en el paso correspondiente]";
+      : "— [completar las características de la instalación en el paso correspondiente]";
 
   const duties: string[] = [];
   if (v["features.needsWatch"]) {
@@ -1946,7 +1950,7 @@ export function enrichDerivedValues(
     );
   }
   duties.push("— Impedir cualquier manipulación no autorizada.");
-  if (v["custody.weatherProtect"] || v["features.outdoor"]) {
+  if (v["custody.weatherProtect"]) {
     duties.push(
       "— Adoptar todas las medidas necesarias para proteger la instalación frente a lluvia, viento, humedad, polvo, radiación solar, fenómenos meteorológicos y cualquier otra circunstancia que pueda afectar a su funcionamiento o integridad.",
     );
@@ -1965,6 +1969,29 @@ export function enrichDerivedValues(
   );
   v["custody.duties"] = duties.join("\n");
 
+  v["custody.watchEssentialText"] = v["features.needsWatch"]
+    ? "La obligación de mantener vigilancia permanente constituye una condición esencial para la exhibición de la instalación y ha sido expresamente aceptada por la Parte Solicitante."
+    : "";
+
+  v["insurance.rcInteractionBit"] =
+    v["features.interactive"] || v["features.publicInteraction"]
+      ? ", de la interacción del público con la misma"
+      : "";
+
+  const certParts: string[] = [];
+  if (v["insurance.hasRc"]) certParts.push("Responsabilidad Civil");
+  if (v["insurance.hasNailToNail"]) {
+    certParts.push("seguro de daños a todo riesgo (clavo a clavo)");
+  }
+  if (certParts.length === 0) {
+    v["options.policyCertsDetail"] =
+      `las pólizas de seguro exigidas ${v["document.inThis"]}`;
+  } else if (certParts.length === 1) {
+    v["options.policyCertsDetail"] = `la póliza de ${certParts[0]}`;
+  } else {
+    v["options.policyCertsDetail"] = `las pólizas de ${certParts.join(" y de ")}`;
+  }
+
   const breakdown: string[] = [];
   const hasTechSystem =
     Boolean(v["features.mechanical"]) ||
@@ -1975,7 +2002,7 @@ export function enrichDerivedValues(
   const showSystemValue = hasTechSystem || hasPieces;
   if (showSystemValue) {
     const systemLabel = hasPieces
-      ? "Sistema / instalación generadora"
+      ? "Sistema técnico o instalación (sin las piezas individuales)"
       : "Sistema técnico (mecánico / eléctrico / electrónico)";
     const systemVal =
       v["insurance.systemValue"] || "[valor del sistema o instalación]";
@@ -1984,9 +2011,9 @@ export function enrichDerivedValues(
   if (hasPieces) {
     const n = v["features.sculptureCount"] || "[número]";
     const unit =
-      v["insurance.pieceUnitValue"] || "[valor unitario de cada pieza generada]";
+      v["insurance.pieceUnitValue"] || "[valor unitario de cada pieza individual]";
     breakdown.push(
-      `— ${n} pieza(s) generada(s) o tratada(s) aparte: ${unit} € cada una (IVA no incluido).`,
+      `— ${n} pieza(s) individual(es): ${unit} € cada una (IVA no incluido).`,
     );
   }
   if (breakdown.length === 0) {
