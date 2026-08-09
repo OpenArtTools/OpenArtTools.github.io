@@ -140,45 +140,54 @@ function rebuildClauses(): void {
 
 /** Master toggles that decide if an options group is “included”. */
 const OPTION_GROUP_MASTERS: Record<string, string[]> = {
-  "Espacio y accesos": ["options.spaceAccess"],
-  "Inventario de componentes": ["options.inventory"],
-  "Contactos y avisos": ["options.contacts", "options.notices"],
-  Subcontratación: ["options.subcontract"],
-  "Cambios en la instalación": ["options.amendments"],
-  Reparaciones: ["options.repairs"],
-  Transporte: ["options.transport"],
-  "Remuneración y gastos": ["options.costs"],
-  "Cancelación / retirada": ["options.cancellation"],
-  "Uso de imagen / reproducción": ["options.imageUse"],
-  "Propiedad intelectual": ["options.ipRights"],
-  "Condiciones de venta": ["options.saleTerms"],
-  "Cierre documental y seguros": [
+  "I. Entrega, espacio e inventario": [
+    "options.spaceAccess",
+    "options.inventory",
     "options.deliveryAct",
+  ],
+  "II. Seguros complementarios": [
     "options.policyCerts",
     "options.franchise",
     "options.independentExpert",
   ],
-  "Marco legal": ["options.forceMajeure", "options.jurisdiction"],
+  "III. Logística y economía": ["options.transport", "options.costs"],
+  "IV. Operación durante la exhibición": [
+    "options.contacts",
+    "options.subcontract",
+    "options.amendments",
+    "options.repairs",
+  ],
+  "V. Derechos de imagen, PI y venta": [
+    "options.imageUse",
+    "options.ipRights",
+    "options.saleTerms",
+  ],
+  "VI. Extinción, avisos y marco legal": [
+    "options.cancellation",
+    "options.notices",
+    "options.forceMajeure",
+    "options.jurisdiction",
+  ],
 };
 
 const OPTIONAL_SCOPE_LABELS: { path: string; label: string }[] = [
   { path: "options.spaceAccess", label: "Espacio y accesos" },
   { path: "options.inventory", label: "Inventario" },
-  { path: "options.contacts", label: "Contactos operativos" },
-  { path: "options.notices", label: "Notificaciones formales" },
-  { path: "options.subcontract", label: "Subcontratación" },
-  { path: "options.amendments", label: "Cambios en la instalación" },
-  { path: "options.repairs", label: "Reparaciones" },
-  { path: "options.transport", label: "Transporte" },
-  { path: "options.costs", label: "Remuneración y gastos" },
-  { path: "options.cancellation", label: "Cancelación / retirada" },
-  { path: "options.imageUse", label: "Uso de imagen" },
-  { path: "options.ipRights", label: "Propiedad intelectual" },
-  { path: "options.saleTerms", label: "Condiciones de venta" },
   { path: "options.deliveryAct", label: "Acta de entrega" },
   { path: "options.policyCerts", label: "Certificados de póliza" },
   { path: "options.franchise", label: "Franquicia" },
   { path: "options.independentExpert", label: "Peritaje independiente" },
+  { path: "options.transport", label: "Transporte" },
+  { path: "options.costs", label: "Remuneración y gastos" },
+  { path: "options.contacts", label: "Contactos operativos" },
+  { path: "options.subcontract", label: "Subcontratación" },
+  { path: "options.amendments", label: "Cambios en la instalación" },
+  { path: "options.repairs", label: "Reparaciones" },
+  { path: "options.imageUse", label: "Uso de imagen" },
+  { path: "options.ipRights", label: "Propiedad intelectual" },
+  { path: "options.saleTerms", label: "Condiciones de venta" },
+  { path: "options.cancellation", label: "Cancelación / retirada" },
+  { path: "options.notices", label: "Notificaciones formales" },
   { path: "options.forceMajeure", label: "Fuerza mayor" },
   { path: "options.jurisdiction", label: "Ley y jurisdicción" },
 ];
@@ -186,21 +195,21 @@ const OPTIONAL_SCOPE_LABELS: { path: string; label: string }[] = [
 const ALL_OPTION_MASTERS = [
   "options.spaceAccess",
   "options.inventory",
-  "options.contacts",
-  "options.notices",
-  "options.subcontract",
-  "options.amendments",
-  "options.repairs",
-  "options.transport",
-  "options.costs",
-  "options.cancellation",
-  "options.imageUse",
-  "options.ipRights",
-  "options.saleTerms",
   "options.deliveryAct",
   "options.policyCerts",
   "options.franchise",
   "options.independentExpert",
+  "options.transport",
+  "options.costs",
+  "options.contacts",
+  "options.subcontract",
+  "options.amendments",
+  "options.repairs",
+  "options.imageUse",
+  "options.ipRights",
+  "options.saleTerms",
+  "options.cancellation",
+  "options.notices",
   "options.forceMajeure",
   "options.jurisdiction",
 ] as const;
@@ -1019,7 +1028,7 @@ function renderOptionsStep(t: ReturnType<typeof template>): HTMLElement {
   );
   const presetHelp = el("p", "oat-preset-help");
   presetHelp.textContent =
-    "Esencial: acta, certificados de póliza, franquicia, peritaje, cambios en la instalación y notificaciones formales. Exhibición completa: esencial + imagen, transporte, contactos, espacio, PI y reparaciones. Todo: todos los bloques.";
+    "Esencial: acta, certificados, franquicia, peritaje, cambios en instalación y notificaciones. Exhibición completa: esencial + espacio, transporte, contactos, imagen, PI y reparaciones. Todo: todos los bloques.";
   wrap.append(presets, presetHelp);
 
   const fields = fieldsForStep(t, "options");

@@ -67,7 +67,15 @@ describe("assembleClauses", () => {
     const clauses = assembleClauses(exhibitionCustodyEs, values);
     const ids = clauses.map((c) => c.id);
     expect(ids[ids.length - 1]).toBe("signatures");
-    expect(ids.indexOf("decima")).toBeLessThan(ids.indexOf("opt_acta"));
+    // Delivery / space before insurance block
+    expect(ids.indexOf("quinta")).toBeLessThan(ids.indexOf("opt_acta"));
+    expect(ids.indexOf("opt_acta")).toBeLessThan(ids.indexOf("sexta"));
+    // Insurance complements sit with RC / daños / valor
+    expect(ids.indexOf("septima")).toBeLessThan(ids.indexOf("opt_certs"));
+    expect(ids.indexOf("opt_franq")).toBeLessThan(ids.indexOf("octava"));
+    // Duration near the end, before boilerplate
+    expect(ids.indexOf("opt_acta")).toBeLessThan(ids.indexOf("decima"));
+    expect(ids.indexOf("decima")).toBeLessThan(ids.indexOf("signatures"));
     expect(ids.indexOf("opt_franq")).toBeLessThan(ids.indexOf("signatures"));
     expect(clauses.find((c) => c.id === "decima")?.body).not.toContain(
       "AUTORÍA",
@@ -263,10 +271,15 @@ describe("assembleClauses", () => {
     }
     expect(ids[ids.length - 1]).toBe("signatures");
     expect(ids.indexOf("opt_space")).toBeLessThan(ids.indexOf("opt_inventory"));
-    expect(ids.indexOf("opt_contacts")).toBeLessThan(ids.indexOf("opt_notices"));
-    expect(ids.indexOf("opt_notices")).toBeLessThan(ids.indexOf("opt_subcontract"));
-    expect(ids.indexOf("opt_repairs")).toBeLessThan(ids.indexOf("opt_transport"));
-    expect(ids.indexOf("opt_cancellation")).toBeLessThan(ids.indexOf("opt_ip"));
+    expect(ids.indexOf("opt_inventory")).toBeLessThan(ids.indexOf("opt_transport"));
+    expect(ids.indexOf("opt_transport")).toBeLessThan(ids.indexOf("opt_costs"));
+    expect(ids.indexOf("opt_costs")).toBeLessThan(ids.indexOf("opt_contacts"));
+    expect(ids.indexOf("opt_contacts")).toBeLessThan(ids.indexOf("opt_subcontract"));
+    expect(ids.indexOf("opt_repairs")).toBeLessThan(ids.indexOf("opt_ip"));
+    expect(ids.indexOf("opt_ip")).toBeLessThan(ids.indexOf("opt_cancellation"));
+    expect(ids.indexOf("opt_cancellation")).toBeLessThan(ids.indexOf("decima"));
+    expect(ids.indexOf("decima")).toBeLessThan(ids.indexOf("opt_notices"));
+    expect(ids.indexOf("opt_notices")).toBeLessThan(ids.indexOf("signatures"));
     expect(clauses.find((c) => c.id === "opt_inventory")?.body).toContain(
       "— pieza 1",
     );
