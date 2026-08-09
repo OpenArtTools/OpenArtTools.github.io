@@ -36,7 +36,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "features",
       title: "Características",
-      blurb: "Marca qué aplica a la instalación. Cada opción ajusta las cláusulas.",
+      blurb: "Marca qué aplica a la instalación. Cada opción debe ser distinta: lee la descripción antes de activarla.",
     },
     {
       id: "custody",
@@ -371,26 +371,19 @@ export const exhibitionCustodyEs: TemplateDoc = {
     // —— Features (toggles) ——
     {
       id: "feat_interactive",
-      label: "Instalación artística interactiva",
-      placeholder: "Activa si el público puede interactuar con la obra",
+      label: "El público puede interactuar con la obra",
+      placeholder:
+        "Activa si la instalación está pensada para que el público la toque, active, use o participe en ella",
       emptyMarker: "",
       type: "toggle",
       path: "features.interactive",
       step: "features",
     },
     {
-      id: "feat_public",
-      label: "Destinada a la interacción del público",
-      placeholder: "Activa si está pensada para uso público",
-      emptyMarker: "",
-      type: "toggle",
-      path: "features.publicInteraction",
-      step: "features",
-    },
-    {
       id: "feat_sculptures",
-      label: "Incluye piezas u objetos originales separables",
-      placeholder: "Activa si hay piezas físicas originales que puedan retirarse o almacenarse por separado",
+      label: "Piezas individuales que requieren trato aparte",
+      placeholder:
+        "Activa si hay un sistema generador u obras compuestas por piezas individuales que hay que mover, reponer, retirar o almacenar por separado (p. ej. al final de la jornada por seguridad)",
       emptyMarker: "",
       type: "toggle",
       path: "features.hasSculptures",
@@ -398,9 +391,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "sculpture_count",
-      label: "Número de piezas u objetos",
+      label: "Número de piezas individuales",
       placeholder: "Escribe el número de piezas",
-      emptyMarker: "[número de piezas u objetos]",
+      emptyMarker: "[número de piezas individuales]",
       type: "number",
       path: "features.sculptureCount",
       step: "features",
@@ -408,31 +401,48 @@ export const exhibitionCustodyEs: TemplateDoc = {
       required: true,
     },
     {
-      id: "feat_system",
-      label: "Sistema mecánico, eléctrico y/o electrónico específico",
-      placeholder: "Activa si hay un sistema técnico diseñado para la obra",
+      id: "feat_mechanical",
+      label: "Elementos mecánicos",
+      placeholder:
+        "Activa si hay mecanismos físicos: motores, engranajes, estructuras motorizadas, automatismos, etc.",
       emptyMarker: "",
       type: "toggle",
-      path: "features.hasSystem",
+      path: "features.mechanical",
       step: "features",
+      group: "Sistemas técnicos",
     },
     {
       id: "feat_electrical",
-      label: "Componentes eléctricos o electrónicos",
-      placeholder: "Activa si hay componentes eléctricos o electrónicos",
+      label: "Elementos eléctricos",
+      placeholder:
+        "Activa si hay instalación eléctrica: cableado de potencia, tomas, iluminación eléctrica, etc. (no confundir con electrónica de control)",
       emptyMarker: "",
       type: "toggle",
       path: "features.electrical",
       step: "features",
+      group: "Sistemas técnicos",
+    },
+    {
+      id: "feat_electronics",
+      label: "Elementos electrónicos",
+      placeholder:
+        "Activa si hay electrónica de control o señal: placas, sensores, pantallas, audio digital, programación, etc.",
+      emptyMarker: "",
+      type: "toggle",
+      path: "features.electronics",
+      step: "features",
+      group: "Sistemas técnicos",
     },
     {
       id: "feat_moving",
       label: "Elementos móviles",
-      placeholder: "Activa si hay partes móviles",
+      placeholder:
+        "Activa si hay partes que se desplazan, giran, suben, bajan o cambian de posición durante el funcionamiento",
       emptyMarker: "",
       type: "toggle",
       path: "features.moving",
       step: "features",
+      group: "Sistemas técnicos",
     },
     {
       id: "feat_special_risk",
@@ -459,7 +469,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "feat_power",
       label: "Requiere alimentación eléctrica",
-      placeholder: "Activa si necesita corriente para funcionar",
+      placeholder: "Activa si necesita corriente de red (o equivalente) para funcionar",
       emptyMarker: "",
       type: "toggle",
       path: "features.needsPower",
@@ -467,9 +477,9 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "feat_access_off",
-      label: "Puede permanecer accesible apagada o inactiva",
+      label: "Accesible también cuando está apagada o inactiva",
       placeholder:
-        "Activa si el público puede acercarse también con la obra apagada o fuera de funcionamiento",
+        "Activa si el público puede seguir acercándose o acceder al espacio de la obra aunque esté apagada, en pausa o fuera de funcionamiento (la custodia sigue aplicando)",
       emptyMarker: "",
       type: "toggle",
       path: "features.accessibleWhenOff",
@@ -478,10 +488,21 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "feat_watch",
       label: "Requiere vigilancia presencial permanente",
-      placeholder: "Activa si hace falta vigilancia mientras sea accesible",
+      placeholder:
+        "Activa si hace falta una persona vigilando mientras la obra esté accesible al público",
       emptyMarker: "",
       type: "toggle",
       path: "features.needsWatch",
+      step: "features",
+    },
+    {
+      id: "feat_signage",
+      label: "Requiere carteles de seguridad o perímetro de protección",
+      placeholder:
+        "Activa si deben mostrarse carteles indicativos de seguridad y/o perimetrar toda la instalación o una zona concreta por seguridad",
+      emptyMarker: "",
+      type: "toggle",
+      path: "features.needsSecurityPerimeter",
       step: "features",
     },
     {
@@ -528,7 +549,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "daily_remove",
       label: "Retirada diaria de piezas fuera de horario",
-      placeholder: "Activa si las piezas se retiran y reponen cada día",
+      placeholder:
+        "Activa si las piezas individuales se retiran y reponen cada día (p. ej. al cerrar por seguridad)",
       emptyMarker: "",
       type: "toggle",
       path: "custody.dailyRemove",
@@ -566,17 +588,22 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "system_value",
       label: "Valor del sistema técnico (€, sin IVA)",
-      placeholder: "Escribe el valor del sistema mecánico/eléctrico/electrónico",
+      placeholder: "Valor de la parte mecánica, eléctrica y/o electrónica",
       emptyMarker: "[valor del sistema técnico]",
       type: "money",
       path: "insurance.systemValue",
       step: "insurance",
-      showIf: "features.hasSystem",
+      showIfAny: [
+        "features.mechanical",
+        "features.electrical",
+        "features.electronics",
+        "features.hasSystem",
+      ],
     },
     {
       id: "piece_unit_value",
       label: "Valor unitario de cada pieza (€, sin IVA)",
-      placeholder: "Escribe el valor de cada pieza u objeto",
+      placeholder: "Escribe el valor de cada pieza individual",
       emptyMarker: "[valor unitario de cada pieza]",
       type: "money",
       path: "insurance.pieceUnitValue",
@@ -1740,28 +1767,31 @@ export function enrichDerivedValues(
 
   const bullets: string[] = [];
 
-  if (v["features.interactive"]) {
-    bullets.push("— Es una instalación artística interactiva.");
-  }
-  if (v["features.publicInteraction"]) {
-    bullets.push("— Está destinada a la interacción del público.");
+  // Legacy drafts may still have publicInteraction; treat it as interactive.
+  if (v["features.interactive"] || v["features.publicInteraction"]) {
+    bullets.push(
+      "— Está pensada para la interacción del público con la obra.",
+    );
   }
   if (v["features.hasSculptures"]) {
-    const n = v["features.sculptureCount"] || "[número de piezas u objetos]";
+    const n = v["features.sculptureCount"] || "[número de piezas individuales]";
     bullets.push(
-      `— Está compuesta por ${n} pieza(s) original(es) y, en su caso, un sistema técnico diseñado específicamente para la obra.`,
+      `— Incorpora un sistema generador o conjunto de ${n} pieza(s) individual(es) que requieren trato aparte (movimiento, reposición, retirada o almacenamiento separado).`,
     );
   }
-  if (v["features.hasSystem"]) {
-    bullets.push(
-      "— Incorpora un sistema mecánico, eléctrico y/o electrónico diseñado específicamente para la obra.",
-    );
+  if (v["features.mechanical"] || v["features.hasSystem"]) {
+    bullets.push("— Incorpora elementos mecánicos diseñados para la obra.");
   }
   if (v["features.electrical"]) {
-    bullets.push("— Incorpora componentes eléctricos y electrónicos.");
+    bullets.push("— Incorpora elementos eléctricos (potencia, cableado o iluminación eléctrica).");
+  }
+  if (v["features.electronics"]) {
+    bullets.push(
+      "— Incorpora elementos electrónicos (control, sensores, señal o programación).",
+    );
   }
   if (v["features.moving"]) {
-    bullets.push("— Incorpora elementos móviles.");
+    bullets.push("— Incorpora elementos móviles durante el funcionamiento.");
   }
   if (v["features.specialRisk"]) {
     const desc =
@@ -1774,12 +1804,17 @@ export function enrichDerivedValues(
   }
   if (v["features.accessibleWhenOff"]) {
     bullets.push(
-      "— Puede permanecer accesible al público tanto en funcionamiento como apagada o inactiva.",
+      "— El público puede seguir acercándose o acceder al espacio de la obra también cuando esté apagada o inactiva.",
     );
   }
   if (v["features.needsWatch"]) {
     bullets.push(
       "— Requiere vigilancia presencial permanente mientras permanezca accesible al público.",
+    );
+  }
+  if (v["features.needsSecurityPerimeter"]) {
+    bullets.push(
+      "— Requiere carteles indicativos de seguridad y/o perímetro de protección de la instalación o de una zona concreta.",
     );
   }
   if (v["features.outdoor"]) {
@@ -1810,6 +1845,11 @@ export function enrichDerivedValues(
       "— Mantener vigilancia presencial permanente sobre la instalación durante todo el tiempo en que permanezca instalada y accesible al público, independientemente de que se encuentre en funcionamiento o apagada.",
     );
   }
+  if (v["features.needsSecurityPerimeter"]) {
+    duties.push(
+      "— Mantener visibles los carteles indicativos de seguridad exigidos y respetar el perímetro de protección de la instalación o de la zona señalada, impidiendo el acceso no autorizado a dichas áreas.",
+    );
+  }
   if (v["features.needsPower"]) {
     duties.push(
       "— Garantizar el correcto suministro eléctrico necesario para su funcionamiento.",
@@ -1836,20 +1876,25 @@ export function enrichDerivedValues(
   v["custody.duties"] = duties.join("\n");
 
   const breakdown: string[] = [];
-  if (v["features.hasSystem"] && v["insurance.systemValue"]) {
+  const hasTechSystem =
+    Boolean(v["features.mechanical"]) ||
+    Boolean(v["features.electrical"]) ||
+    Boolean(v["features.electronics"]) ||
+    Boolean(v["features.hasSystem"]);
+  if (hasTechSystem && v["insurance.systemValue"]) {
     breakdown.push(
-      `— Sistema mecánico, eléctrico y electrónico: ${v["insurance.systemValue"]} € (IVA no incluido).`,
+      `— Sistema técnico (mecánico / eléctrico / electrónico): ${v["insurance.systemValue"]} € (IVA no incluido).`,
     );
-  } else if (v["features.hasSystem"]) {
+  } else if (hasTechSystem) {
     breakdown.push(
-      "— Sistema mecánico, eléctrico y electrónico: [valor del sistema técnico] € (IVA no incluido).",
+      "— Sistema técnico (mecánico / eléctrico / electrónico): [valor del sistema técnico] € (IVA no incluido).",
     );
   }
   if (v["features.hasSculptures"]) {
     const n = v["features.sculptureCount"] || "[número]";
     const unit = v["insurance.pieceUnitValue"] || "[valor unitario de cada pieza]";
     breakdown.push(
-      `— ${n} pieza(s) original(es): ${unit} € cada una (IVA no incluido).`,
+      `— ${n} pieza(s) individual(es): ${unit} € cada una (IVA no incluido).`,
     );
   }
   if (breakdown.length === 0) {

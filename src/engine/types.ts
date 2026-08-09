@@ -23,6 +23,8 @@ export type Field = {
   step: string;
   group?: string;
   showIf?: string;
+  /** Visible if any of these paths is truthy. */
+  showIfAny?: string[];
 };
 
 export type ClauseTemplate = {

@@ -158,7 +158,7 @@ export function documentText(clauses: Clause[]): string {
 export function missingRequired(template: TemplateDoc, values: AppValues): Field[] {
   return template.fields.filter((f) => {
     if (!f.required) return false;
-    if (f.showIf && !isTruthy(values, f.showIf)) return false;
+    if (!fieldVisible(f, values)) return false;
     const v = getPath(values, f.path);
     return v === undefined || v === null || v === "";
   });
@@ -169,6 +169,9 @@ export function fieldsForStep(template: TemplateDoc, stepId: string): Field[] {
 }
 
 export function fieldVisible(field: Field, values: AppValues): boolean {
-  if (!field.showIf) return true;
-  return isTruthy(values, field.showIf);
+  if (field.showIf && !isTruthy(values, field.showIf)) return false;
+  if (field.showIfAny?.length) {
+    if (!field.showIfAny.some((p) => isTruthy(values, p))) return false;
+  }
+  return true;
 }
