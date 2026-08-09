@@ -80,6 +80,38 @@ describe("assembleClauses", () => {
     );
   });
 
+  it("defaults to a standalone agreement, not an annex", () => {
+    const standalone = enrichDerivedValues({
+      "custody.authorMounts": true,
+      "insurance.hasRc": true,
+      "insurance.hasNailToNail": true,
+    });
+    const alone = assembleClauses(exhibitionCustodyEs, standalone);
+    expect(alone.find((c) => c.id === "header")?.title).toContain("ACUERDO");
+    expect(alone.some((c) => c.id === "manifest")).toBe(true);
+    expect(alone.some((c) => c.id === "manifest_annex")).toBe(false);
+    expect(alone.find((c) => c.id === "decima")?.body).toContain(
+      "presente Acuerdo",
+    );
+
+    const annex = enrichDerivedValues({
+      "project.isAnnex": true,
+      "project.mainAgreementName": "Acuerdo de participación",
+      "project.baseAgreementDate": "2026-01-10",
+      "project.annexTitle": "ANEXO I",
+      "custody.authorMounts": true,
+      "insurance.hasRc": true,
+      "insurance.hasNailToNail": true,
+    });
+    const annexed = assembleClauses(exhibitionCustodyEs, annex);
+    expect(annexed.find((c) => c.id === "header")?.title).toBe("ANEXO I");
+    expect(annexed.some((c) => c.id === "manifest_annex")).toBe(true);
+    expect(annexed.some((c) => c.id === "manifest")).toBe(false);
+    expect(annexed.find((c) => c.id === "decima_annex")?.body).toContain(
+      "Acuerdo de participación",
+    );
+  });
+
   it("includes loan, image and sale optional clauses when enabled", () => {
     const values = enrichDerivedValues({
       "custody.authorMounts": true,

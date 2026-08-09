@@ -42,7 +42,7 @@ No es una sola utilidad. Es el paraguas: entras a la plataforma, eliges una herr
 
 ### 1. Acuerdos de exhibición *(disponible)*
 
-Sirve para generar anexos / acuerdos de obra en **festivales, galerías u otros espacios**.
+Sirve para generar un **acuerdo** de obra (o un **anexo** a un contrato principal, si lo marcas) en **festivales, galerías u otros espacios**.
 
 Incluye, entre otras cosas:
 

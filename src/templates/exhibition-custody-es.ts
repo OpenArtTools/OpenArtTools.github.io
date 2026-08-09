@@ -2,7 +2,8 @@
  * Copyright (C) 2026 Gerard Valls Montaño
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
- * Generic exhibition / custody / insurance annex template.
+ * Exhibition / custody / insurance agreement template (standalone by default;
+ * optional annex mode when linked to a main contract).
  * No real personal or project data — only instructional placeholders.
  */
 
@@ -12,7 +13,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
   id: "exhibition-custody-es",
   name: "Acuerdo de exhibición, custodia, seguro y responsabilidad",
   description:
-    "Condiciones para exhibir, prestar o ceder temporalmente una obra: custodia, seguro, uso de imagen, venta y responsabilidad.",
+    "Acuerdo (o anexo a un contrato principal) para exhibir, prestar o ceder temporalmente una obra: custodia, seguro, uso de imagen, venta y responsabilidad.",
   steps: [
     {
       id: "titularidad",
@@ -29,7 +30,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "project",
       title: "Proyecto y obra",
-      blurb: "Datos del evento, la obra y las fechas del acuerdo.",
+      blurb:
+        "Datos del evento, la obra y la firma. Por defecto es un acuerdo autónomo; márcalo como anexo solo si complementa un contrato principal.",
     },
     {
       id: "features",
@@ -254,6 +256,16 @@ export const exhibitionCustodyEs: TemplateDoc = {
 
     // —— Project ——
     {
+      id: "is_annex",
+      label: "Este documento es un anexo a un acuerdo principal",
+      placeholder:
+        "Activa solo si este texto complementa un contrato principal ya firmado (p. ej. un acuerdo de participación)",
+      emptyMarker: "",
+      type: "toggle",
+      path: "project.isAnnex",
+      step: "project",
+    },
+    {
       id: "city",
       label: "Ciudad de firma",
       placeholder: "Ciudad",
@@ -265,23 +277,48 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "sign_date",
-      label: "Fecha del anexo",
-      placeholder: "Fecha del anexo",
-      emptyMarker: "[fecha del anexo]",
+      label: "Fecha de firma",
+      placeholder: "Fecha de firma del documento",
+      emptyMarker: "[fecha de firma]",
       type: "date",
       path: "project.signDate",
       required: true,
       step: "project",
     },
     {
+      id: "main_agreement_name",
+      label: "Nombre del acuerdo principal",
+      placeholder: "p. ej. Acuerdo de participación",
+      emptyMarker: "[nombre del acuerdo principal]",
+      type: "text",
+      path: "project.mainAgreementName",
+      required: true,
+      step: "project",
+      showIf: "project.isAnnex",
+      group: "Anexo a un acuerdo principal",
+    },
+    {
       id: "base_agreement_date",
-      label: "Fecha del acuerdo de participación",
-      placeholder: "Fecha del acuerdo principal",
-      emptyMarker: "[fecha del acuerdo de participación]",
+      label: "Fecha del acuerdo principal",
+      placeholder: "Fecha del contrato al que se anexa",
+      emptyMarker: "[fecha del acuerdo principal]",
       type: "date",
       path: "project.baseAgreementDate",
       required: true,
       step: "project",
+      showIf: "project.isAnnex",
+      group: "Anexo a un acuerdo principal",
+    },
+    {
+      id: "annex_title",
+      label: "Título del anexo",
+      placeholder: "p. ej. ANEXO I AL ACUERDO DE PARTICIPACIÓN",
+      emptyMarker: "[título del anexo]",
+      type: "text",
+      path: "project.annexTitle",
+      step: "project",
+      showIf: "project.isAnnex",
+      group: "Anexo a un acuerdo principal",
     },
     {
       id: "event_name",
@@ -328,16 +365,6 @@ export const exhibitionCustodyEs: TemplateDoc = {
       emptyMarker: "[fecha de fin de exhibición]",
       type: "date",
       path: "project.exhibitTo",
-      step: "project",
-    },
-    {
-      id: "annex_title",
-      label: "Título del anexo (opcional)",
-      placeholder:
-        "Déjalo vacío para usar el título estándar, o escribe uno personalizado",
-      emptyMarker: "[título del anexo]",
-      type: "text",
-      path: "project.annexTitle",
       step: "project",
     },
 
@@ -1096,7 +1123,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "opt_amendments",
       label: "Incluir que las modificaciones sean por escrito",
       placeholder:
-        "Activa para exigir que cualquier cambio al anexo conste por escrito",
+        "Activa para exigir que cualquier cambio al documento conste por escrito",
       emptyMarker: "",
       type: "toggle",
       path: "options.amendments",
@@ -1225,7 +1252,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
   clauses: [
     {
       id: "header",
-      title: "{{document.annexTitle}}",
+      title: "{{document.title}}",
       body: `CONDICIONES ESPECÍFICAS DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD DE LA INSTALACIÓN ARTÍSTICA «{{project.workTitle}}»
 
 En {{project.city}}, a {{project.signDate}}`,
@@ -1244,9 +1271,18 @@ Ambas partes, reconociéndose capacidad legal suficiente para obligarse,`,
     {
       id: "manifest",
       title: "MANIFIESTAN",
-      body: `I. Que con fecha {{project.baseAgreementDate}} ambas partes suscribieron el Acuerdo de Participación correspondiente a la exhibición de la instalación artística de la Parte Autora durante {{project.eventName}}.
+      body: `I. Que ambas partes desean regular las condiciones de exhibición, custodia, conservación, seguro y responsabilidad de la instalación artística «{{project.workTitle}}» durante {{project.eventName}}.
+II. Que, debido a las características técnicas y de funcionamiento de la instalación, ambas partes consideran conveniente formalizar expresamente dichas condiciones particulares.
+III. Que {{document.this}} constituye un acuerdo específico negociado y aceptado libremente por ambas partes.`,
+      excludeIf: ["project.isAnnex"],
+    },
+    {
+      id: "manifest_annex",
+      title: "MANIFIESTAN",
+      body: `I. Que con fecha {{project.baseAgreementDate}} ambas partes suscribieron {{project.mainAgreementName}} correspondiente a la exhibición de la instalación artística de la Parte Autora durante {{project.eventName}}.
 II. Que, debido a las características técnicas y de funcionamiento de la instalación, ambas partes consideran conveniente regular expresamente las condiciones particulares de su exhibición, custodia, conservación y responsabilidad.
-III. Que el presente Anexo constituye un acuerdo específico negociado y aceptado libremente por ambas partes, complementa el Acuerdo de Participación y, exclusivamente respecto de la instalación artística objeto del mismo, prevalecerá sobre cualquier cláusula del citado Acuerdo que resulte incompatible con lo aquí establecido.`,
+III. Que {{document.this}} constituye un acuerdo específico negociado y aceptado libremente por ambas partes, complementa {{project.mainAgreementName}} y, exclusivamente respecto de la instalación artística objeto del mismo, prevalecerá sobre cualquier cláusula del citado acuerdo principal que resulte incompatible con lo aquí establecido.`,
+      requireAll: ["project.isAnnex"],
     },
     {
       id: "primera",
@@ -1256,7 +1292,7 @@ III. Que el presente Anexo constituye un acuerdo específico negociado y aceptad
     {
       id: "segunda",
       title: "SEGUNDA. Conocimiento y aceptación de la instalación",
-      body: `La Parte Solicitante declara haber recibido con carácter previo a la firma del presente Anexo toda la información técnica necesaria relativa a la instalación, incluyendo su funcionamiento, necesidades eléctricas, características mecánicas, condiciones de seguridad, conservación, operación y exhibición.
+      body: `La Parte Solicitante declara haber recibido con carácter previo a la firma de {{document.this}} toda la información técnica necesaria relativa a la instalación, incluyendo su funcionamiento, necesidades eléctricas, características mecánicas, condiciones de seguridad, conservación, operación y exhibición.
 Asimismo, declara haber recibido respuesta a todas las consultas técnicas formuladas durante la preparación del proyecto y manifiesta haber comprendido y aceptado expresamente todas las condiciones comunicadas por la Parte Autora.
 La Parte Solicitante reconoce expresamente conocer que la instalación:
 {{features.list}}
@@ -1294,21 +1330,21 @@ La Parte Solicitante responderá de cualquier pérdida, robo, hurto, desaparici�
     {
       id: "sexta",
       title: "SEXTA. Responsabilidad civil",
-      body: `La Parte Solicitante declara que la instalación artística objeto del presente Anexo se encuentra debidamente cubierta por la póliza de Responsabilidad Civil correspondiente a {{project.eventName}} durante todo el período en que permanezca bajo su custodia y exhibición.
+      body: `La Parte Solicitante declara que la instalación artística objeto {{document.ofThis}} se encuentra debidamente cubierta por la póliza de Responsabilidad Civil correspondiente a {{project.eventName}} durante todo el período en que permanezca bajo su custodia y exhibición.
 La Parte Solicitante asume íntegramente la responsabilidad derivada de la exhibición pública de la instalación, de su funcionamiento, de la interacción del público con la misma y de todas las medidas de seguridad necesarias para garantizar la protección de las personas, de la propia obra y de las instalaciones durante todo el período en que la instalación permanezca bajo su custodia.
 La Parte Solicitante declara que la decisión de exhibir públicamente la instalación ha sido adoptada libremente, tras haber recibido toda la información técnica y de seguridad facilitada por la Parte Autora, conocer las características y riesgos inherentes a la obra y aceptar expresamente las condiciones necesarias para su correcta exhibición.
-La existencia, alcance, validez o eficacia de la póliza de Responsabilidad Civil no limitará, en ningún caso, las obligaciones asumidas por la Parte Solicitante mediante el presente Anexo.`,
+La existencia, alcance, validez o eficacia de la póliza de Responsabilidad Civil no limitará, en ningún caso, las obligaciones asumidas por la Parte Solicitante mediante {{document.this}}.`,
       requireAll: ["insurance.hasRc"],
     },
     {
       id: "septima",
       title: "SÉPTIMA. Seguro de daños de la instalación",
-      body: `La Parte Solicitante declara que la instalación artística objeto del presente Anexo se encuentra debidamente cubierta mediante una póliza de seguro de daños a todo riesgo («clavo a clavo»), plenamente vigente, que garantiza la integridad patrimonial de la obra durante todo el período de su participación en {{project.eventName}}.
+      body: `La Parte Solicitante declara que la instalación artística objeto {{document.ofThis}} se encuentra debidamente cubierta mediante una póliza de seguro de daños a todo riesgo («clavo a clavo»), plenamente vigente, que garantiza la integridad patrimonial de la obra durante todo el período de su participación en {{project.eventName}}.
 Dicha cobertura comprenderá, como mínimo: el transporte de ida y vuelta; las operaciones de carga y descarga; el montaje y desmontaje; la permanencia en el recinto; la exhibición pública; el almacenamiento temporal de piezas y elementos; y la manipulación necesaria para su conservación y reposición.
 La cobertura incluirá, entre otros, los riesgos de pérdida, robo, hurto, desaparición, desperfecto, deterioro, vandalismo, incendio, agua, lluvia, viento, humedad, fenómenos meteorológicos, accidente, manipulación y cualquier otro daño accidental o fortuito.
 La cobertura de seguro comenzará en el momento en que la instalación abandone físicamente su lugar de almacenamiento y finalizará únicamente cuando, tras el transporte de retorno, haya sido descargada e introducida nuevamente en el interior de dicho lugar.
 La existencia, alcance o condiciones de la póliza de seguro de daños no limitarán, en ningún caso, las obligaciones de custodia, conservación, protección e indemnización asumidas por la Parte Solicitante.
-La suma asegurada será, como mínimo, igual al valor declarado de la instalación establecido en la cláusula de valor declarado del presente Anexo.`,
+La suma asegurada será, como mínimo, igual al valor declarado de la instalación establecido en la cláusula de valor declarado {{document.ofThis}}.`,
       requireAll: ["insurance.hasNailToNail"],
     },
     {
@@ -1318,7 +1354,7 @@ La suma asegurada será, como mínimo, igual al valor declarado de la instalaci�
 Se considerarán expresamente incluidos, entre otros, los daños derivados de: robo; hurto; vandalismo; incendio; agua; lluvia; viento; humedad; fenómenos meteorológicos; manipulación por terceros; manipulación y almacenamiento de piezas; falta o insuficiencia de vigilancia; falta de protección; incumplimiento de las instrucciones técnicas de la Parte Autora; y cualquier actuación u omisión que implique una custodia insuficiente o inadecuada.
 En caso de pérdida total, destrucción o robo de la instalación, la Parte Solicitante indemnizará a la Parte Autora por el valor declarado establecido en la cláusula de valor declarado.
 En caso de daños parciales, la Parte Solicitante asumirá íntegramente los costes de reparación, restauración, sustitución de componentes, materiales, mano de obra especializada y cualquier otro gasto necesario para devolver la instalación al estado en que fue entregada.
-En caso de que la reparación o restauración no resulte técnicamente posible o implique una pérdida irreversible de las características artísticas de la obra, se considerará pérdida total a los efectos del presente Anexo.`,
+En caso de que la reparación o restauración no resulte técnicamente posible o implique una pérdida irreversible de las características artísticas de la obra, se considerará pérdida total a los efectos {{document.ofThis}}.`,
     },
     {
       id: "novena",
@@ -1331,8 +1367,16 @@ Valor total declarado de la instalación: {{insurance.totalValue}} € (impuesto
     {
       id: "decima",
       title: "DÉCIMA. Vigencia",
-      body: `El presente Anexo entrará en vigor desde el momento de su firma y permanecerá vigente desde la entrega efectiva de la instalación a la Parte Solicitante hasta su devolución a la Parte Autora para proceder a su desmontaje.
-Las partes manifiestan que el presente Anexo ha sido negociado y aceptado libremente, refleja los acuerdos específicos alcanzados para la exhibición de la instalación artística y forma parte integrante del Acuerdo de Participación, constituyendo ambos documentos una única unidad contractual y debiendo interpretarse conjuntamente.`,
+      body: `{{document.This}} entrará en vigor desde el momento de su firma y permanecerá vigente desde la entrega efectiva de la instalación a la Parte Solicitante hasta su devolución a la Parte Autora para proceder a su desmontaje.
+Las partes manifiestan que {{document.this}} ha sido negociado y aceptado libremente y refleja los pactos alcanzados para la exhibición de la instalación artística.`,
+      excludeIf: ["project.isAnnex"],
+    },
+    {
+      id: "decima_annex",
+      title: "DÉCIMA. Vigencia",
+      body: `{{document.This}} entrará en vigor desde el momento de su firma y permanecerá vigente desde la entrega efectiva de la instalación a la Parte Solicitante hasta su devolución a la Parte Autora para proceder a su desmontaje.
+Las partes manifiestan que {{document.this}} ha sido negociado y aceptado libremente, refleja los pactos alcanzados para la exhibición de la instalación artística y forma parte integrante de {{project.mainAgreementName}}, constituyendo ambos documentos una única unidad contractual y debiendo interpretarse conjuntamente.`,
+      requireAll: ["project.isAnnex"],
     },
     {
       id: "opt_acta",
@@ -1355,7 +1399,7 @@ Las partes manifiestan que el presente Anexo ha sido negociado y aceptado librem
     {
       id: "opt_jur",
       title: "Ley aplicable y jurisdicción",
-      body: `El presente Anexo se rige por {{options.lawText}}. Para la resolución de cualquier controversia derivada del mismo, las partes se someten a los {{options.courtsText}}, con renuncia a cualquier otro fuero que pudiera corresponderles.`,
+      body: `{{document.This}} se rige por {{options.lawText}}. Para la resolución de cualquier controversia derivada del mismo, las partes se someten a los {{options.courtsText}}, con renuncia a cualquier otro fuero que pudiera corresponderles.`,
       requireAll: ["options.jurisdiction"],
     },
     {
@@ -1374,7 +1418,7 @@ Las partes manifiestan que el presente Anexo ha sido negociado y aceptado librem
       id: "opt_loan",
       title: "Préstamo o cesión temporal",
       body: `Las partes acuerdan que la puesta a disposición de la obra o instalación «{{project.workTitle}}» tiene carácter de préstamo o cesión temporal con la siguiente finalidad: {{options.loanPurpose}}.
-Dicha puesta a disposición no transmite la autoría ni la propiedad de la obra ni ningún derecho de explotación distinto de los expresamente regulados en el presente Anexo. La Parte Solicitante recibe la obra en calidad de depositaria / cesionaria temporal a los solos efectos de su exhibición y custodia durante el período acordado, debiendo devolverla a la Parte Autora en los términos previstos en este Anexo.
+Dicha puesta a disposición no transmite la autoría ni la propiedad de la obra ni ningún derecho de explotación distinto de los expresamente regulados en {{document.this}}. La Parte Solicitante recibe la obra en calidad de depositaria / cesionaria temporal a los solos efectos de su exhibición y custodia durante el período acordado, debiendo devolverla a la Parte Autora en los términos previstos {{document.inThis}}.
 Cualquier uso, traslado o manipulación no contemplado requerirá autorización expresa de la Parte Autora.`,
       requireAll: ["options.loanFrame"],
     },
@@ -1393,13 +1437,13 @@ Fuera de este ámbito, cualquier reproducción o uso de imagen requerirá autori
     {
       id: "opt_sale",
       title: "Condiciones de venta",
-      body: `Sin perjuicio de la exhibición y custodia reguladas en este Anexo, las partes dejan constancia de las siguientes condiciones para una eventual venta de la obra «{{project.workTitle}}»:
+      body: `Sin perjuicio de la exhibición y custodia reguladas {{document.inThis}}, las partes dejan constancia de las siguientes condiciones para una eventual venta de la obra «{{project.workTitle}}»:
 Precio: {{options.salePrice}} € (impuestos aparte, si resultan aplicables).
 {{options.saleReservationText}}
 Entrega: {{options.saleDelivery}}.
 {{options.saleExclusivityText}}
 {{options.saleNotesText}}
-La venta, si se formaliza, se documentará de forma expresa. Mientras no conste acuerdo de venta perfeccionado, la obra permanece bajo la autoría de la Parte Autora y sujeta a las obligaciones de custodia y devolución de este Anexo.`,
+La venta, si se formaliza, se documentará de forma expresa. Mientras no conste acuerdo de venta perfeccionado, la obra permanece bajo la autoría de la Parte Autora y sujeta a las obligaciones de custodia y devolución de {{document.this}}.`,
       requireAll: ["options.saleTerms"],
     },
     {
@@ -1411,7 +1455,7 @@ La venta, si se formaliza, se documentará de forma expresa. Mientras no conste 
 — Punto de recogida (ida): {{options.transportPickup}}.
 — Punto de entrega o devolución (vuelta): {{options.transportReturn}}.
 {{options.transportNotesText}}
-Quien organice el transporte cuidará un embalaje adecuado y la coordinación de horarios. El riesgo durante el tránsito se alineará con las coberturas de seguro y con las obligaciones de custodia de este Anexo, salvo pacto escrito distinto. La falta de coordinación del transporte no exime de las obligaciones de custodia, entrega y devolución aquí previstas.`,
+Quien organice el transporte cuidará un embalaje adecuado y la coordinación de horarios. El riesgo durante el tránsito se alineará con las coberturas de seguro y con las obligaciones de custodia de {{document.this}}, salvo pacto escrito distinto. La falta de coordinación del transporte no exime de las obligaciones de custodia, entrega y devolución aquí previstas.`,
       requireAll: ["options.transport"],
     },
     {
@@ -1419,13 +1463,13 @@ Quien organice el transporte cuidará un embalaje adecuado y la coordinación de
       title: "Costes y pagos",
       body: `{{options.costsNoFeeText}}
 Reparto concreto de costes y pagos (honorarios, producción, dietas, material de montaje u otros): {{options.costsSummary}}.
-Cada parte asume únicamente los conceptos que le correspondan según ese reparto. Cualquier gasto adicional, extraordinario o no previsto requerirá acuerdo expreso previo. La existencia de un pago o reembolso no altera la autoría de la obra ni las obligaciones de custodia, seguro y devolución de este Anexo.`,
+Cada parte asume únicamente los conceptos que le correspondan según ese reparto. Cualquier gasto adicional, extraordinario o no previsto requerirá acuerdo expreso previo. La existencia de un pago o reembolso no altera la autoría de la obra ni las obligaciones de custodia, seguro y devolución de {{document.this}}.`,
       requireAll: ["options.costs"],
     },
     {
       id: "opt_cancellation",
       title: "Cancelación y retirada anticipada",
-      body: `Si el evento, la exhibición o este Anexo se cancelan, se aplicará lo siguiente: {{options.cancellationTerms}}.
+      body: `Si el evento, la exhibición o {{document.this}} se cancelan, se aplicará lo siguiente: {{options.cancellationTerms}}.
 Además, la Parte Autora podrá retirar anticipadamente la obra cuando concurra alguna de estas circunstancias o las que se detallen a continuación: falta o insuficiencia de seguros exigidos; incumplimiento grave de custodia, vigilancia o seguridad; o condiciones del espacio incompatibles con la integridad de la obra. Condiciones adicionales de retirada: {{options.withdrawalTerms}}.
 En caso de retirada anticipada justificada, la Parte Solicitante facilitará el acceso y la logística razonables para recuperar la obra y seguirá respondiendo de las obligaciones nacidas hasta ese momento, incluidos daños ya producidos.`,
       requireAll: ["options.cancellation"],
@@ -1444,7 +1488,7 @@ Estas personas servirán para coordinación operativa. Las notificaciones formal
       title: "Inventario de componentes",
       body: `Las partes dejan constancia del siguiente inventario de componentes de la obra o instalación «{{project.workTitle}}»:
 {{options.inventoryFormatted}}
-Este inventario es referencia vinculante para la entrega y la devolución. Si existe acta de entrega y devolución, el inventario se incorporará a dicha acta o se anexará a ella. Cualquier falta, sustitución, extravío o daño respecto del inventario se hará constar por escrito y se regirá por las obligaciones de custodia e indemnización de este Anexo.`,
+Este inventario es referencia vinculante para la entrega y la devolución. Si existe acta de entrega y devolución, el inventario se incorporará a dicha acta o se anexará a ella. Cualquier falta, sustitución, extravío o daño respecto del inventario se hará constar por escrito y se regirá por las obligaciones de custodia e indemnización de {{document.this}}.`,
       requireAll: ["options.inventory"],
     },
     {
@@ -1461,14 +1505,14 @@ La Parte Solicitante garantiza que el espacio, los accesos y los medios aportado
       id: "opt_subcontract",
       title: "Subcontratación",
       body: `La Parte Solicitante podrá valerse de terceros para determinadas tareas solo en el siguiente marco: {{options.subcontractTerms}}.
-Aunque intervengan montadores, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Autora del cumplimiento de este Anexo (custodia, seguro, daños, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
+Aunque intervengan montadores, seguridad, transporte u otros subcontratistas, la Parte Solicitante sigue siendo plenamente responsable frente a la Parte Autora del cumplimiento de {{document.this}} (custodia, seguro, daños, plazos y condiciones de exhibición). La Parte Solicitante se obliga a transmitir a dichos terceros las instrucciones técnicas relevantes y a vigilar su cumplimiento.`,
       requireAll: ["options.subcontract"],
     },
     {
       id: "opt_ip",
       title: "Propiedad intelectual",
       body: `La exhibición o puesta a disposición temporal de la obra «{{project.workTitle}}» no implica cesión de derechos de autor, derechos conexos ni de la autoría de la obra.
-Salvo lo expresamente autorizado en este Anexo (incluida, en su caso, la cláusula de uso de imagen y reproducción), queda prohibido reproducir, comunicar públicamente fuera del ámbito pactado, transformar, crear obras derivadas o explotar la obra o sus elementos distintivos.
+Salvo lo expresamente autorizado {{document.inThis}} (incluida, en su caso, la cláusula de uso de imagen y reproducción), queda prohibido reproducir, comunicar públicamente fuera del ámbito pactado, transformar, crear obras derivadas o explotar la obra o sus elementos distintivos.
 Uso autorizado del nombre, crédito o marca vinculados a la obra o a quien ostenta la autoría: {{options.ipNameUse}}.
 Cualquier uso distinto requerirá autorización adicional y expresa de la Parte Autora.`,
       requireAll: ["options.ipRights"],
@@ -1476,13 +1520,13 @@ Cualquier uso distinto requerirá autorización adicional y expresa de la Parte 
     {
       id: "opt_amendments",
       title: "Modificaciones",
-      body: `Cualquier modificación, ampliación o excepción a este Anexo deberá constar por escrito y ser aceptada por ambas partes. No tendrán validez los pactos verbales que contradigan lo aquí acordado.`,
+      body: `Cualquier modificación, ampliación o excepción {{document.toThis}} deberá constar por escrito y ser aceptada por ambas partes. No tendrán validez los pactos verbales que contradigan lo aquí acordado.`,
       requireAll: ["options.amendments"],
     },
     {
       id: "opt_notices",
       title: "Notificaciones",
-      body: `Las notificaciones formales entre las partes relacionadas con este Anexo se dirigirán a:
+      body: `Las notificaciones formales entre las partes relacionadas con {{document.this}} se dirigirán a:
 Parte Autora: {{options.noticeEmailTitular}}.
 Parte Solicitante: {{options.noticeEmailOrg}}.
 Se entenderán recibidas cuando conste su envío a dichas direcciones, sin perjuicio de otros medios admitidos en derecho.`,
@@ -1539,8 +1583,31 @@ export function enrichDerivedValues(
 ): Record<string, string | boolean | number> {
   const v = { ...values };
 
-  const annex = String(v["project.annexTitle"] ?? "").trim();
-  v["document.annexTitle"] = annex || "ANEXO I AL ACUERDO DE PARTICIPACIÓN";
+  const isAnnex =
+    v["project.isAnnex"] === true || v["project.isAnnex"] === "true";
+  const annexTitle = String(v["project.annexTitle"] ?? "").trim();
+  const mainName = String(v["project.mainAgreementName"] ?? "").trim();
+  if (isAnnex) {
+    v["project.mainAgreementName"] = mainName || "el acuerdo principal";
+    v["document.title"] = annexTitle || "ANEXO AL ACUERDO PRINCIPAL";
+    v["document.this"] = "el presente Anexo";
+    v["document.This"] = "El presente Anexo";
+    v["document.ofThis"] = "del presente Anexo";
+    v["document.inThis"] = "en este Anexo";
+    v["document.toThis"] = "a este Anexo";
+    v["document.withThis"] = "mediante el presente Anexo";
+  } else {
+    v["document.title"] =
+      "ACUERDO DE EXHIBICIÓN, CUSTODIA, SEGURO Y RESPONSABILIDAD";
+    v["document.this"] = "el presente Acuerdo";
+    v["document.This"] = "El presente Acuerdo";
+    v["document.ofThis"] = "del presente Acuerdo";
+    v["document.inThis"] = "en este Acuerdo";
+    v["document.toThis"] = "a este Acuerdo";
+    v["document.withThis"] = "mediante el presente Acuerdo";
+  }
+  // Keep legacy key for older drafts that still reference it.
+  v["document.annexTitle"] = String(v["document.title"]);
 
   for (const path of [
     "project.signDate",
@@ -1627,17 +1694,18 @@ export function enrichDerivedValues(
       "No se permiten recortes, reencuadres ni adaptaciones sin autorización adicional y expresa.";
   }
 
+  const inThisDoc = String(v["document.inThis"]);
   const reservation = String(v["options.saleReservation"] ?? "").trim();
   v["options.saleReservationText"] = reservation
     ? `Reserva o señal: ${reservation}.`
-    : "No se ha pactado en este Anexo una reserva o señal específica.";
+    : `No se ha pactado ${inThisDoc} una reserva o señal específica.`;
 
   if (v["options.saleNoExclusivity"]) {
     v["options.saleExclusivityText"] =
       "La eventual venta no otorga a la Parte Solicitante representación exclusiva ni mandato de venta en exclusiva.";
   } else {
     v["options.saleExclusivityText"] =
-      "Las partes no han regulado en este Anexo un régimen de exclusividad de representación o venta.";
+      `Las partes no han regulado ${inThisDoc} un régimen de exclusividad de representación o venta.`;
   }
 
   const saleNotes = String(v["options.saleNotes"] ?? "").trim();
