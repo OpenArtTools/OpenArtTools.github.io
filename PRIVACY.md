@@ -100,7 +100,7 @@ No hay fichero de “mis clientes” dentro de la plataforma.
 
 Cualquiera puede auditar el código. Guía práctica: [AUDITABILITY.md](AUDITABILITY.md).
 
-Repositorio: https://github.com/OpenArtTools/contract-studio
+Repositorio: https://github.com/OpenArtTools/OpenArtTools.github.io
 
 ---
 
@@ -112,6 +112,6 @@ Eso **no** significa que la plataforma se quede con los textos o datos que **tú
 
 ---
 
-## Contacto del creador
+## Contacto de quien lo desarrolla
 
 Gerard Valls Montaño — https://bygerardvisuals.com/

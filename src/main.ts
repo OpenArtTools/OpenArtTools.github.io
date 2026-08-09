@@ -276,7 +276,7 @@ function renderPlatformProfile(): HTMLElement {
   const specs: { key: keyof PersonalProfile; label: string; placeholder: string }[] = [
     { key: "name", label: "Nombre completo", placeholder: "Tu nombre y apellidos" },
     { key: "doc", label: "Documento", placeholder: "DNI, NIE u otro documento" },
-    { key: "role", label: "Rol o profesión", placeholder: "Por ejemplo: artista / autor" },
+    { key: "role", label: "Rol o profesión", placeholder: "Por ejemplo: práctica artística" },
     { key: "address", label: "Domicilio", placeholder: "Tu domicilio" },
     { key: "email", label: "Email", placeholder: "Tu email" },
     { key: "phone", label: "Teléfono", placeholder: "Tu teléfono" },
@@ -335,11 +335,11 @@ function renderApplyPlatformProfile(): HTMLElement {
   const box = el("aside", "oat-apply-profile");
   const note = el("p", "oat-review-note");
   if (profileHasData(state.personalProfile)) {
-    note.textContent = `Datos de la plataforma en memoria: ${profileLabel(state.personalProfile!)}. Se usan para rellenar tu parte (autor), no la de clientes.`;
+    note.textContent = `Datos de la plataforma en memoria: ${profileLabel(state.personalProfile!)}. Se usan para rellenar tu parte (titularidad de la obra), no la de clientes.`;
     const actions = el("div", "oat-actions");
     actions.style.marginTop = "0";
     actions.append(
-      btn("Rellenar autor con mis datos", "oat-btn oat-btn-ghost", () => {
+      btn("Rellenar titularidad de la obra con mis datos", "oat-btn oat-btn-ghost", () => {
         applyAuthorFromProfile(state.personalProfile!);
         render();
       }),
@@ -347,7 +347,7 @@ function renderApplyPlatformProfile(): HTMLElement {
     box.append(note, actions);
   } else {
     note.textContent =
-      "Puedes cargar tus datos personales en la página de la plataforma (sirven para cualquier herramienta). Aquí solo se rellena el autor de este documento.";
+      "Puedes cargar tus datos personales en la página de la plataforma (sirven para cualquier herramienta). Aquí solo se rellena la titularidad de la obra de este documento.";
     box.append(note);
   }
   return box;
@@ -492,7 +492,7 @@ function renderSupport(): HTMLElement {
   } else {
     const pending = el("p", "oat-support-pending");
     pending.textContent =
-      "Todavía no hay un enlace de pago público configurado. Si quieres aportar, puedes contactar con el creador y te indicará cómo hacerlo con total claridad.";
+      "Todavía no hay un enlace de pago público configurado. Si quieres aportar, puedes contactar con quien desarrolla el proyecto y te indicará cómo hacerlo con total claridad.";
     actions.append(pending);
 
     const contact = document.createElement("a");

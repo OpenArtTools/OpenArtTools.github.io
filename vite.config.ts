@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 
-// GitHub Pages project site: https://openarttools.github.io/contract-studio/
+// GitHub Pages org site: https://openarttools.github.io/
 const base = process.env.VITE_BASE ?? "/";
 
 export default defineConfig({

@@ -18,11 +18,13 @@ describe("fillPlaceholders", () => {
   it("uses empty markers, never invented names", () => {
     const fields = exhibitionCustodyEs.fields;
     const out = fillPlaceholders(
-      "Autor: {{parties.author.name}}",
+      "Titularidad de la obra: {{parties.author.name}}",
       {},
       fields,
     );
-    expect(out).toBe("Autor: [nombre completo del autor o titular]");
+    expect(out).toBe(
+      "Titularidad de la obra: [nombre completo — titularidad de la obra]",
+    );
     expect(out.toLowerCase()).not.toContain("gerard");
   });
 
@@ -69,8 +71,12 @@ describe("assembleClauses", () => {
     expect(ids[ids.length - 1]).toBe("signatures");
     expect(ids.indexOf("decima")).toBeLessThan(ids.indexOf("opt_acta"));
     expect(ids.indexOf("opt_franq")).toBeLessThan(ids.indexOf("signatures"));
-    expect(clauses.find((c) => c.id === "decima")?.body).not.toContain("EL AUTOR");
-    expect(clauses.find((c) => c.id === "signatures")?.body).toContain("EL AUTOR");
+    expect(clauses.find((c) => c.id === "decima")?.body).not.toContain(
+      "TITULARIDAD DE LA OBRA",
+    );
+    expect(clauses.find((c) => c.id === "signatures")?.body).toContain(
+      "TITULARIDAD DE LA OBRA",
+    );
   });
 });
 

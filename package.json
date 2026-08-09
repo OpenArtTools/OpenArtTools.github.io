@@ -5,13 +5,13 @@
   "description": "Open Art Tools — AGPL-3.0-or-later open-source web platform hosting free tools for artists. By Gerard Valls Montaño.",
   "license": "AGPL-3.0-or-later",
   "author": "Gerard Valls Montaño",
-  "homepage": "https://openarttools.github.io/contract-studio/",
+  "homepage": "https://openarttools.github.io/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OpenArtTools/contract-studio.git"
+    "url": "git+https://github.com/OpenArtTools/OpenArtTools.github.io.git"
   },
   "bugs": {
-    "url": "https://github.com/OpenArtTools/contract-studio/issues"
+    "url": "https://github.com/OpenArtTools/OpenArtTools.github.io/issues"
   },
   "type": "module",
   "scripts": {

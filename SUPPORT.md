@@ -8,7 +8,7 @@ Este documento explica el apoyo voluntario con honestidad: **qué es**, **qué n
 
 ## En una frase
 
-Open Art Tools es **gratis** y **open source**. Lo desarrolla su creador de forma **voluntaria**. Si quieres, puedes aportar para que pueda **dedicarle más tiempo** al proyecto. **No es obligatorio.**
+Open Art Tools es **gratis** y **open source**. Quien lo desarrolla lo hace de forma **voluntaria**. Si quieres, puedes aportar para que pueda **dedicarle más tiempo** al proyecto. **No es obligatorio.**
 
 ---
 
@@ -28,7 +28,7 @@ Open Art Tools es **gratis** y **open source**. Lo desarrolla su creador de form
 
 ## Qué es el apoyo voluntario
 
-Un apartado para quien quiera ayudar a que el creador pueda:
+Un apartado para quien quiera apoyar el tiempo de desarrollo:
 
 - Dedicar más tiempo a desarrollo y mejoras
 - Mantener la plataforma y las herramientas existentes
@@ -60,7 +60,7 @@ Open Art Tools **no procesa pagos** ni guarda datos de donación.
 
 Si hay un enlace de aportación, se abre un **proveedor externo** (por ejemplo PayPal, Ko-fi u otro). Allí aplican **sus** condiciones y su privacidad, no las de esta plataforma.
 
-Si aún no hay enlace de pago configurado, la interfaz lo dice con claridad y ofrece contacto con el creador.
+Si aún no hay enlace de pago configurado, la interfaz lo dice con claridad y ofrece contacto con quien lo desarrolla.
 
 ---
 
@@ -87,7 +87,7 @@ En `src/platform.ts`, campo `SUPPORT.donateUrl`:
 2. Si está vacío (`""`), la UI muestra el aviso honesto + contacto.
 3. No inventes un botón de pago que no lleve a un destino real.
 
-Contacto del creador (por defecto): https://bygerardvisuals.com/
+Contacto de quien lo desarrolla (por defecto): https://bygerardvisuals.com/
 
 ---
 

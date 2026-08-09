@@ -4,11 +4,11 @@
 
 No es una sola utilidad. Es el paraguas: entras a la plataforma, eliges una herramienta y la usas cuando quieras.
 
-- **Creador:** Gerard Valls Montaño  
+- **Quién lo desarrolla:** Gerard Valls Montaño  
 - **Licencia:** [AGPL-3.0-or-later](LICENSE) — ver también [NOTICE](NOTICE) (autoría y obligaciones en lenguaje claro)  
 - **Autoría:** Gerard Valls Montaño (debe conservarse y mencionarse siempre)  
-- **Sitio:** https://openarttools.github.io/contract-studio/  
-- **Código:** https://github.com/OpenArtTools/contract-studio  
+- **Sitio:** https://openarttools.github.io/  
+- **Código:** https://github.com/OpenArtTools/OpenArtTools.github.io  
 - **Versión actual:** 0.2.0  
 
 ---
@@ -28,7 +28,7 @@ No es una sola utilidad. Es el paraguas: entras a la plataforma, eliges una herr
 
 ## Cómo se usa, en 30 segundos
 
-1. Abre la [plataforma](https://openarttools.github.io/contract-studio/).
+1. Abre la [plataforma](https://openarttools.github.io/).
 2. (Opcional) En **Mis datos personales**, rellena o carga tu perfil y descárgalo para reutilizarlo después.
 3. Elige una herramienta (hoy: **Acuerdos de exhibición**).
 4. Completa el asistente, revisa, acepta y exporta (PDF / HTML / TXT).
@@ -46,7 +46,7 @@ Sirve para generar anexos / acuerdos de exhibición de obra en **festivales, gal
 
 Incluye, entre otras cosas:
 
-- Identificación de partes (autor y organización)
+- Identificación de partes (titularidad de la obra y organización)
 - Datos del proyecto e instalación
 - Custodia, montaje y riesgos
 - Seguros y responsabilidad
@@ -73,7 +73,7 @@ La plataforma **no guarda nada**. Si quieres reutilizar datos, descargas un arch
 | **Formato** | `.json` con `kind: "openarttools.profile"` |
 | **No es** | Una agenda de clientes ni contactos de terceros |
 
-Si cargas el perfil y abres una herramienta, puede rellenar tu parte (p. ej. el autor).
+Si cargas el perfil y abres una herramienta, puede rellenar tu parte (p. ej. la titularidad de la obra).
 
 ### B) Borrador del documento — dentro de cada herramienta
 

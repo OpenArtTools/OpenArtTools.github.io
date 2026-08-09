@@ -17,7 +17,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "parties",
       title: "Partes",
-      blurb: "Identifica al autor o titular y a la organización receptora.",
+      blurb: "Identifica a quien ostenta la titularidad de la obra y a la organización receptora.",
     },
     {
       id: "project",
@@ -49,66 +49,66 @@ export const exhibitionCustodyEs: TemplateDoc = {
     // —— Parties ——
     {
       id: "author_name",
-      label: "Nombre completo del autor o titular",
-      placeholder: "Escribe el nombre completo del autor o titular",
-      emptyMarker: "[nombre completo del autor o titular]",
+      label: "Nombre completo — titularidad de la obra",
+      placeholder: "Escribe el nombre completo de quien ostenta la titularidad de la obra",
+      emptyMarker: "[nombre completo — titularidad de la obra]",
       type: "text",
       path: "parties.author.name",
       required: true,
       step: "parties",
-      group: "Autor",
+      group: "Titularidad de la obra",
     },
     {
       id: "author_doc",
-      label: "Documento de identidad del autor",
+      label: "Documento de identidad — titularidad de la obra",
       placeholder: "Escribe el DNI, NIE u otro documento de identidad",
-      emptyMarker: "[documento de identidad del autor]",
+      emptyMarker: "[documento de identidad — titularidad de la obra]",
       type: "text",
       path: "parties.author.doc",
       required: true,
       step: "parties",
-      group: "Autor",
+      group: "Titularidad de la obra",
     },
     {
       id: "author_role",
-      label: "Calidad del autor en el documento",
-      placeholder: "Escribe la calidad con la que actúa el autor o titular",
-      emptyMarker: "[calidad del autor]",
+      label: "Calidad en el documento — titularidad de la obra",
+      placeholder: "Escribe la calidad con la que actúa quien ostenta la titularidad de la obra",
+      emptyMarker: "[calidad — titularidad de la obra]",
       type: "text",
       path: "parties.author.role",
       required: true,
       step: "parties",
-      group: "Autor",
+      group: "Titularidad de la obra",
     },
     {
       id: "author_address",
-      label: "Domicilio del autor",
-      placeholder: "Escribe el domicilio del autor o titular",
-      emptyMarker: "[domicilio del autor]",
+      label: "Domicilio — titularidad de la obra",
+      placeholder: "Escribe el domicilio de quien ostenta la titularidad de la obra",
+      emptyMarker: "[domicilio — titularidad de la obra]",
       type: "text",
       path: "parties.author.address",
       step: "parties",
-      group: "Autor",
+      group: "Titularidad de la obra",
     },
     {
       id: "author_email",
-      label: "Email del autor",
-      placeholder: "Escribe el email de contacto del autor",
-      emptyMarker: "[email del autor]",
+      label: "Email — titularidad de la obra",
+      placeholder: "Escribe el email de contacto de quien ostenta la titularidad de la obra",
+      emptyMarker: "[email — titularidad de la obra]",
       type: "text",
       path: "parties.author.email",
       step: "parties",
-      group: "Autor",
+      group: "Titularidad de la obra",
     },
     {
       id: "author_phone",
-      label: "Teléfono del autor",
-      placeholder: "Escribe el teléfono de contacto del autor",
-      emptyMarker: "[teléfono del autor]",
+      label: "Teléfono — titularidad de la obra",
+      placeholder: "Escribe el teléfono de contacto de quien ostenta la titularidad de la obra",
+      emptyMarker: "[teléfono — titularidad de la obra]",
       type: "text",
       path: "parties.author.phone",
       step: "parties",
-      group: "Autor",
+      group: "Titularidad de la obra",
     },
     {
       id: "org_name",
@@ -446,8 +446,8 @@ export const exhibitionCustodyEs: TemplateDoc = {
     // —— Custody ——
     {
       id: "author_mounts",
-      label: "Montaje y desmontaje solo por el autor",
-      placeholder: "Activa si únicamente el autor monta y desmonta",
+      label: "Montaje y desmontaje solo por la parte con titularidad de la obra",
+      placeholder: "Activa si solo monta y desmonta quien ostenta la titularidad de la obra",
       emptyMarker: "",
       type: "toggle",
       path: "custody.authorMounts",
@@ -584,7 +584,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "opt_expert",
       label: "Perito independiente para pérdida artística",
-      placeholder: "Activa para no dejar la calificación solo al autor",
+      placeholder: "Activa para no dejar la calificación solo a quien ostenta la titularidad de la obra",
       emptyMarker: "",
       type: "toggle",
       path: "options.independentExpert",
@@ -612,7 +612,7 @@ En {{project.city}}, a {{project.signDate}}`,
       id: "reunidos",
       title: "REUNIDOS",
       body: `De una parte
-{{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, el Autor.{{parties.author.extra}}
+{{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, quien ostenta la titularidad de la obra («Parte Titular»).{{parties.author.extra}}
 
 Y de otra,
 {{parties.org.name}}, con CIF/NIF {{parties.org.cif}}, {{parties.org.roleDesc}} de {{project.eventName}}, representada en este acto por {{parties.org.repName}}, con documento {{parties.org.repDoc}}, en calidad de {{parties.org.repRole}}, en adelante, la Organización.{{parties.org.extra}}
@@ -622,20 +622,20 @@ Ambas partes, reconociéndose capacidad legal suficiente para obligarse,`,
     {
       id: "manifest",
       title: "MANIFIESTAN",
-      body: `I. Que con fecha {{project.baseAgreementDate}} ambas partes suscribieron el Acuerdo de Participación correspondiente a la exhibición de la instalación artística del Autor durante {{project.eventName}}.
+      body: `I. Que con fecha {{project.baseAgreementDate}} ambas partes suscribieron el Acuerdo de Participación correspondiente a la exhibición de la instalación artística de la Parte Titular durante {{project.eventName}}.
 II. Que, debido a las características técnicas y de funcionamiento de la instalación, ambas partes consideran conveniente regular expresamente las condiciones particulares de su exhibición, custodia, conservación y responsabilidad.
 III. Que el presente Anexo constituye un acuerdo específico negociado y aceptado libremente por ambas partes, complementa el Acuerdo de Participación y, exclusivamente respecto de la instalación artística objeto del mismo, prevalecerá sobre cualquier cláusula del citado Acuerdo que resulte incompatible con lo aquí establecido.`,
     },
     {
       id: "primera",
       title: "PRIMERA. Objeto",
-      body: `El Autor cede temporalmente la instalación artística «{{project.workTitle}}» para su exhibición durante {{project.eventName}}, a solicitud de la Organización.{{project.exhibitPeriod}}`,
+      body: `La Parte Titular cede temporalmente la instalación artística «{{project.workTitle}}» para su exhibición durante {{project.eventName}}, a solicitud de la Organización.{{project.exhibitPeriod}}`,
     },
     {
       id: "segunda",
       title: "SEGUNDA. Conocimiento y aceptación de la instalación",
       body: `La Organización declara haber recibido con carácter previo a la firma del presente Anexo toda la información técnica necesaria relativa a la instalación, incluyendo su funcionamiento, necesidades eléctricas, características mecánicas, condiciones de seguridad, conservación, operación y exhibición.
-Asimismo, declara haber recibido respuesta a todas las consultas técnicas formuladas durante la preparación del proyecto y manifiesta haber comprendido y aceptado expresamente todas las condiciones comunicadas por el Autor.
+Asimismo, declara haber recibido respuesta a todas las consultas técnicas formuladas durante la preparación del proyecto y manifiesta haber comprendido y aceptado expresamente todas las condiciones comunicadas por la Parte Titular.
 La Organización reconoce expresamente conocer que la instalación:
 {{features.list}}
 La Organización declara conocer plenamente estas características y acepta expresamente la exhibición pública de la instalación en dichas condiciones.`,
@@ -643,19 +643,19 @@ La Organización declara conocer plenamente estas características y acepta expr
     {
       id: "tercera",
       title: "TERCERA. Montaje y desmontaje",
-      body: `El montaje y el desmontaje de la instalación serán realizados exclusivamente por el Autor. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Organización. Desde ese momento y hasta su devolución al Autor para proceder a su desmontaje, la Organización asumirá íntegramente su custodia.`,
+      body: `El montaje y el desmontaje de la instalación serán realizados exclusivamente por la Parte Titular. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Organización. Desde ese momento y hasta su devolución a la Parte Titular para proceder a su desmontaje, la Organización asumirá íntegramente su custodia.`,
       requireAll: ["custody.authorMounts"],
     },
     {
       id: "tercera_alt",
       title: "TERCERA. Montaje y desmontaje",
-      body: `El montaje y el desmontaje de la instalación se realizarán según lo acordado entre las partes. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Organización. Desde ese momento y hasta su devolución al Autor, la Organización asumirá íntegramente su custodia.`,
+      body: `El montaje y el desmontaje de la instalación se realizarán según lo acordado entre las partes. La entrega de la instalación se entenderá producida una vez finalizado el montaje y aceptada su recepción por la Organización. Desde ese momento y hasta su devolución a la Parte Titular, la Organización asumirá íntegramente su custodia.`,
       excludeIf: ["custody.authorMounts"],
     },
     {
       id: "cuarta",
       title: "CUARTA. Custodia, vigilancia y protección",
-      body: `Desde la entrega de la instalación hasta su devolución al Autor, la Organización asumirá íntegramente su custodia, conservación, vigilancia y protección.
+      body: `Desde la entrega de la instalación hasta su devolución a la Parte Titular, la Organización asumirá íntegramente su custodia, conservación, vigilancia y protección.
 En particular, la Organización se compromete a:
 {{custody.duties}}
 La obligación de mantener vigilancia permanente constituye una condición esencial para la exhibición de la instalación y ha sido expresamente aceptada por la Organización, cuando resulte de aplicación conforme a las características de la obra.
@@ -674,7 +674,7 @@ La Organización responderá de cualquier pérdida, robo, hurto, desaparición, 
       title: "SEXTA. Responsabilidad civil",
       body: `La Organización declara que la instalación artística objeto del presente Anexo se encuentra debidamente cubierta por la póliza de Responsabilidad Civil correspondiente a {{project.eventName}} durante todo el período en que permanezca bajo su custodia y exhibición.
 La Organización asume íntegramente la responsabilidad derivada de la exhibición pública de la instalación, de su funcionamiento, de la interacción del público con la misma y de todas las medidas de seguridad necesarias para garantizar la protección de las personas, de la propia obra y de las instalaciones durante todo el período en que la instalación permanezca bajo su custodia.
-La Organización declara que la decisión de exhibir públicamente la instalación ha sido adoptada libremente, tras haber recibido toda la información técnica y de seguridad facilitada por el Autor, conocer las características y riesgos inherentes a la obra y aceptar expresamente las condiciones necesarias para su correcta exhibición.
+La Organización declara que la decisión de exhibir públicamente la instalación ha sido adoptada libremente, tras haber recibido toda la información técnica y de seguridad facilitada por la Parte Titular, conocer las características y riesgos inherentes a la obra y aceptar expresamente las condiciones necesarias para su correcta exhibición.
 La existencia, alcance, validez o eficacia de la póliza de Responsabilidad Civil no limitará, en ningún caso, las obligaciones asumidas por la Organización mediante el presente Anexo.`,
       requireAll: ["insurance.hasRc"],
     },
@@ -692,9 +692,9 @@ La suma asegurada será, como mínimo, igual al valor declarado de la instalaci�
     {
       id: "octava",
       title: "OCTAVA. Responsabilidad sobre la instalación",
-      body: `La Organización responderá frente al Autor por cualquier pérdida, robo, hurto, desaparición, destrucción, desperfecto o deterioro total o parcial que pueda sufrir la instalación o cualquiera de sus componentes desde el momento de su entrega por el Autor tras el montaje y hasta su devolución al Autor para proceder a su desmontaje.
-Se considerarán expresamente incluidos, entre otros, los daños derivados de: robo; hurto; vandalismo; incendio; agua; lluvia; viento; humedad; fenómenos meteorológicos; manipulación por terceros; manipulación y almacenamiento de piezas; falta o insuficiencia de vigilancia; falta de protección; incumplimiento de las instrucciones técnicas del Autor; y cualquier actuación u omisión que implique una custodia insuficiente o inadecuada.
-En caso de pérdida total, destrucción o robo de la instalación, la Organización indemnizará al Autor por el valor declarado establecido en la cláusula de valor declarado.
+      body: `La Organización responderá frente a la Parte Titular por cualquier pérdida, robo, hurto, desaparición, destrucción, desperfecto o deterioro total o parcial que pueda sufrir la instalación o cualquiera de sus componentes desde el momento de su entrega por la Parte Titular tras el montaje y hasta su devolución a la Parte Titular para proceder a su desmontaje.
+Se considerarán expresamente incluidos, entre otros, los daños derivados de: robo; hurto; vandalismo; incendio; agua; lluvia; viento; humedad; fenómenos meteorológicos; manipulación por terceros; manipulación y almacenamiento de piezas; falta o insuficiencia de vigilancia; falta de protección; incumplimiento de las instrucciones técnicas de la Parte Titular; y cualquier actuación u omisión que implique una custodia insuficiente o inadecuada.
+En caso de pérdida total, destrucción o robo de la instalación, la Organización indemnizará a la Parte Titular por el valor declarado establecido en la cláusula de valor declarado.
 En caso de daños parciales, la Organización asumirá íntegramente los costes de reparación, restauración, sustitución de componentes, materiales, mano de obra especializada y cualquier otro gasto necesario para devolver la instalación al estado en que fue entregada.
 En caso de que la reparación o restauración no resulte técnicamente posible o implique una pérdida irreversible de las características artísticas de la obra, se considerará pérdida total a los efectos del presente Anexo.`,
     },
@@ -709,7 +709,7 @@ Valor total declarado de la instalación: {{insurance.totalValue}} € (impuesto
     {
       id: "decima",
       title: "DÉCIMA. Vigencia",
-      body: `El presente Anexo entrará en vigor desde el momento de su firma y permanecerá vigente desde la entrega efectiva de la instalación a la Organización hasta su devolución al Autor para proceder a su desmontaje.
+      body: `El presente Anexo entrará en vigor desde el momento de su firma y permanecerá vigente desde la entrega efectiva de la instalación a la Organización hasta su devolución a la Parte Titular para proceder a su desmontaje.
 Las partes manifiestan que el presente Anexo ha sido negociado y aceptado libremente, refleja los acuerdos específicos alcanzados para la exhibición de la instalación artística y forma parte integrante del Acuerdo de Participación, constituyendo ambos documentos una única unidad contractual y debiendo interpretarse conjuntamente.`,
     },
     {
@@ -721,13 +721,13 @@ Las partes manifiestan que el presente Anexo ha sido negociado y aceptado librem
     {
       id: "opt_certs",
       title: "DUODÉCIMA. Acreditación de seguros",
-      body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Organización entregará al Autor certificado o extracto de las pólizas de Responsabilidad Civil y de daños que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará al Autor a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
+      body: `Con carácter previo al transporte de la instalación desde su lugar de almacenamiento, la Organización entregará a la Parte Titular certificado o extracto de las pólizas de Responsabilidad Civil y de daños que acredite la vigencia, los límites, la inclusión de la obra y el período de cobertura. La falta de acreditación autorizará a la Parte Titular a suspender la entrega sin perjuicio de las demás acciones que le correspondan.`,
       requireAll: ["options.policyCerts"],
     },
     {
       id: "opt_franq",
       title: "DECIMOTERCERA. Franquicia",
-      body: `Cualquier franquicia, deducible o importe no cubierto por las pólizas será asumido íntegramente por la Organización, sin que pueda trasladarse al Autor.`,
+      body: `Cualquier franquicia, deducible o importe no cubierto por las pólizas será asumido íntegramente por la Organización, sin que pueda trasladarse a la Parte Titular.`,
       requireAll: ["options.franchise"],
     },
     {
@@ -739,7 +739,7 @@ Las partes manifiestan que el presente Anexo ha sido negociado y aceptado librem
     {
       id: "opt_expert",
       title: "DECIMOQUINTA. Valoración de pérdida artística",
-      body: `La valoración sobre la afectación irreversible de las características artísticas de la obra podrá ser realizada por el Autor y, a solicitud de cualquiera de las partes, contrastada por un perito independiente de común acuerdo. A falta de acuerdo sobre el perito en el plazo de quince (15) días, podrá designarse conforme a la práctica habitual de arbitraje pericial o por el colegio profesional competente.`,
+      body: `La valoración sobre la afectación irreversible de las características artísticas de la obra podrá ser realizada por la Parte Titular y, a solicitud de cualquiera de las partes, contrastada por un perito independiente de común acuerdo. A falta de acuerdo sobre el perito en el plazo de quince (15) días, podrá designarse conforme a la práctica habitual de arbitraje pericial o por el colegio profesional competente.`,
       requireAll: ["options.independentExpert"],
     },
     {
@@ -755,7 +755,7 @@ Las partes manifiestan que el presente Anexo ha sido negociado y aceptado librem
 
 En {{project.city}}, a {{project.signDate}}.
 
-EL AUTOR
+TITULARIDAD DE LA OBRA
 {{parties.author.name}}
 Documento: {{parties.author.doc}}
 Firma:
@@ -927,12 +927,12 @@ export function enrichDerivedValues(
   }
   if (v["features.specialRisk"]) {
     duties.push(
-      "— Adoptar todas las medidas de seguridad necesarias derivadas de las condiciones especiales de riesgo declaradas y de las instrucciones técnicas facilitadas por el Autor.",
+      "— Adoptar todas las medidas de seguridad necesarias derivadas de las condiciones especiales de riesgo declaradas y de las instrucciones técnicas facilitadas por la Parte Titular.",
     );
   }
-  duties.push("— Cumplir en todo momento las instrucciones técnicas facilitadas por el Autor.");
+  duties.push("— Cumplir en todo momento las instrucciones técnicas facilitadas por la Parte Titular.");
   duties.push(
-    "— No modificar la configuración, programación, cableado, componentes o condiciones de funcionamiento de la instalación sin autorización expresa del Autor.",
+    "— No modificar la configuración, programación, cableado, componentes o condiciones de funcionamiento de la instalación sin autorización expresa de la Parte Titular.",
   );
   v["custody.duties"] = duties.join("\n");
 

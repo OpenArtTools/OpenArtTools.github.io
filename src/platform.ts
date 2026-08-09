@@ -24,8 +24,8 @@ export const PLATFORM = {
     "Open Art Tools es la plataforma. Aquí viven las herramientas: eliges una y la usas cuando quieras.",
   author: "Gerard Valls Montaño",
   license: "AGPL-3.0-or-later",
-  repoUrl: "https://github.com/OpenArtTools/contract-studio",
-  siteUrl: "https://openarttools.github.io/contract-studio/",
+  repoUrl: "https://github.com/OpenArtTools/OpenArtTools.github.io",
+  siteUrl: "https://openarttools.github.io/",
   authorSiteUrl: "https://bygerardvisuals.com/",
 } as const;
 
@@ -44,7 +44,7 @@ export const SUPPORT = {
   donateUrl: "",
   donateLabel: "Hacer una aportación voluntaria",
   homeCtaLabel: "Cómo apoyar",
-  contactLabel: "Contactar con el creador",
+  contactLabel: "Contactar con quien desarrolla el proyecto",
   contactUrl: "https://bygerardvisuals.com/",
   homeTitle: "Cómo se mantiene",
   homeLead:

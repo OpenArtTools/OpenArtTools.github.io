@@ -107,14 +107,14 @@ Solo tiene sentido **dentro** de una herramienta.
 
 El sitio público se construye y publica con GitHub Actions (`.github/workflows/pages.yml`) hacia:
 
-https://openarttools.github.io/contract-studio/
+https://openarttools.github.io/
 
-El build de Pages usa `VITE_BASE=/contract-studio/`.
+El build de Pages usa `VITE_BASE=/`.
 
 ---
 
 ## Repositorio
 
-https://github.com/OpenArtTools/contract-studio
+https://github.com/OpenArtTools/OpenArtTools.github.io
 
 Licencia y autoría: [LICENSE](LICENSE), [NOTICE](NOTICE), [COPYRIGHT](COPYRIGHT).

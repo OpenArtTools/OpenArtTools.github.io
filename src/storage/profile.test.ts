@@ -25,13 +25,13 @@ describe("personal profile file", () => {
     expect(JSON.stringify(again)).not.toMatch(/contacts|cliente|orgName/i);
   });
 
-  it("maps to exhibition author fields", () => {
+  it("maps to exhibition titularidad-de-la-obra fields", () => {
     const values = profileToAuthorValues({
-      name: "Autor",
+      name: "Parte Titular",
       doc: "1",
       email: "a@b.c",
     });
-    expect(values["parties.author.name"]).toBe("Autor");
+    expect(values["parties.author.name"]).toBe("Parte Titular");
     expect(values["parties.author.email"]).toBe("a@b.c");
   });
 
