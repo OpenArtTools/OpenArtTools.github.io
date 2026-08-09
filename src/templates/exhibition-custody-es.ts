@@ -18,7 +18,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "titularidad",
       title: "Autoría",
       blurb:
-        "Datos de quien tiene la autoría de la obra en este acuerdo.",
+        "Datos de quien tiene la autoría en este acuerdo (el artista o un representante con su autorización previa).",
     },
     {
       id: "solicitante",
@@ -77,7 +77,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "author_role",
       label: "Calidad en el documento — autoría",
-      placeholder: "p. ej. práctica artística",
+      placeholder: "p. ej. práctica artística o representante autorizado",
       emptyMarker: "[calidad — autoría]",
       type: "text",
       path: "parties.author.role",
@@ -1181,7 +1181,7 @@ En {{project.city}}, a {{project.signDate}}`,
       id: "reunidos",
       title: "REUNIDOS",
       body: `De una parte
-{{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, quien ostenta la autoría («Parte Autora»).{{parties.author.extra}}
+{{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, quien ostenta la autoría («Parte Autora»), actuando en nombre propio o, en su caso, como representante con autorización previa del artista.{{parties.author.extra}}
 
 Y de otra,
 {{parties.org.name}}, con CIF/NIF {{parties.org.cif}}, {{parties.org.roleDesc}} de {{project.eventName}}, actuando en este acto a través de {{parties.org.repName}}, con documento {{parties.org.repDoc}}, en calidad de {{parties.org.repRole}}, en adelante, solicitante de la obra («Parte Solicitante»).{{parties.org.extra}}

@@ -411,7 +411,7 @@ function renderPlatformProfile(): HTMLElement {
 
   const note = el("p", "lede");
   note.textContent =
-    "Son los datos de quien tiene la autoría (nombre, documento, domicilio…). Open Art Tools está pensada para autores y creadores. Sirven para rellenar esa parte en las herramientas. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
+    "Datos de quien tiene la autoría (nombre, documento, domicilio…). Pensada para artistas y creadores; también puede actuar un representante con autorización previa del artista. Sirven para rellenar esa parte en las herramientas. Viven en un .json que tú descargas y cargas. La plataforma no los almacena. No es una agenda de clientes.";
 
   const box = document.createElement("details");
   box.className = "oat-platform-profile-form";
