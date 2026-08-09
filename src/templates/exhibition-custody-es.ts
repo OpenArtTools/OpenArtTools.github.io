@@ -18,7 +18,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
       id: "titularidad",
       title: "Autoría",
       blurb:
-        "Datos de quien tiene la autoría en este acuerdo (el artista o un representante del autor).",
+        "Datos de quien tiene la autoría. Si firma un representante del autor, indícalo en ese bloque.",
     },
     {
       id: "solicitante",
@@ -77,7 +77,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "author_role",
       label: "Calidad en el documento — autoría",
-      placeholder: "p. ej. práctica artística o representante del autor",
+      placeholder: "p. ej. práctica artística",
       emptyMarker: "[calidad — autoría]",
       type: "text",
       path: "parties.author.role",
@@ -112,6 +112,36 @@ export const exhibitionCustodyEs: TemplateDoc = {
       step: "titularidad",
     },
     {
+      id: "author_rep_name",
+      label: "Nombre — representante del autor",
+      placeholder: "Nombre y apellidos de quien firma",
+      emptyMarker: "[nombre — representante del autor]",
+      type: "text",
+      path: "parties.author.repName",
+      step: "titularidad",
+      group: "Representante del autor (opcional)",
+    },
+    {
+      id: "author_rep_doc",
+      label: "Documento — representante del autor",
+      placeholder: "DNI, NIE u otro documento",
+      emptyMarker: "[documento — representante del autor]",
+      type: "text",
+      path: "parties.author.repDoc",
+      step: "titularidad",
+      group: "Representante del autor (opcional)",
+    },
+    {
+      id: "author_rep_role",
+      label: "Cargo — representante del autor",
+      placeholder: "Cargo con el que firma",
+      emptyMarker: "[cargo — representante del autor]",
+      type: "text",
+      path: "parties.author.repRole",
+      step: "titularidad",
+      group: "Representante del autor (opcional)",
+    },
+    {
       id: "org_name",
       label: "Nombre o razón social — solicitante de la obra",
       placeholder: "Nombre o razón social",
@@ -133,33 +163,36 @@ export const exhibitionCustodyEs: TemplateDoc = {
     },
     {
       id: "org_rep_name",
-      label: "Nombre del representante",
+      label: "Nombre — representante del solicitante",
       placeholder: "Nombre y apellidos de quien firma",
-      emptyMarker: "[nombre del representante]",
+      emptyMarker: "[nombre — representante del solicitante]",
       type: "text",
       path: "parties.org.repName",
       required: true,
       step: "solicitante",
+      group: "Representante del solicitante",
     },
     {
       id: "org_rep_doc",
-      label: "Documento del representante",
+      label: "Documento — representante del solicitante",
       placeholder: "DNI o NIE",
-      emptyMarker: "[documento del representante]",
+      emptyMarker: "[documento — representante del solicitante]",
       type: "text",
       path: "parties.org.repDoc",
       required: true,
       step: "solicitante",
+      group: "Representante del solicitante",
     },
     {
       id: "org_rep_role",
-      label: "Cargo del representante",
+      label: "Cargo — representante del solicitante",
       placeholder: "Cargo con el que firma",
-      emptyMarker: "[cargo del representante]",
+      emptyMarker: "[cargo — representante del solicitante]",
       type: "text",
       path: "parties.org.repRole",
       required: true,
       step: "solicitante",
+      group: "Representante del solicitante",
     },
     {
       id: "org_role_desc",
@@ -1181,10 +1214,10 @@ En {{project.city}}, a {{project.signDate}}`,
       id: "reunidos",
       title: "REUNIDOS",
       body: `De una parte
-{{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, quien ostenta la autoría («Parte Autora»), actuando en nombre propio o, en su caso, como representante del autor.{{parties.author.extra}}
+{{parties.author.name}}, con documento {{parties.author.doc}}, {{parties.author.role}}, en adelante, quien ostenta la autoría («Parte Autora»).{{parties.author.repBlock}}{{parties.author.extra}}
 
 Y de otra,
-{{parties.org.name}}, con CIF/NIF {{parties.org.cif}}, {{parties.org.roleDesc}} de {{project.eventName}}, actuando en este acto a través de {{parties.org.repName}}, con documento {{parties.org.repDoc}}, en calidad de {{parties.org.repRole}}, en adelante, solicitante de la obra («Parte Solicitante»).{{parties.org.extra}}
+{{parties.org.name}}, con CIF/NIF {{parties.org.cif}}, {{parties.org.roleDesc}} de {{project.eventName}}, actuando en este acto a través de {{parties.org.repName}}, con documento {{parties.org.repDoc}}, en calidad de {{parties.org.repRole}} (representante del solicitante), en adelante, solicitante de la obra («Parte Solicitante»).{{parties.org.extra}}
 
 Ambas partes, reconociéndose capacidad legal suficiente para obligarse,`,
     },
@@ -1442,16 +1475,16 @@ Se entenderán recibidas cuando conste su envío a dichas direcciones, sin perju
 
 En {{project.city}}, a {{project.signDate}}.
 
-TITULARIDAD DE LA OBRA
+AUTORÍA
 {{parties.author.name}}
 Documento: {{parties.author.doc}}
-Firma:
+{{parties.author.sigRep}}Firma:
 
 
 
 
 POR {{parties.org.name}}
-Representante: {{parties.org.repName}}
+Representante del solicitante: {{parties.org.repName}}
 Documento: {{parties.org.repDoc}}
 Cargo: {{parties.org.repRole}}
 Firma:
@@ -1513,6 +1546,21 @@ export function enrichDerivedValues(
   }
   v["parties.author.extra"] =
     authorBits.length > 0 ? `\n${authorBits.join(" ")}` : "";
+
+  const repName = String(v["parties.author.repName"] ?? "").trim();
+  const repDoc = String(v["parties.author.repDoc"] ?? "").trim();
+  const repRole = String(v["parties.author.repRole"] ?? "").trim();
+  if (repName) {
+    const docBit = repDoc || "[documento — representante del autor]";
+    const roleBit = repRole || "[cargo — representante del autor]";
+    v["parties.author.repBlock"] =
+      `\nActuando en este acto a través de ${repName}, con documento ${docBit}, en calidad de ${roleBit} (representante del autor).`;
+    v["parties.author.sigRep"] =
+      `Representante del autor: ${repName}\nDocumento: ${docBit}\nCargo: ${roleBit}\n`;
+  } else {
+    v["parties.author.repBlock"] = "";
+    v["parties.author.sigRep"] = "";
+  }
 
   const orgBits: string[] = [];
   if (v["parties.org.address"]) {

@@ -70,10 +70,13 @@ describe("assembleClauses", () => {
     expect(ids.indexOf("decima")).toBeLessThan(ids.indexOf("opt_acta"));
     expect(ids.indexOf("opt_franq")).toBeLessThan(ids.indexOf("signatures"));
     expect(clauses.find((c) => c.id === "decima")?.body).not.toContain(
-      "TITULARIDAD DE LA OBRA",
+      "AUTORÍA",
     );
     expect(clauses.find((c) => c.id === "signatures")?.body).toContain(
-      "TITULARIDAD DE LA OBRA",
+      "AUTORÍA",
+    );
+    expect(clauses.find((c) => c.id === "signatures")?.body).toContain(
+      "Representante del solicitante",
     );
   });
 

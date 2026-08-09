@@ -39,7 +39,10 @@ export function fillPlaceholders(
     const field = byPath.get(path);
     const val = getPath(values, path);
     if (val === undefined || val === null || val === "") {
-      return field?.emptyMarker ?? `[${path}]`;
+      if (field) return field.emptyMarker;
+      // Explicit empty derived values (e.g. optional representative block).
+      if (val === "") return "";
+      return `[${path}]`;
     }
     if (typeof val === "boolean") return val ? "sí" : "no";
     return String(val);
