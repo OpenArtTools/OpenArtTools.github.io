@@ -57,7 +57,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "author_name",
       label: "Nombre completo — titularidad de la obra",
-      placeholder: "Escribe el nombre completo de quien ostenta la titularidad de la obra",
+      placeholder: "Nombre y apellidos",
       emptyMarker: "[nombre completo — titularidad de la obra]",
       type: "text",
       path: "parties.author.name",
@@ -67,7 +67,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "author_doc",
       label: "Documento de identidad — titularidad de la obra",
-      placeholder: "Escribe el DNI, NIE u otro documento de identidad",
+      placeholder: "DNI, NIE u otro documento",
       emptyMarker: "[documento de identidad — titularidad de la obra]",
       type: "text",
       path: "parties.author.doc",
@@ -77,7 +77,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "author_role",
       label: "Calidad en el documento — titularidad de la obra",
-      placeholder: "Escribe la calidad con la que actúa quien ostenta la titularidad de la obra",
+      placeholder: "p. ej. práctica artística",
       emptyMarker: "[calidad — titularidad de la obra]",
       type: "text",
       path: "parties.author.role",
@@ -87,7 +87,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "author_address",
       label: "Domicilio — titularidad de la obra",
-      placeholder: "Escribe el domicilio de quien ostenta la titularidad de la obra",
+      placeholder: "Calle, número, ciudad",
       emptyMarker: "[domicilio — titularidad de la obra]",
       type: "text",
       path: "parties.author.address",
@@ -96,7 +96,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "author_email",
       label: "Email — titularidad de la obra",
-      placeholder: "Escribe el email de contacto de quien ostenta la titularidad de la obra",
+      placeholder: "email@ejemplo.com",
       emptyMarker: "[email — titularidad de la obra]",
       type: "text",
       path: "parties.author.email",
@@ -105,7 +105,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "author_phone",
       label: "Teléfono — titularidad de la obra",
-      placeholder: "Escribe el teléfono de contacto de quien ostenta la titularidad de la obra",
+      placeholder: "Con prefijo si aplica",
       emptyMarker: "[teléfono — titularidad de la obra]",
       type: "text",
       path: "parties.author.phone",
@@ -114,7 +114,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "org_name",
       label: "Nombre o razón social — solicitante de la obra",
-      placeholder: "Escribe el nombre o razón social del solicitante de la obra",
+      placeholder: "Nombre o razón social",
       emptyMarker: "[nombre o razón social — solicitante de la obra]",
       type: "text",
       path: "parties.org.name",
@@ -124,7 +124,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "org_cif",
       label: "Documento — solicitante de la obra",
-      placeholder: "Escribe el CIF, NIF u otro documento del solicitante de la obra",
+      placeholder: "CIF, NIF u otro documento",
       emptyMarker: "[documento — solicitante de la obra]",
       type: "text",
       path: "parties.org.cif",
@@ -134,7 +134,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "org_rep_name",
       label: "Nombre del representante",
-      placeholder: "Escribe el nombre completo de quien firma por el solicitante de la obra",
+      placeholder: "Nombre y apellidos de quien firma",
       emptyMarker: "[nombre del representante]",
       type: "text",
       path: "parties.org.repName",
@@ -144,7 +144,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "org_rep_doc",
       label: "Documento del representante",
-      placeholder: "Escribe el DNI o NIE del representante",
+      placeholder: "DNI o NIE",
       emptyMarker: "[documento del representante]",
       type: "text",
       path: "parties.org.repDoc",
@@ -154,7 +154,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "org_rep_role",
       label: "Cargo del representante",
-      placeholder: "Escribe el cargo con el que firma",
+      placeholder: "Cargo con el que firma",
       emptyMarker: "[cargo del representante]",
       type: "text",
       path: "parties.org.repRole",
@@ -164,7 +164,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "org_role_desc",
       label: "Rol en el evento — solicitante de la obra",
-      placeholder: "Escribe el rol del solicitante de la obra respecto al evento",
+      placeholder: "p. ej. organización del evento",
       emptyMarker: "[rol — solicitante de la obra]",
       type: "text",
       path: "parties.org.roleDesc",
@@ -174,7 +174,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "org_address",
       label: "Domicilio — solicitante de la obra",
-      placeholder: "Escribe el domicilio del solicitante de la obra",
+      placeholder: "Calle, número, ciudad",
       emptyMarker: "[domicilio — solicitante de la obra]",
       type: "text",
       path: "parties.org.address",
@@ -183,7 +183,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "org_email",
       label: "Email — solicitante de la obra",
-      placeholder: "Escribe el email de contacto",
+      placeholder: "email@ejemplo.com",
       emptyMarker: "[email — solicitante de la obra]",
       type: "text",
       path: "parties.org.email",
@@ -192,7 +192,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "org_phone",
       label: "Teléfono — solicitante de la obra",
-      placeholder: "Escribe el teléfono de contacto",
+      placeholder: "Con prefijo si aplica",
       emptyMarker: "[teléfono — solicitante de la obra]",
       type: "text",
       path: "parties.org.phone",
@@ -203,7 +203,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "city",
       label: "Ciudad de firma",
-      placeholder: "Escribe la ciudad donde se firma el documento",
+      placeholder: "Ciudad",
       emptyMarker: "[ciudad de firma]",
       type: "text",
       path: "project.city",
@@ -213,7 +213,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "sign_date",
       label: "Fecha del anexo",
-      placeholder: "Selecciona o escribe la fecha del anexo",
+      placeholder: "Fecha del anexo",
       emptyMarker: "[fecha del anexo]",
       type: "date",
       path: "project.signDate",
@@ -223,7 +223,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "base_agreement_date",
       label: "Fecha del acuerdo de participación",
-      placeholder: "Escribe la fecha del acuerdo principal al que se anexa",
+      placeholder: "Fecha del acuerdo principal",
       emptyMarker: "[fecha del acuerdo de participación]",
       type: "date",
       path: "project.baseAgreementDate",
@@ -233,7 +233,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "event_name",
       label: "Nombre del evento",
-      placeholder: "Escribe el nombre del festival, exposición o evento",
+      placeholder: "Festival, exposición o evento",
       emptyMarker: "[nombre del evento]",
       type: "text",
       path: "project.eventName",
@@ -243,7 +243,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "work_title",
       label: "Título de la obra o instalación",
-      placeholder: "Escribe el título exacto de la obra o instalación",
+      placeholder: "Título exacto de la obra",
       emptyMarker: "[título de la obra o instalación]",
       type: "text",
       path: "project.workTitle",
@@ -253,7 +253,7 @@ export const exhibitionCustodyEs: TemplateDoc = {
     {
       id: "venue",
       label: "Lugar de exhibición (opcional)",
-      placeholder: "Escribe el recinto, sala o dirección donde se exhibirá",
+      placeholder: "Recinto, sala o dirección",
       emptyMarker: "[lugar de exhibición]",
       type: "text",
       path: "project.venue",
