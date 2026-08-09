@@ -1054,34 +1054,38 @@ function renderReview(): HTMLElement {
     wrap.append(warn);
   }
 
+  const goBack = () => {
+    state.phase = "wizard";
+    state.stepIndex = t.steps.length - 1;
+    render();
+  };
+  const goAccept = () => {
+    state.clauses = ensurePlaceAtEnd(state.clauses, t);
+    state.acceptedFinal = false;
+    state.phase = "accept";
+    render();
+  };
+  const addClause = () => {
+    state.manualOverride = true;
+    const clause: Clause = {
+      id: `user-${crypto.randomUUID().slice(0, 8)}`,
+      title: "Nueva cláusula",
+      body: "Escribe aquí el texto de la cláusula.",
+      enabled: true,
+      source: "user",
+    };
+    const insertAt = state.clauses.findIndex((c) => c.placeAtEnd);
+    if (insertAt === -1) state.clauses.push(clause);
+    else state.clauses.splice(insertAt, 0, clause);
+    state.clauses = ensurePlaceAtEnd(state.clauses, t);
+    render();
+  };
+
   const toolbar = el("div", "oat-review-toolbar");
   toolbar.append(
-    btn("← Volver al asistente", "oat-btn oat-btn-ghost", () => {
-      state.phase = "wizard";
-      state.stepIndex = t.steps.length - 1;
-      render();
-    }),
-    btn("Añadir cláusula", "oat-btn oat-btn-ghost", () => {
-      state.manualOverride = true;
-      const clause: Clause = {
-        id: `user-${crypto.randomUUID().slice(0, 8)}`,
-        title: "Nueva cláusula",
-        body: "Escribe aquí el texto de la cláusula.",
-        enabled: true,
-        source: "user",
-      };
-      const insertAt = state.clauses.findIndex((c) => c.placeAtEnd);
-      if (insertAt === -1) state.clauses.push(clause);
-      else state.clauses.splice(insertAt, 0, clause);
-      state.clauses = ensurePlaceAtEnd(state.clauses, t);
-      render();
-    }),
-    btn("Continuar a aceptación", "oat-btn", () => {
-      state.clauses = ensurePlaceAtEnd(state.clauses, t);
-      state.acceptedFinal = false;
-      state.phase = "accept";
-      render();
-    }),
+    btn("← Volver al asistente", "oat-btn oat-btn-ghost", goBack),
+    btn("Añadir cláusula", "oat-btn oat-btn-ghost", addClause),
+    btn("Continuar a aceptación", "oat-btn", goAccept),
   );
   wrap.append(toolbar);
 
@@ -1089,7 +1093,12 @@ function renderReview(): HTMLElement {
     wrap.append(renderClauseEditor(clause, index));
   });
 
-  wrap.append(renderToolDraftBar(), legalDisclaimer());
+  const toolbarEnd = el("div", "oat-review-toolbar oat-review-toolbar-end");
+  toolbarEnd.append(
+    btn("← Volver al asistente", "oat-btn oat-btn-ghost", goBack),
+    btn("Continuar a aceptación", "oat-btn", goAccept),
+  );
+  wrap.append(toolbarEnd, renderToolDraftBar(), legalDisclaimer());
   return wrap;
 }
 
